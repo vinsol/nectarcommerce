@@ -9,6 +9,11 @@ defmodule ExShop.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :admin_browser_auth do
+    plug Guardian.Plug.VerifySession, key: :admin
+    plug Guardian.Plug.LoadResource, key: :admin
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -17,6 +22,15 @@ defmodule ExShop.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+  end
+
+  scope "/admin", ExShop.Admin, as: :admin do
+    pipe_through [:browser, :admin_browser_auth]
+
+    get "/", HomeController, :index
+
+    resources "/sessions", SessionController, only: [:new, :create]
+    delete "/logout", SessionController, :logout
   end
 
   # Other scopes may use custom stacks.

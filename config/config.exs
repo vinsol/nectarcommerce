@@ -27,3 +27,12 @@ import_config "#{Mix.env}.exs"
 config :phoenix, :generators,
   migration: true,
   binary_id: false
+
+config :guardian, Guardian,
+  allowed_algos: ["HS512"],
+  verify_module: Guardian.JWT,
+  issuer: "ExShop.#{Mix.env}",
+  ttl: {30, :days},
+  verify_issuer: true,
+  serializer: ExShop.GuardianSerializer,
+  secret_key: to_string(Mix.env)
