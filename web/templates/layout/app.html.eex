@@ -14,11 +14,7 @@
   <body>
     <div class="container">
       <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
+        <%= render "_login_nav_bar.html", conn: @conn %>
         <span class="logo"></span>
       </header>
 

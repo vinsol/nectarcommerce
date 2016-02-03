@@ -1,3 +1,16 @@
+# Setup
+
+- mix deps.get
+- mix ecto.drop; mix ecto.create; mix ecto.migrate
+- mix run priv/repo/seeds.exs
+- mix phoenix.server
+  - Open http://localhost:4000
+  - Find _Admin Login_ at top and click
+  - Fill username and password
+  - See Homepage
+
+
+
 # Technical Development
 
 - [ ] Admin Login using Guardian
