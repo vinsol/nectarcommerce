@@ -6,7 +6,6 @@
 
 # Generate on crash by the VM
 erl_crash.dump
-
 # Static artifacts
 /node_modules
 
@@ -29,3 +28,6 @@ erl_crash.dump
 /**/**/*.swp
 /**/**/**/*.swp
 /**/**/**/**/*.swp
+
+# Misc
+.DS_STORE

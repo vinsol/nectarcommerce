@@ -1,0 +1,22 @@
+<h2>Show country</h2>
+<h3><%= @country.name %></h3>
+
+<%= if @country.has_states do %>
+    <table>
+      <thead>
+        <th>Name</th>
+        <th>Abbr</th>
+      </thead>
+      <tbody>
+        <%=  for state <- @country.states do %>
+          <tr>
+            <td><%= state.name %></td>
+            <td><%= state.abbr %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+<% end %>
+
+<%= link "Edit", to: admin_country_path(@conn, :edit, @country) %>
+<%= link "Back", to: admin_country_path(@conn, :index) %>

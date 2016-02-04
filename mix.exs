@@ -19,7 +19,7 @@ defmodule ExShop.Mixfile do
   def application do
     [mod: {ExShop, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :worldly, :yamerl]]
   end
 
   # Specifies which paths to compile per environment.
@@ -39,7 +39,8 @@ defmodule ExShop.Mixfile do
       {:gettext, "~> 0.9"},
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.1"},
-      {:guardian, "~> 0.9.0"}
+      {:guardian, "~> 0.9.0"},
+      {:worldly, ">= 0.0.0", path: "/Users/nimish/elixir-projects/worldly"}
     ]
   end
 

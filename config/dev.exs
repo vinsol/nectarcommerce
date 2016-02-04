@@ -35,8 +35,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :ex_shop, ExShop.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "nimish",
+  password: "root",
   database: "ex_shop_dev",
   hostname: "localhost",
   pool_size: 10
