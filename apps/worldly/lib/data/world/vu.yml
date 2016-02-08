@@ -1,0 +1,13 @@
+---
+- code: MAP
+  type: province
+- code: PAM
+  type: province
+- code: SAM
+  type: province
+- code: SEE
+  type: province
+- code: TAE
+  type: province
+- code: TOB
+  type: province

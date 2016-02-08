@@ -1,0 +1,50 @@
+---
+en:
+  world:
+    ar:
+      a:
+        name: Salta
+      b:
+        name: Buenos Aires
+      c:
+        name: Ciudad Autónoma de Buenos Aires
+      d:
+        name: San Luis
+      e:
+        name: Entre Rios
+      g:
+        name: Santiago del Estero
+      h:
+        name: Chaco
+      j:
+        name: San Juan
+      k:
+        name: Catamarca
+      l:
+        name: La Pampa
+      m:
+        name: Mendoza
+      n:
+        name: Misiones
+      p:
+        name: Formosa
+      q:
+        name: Neuquen
+      r:
+        name: Rio Negro
+      s:
+        name: Santa Fe
+      t:
+        name: Tucuman
+      u:
+        name: Chubut
+      v:
+        name: Tierra del Fuego
+      w:
+        name: Corrientes
+      x:
+        name: Cordoba
+      y:
+        name: Jujuy
+      z:
+        name: Santa Cruz

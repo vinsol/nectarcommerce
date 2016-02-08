@@ -1,0 +1,74 @@
+---
+en:
+  world:
+    in:
+      an:
+        name: Andaman and Nicobar Islands
+      ap:
+        name: Andhra Pradesh
+      ar:
+        name: Arunachal Pradesh
+      as:
+        name: Assam
+      br:
+        name: Bihar
+      ch:
+        name: Chandigarh
+      ct:
+        name: Chhattisgarh
+      dd:
+        name: Damen and Diu
+      dl:
+        name: Delhi
+      dn:
+        name: Dadra and Nagar Haveli
+      ga:
+        name: Goa
+      gj:
+        name: Gujarat
+      hp:
+        name: Himachal Pradesh
+      hr:
+        name: Haryana
+      jh:
+        name: Jharkhand
+      jk:
+        name: Jammu and Kashmir
+      ka:
+        name: Karnataka
+      kl:
+        name: Kerala
+      ld:
+        name: Lakshadweep
+      mh:
+        name: Maharashtra
+      ml:
+        name: Meghalaya
+      mn:
+        name: Manipur
+      mp:
+        name: Madhya Pradesh
+      mz:
+        name: Mizoram
+      nl:
+        name: Nagaland
+      or:
+        name: Orissa
+      pb:
+        name: Punjab
+      py:
+        name: Puducherry
+      rj:
+        name: Rajasthan
+      sk:
+        name: Sikkim
+      tn:
+        name: Tamil Nadu
+      tr:
+        name: Tripura
+      up:
+        name: Uttar Pradesh
+      ut:
+        name: Uttarakhand
+      wb:
+        name: West Bengal

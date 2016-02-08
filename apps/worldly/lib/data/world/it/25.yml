@@ -1,0 +1,25 @@
+---
+- code: BG
+  type: province
+- code: BS
+  type: province
+- code: CO
+  type: province
+- code: CR
+  type: province
+- code: LC
+  type: province
+- code: LO
+  type: province
+- code: MN
+  type: province
+- code: MI
+  type: province
+- code: MB
+  type: province
+- code: PV
+  type: province
+- code: SO
+  type: province
+- code: VA
+  type: province

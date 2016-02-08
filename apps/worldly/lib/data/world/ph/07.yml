@@ -1,0 +1,9 @@
+---
+- code: BOH
+  type: province
+- code: CEB
+  type: province
+- code: NER
+  type: province
+- code: SIG
+  type: province

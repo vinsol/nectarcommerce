@@ -1,0 +1,18 @@
+---
+en:
+  world:
+    bd:
+      a:
+        name: Barisal
+      b:
+        name: Chittagong
+      c:
+        name: Dhaka
+      d:
+        name: Khulna
+      e:
+        name: Rajshahi
+      f:
+        name: Rangpur
+      g:
+        name: Sylhet

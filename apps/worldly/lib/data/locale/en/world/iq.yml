@@ -1,0 +1,40 @@
+---
+en:
+  world:
+    iq:
+      an:
+        name: Al Anbar
+      ar:
+        name: Arbil
+      ba:
+        name: Al Basrah
+      bb:
+        name: Babil
+      bg:
+        name: Baghdad
+      da:
+        name: Dahuk
+      di:
+        name: Diyala
+      dq:
+        name: Dhi Qar
+      ka:
+        name: Karbala'
+      ma:
+        name: Maysan
+      mu:
+        name: Al Muthanna
+      na:
+        name: An Najef
+      ni:
+        name: Ninawa
+      qa:
+        name: Al Qadisiyah
+      sd:
+        name: Salah ad Din
+      sw:
+        name: As Sulaymaniyah
+      ts:
+        name: At Ta'mim
+      wa:
+        name: Wasit

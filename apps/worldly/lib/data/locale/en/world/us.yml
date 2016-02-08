@@ -1,0 +1,118 @@
+---
+en:
+  world:
+    us:
+      ak:
+        name: Alaska
+      al:
+        name: Alabama
+      ar:
+        name: Arkansas
+      as:
+        name: American Samoa
+      az:
+        name: Arizona
+      ca:
+        name: California
+      co:
+        name: Colorado
+      ct:
+        name: Connecticut
+      dc:
+        name: District of Columbia
+      de:
+        name: Delaware
+      fl:
+        name: Florida
+      ga:
+        name: Georgia
+      gu:
+        name: Guam
+      hi:
+        name: Hawaii
+      ia:
+        name: Iowa
+      id:
+        name: Idaho
+      il:
+        name: Illinois
+      in:
+        name: Indiana
+      ks:
+        name: Kansas
+      ky:
+        name: Kentucky
+      la:
+        name: Louisiana
+      ma:
+        name: Massachusetts
+      md:
+        name: Maryland
+      me:
+        name: Maine
+      mi:
+        name: Michigan
+      mn:
+        name: Minnesota
+      mo:
+        name: Missouri
+      mp:
+        name: Northern Mariana Islands
+      ms:
+        name: Mississippi
+      mt:
+        name: Montana
+      nc:
+        name: North Carolina
+      nd:
+        name: North Dakota
+      ne:
+        name: Nebraska
+      nh:
+        name: New Hampshire
+      nj:
+        name: New Jersey
+      nm:
+        name: New Mexico
+      nv:
+        name: Nevada
+      ny:
+        name: New York
+      oh:
+        name: Ohio
+      ok:
+        name: Oklahoma
+      or:
+        name: Oregon
+      pa:
+        name: Pennsylvania
+      pr:
+        name: Puerto Rico
+      ri:
+        name: Rhode Island
+      sc:
+        name: South Carolina
+      sd:
+        name: South Dakota
+      tn:
+        name: Tennessee
+      tx:
+        name: Texas
+      um:
+        name: United States Minor Outlying Islands
+      ut:
+        name: Utah
+      va:
+        name: Virginia
+      vi:
+        name: Virgin Islands
+      vt:
+        name: Vermont
+      wa:
+        name: Washington
+      wi:
+        name: Wisconsin
+      wv:
+        name: West Virginia
+      wy:
+        name: Wyoming

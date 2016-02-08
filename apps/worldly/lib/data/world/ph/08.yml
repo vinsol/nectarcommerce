@@ -1,0 +1,13 @@
+---
+- code: BIL
+  type: province
+- code: EAS
+  type: province
+- code: LEY
+  type: province
+- code: NSA
+  type: province
+- code: SLE
+  type: province
+- code: WSA
+  type: province

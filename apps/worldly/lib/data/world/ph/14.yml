@@ -1,0 +1,9 @@
+---
+- code: LAS
+  type: province
+- code: MAG
+  type: province
+- code: SLU
+  type: province
+- code: TAW
+  type: province

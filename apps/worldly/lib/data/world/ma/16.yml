@@ -1,0 +1,5 @@
+---
+- code: OUD
+  type: province
+- code: AOU
+  type: prefecture

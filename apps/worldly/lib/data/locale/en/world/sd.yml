@@ -1,0 +1,38 @@
+---
+en:
+  world:
+    sd:
+      dc:
+        name: Zalingei
+      de:
+        name: Sharq Dārfūr
+      dn:
+        name: Shamāl Dārfūr
+      ds:
+        name: Janūb Dārfūr
+      dw:
+        name: Gharb Dārfūr
+      gd:
+        name: Al Qaḑārif
+      gz:
+        name: Al Jazīrah
+      ka:
+        name: Kassalā
+      kh:
+        name: Al Kharţūm
+      kn:
+        name: Shamāl Kurdufān
+      ks:
+        name: Janūb Kurdufān
+      nb:
+        name: An Nīl al Azraq
+      'no':
+        name: Ash Shamālīyah
+      nr:
+        name: An Nīl
+      nw:
+        name: An Nīl al Abyaḑ
+      rs:
+        name: Al Baḩr al Aḩmar
+      si:
+        name: Sinnār

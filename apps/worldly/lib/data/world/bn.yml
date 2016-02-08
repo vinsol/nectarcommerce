@@ -1,0 +1,9 @@
+---
+- code: BE
+  type: district
+- code: BM
+  type: district
+- code: TE
+  type: district
+- code: TU
+  type: district

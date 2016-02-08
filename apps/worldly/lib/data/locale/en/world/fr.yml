@@ -1,0 +1,74 @@
+---
+en:
+  world:
+    fr:
+      a:
+        name: Alsace
+      b:
+        name: Aquitaine
+      bl:
+        name: Saint-Barthélemy
+      c:
+        name: Auvergne
+      cp:
+        name: Clipperton
+      d:
+        name: Bourgogne
+      e:
+        name: Bretagne
+      f:
+        name: Centre
+      g:
+        name: Champagne-Ardenne
+      gf:
+        name: Guyane
+      gp:
+        name: Guadeloupe
+      h:
+        name: Corse
+      i:
+        name: Franche-Comté
+      j:
+        name: "Île-de-France"
+      k:
+        name: Languedoc-Roussillon
+      l:
+        name: Limousin
+      m:
+        name: Lorraine
+      mf:
+        name: Saint-Martin
+      mq:
+        name: Martinique
+      n:
+        name: Midi-Pyrénées
+      nc:
+        name: Nouvelle-Calédonie
+      o:
+        name: Nord - Pas-de-Calais
+      p:
+        name: Basse-Normandie
+      pf:
+        name: Polynésie française
+      pm:
+        name: Saint-Pierre-et-Miquelon
+      q:
+        name: Haute-Normandie
+      r:
+        name: Pays de la Loire
+      re:
+        name: Réunion
+      s:
+        name: Picardie
+      t:
+        name: Poitou-Charentes
+      tf:
+        name: Terres australes françaises
+      u:
+        name: Provence-Alpes-Côte d'Azur
+      v:
+        name: Rhône-Alpes
+      wf:
+        name: Wallis-et-Futuna
+      yt:
+        name: Mayotte

@@ -1,0 +1,35 @@
+---
+- code: AN
+  type: autonomous region
+- code: AS
+  type: autonomous region
+- code: BO
+  type: department
+- code: CA
+  type: department
+- code: CI
+  type: department
+- code: CO
+  type: department
+- code: ES
+  type: department
+- code: GR
+  type: department
+- code: JI
+  type: department
+- code: LE
+  type: department
+- code: MD
+  type: department
+- code: MN
+  type: department
+- code: MS
+  type: department
+- code: MT
+  type: department
+- code: NS
+  type: department
+- code: RI
+  type: department
+- code: SJ
+  type: department

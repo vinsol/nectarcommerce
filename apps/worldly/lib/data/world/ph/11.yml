@@ -1,0 +1,13 @@
+---
+- code: COM
+  type: province
+- code: DAV
+  type: province
+- code: DAS
+  type: province
+- code: DAO
+  type: province
+- code: SAR
+  type: province
+- code: SCO
+  type: province

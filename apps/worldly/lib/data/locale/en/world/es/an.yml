@@ -1,0 +1,21 @@
+---
+en:
+  world:
+    es:
+      an:
+        al:
+          name: Almería
+        ca:
+          name: Cádiz
+        co:
+          name: Córdoba
+        gr:
+          name: Granada
+        h:
+          name: Huelva
+        j:
+          name: Jaén
+        ma:
+          name: Málaga
+        se:
+          name: Sevilla

@@ -1,0 +1,32 @@
+---
+en:
+  world:
+    sv:
+      ah:
+        name: Ahuachapán
+      ca:
+        name: Cabañas
+      ch:
+        name: Chalatenango
+      cu:
+        name: Cuscatlán
+      li:
+        name: La Libertad
+      mo:
+        name: Morazán
+      pa:
+        name: La Paz
+      sa:
+        name: Santa Ana
+      sm:
+        name: San Miguel
+      so:
+        name: Sonsonate
+      ss:
+        name: San Salvador
+      sv:
+        name: San Vicente
+      un:
+        name: La Unión
+      us:
+        name: Usulután

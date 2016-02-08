@@ -1,0 +1,7 @@
+---
+- code: BA
+  type: zone
+- code: JA
+  type: zone
+- code: NA
+  type: zone

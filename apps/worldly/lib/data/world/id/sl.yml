@@ -1,0 +1,13 @@
+---
+- code: GO
+  type: province
+- code: SR
+  type: province
+- code: SN
+  type: province
+- code: ST
+  type: province
+- code: SG
+  type: province
+- code: SA
+  type: province

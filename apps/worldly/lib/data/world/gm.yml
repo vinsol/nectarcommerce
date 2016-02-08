@@ -1,0 +1,13 @@
+---
+- code: B
+  type: city
+- code: L
+  type: division
+- code: M
+  type: division
+- code: N
+  type: division
+- code: U
+  type: division
+- code: W
+  type: division

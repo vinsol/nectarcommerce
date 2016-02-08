@@ -1,0 +1,70 @@
+---
+en:
+  world:
+    co:
+      ama:
+        name: Amazonas
+      ant:
+        name: Antioquia
+      ara:
+        name: Arauca
+      atl:
+        name: Atlántico
+      bol:
+        name: Bolívar
+      boy:
+        name: Boyacá
+      cal:
+        name: Caldas
+      caq:
+        name: Caquetá
+      cas:
+        name: Casanare
+      cau:
+        name: Cauca
+      ces:
+        name: Cesar
+      cho:
+        name: Chocó
+      cor:
+        name: Córdoba
+      cun:
+        name: Cundinamarca
+      dc:
+        name: Distrito Capital de Bogotá
+      gua:
+        name: Guainía
+      guv:
+        name: Guaviare
+      hui:
+        name: Huila
+      lag:
+        name: La Guajira
+      mag:
+        name: Magdalena
+      met:
+        name: Meta
+      nar:
+        name: Nariño
+      nsa:
+        name: Norte de Santander
+      put:
+        name: Putumayo
+      qui:
+        name: Quindío
+      ris:
+        name: Risaralda
+      san:
+        name: Santander
+      sap:
+        name: San Andrés, Providencia y Santa Catalina
+      suc:
+        name: Sucre
+      tol:
+        name: Tolima
+      vac:
+        name: Valle del Cauca
+      vau:
+        name: Vaupés
+      vid:
+        name: Vichada

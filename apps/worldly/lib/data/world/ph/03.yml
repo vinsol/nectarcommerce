@@ -1,0 +1,15 @@
+---
+- code: AUR
+  type: province
+- code: BAN
+  type: province
+- code: BUL
+  type: province
+- code: NUE
+  type: province
+- code: PAM
+  type: province
+- code: TAR
+  type: province
+- code: ZMB
+  type: province

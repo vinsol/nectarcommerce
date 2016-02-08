@@ -1,0 +1,9 @@
+---
+- code: B
+  type: province
+- code: GI
+  type: province
+- code: L
+  type: province
+- code: T
+  type: province

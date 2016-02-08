@@ -1,0 +1,9 @@
+---
+- code: GE
+  type: province
+- code: IM
+  type: province
+- code: SP
+  type: province
+- code: SV
+  type: province

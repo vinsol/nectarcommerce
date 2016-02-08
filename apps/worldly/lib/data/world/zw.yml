@@ -1,0 +1,21 @@
+---
+- code: BU
+  type: city
+- code: HA
+  type: city
+- code: MA
+  type: province
+- code: MC
+  type: province
+- code: ME
+  type: province
+- code: MI
+  type: province
+- code: MN
+  type: province
+- code: MS
+  type: province
+- code: MV
+  type: province
+- code: MW
+  type: province

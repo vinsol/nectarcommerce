@@ -1,0 +1,28 @@
+---
+en:
+  world:
+    al:
+      '01':
+        name: Berat
+      '02':
+        name: Durrës
+      '03':
+        name: Elbasan
+      '04':
+        name: Fier
+      '05':
+        name: Gjirokastër
+      '06':
+        name: Korçë
+      '07':
+        name: Kukës
+      08:
+        name: Lezhë
+      09:
+        name: Dibër
+      '10':
+        name: Shkodër
+      '11':
+        name: Tiranë
+      '12':
+        name: Vlorë

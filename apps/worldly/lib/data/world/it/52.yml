@@ -1,0 +1,21 @@
+---
+- code: AR
+  type: province
+- code: FI
+  type: province
+- code: GR
+  type: province
+- code: LI
+  type: province
+- code: LU
+  type: province
+- code: MS
+  type: province
+- code: PI
+  type: province
+- code: PT
+  type: province
+- code: PO
+  type: province
+- code: SI
+  type: province

@@ -1,0 +1,9 @@
+---
+- code: EL
+  type: district
+- code: GR
+  type: district
+- code: LB
+  type: district
+- code: PQ
+  type: district

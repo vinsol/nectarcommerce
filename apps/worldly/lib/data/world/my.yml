@@ -1,0 +1,33 @@
+---
+- code: '01'
+  type: state
+- code: '02'
+  type: state
+- code: '03'
+  type: state
+- code: '04'
+  type: state
+- code: '05'
+  type: state
+- code: '06'
+  type: state
+- code: '07'
+  type: state
+- code: 08
+  type: state
+- code: 09
+  type: state
+- code: '10'
+  type: state
+- code: '11'
+  type: state
+- code: '12'
+  type: state
+- code: '13'
+  type: state
+- code: '14'
+  type: federal territories
+- code: '15'
+  type: federal territories
+- code: '16'
+  type: federal territories

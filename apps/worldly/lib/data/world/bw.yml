@@ -1,0 +1,19 @@
+---
+- code: CE
+  type: district
+- code: GH
+  type: district
+- code: KG
+  type: district
+- code: KL
+  type: district
+- code: KW
+  type: district
+- code: NE
+  type: district
+- code: NW
+  type: district
+- code: SE
+  type: district
+- code: SO
+  type: district

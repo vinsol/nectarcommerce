@@ -1,0 +1,9 @@
+---
+- code: GO
+  type: province
+- code: PN
+  type: province
+- code: TS
+  type: province
+- code: UD
+  type: province

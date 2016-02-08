@@ -1,0 +1,7 @@
+---
+- code: HOC
+  type: province
+- code: TAO
+  type: province
+- code: TAZ
+  type: province

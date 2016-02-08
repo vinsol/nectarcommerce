@@ -1,0 +1,26 @@
+---
+en:
+  world:
+    cd:
+      bc:
+        name: Bas-Congo
+      bn:
+        name: Bandundu
+      eq:
+        name: "Équateur"
+      ka:
+        name: Katanga
+      ke:
+        name: Kasai-Oriental
+      kn:
+        name: Kinshasa
+      kw:
+        name: Kasai-Occidental
+      ma:
+        name: Maniema
+      nk:
+        name: Nord-Kivu
+      or:
+        name: Orientale
+      sk:
+        name: Sud-Kivu

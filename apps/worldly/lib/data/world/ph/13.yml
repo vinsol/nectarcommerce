@@ -1,0 +1,11 @@
+---
+- code: AGN
+  type: province
+- code: AGS
+  type: province
+- code: DIN
+  type: province
+- code: SUN
+  type: province
+- code: SUR
+  type: province

@@ -1,0 +1,37 @@
+---
+- code: AW
+  type: country
+- code: BQ1
+  type: special municipality
+- code: BQ2
+  type: special municipality
+- code: BQ3
+  type: special municipality
+- code: CW
+  type: country
+- code: DR
+  type: province
+- code: FL
+  type: province
+- code: FR
+  type: province
+- code: GE
+  type: province
+- code: GR
+  type: province
+- code: LI
+  type: province
+- code: NB
+  type: province
+- code: NH
+  type: province
+- code: OV
+  type: province
+- code: SX
+  type: country
+- code: UT
+  type: province
+- code: ZE
+  type: province
+- code: ZH
+  type: province

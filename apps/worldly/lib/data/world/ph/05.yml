@@ -1,0 +1,13 @@
+---
+- code: ALB
+  type: province
+- code: CAN
+  type: province
+- code: CAS
+  type: province
+- code: CAT
+  type: province
+- code: MAS
+  type: province
+- code: SOR
+  type: province

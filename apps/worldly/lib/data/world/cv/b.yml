@@ -1,0 +1,15 @@
+---
+- code: BV
+  type: municipality
+- code: PA
+  type: municipality
+- code: PN
+  type: municipality
+- code: RB
+  type: municipality
+- code: RG
+  type: municipality
+- code: SL
+  type: municipality
+- code: SV
+  type: municipality

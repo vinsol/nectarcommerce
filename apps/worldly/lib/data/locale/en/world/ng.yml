@@ -1,0 +1,78 @@
+---
+en:
+  world:
+    ng:
+      ab:
+        name: Abia
+      ad:
+        name: Adamawa
+      ak:
+        name: Akwa Ibom
+      an:
+        name: Anambra
+      ba:
+        name: Bauchi
+      be:
+        name: Benue
+      bo:
+        name: Borno
+      by:
+        name: Bayelsa
+      cr:
+        name: Cross River
+      de:
+        name: Delta
+      eb:
+        name: Ebonyi
+      ed:
+        name: Edo
+      ek:
+        name: Ekiti
+      en:
+        name: Enugu
+      fc:
+        name: Abuja Capital Territory
+      go:
+        name: Gombe
+      im:
+        name: Imo
+      ji:
+        name: Jigawa
+      kd:
+        name: Kaduna
+      ke:
+        name: Kebbi
+      kn:
+        name: Kano
+      ko:
+        name: Kogi
+      kt:
+        name: Katsina
+      kw:
+        name: Kwara
+      la:
+        name: Lagos
+      na:
+        name: Nassarawa
+      ni:
+        name: Niger
+      og:
+        name: Ogun
+      'on':
+        name: Ondo
+      os:
+        name: Osun
+      oy:
+        name: Oyo
+      pl:
+        name: Plateau
+      ri:
+        name: Rivers
+      so:
+        name: Sokoto
+      ta:
+        name: Taraba
+      yo:
+        name: Yobe
+      za:
+        name: Zamfara

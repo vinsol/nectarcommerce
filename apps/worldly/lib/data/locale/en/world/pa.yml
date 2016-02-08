@@ -1,0 +1,28 @@
+---
+en:
+  world:
+    pa:
+      '1':
+        name: Bocas del Toro
+      '2':
+        name: Coclé
+      '3':
+        name: Colón
+      '4':
+        name: Chiriquí
+      '5':
+        name: Darién
+      '6':
+        name: Herrera
+      '7':
+        name: Los Santos
+      '8':
+        name: Panamá
+      '9':
+        name: Veraguas
+      em:
+        name: Emberá
+      ky:
+        name: Kuna Yala
+      nb:
+        name: Ngöbe-Buglé

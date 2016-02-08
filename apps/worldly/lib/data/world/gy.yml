@@ -1,0 +1,21 @@
+---
+- code: BA
+  type: region
+- code: CU
+  type: region
+- code: DE
+  type: region
+- code: EB
+  type: region
+- code: ES
+  type: region
+- code: MA
+  type: region
+- code: PM
+  type: region
+- code: PT
+  type: region
+- code: UD
+  type: region
+- code: UT
+  type: region

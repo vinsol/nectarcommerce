@@ -1,0 +1,11 @@
+---
+- code: MAD
+  type: province
+- code: MDC
+  type: province
+- code: MDR
+  type: province
+- code: PLW
+  type: province
+- code: ROM
+  type: province

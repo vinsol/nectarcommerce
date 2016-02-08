@@ -1,0 +1,15 @@
+---
+- code: CHT
+  type: province
+- code: OUA
+  type: province
+- code: TAR
+  type: province
+- code: TIZ
+  type: province
+- code: ZAG
+  type: province
+- code: AGD
+  type: prefecture
+- code: INE
+  type: prefecture

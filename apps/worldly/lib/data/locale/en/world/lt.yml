@@ -1,0 +1,24 @@
+---
+en:
+  world:
+    lt:
+      al:
+        name: Alytaus Apskritis
+      kl:
+        name: Klaipėdos Apskritis
+      ku:
+        name: Kauno Apskritis
+      mr:
+        name: Marijampolės Apskritis
+      pn:
+        name: Panevėžio Apskritis
+      sa:
+        name: "Šiaulių Apskritis"
+      ta:
+        name: Tauragés Apskritis
+      te:
+        name: Telšių Apskritis
+      ut:
+        name: Utenos Apskritis
+      vl:
+        name: Vilniaus Apskritis

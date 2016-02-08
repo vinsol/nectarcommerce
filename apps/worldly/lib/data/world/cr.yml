@@ -1,0 +1,15 @@
+---
+- code: A
+  type: province
+- code: C
+  type: province
+- code: G
+  type: province
+- code: H
+  type: province
+- code: L
+  type: province
+- code: P
+  type: province
+- code: SJ
+  type: province

@@ -1,0 +1,48 @@
+---
+en:
+  world:
+    mn:
+      '035':
+        name: Orhon
+      '037':
+        name: Darhan uul
+      039:
+        name: Hentiy
+      '041':
+        name: Hövsgöl
+      '043':
+        name: Hovd
+      '046':
+        name: Uvs
+      '047':
+        name: Töv
+      049:
+        name: Selenge
+      '051':
+        name: Sühbaatar
+      '053':
+        name: "Ömnögovi"
+      '055':
+        name: "Övörhangay"
+      '057':
+        name: Dzavhan
+      059:
+        name: Dundgovi
+      '061':
+        name: Dornod
+      '063':
+        name: Dornogovi
+      '064':
+        name: Govi-Sumber
+      '065':
+        name: Govi-Altay
+      '067':
+        name: Bulgan
+      069:
+        name: Bayanhongor
+      '071':
+        name: Bayan-Ölgiy
+      '073':
+        name: Arhangay
+      '1':
+        name: Ulanbaatar

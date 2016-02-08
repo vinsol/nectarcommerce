@@ -1,0 +1,7 @@
+---
+- code: DL
+  type: prefecture
+- code: MM
+  type: prefecture
+- code: PI
+  type: prefecture

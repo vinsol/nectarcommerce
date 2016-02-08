@@ -1,0 +1,17 @@
+---
+en:
+  world:
+    bf:
+      '01':
+        bal:
+          name: Balé
+        ban:
+          name: Banwa
+        kos:
+          name: Kossi
+        mou:
+          name: Mouhoun
+        nay:
+          name: Nayala
+        sor:
+          name: Sourou

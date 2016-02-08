@@ -1,0 +1,11 @@
+---
+- code: BTG
+  type: province
+- code: CAV
+  type: province
+- code: LAG
+  type: province
+- code: QUE
+  type: province
+- code: RIZ
+  type: province

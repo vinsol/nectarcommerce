@@ -1,0 +1,54 @@
+---
+en:
+  world:
+    ve:
+      a:
+        name: Distrito Federal
+      b:
+        name: Anzoátegui
+      c:
+        name: Apure
+      d:
+        name: Aragua
+      e:
+        name: Barinas
+      f:
+        name: Bolívar
+      g:
+        name: Carabobo
+      h:
+        name: Cojedes
+      i:
+        name: Falcón
+      j:
+        name: Guárico
+      k:
+        name: Lara
+      l:
+        name: Mérida
+      m:
+        name: Miranda
+      n:
+        name: Monagas
+      o:
+        name: Nueva Esparta
+      p:
+        name: Portuguesa
+      r:
+        name: Sucre
+      s:
+        name: Táchira
+      t:
+        name: Trujillo
+      u:
+        name: Yaracuy
+      v:
+        name: Zulia
+      w:
+        name: Dependencias Federales
+      x:
+        name: Vargas
+      y:
+        name: Delta Amacuro
+      z:
+        name: Amazonas
