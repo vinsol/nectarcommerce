@@ -1,0 +1,11 @@
+---
+- code: GNA
+  type: province
+- code: GOU
+  type: province
+- code: KMD
+  type: province
+- code: KMP
+  type: province
+- code: TAP
+  type: province

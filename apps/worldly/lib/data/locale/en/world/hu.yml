@@ -1,0 +1,90 @@
+---
+en:
+  world:
+    hu:
+      ba:
+        name: Baranya
+      bc:
+        name: Békéscsaba
+      be:
+        name: Békés
+      bk:
+        name: Bács-Kiskun
+      bu:
+        name: Budapest
+      bz:
+        name: Borsod-Abaúj-Zemplén
+      cs:
+        name: Csongrád
+      de:
+        name: Debrecen
+      du:
+        name: Dunaújváros
+      eg:
+        name: Eger
+      er:
+        name: "Érd"
+      fe:
+        name: Fejér
+      gs:
+        name: Győr-Moson-Sopron
+      gy:
+        name: Győr
+      hb:
+        name: Hajdú-Bihar
+      he:
+        name: Heves
+      hv:
+        name: Hódmezővásárhely
+      jn:
+        name: Jász-Nagykun-Szolnok
+      ke:
+        name: Komárom-Esztergom
+      km:
+        name: Kecskemét
+      kv:
+        name: Kaposvár
+      mi:
+        name: Miskolc
+      nk:
+        name: Nagykanizsa
+      'no':
+        name: Nógrád
+      ny:
+        name: Nyíregyháza
+      pe:
+        name: Pest
+      ps:
+        name: Pécs
+      sd:
+        name: Szeged
+      sf:
+        name: Székesfehérvár
+      sh:
+        name: Szombathely
+      sk:
+        name: Szolnok
+      sn:
+        name: Sopron
+      so:
+        name: Somogy
+      ss:
+        name: Szekszárd
+      st:
+        name: Salgótarján
+      sz:
+        name: Szabolcs-Szatmár-Bereg
+      tb:
+        name: Tatabánya
+      to:
+        name: Tolna
+      va:
+        name: Vas
+      ve:
+        name: Veszprém (county)
+      vm:
+        name: Veszprém
+      za:
+        name: Zala
+      ze:
+        name: Zalaegerszeg

@@ -1,0 +1,15 @@
+---
+- code: DA
+  type: municipality
+- code: KH
+  type: municipality
+- code: MS
+  type: municipality
+- code: RA
+  type: municipality
+- code: US
+  type: municipality
+- code: WA
+  type: municipality
+- code: ZA
+  type: municipality

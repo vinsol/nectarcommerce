@@ -1,0 +1,22 @@
+---
+en:
+  world:
+    zm:
+      '01':
+        name: Western
+      '02':
+        name: Central
+      '03':
+        name: Eastern
+      '04':
+        name: Luapula
+      '05':
+        name: Northern
+      '06':
+        name: North-Western
+      '07':
+        name: Southern (Zambia)
+      08:
+        name: Copperbelt
+      09:
+        name: Lusaka

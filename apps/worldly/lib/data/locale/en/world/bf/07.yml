@@ -1,0 +1,11 @@
+---
+en:
+  world:
+    bf:
+      '07':
+        baz:
+          name: Bazèga
+        nao:
+          name: Naouri
+        zou:
+          name: Zoundwéogo

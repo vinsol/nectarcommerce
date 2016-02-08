@@ -1,0 +1,9 @@
+---
+- code: DB
+  type: prefecture
+- code: DI
+  type: prefecture
+- code: FA
+  type: prefecture
+- code: KS
+  type: prefecture

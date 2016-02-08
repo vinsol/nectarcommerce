@@ -1,0 +1,132 @@
+---
+en:
+  world:
+    vn:
+      '01':
+        name: Lai Châu
+      '02':
+        name: Lào Cai
+      '03':
+        name: Hà Giang
+      '04':
+        name: Cao Bằng
+      '05':
+        name: Sơn La
+      '06':
+        name: Yên Bái
+      '07':
+        name: Tuyên Quang
+      09:
+        name: Lạng Sơn
+      '13':
+        name: Quảng Ninh
+      '14':
+        name: Hoà Bình
+      '15':
+        name: Hà Tây
+      '18':
+        name: Ninh Bình
+      '20':
+        name: Thái Bình
+      '21':
+        name: Thanh Hóa
+      '22':
+        name: Nghệ An
+      '23':
+        name: Hà Tỉnh
+      '24':
+        name: Quảng Bình
+      '25':
+        name: Quảng Trị
+      '26':
+        name: Thừa Thiên-Huế
+      '27':
+        name: Quảng Nam
+      '28':
+        name: Kon Tum
+      '29':
+        name: Quảng Ngãi
+      '30':
+        name: Gia Lai
+      '31':
+        name: Bình Định
+      '32':
+        name: Phú Yên
+      '33':
+        name: "Đắc Lắk"
+      '34':
+        name: Khánh Hòa
+      '35':
+        name: Lâm Đồng
+      '36':
+        name: Ninh Thuận
+      '37':
+        name: Tây Ninh
+      '39':
+        name: "Đồng Nai"
+      '40':
+        name: Bình Thuận
+      '41':
+        name: Long An
+      '43':
+        name: Bà Rịa-Vũng Tàu
+      '44':
+        name: An Giang
+      '45':
+        name: "Đồng Tháp"
+      '46':
+        name: Tiền Giang
+      '47':
+        name: Kiên Giang
+      '49':
+        name: Vĩnh Long
+      '50':
+        name: Bến Tre
+      '51':
+        name: Trà Vinh
+      '52':
+        name: Sóc Trăng
+      '53':
+        name: Bắc Kạn
+      '54':
+        name: Bắc Giang
+      '55':
+        name: Bạc Liêu
+      '56':
+        name: Bắc Ninh
+      '57':
+        name: Bình Dương
+      '58':
+        name: Bình Phước
+      '59':
+        name: Cà Mau
+      '61':
+        name: Hải Duong
+      '63':
+        name: Hà Nam
+      '66':
+        name: Hưng Yên
+      '67':
+        name: Nam Định
+      '68':
+        name: Phú Thọ
+      '69':
+        name: Thái Nguyên
+      '70':
+        name: Vĩnh Phúc
+      '71':
+        name: "Điện Biên"
+      '72':
+        name: "Đắk Nông"
+      '73':
+        name: Hậu Giang
+      ct:
+        name: Cần Thơ
+      dn:
+        name: "Đà Nẵng"
+      hn:
+        name: Hà Nội
+      hp:
+        name: Hải Phòng
+      sg:
+        name: Hồ Chí Minh [Sài Gòn]

@@ -1,0 +1,27 @@
+---
+- code: CA
+  type: region
+- code: ER
+  type: region
+- code: HA
+  type: region
+- code: KA
+  type: region
+- code: KH
+  type: region
+- code: KU
+  type: region
+- code: OD
+  type: region
+- code: OH
+  type: region
+- code: OK
+  type: region
+- code: 'ON'
+  type: region
+- code: OS
+  type: region
+- code: OT
+  type: region
+- code: OW
+  type: region

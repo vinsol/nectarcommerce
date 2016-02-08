@@ -1,0 +1,15 @@
+---
+- code: CT
+  type: district
+- code: KR
+  type: district
+- code: LK
+  type: district
+- code: MZ
+  type: district
+- code: NE
+  type: district
+- code: NB
+  type: district
+- code: RU
+  type: district

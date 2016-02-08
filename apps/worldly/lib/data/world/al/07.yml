@@ -1,0 +1,7 @@
+---
+- code: HA
+  type: district
+- code: KU
+  type: district
+- code: TP
+  type: district

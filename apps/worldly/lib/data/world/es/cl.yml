@@ -1,0 +1,19 @@
+---
+- code: AV
+  type: province
+- code: BU
+  type: province
+- code: LE
+  type: province
+- code: P
+  type: province
+- code: SA
+  type: province
+- code: SG
+  type: province
+- code: SO
+  type: province
+- code: VA
+  type: province
+- code: ZA
+  type: province

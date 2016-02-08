@@ -1,0 +1,19 @@
+---
+- code: B
+  type: department
+- code: C
+  type: department
+- code: H
+  type: department
+- code: L
+  type: department
+- code: N
+  type: department
+- code: O
+  type: department
+- code: P
+  type: department
+- code: S
+  type: department
+- code: T
+  type: department

@@ -1,0 +1,9 @@
+---
+- code: KHE
+  type: province
+- code: RAB
+  type: prefecture
+- code: SAL
+  type: prefecture
+- code: SKH
+  type: prefecture

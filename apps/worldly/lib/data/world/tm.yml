@@ -1,0 +1,13 @@
+---
+- code: A
+  type: region
+- code: B
+  type: region
+- code: D
+  type: region
+- code: L
+  type: region
+- code: M
+  type: region
+- code: S
+  type: city

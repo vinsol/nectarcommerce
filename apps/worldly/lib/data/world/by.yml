@@ -1,0 +1,15 @@
+---
+- code: BR
+  type: oblast
+- code: HM
+  type: city
+- code: HO
+  type: oblast
+- code: HR
+  type: oblast
+- code: MA
+  type: oblast
+- code: MI
+  type: oblast
+- code: VI
+  type: oblast

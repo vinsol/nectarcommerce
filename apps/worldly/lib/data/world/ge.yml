@@ -1,0 +1,25 @@
+---
+- code: AB
+  type: autonomous republic
+- code: AJ
+  type: autonomous republic
+- code: GU
+  type: region
+- code: IM
+  type: region
+- code: KA
+  type: region
+- code: KK
+  type: region
+- code: MM
+  type: region
+- code: RL
+  type: region
+- code: SJ
+  type: region
+- code: SK
+  type: region
+- code: SZ
+  type: region
+- code: TB
+  type: city

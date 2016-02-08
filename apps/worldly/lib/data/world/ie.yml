@@ -1,0 +1,9 @@
+---
+- code: C
+  type: province
+- code: L
+  type: province
+- code: M
+  type: province
+- code: U
+  type: province

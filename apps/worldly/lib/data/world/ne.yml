@@ -1,0 +1,17 @@
+---
+- code: '1'
+  type: department
+- code: '2'
+  type: department
+- code: '3'
+  type: department
+- code: '4'
+  type: department
+- code: '5'
+  type: department
+- code: '6'
+  type: department
+- code: '7'
+  type: department
+- code: '8'
+  type: capital district

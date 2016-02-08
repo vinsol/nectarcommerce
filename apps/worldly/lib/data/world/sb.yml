@@ -1,0 +1,21 @@
+---
+- code: CE
+  type: province
+- code: CH
+  type: province
+- code: CT
+  type: capital territory
+- code: GU
+  type: province
+- code: IS
+  type: province
+- code: MK
+  type: province
+- code: ML
+  type: province
+- code: RB
+  type: province
+- code: TE
+  type: province
+- code: WE
+  type: province

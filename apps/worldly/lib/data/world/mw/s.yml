@@ -1,0 +1,25 @@
+---
+- code: BA
+  type: district
+- code: BL
+  type: district
+- code: CK
+  type: district
+- code: CR
+  type: district
+- code: MH
+  type: district
+- code: MG
+  type: district
+- code: MU
+  type: district
+- code: MW
+  type: district
+- code: NS
+  type: district
+- code: PH
+  type: district
+- code: TH
+  type: district
+- code: ZO
+  type: district

@@ -1,0 +1,42 @@
+---
+en:
+  world:
+    uy:
+      ar:
+        name: Artigas
+      ca:
+        name: Canelones
+      cl:
+        name: Cerro Largo
+      co:
+        name: Colonia
+      du:
+        name: Durazno
+      fd:
+        name: Florida
+      fs:
+        name: Flores
+      la:
+        name: Lavalleja
+      ma:
+        name: Maldonado
+      mo:
+        name: Montevideo
+      pa:
+        name: Paysandú
+      rn:
+        name: Río Negro
+      ro:
+        name: Rocha
+      rv:
+        name: Rivera
+      sa:
+        name: Salto
+      sj:
+        name: San José
+      so:
+        name: Soriano
+      ta:
+        name: Tacuarembó
+      tt:
+        name: Treinta y Tres

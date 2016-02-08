@@ -1,0 +1,34 @@
+---
+en:
+  world:
+    cl:
+      ai:
+        name: Aisén del General Carlos Ibáñez del Campo
+      an:
+        name: Antofagasta
+      ap:
+        name: Arica y Parinacota
+      ar:
+        name: Araucanía
+      at:
+        name: Atacama
+      bi:
+        name: Bío-Bío
+      co:
+        name: Coquimbo
+      li:
+        name: Libertador General Bernardo O'Higgins
+      ll:
+        name: Los Lagos
+      lr:
+        name: Los Ríos
+      ma:
+        name: Magallanes y Antártica Chilena
+      ml:
+        name: Maule
+      rm:
+        name: Región Metropolitana de Santiago
+      ta:
+        name: Tarapacá
+      vs:
+        name: Valparaíso

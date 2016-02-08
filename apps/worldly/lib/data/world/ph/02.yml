@@ -1,0 +1,11 @@
+---
+- code: BTN
+  type: province
+- code: CAG
+  type: province
+- code: ISA
+  type: province
+- code: NUV
+  type: province
+- code: QUI
+  type: province

@@ -1,0 +1,7 @@
+---
+- code: LAN
+  type: province
+- code: NCO
+  type: province
+- code: SUK
+  type: province

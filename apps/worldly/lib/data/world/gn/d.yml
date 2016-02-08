@@ -1,0 +1,11 @@
+---
+- code: CO
+  type: prefecture
+- code: DU
+  type: prefecture
+- code: FO
+  type: prefecture
+- code: KD
+  type: prefecture
+- code: TE
+  type: prefecture

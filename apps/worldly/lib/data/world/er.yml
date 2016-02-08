@@ -1,0 +1,13 @@
+---
+- code: AN
+  type: province
+- code: DK
+  type: province
+- code: DU
+  type: province
+- code: GB
+  type: province
+- code: MA
+  type: province
+- code: SK
+  type: province

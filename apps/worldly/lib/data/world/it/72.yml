@@ -1,0 +1,11 @@
+---
+- code: AV
+  type: province
+- code: BN
+  type: province
+- code: CE
+  type: province
+- code: NA
+  type: province
+- code: SA
+  type: province

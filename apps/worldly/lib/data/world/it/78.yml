@@ -1,0 +1,11 @@
+---
+- code: CZ
+  type: province
+- code: CS
+  type: province
+- code: KR
+  type: province
+- code: RC
+  type: province
+- code: VV
+  type: province

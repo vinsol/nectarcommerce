@@ -1,0 +1,9 @@
+---
+- code: BS
+  type: autonomous sector
+- code: L
+  type: province
+- code: N
+  type: province
+- code: S
+  type: province

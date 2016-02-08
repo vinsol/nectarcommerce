@@ -1,0 +1,7 @@
+---
+- code: BA
+  type: province
+- code: NB
+  type: province
+- code: NT
+  type: province

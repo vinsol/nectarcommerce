@@ -1,0 +1,11 @@
+---
+- code: C
+  type: region
+- code: K
+  type: region
+- code: M
+  type: region
+- code: P
+  type: region
+- code: S
+  type: region

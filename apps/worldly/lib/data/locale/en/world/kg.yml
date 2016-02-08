@@ -1,0 +1,20 @@
+---
+en:
+  world:
+    kg:
+      b:
+        name: Batken
+      c:
+        name: Chü
+      gb:
+        name: Bishkek
+      j:
+        name: Jalal-Abad
+      n:
+        name: Naryn
+      o:
+        name: Osh
+      t:
+        name: Talas
+      y:
+        name: Ysyk-Köl

@@ -1,0 +1,9 @@
+---
+- code: DV
+  type: district
+- code: ER
+  type: district
+- code: KO
+  type: district
+- code: PG
+  type: district

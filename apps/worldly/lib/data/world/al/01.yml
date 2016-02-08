@@ -1,0 +1,7 @@
+---
+- code: BR
+  type: district
+- code: KC
+  type: district
+- code: SK
+  type: district

@@ -1,0 +1,23 @@
+---
+- code: '01'
+  type: commune
+- code: '02'
+  type: commune
+- code: '03'
+  type: commune
+- code: '04'
+  type: commune
+- code: '05'
+  type: commune
+- code: '06'
+  type: commune
+- code: '07'
+  type: commune
+- code: 08
+  type: commune
+- code: 09
+  type: commune
+- code: '10'
+  type: commune
+- code: '11'
+  type: commune

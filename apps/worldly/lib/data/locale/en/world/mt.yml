@@ -1,0 +1,140 @@
+---
+en:
+  world:
+    mt:
+      '01':
+        name: Attard
+      '02':
+        name: Balzan
+      '03':
+        name: Birgu
+      '04':
+        name: Birkirkara
+      '05':
+        name: Birżebbuġa
+      '06':
+        name: Bormla
+      '07':
+        name: Dingli
+      08:
+        name: Fgura
+      09:
+        name: Floriana
+      '10':
+        name: Fontana
+      '11':
+        name: Gudja
+      '12':
+        name: Gżira
+      '13':
+        name: Għajnsielem
+      '14':
+        name: Għarb
+      '15':
+        name: Għargħur
+      '16':
+        name: Għasri
+      '17':
+        name: Għaxaq
+      '18':
+        name: "Ħamrun"
+      '19':
+        name: Iklin
+      '20':
+        name: Isla
+      '21':
+        name: Kalkara
+      '22':
+        name: Kerċem
+      '23':
+        name: Kirkop
+      '24':
+        name: Lija
+      '25':
+        name: Luqa
+      '26':
+        name: Marsa
+      '27':
+        name: Marsaskala
+      '28':
+        name: Marsaxlokk
+      '29':
+        name: Mdina
+      '30':
+        name: Mellieħa
+      '31':
+        name: Mġarr
+      '32':
+        name: Mosta
+      '33':
+        name: Mqabba
+      '34':
+        name: Msida
+      '35':
+        name: Mtarfa
+      '36':
+        name: Munxar
+      '37':
+        name: Nadur
+      '38':
+        name: Naxxar
+      '39':
+        name: Paola
+      '40':
+        name: Pembroke
+      '41':
+        name: Pietà
+      '42':
+        name: Qala
+      '43':
+        name: Qormi
+      '44':
+        name: Qrendi
+      '45':
+        name: Rabat Għawdex
+      '46':
+        name: Rabat Malta
+      '47':
+        name: Safi
+      '48':
+        name: San Ġiljan
+      '49':
+        name: San Ġwann
+      '50':
+        name: San Lawrenz
+      '51':
+        name: San Pawl il-Baħar
+      '52':
+        name: Sannat
+      '53':
+        name: Santa Luċija
+      '54':
+        name: Santa Venera
+      '55':
+        name: Siġġiewi
+      '56':
+        name: Sliema
+      '57':
+        name: Swieqi
+      '58':
+        name: Ta’ Xbiex
+      '59':
+        name: Tarxien
+      '60':
+        name: Valletta
+      '61':
+        name: Xagħra
+      '62':
+        name: Xewkija
+      '63':
+        name: Xgħajra
+      '64':
+        name: "Żabbar"
+      '65':
+        name: "Żebbuġ Għawdex"
+      '66':
+        name: "Żebbuġ Malta"
+      '67':
+        name: "Żejtun"
+      '68':
+        name: "Żurrieq"

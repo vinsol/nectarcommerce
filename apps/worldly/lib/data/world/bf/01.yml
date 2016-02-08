@@ -1,0 +1,13 @@
+---
+- code: BAL
+  type: province
+- code: BAN
+  type: province
+- code: KOS
+  type: province
+- code: MOU
+  type: province
+- code: NAY
+  type: province
+- code: SOR
+  type: province

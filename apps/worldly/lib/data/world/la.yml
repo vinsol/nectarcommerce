@@ -1,0 +1,37 @@
+---
+- code: AT
+  type: province
+- code: BK
+  type: province
+- code: BL
+  type: province
+- code: CH
+  type: province
+- code: HO
+  type: province
+- code: KH
+  type: province
+- code: LM
+  type: province
+- code: LP
+  type: province
+- code: OU
+  type: province
+- code: PH
+  type: province
+- code: SL
+  type: province
+- code: SV
+  type: province
+- code: VI
+  type: province
+- code: VT
+  type: prefecture
+- code: XA
+  type: province
+- code: XE
+  type: province
+- code: XI
+  type: province
+- code: XN
+  type: special zone

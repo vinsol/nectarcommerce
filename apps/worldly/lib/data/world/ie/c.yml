@@ -1,0 +1,11 @@
+---
+- code: G
+  type: county
+- code: LM
+  type: county
+- code: MO
+  type: county
+- code: RN
+  type: county
+- code: SO
+  type: county

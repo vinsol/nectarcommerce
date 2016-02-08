@@ -1,0 +1,9 @@
+---
+- code: C
+  type: geographical region
+- code: E
+  type: geographical region
+- code: N
+  type: geographical region
+- code: W
+  type: geographical region

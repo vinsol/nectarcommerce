@@ -1,0 +1,9 @@
+---
+- code: LOR
+  type: province
+- code: PAS
+  type: province
+- code: YAT
+  type: province
+- code: ZON
+  type: province
