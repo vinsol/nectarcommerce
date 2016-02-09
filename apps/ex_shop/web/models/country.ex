@@ -8,8 +8,11 @@ defmodule ExShop.Country do
     field :iso_name,   :string
     field :numcode,    :string
     field :has_states, :boolean
-
     has_many :states, ExShop.State
+    # Country can belong to many Zone via zone members
+    has_many :zone_members, {"country_zone_members", ExShop.ZoneMember}, foreign_key: :zoneable_id
+
+    has_many :zones, through: [:zone_members, :zone]
 
     timestamps
   end
@@ -20,7 +23,7 @@ defmodule ExShop.Country do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> validate_length(:iso, is: 2)
+    |> validate_length(:iso,  is: 2)
     |> validate_length(:iso3, is: 3)
   end
 
@@ -32,7 +35,4 @@ defmodule ExShop.Country do
     String.upcase(name || "")
   end
 
-  defp set_has_states_false(changeset) do
-    put_change(changeset, :has_states, false)
-  end
 end

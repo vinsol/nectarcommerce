@@ -1,22 +1,32 @@
+<script>window.COUNTRY_ID = <%= @country.id %></script>
 <h2>Show country</h2>
 <h3><%= @country.name %></h3>
-
-<%= if @country.has_states do %>
-    <table>
-      <thead>
-        <th>Name</th>
-        <th>Abbr</th>
-      </thead>
-      <tbody>
-        <%=  for state <- @country.states do %>
-          <tr>
-            <td><%= state.name %></td>
-            <td><%= state.abbr %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-<% end %>
-
 <%= link "Edit", to: admin_country_path(@conn, :edit, @country) %>
+
+<h3>States in the Country</h3>
+<table class="">
+  <thead>
+    <th>Name</th>
+    <th>Abbr</th>
+    <th></th>
+  </thead>
+  <tbody id="state-list">
+    <%= if @country.has_states do %>
+      <%=  for state <- @country.states do %>
+        <tr data-state-id="<%= state.id %>">
+          <td><%= state.name %></td>
+          <td><%= state.abbr %></td>
+          <td><button class="delete btn btn-danger">X</button></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+<div id="state-form">
+  <input name="name" type="text" value="" placeholder="name of the state"/>
+  <input name="abbr" type="text" value="" placeholder="abbreviation"/>
+  <button id="add">Add</button>
+</div>
+
 <%= link "Back", to: admin_country_path(@conn, :index) %>
