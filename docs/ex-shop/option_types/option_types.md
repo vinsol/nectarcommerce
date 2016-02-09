@@ -1,0 +1,7 @@
+- cd apps/ex_shop/
+- mix phoenix.gen.model OptionType option_types name:string:unique presentation:string position:integer
+- mix phoenix.gen.html Admin.OptionType option_types name:string:unique presentation:string position:integer --no-model
+- ** (CompileError) web/templates/admin/option_type/edit.html.eex:4: undefined function option_type_path/3
+  - Substitute option_type_path with admin_option_type_path
+- ** (CompileError) web/controllers/admin/option_type_controller.ex:14: ExShop.Admin.OptionType.__struct__/0 is undefined, cannot expand struct ExShop.Admin.OptionType
+  - Change ExShop.Admin.OptionType to ExShop.OptionType

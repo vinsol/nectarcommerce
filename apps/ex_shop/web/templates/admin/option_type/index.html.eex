@@ -1,0 +1,30 @@
+<h2>Listing option types</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Presentation</th>
+      <th>Position</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for option_type <- @option_types do %>
+    <tr>
+      <td><%= option_type.name %></td>
+      <td><%= option_type.presentation %></td>
+      <td><%= option_type.position %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: admin_option_type_path(@conn, :show, option_type), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: admin_option_type_path(@conn, :edit, option_type), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: admin_option_type_path(@conn, :delete, option_type), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New option type", to: admin_option_type_path(@conn, :new) %>
