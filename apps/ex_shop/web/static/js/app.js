@@ -11,7 +11,14 @@
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
-import "phoenix_html"
+import "phoenix_html";
+import ajax from "web/static/js/lib/ajax_setup";
+import zone from "web/static/js/zone";
+import state from "web/static/js/state";
+
+ajax.setup();
+window.zone = zone;
+window.state = state;
 
 // Import local files
 //
@@ -35,4 +42,4 @@ $(document).ready(function() {
       e.preventDefault()
       $(this).parent().remove()
   })
-}
+});

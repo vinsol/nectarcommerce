@@ -1,0 +1,20 @@
+<h2>Show Zone</h2>
+<h3><%= @zone.name %></h3>
+<%= @zone.description %>
+<h3>Member <%= @zone.type %>:</h3>
+<ul id="zoneable-list">
+  <%= for zone_member <- @zone_members do %>
+    <li data-zoneable-id="<%= zone_member.id %>"><%=  zone_member.name %><button class="delete btn btn-danger btn-small">X</button></li>
+  <% end %>
+</ul>
+<select id="zoneable-select">
+  <%= for zoneable <- @zoneables do %>
+    <option value="<%= zoneable.id %>"><%= zoneable.name %></option>
+  <% end %>
+</select>
+<script>
+ zone.init(<%= @zone.id %>);
+</script>
+<button id="add" name="Add" class="btn btn-primary">Add</button>
+<%= link "Edit", to: admin_zone_path(@conn, :edit, @zone) %>
+<%= link "Back", to: admin_zone_path(@conn, :index) %>

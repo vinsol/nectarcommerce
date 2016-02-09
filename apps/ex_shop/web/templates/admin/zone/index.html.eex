@@ -1,0 +1,21 @@
+<h2>Listing Zones</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <td>Name</td>
+      <td>Description</td>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for zone <- @zones do %>
+    <tr>
+      <td><%= zone.name %></td>
+      <td><%= zone.description %></td>
+      <td class="text-right">
+        <%= link "Show", to: admin_zone_path(@conn, :show, zone), class: "btn btn-default btn-xs" %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

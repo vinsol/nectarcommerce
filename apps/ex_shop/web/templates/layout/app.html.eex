@@ -9,6 +9,7 @@
 
     <title>Hello ExShop!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <meta name="csrf" content="<%= Plug.CSRFProtection.get_csrf_token() %>">
   </head>
 
   <body>
