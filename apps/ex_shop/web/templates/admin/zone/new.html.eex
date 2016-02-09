@@ -1,0 +1,3 @@
+<h2>Create Zone</h2>
+<%= render "form.html", changeset: @changeset, zone: @zone, action: admin_zone_path(@conn, :create) %>
+<%= link "Back", to: admin_zone_path(@conn, :index) %>
