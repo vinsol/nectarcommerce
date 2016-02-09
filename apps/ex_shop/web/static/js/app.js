@@ -19,3 +19,20 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+// TODO: Re-write in ES6 style
+$(document).ready(function() {
+  $(document).on("click", "#add_option_value", function(e) {
+      e.preventDefault()
+      let time = new Date().getTime()
+      let template = $(this).data("template")
+      var uniq_template = template.replace(/\[0\]/g, `[${time}]`)
+      uniq_template = uniq_template.replace(/_0_/g, `_${time}_`)
+      $(this).after(uniq_template)
+  })
+
+  $(document).on("click", "#delete_option_value", function(e) {
+      e.preventDefault()
+      $(this).parent().remove()
+  })
+}

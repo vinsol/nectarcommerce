@@ -2,6 +2,12 @@
           <ul class="nav nav-pills pull-right">
             <li><%= link "Home", to: admin_home_path(@conn, :index) %></li>
             <%= if Guardian.Plug.current_resource(@conn, :admin) do %>
+              <li role="presentation" class="dropdown">
+                <%= link "OptionType", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
+                <ul class="dropdown-menu">
+                  <li><%= link "OptionType", to: admin_option_type_path(@conn, :index) %></li>
+                </ul>
+              </li>
               <li><%= link "Admin Logout", to: admin_session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %></li>
             <% else %>
               <li><%= link "Admin Login", to: admin_session_path(@conn, :new) %></li>

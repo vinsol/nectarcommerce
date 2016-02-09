@@ -1,0 +1,6 @@
+<h2>Edit option type</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: admin_option_type_path(@conn, :update, @option_type) %>
+
+<%= link "Back", to: admin_option_type_path(@conn, :index) %>

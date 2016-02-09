@@ -1,0 +1,39 @@
+<h2>Show option type</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @option_type.name %>
+  </li>
+
+  <li>
+    <strong>Presentation:</strong>
+    <%= @option_type.presentation %>
+  </li>
+
+  <h2>Listing option types</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Presentation</th>
+
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for option_value <- @option_type.option_values do %>
+        <tr>
+          <td><%= option_value.name %></td>
+          <td><%= option_value.presentation %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+</ul>
+
+<%= link "Edit", to: admin_option_type_path(@conn, :edit, @option_type) %>
+<%= link "Back", to: admin_option_type_path(@conn, :index) %>
