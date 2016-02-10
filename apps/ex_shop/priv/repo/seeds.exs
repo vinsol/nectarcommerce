@@ -9,6 +9,7 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-Seed.LoadCountry.seed!
-Seed.CreateZone.seed!
-ExShop.Repo.insert!(%ExShop.User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
+# Seed.LoadCountry.seed!
+# Seed.CreateZone.seed!
+# ExShop.Repo.insert!(%ExShop.User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
+Seed.LoadSettings.seed!
