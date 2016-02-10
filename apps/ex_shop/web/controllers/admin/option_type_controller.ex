@@ -31,18 +31,18 @@ defmodule ExShop.Admin.OptionTypeController do
   end
 
   def show(conn, %{"id" => id}) do
-    option_type = Repo.get!(OptionType, id)
+    option_type = Repo.get!(OptionType, id) |> Repo.preload(:option_values)
     render(conn, "show.html", option_type: option_type)
   end
 
   def edit(conn, %{"id" => id}) do
-    option_type = Repo.get!(OptionType, id)
+    option_type = Repo.get!(OptionType, id) |> Repo.preload(:option_values)
     changeset = OptionType.changeset(option_type)
     render(conn, "edit.html", option_type: option_type, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "option_type" => option_type_params}) do
-    option_type = Repo.get!(OptionType, id)
+    option_type = Repo.get!(OptionType, id) |> Repo.preload(:option_values)
     changeset = OptionType.changeset(option_type, option_type_params)
 
     case Repo.update(changeset) do

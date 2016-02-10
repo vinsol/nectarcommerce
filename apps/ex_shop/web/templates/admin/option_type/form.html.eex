@@ -17,11 +17,32 @@
     <%= error_tag f, :presentation %>
   </div>
 
-  <div class="form-group">
-    <%= label f, :position, class: "control-label" %>
-    <%= number_input f, :position, class: "form-control" %>
-    <%= error_tag f, :position %>
-  </div>
+  <%= inputs_for f, :option_values, fn af -> %>
+    <div class="option_value">
+      <div class="form-group">
+        <%= label af, :name, class: "control-label" %>
+        <%= text_input af, :name, class: "form-control" %>
+        <%= error_tag af, :name %>
+      </div>
+
+      <div class="form-group">
+        <%= label af, :presentation, class: "control-label" %>
+        <%= text_input af, :presentation, class: "form-control" %>
+        <%= error_tag af, :presentation %>
+      </div>
+
+      <%= if af.model.id do %>
+        <div class="form-group">
+            <%= label af, :delete, "Delete?", class: "control-label" %>
+            <%= checkbox af, :delete %>
+        </div>
+      <% else %>
+        <%= link "Remove", to: "#", id: "delete_option_value" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= link_to_option_values_fields %>
 
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>

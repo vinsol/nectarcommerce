@@ -12,10 +12,26 @@
     <%= @option_type.presentation %>
   </li>
 
-  <li>
-    <strong>Position:</strong>
-    <%= @option_type.position %>
-  </li>
+  <h2>Listing option types</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Presentation</th>
+
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for option_value <- @option_type.option_values do %>
+        <tr>
+          <td><%= option_value.name %></td>
+          <td><%= option_value.presentation %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
 </ul>
 
