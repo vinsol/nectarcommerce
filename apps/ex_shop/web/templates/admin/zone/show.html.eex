@@ -1,20 +1,27 @@
-<h2>Show Zone</h2>
-<h3><%= @zone.name %></h3>
-<%= @zone.description %>
-<h3>Member <%= @zone.type %>:</h3>
-<ul id="zoneable-list">
-  <%= for zone_member <- @zone_members do %>
-    <li data-zoneable-id="<%= zone_member.id %>"><%=  zone_member.name %><button class="delete btn btn-danger btn-small">X</button></li>
-  <% end %>
-</ul>
-<select id="zoneable-select">
-  <%= for zoneable <- @zoneables do %>
-    <option value="<%= zoneable.id %>"><%= zoneable.name %></option>
-  <% end %>
-</select>
-<script>
- zone.init(<%= @zone.id %>);
-</script>
-<button id="add" name="Add" class="btn btn-primary">Add</button>
-<%= link "Edit", to: admin_zone_path(@conn, :edit, @zone) %>
-<%= link "Back", to: admin_zone_path(@conn, :index) %>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><%= @zone.name %></div>
+  <div class="panel-body">
+    <%= @zone.description %>
+    <h3>Member <%= @zone.type %>:</h3>
+  </div>
+
+  <!-- List group -->
+  <ul class="list-group" id="zoneable-list">
+    <%= for zone_member <- @zone_members do %>
+      <li data-zoneable-id="<%= zone_member.id %>" class="list-group-item"><%=  zone_member.name %><button class="delete pull-right">X</button></li>
+    <% end %>
+  </ul>
+  <div class="panel-footer">
+    <select id="zoneable-select">
+      <%= for zoneable <- @zoneables do %>
+        <option value="<%= zoneable.id %>"><%= zoneable.name %></option>
+      <% end %>
+    </select>
+    <button id="add" name="Add" class="btn btn-primary">Add</button>
+    <div class="pull-right">
+      <%= link "Edit", to: admin_zone_path(@conn, :edit, @zone), class: "btn btn-primary" %>
+      <%= link "Back", to: admin_zone_path(@conn, :index), class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>

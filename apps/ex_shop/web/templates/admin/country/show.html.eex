@@ -1,32 +1,38 @@
-<script>window.COUNTRY_ID = <%= @country.id %></script>
-<h2>Show country</h2>
-<h3><%= @country.name %></h3>
-<%= link "Edit", to: admin_country_path(@conn, :edit, @country) %>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><h4><%= @country.name %></h4></div>
 
-<h3>States in the Country</h3>
-<table class="">
-  <thead>
-    <th>Name</th>
-    <th>Abbr</th>
-    <th></th>
-  </thead>
-  <tbody id="state-list">
-    <%= if @country.has_states do %>
-      <%=  for state <- @country.states do %>
-        <tr data-state-id="<%= state.id %>">
-          <td><%= state.name %></td>
-          <td><%= state.abbr %></td>
-          <td><button class="delete btn btn-danger">X</button></td>
-        </tr>
+  <table class="table">
+    <thead>
+      <th>Name</th>
+      <th>Abbr</th>
+      <th></th>
+    </thead>
+    <tbody id="state-list">
+      <%= if @country.has_states do %>
+        <%=  for state <- @country.states do %>
+          <tr data-state-id="<%= state.id %>">
+            <td><%= state.name %></td>
+            <td><%= state.abbr %></td>
+            <td><button class="delete btn btn-danger">X</button></td>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
 
-<div id="state-form">
-  <input name="name" type="text" value="" placeholder="name of the state"/>
-  <input name="abbr" type="text" value="" placeholder="abbreviation"/>
-  <button id="add">Add</button>
+  <div class="panel-footer">
+    <div class="row">
+    <div id="state-form" class="col-sm-8">
+      <input name="name" type="text" value="" placeholder="name of the state"/>
+      <input name="abbr" type="text" value="" placeholder="abbreviation"/>
+      <button id="add" class="btn btn-primary">Add</button>
+    </div>
+
+    <div class="pull-right" class="col-sm-3">
+      <%= link "Edit", to: admin_country_path(@conn, :edit, @country), class: "btn btn-primary" %>
+      <%= link "Back", to: admin_country_path(@conn, :index), class: "btn btn-primary" %>
+    </div>
+    </div>
+  </div>
 </div>
-
-<%= link "Back", to: admin_country_path(@conn, :index) %>
