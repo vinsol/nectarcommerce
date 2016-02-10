@@ -35,6 +35,7 @@ defmodule ExShop.Router do
       resources "/members", ZoneMemberController, only: [:create, :delete]
     end
 
+    resources "/settings", SettingController, only: [:edit, :update]
     resources "/sessions", SessionController, only: [:new, :create]
     delete "/logout", SessionController, :logout
 
