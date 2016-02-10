@@ -61,7 +61,7 @@ export default {
   },
 
   addToZoneableList: function(zoneable) {
-    let html = `<li data-zoneable-id=${zoneable["id"]}>${zoneable["name"]}<button class="delete btn btn-danger btn-small">X</button></li>`;
+    let html = `<li data-zoneable-id=${zoneable["id"]} class="list-group-item">${zoneable["name"]}<button class="delete pull-right">X</button></li>`;
     this.zoneableList.append(html);
   },
 

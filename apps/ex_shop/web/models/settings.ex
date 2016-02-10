@@ -7,11 +7,8 @@ defmodule ExShop.Setting do
     embeds_many :settings, ExShop.SettingPair
   end
 
-  @general_settings_keys ~w(store_name country_code)
   @required_fields ~w(name)
   @optional_fields ~w(slug)
-
-  def general_settings_keys, do: @general_settings_keys
 
   def changeset(model, params \\ :empty) do
     model

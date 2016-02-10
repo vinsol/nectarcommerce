@@ -13,8 +13,7 @@ export default {
       this.addNewState();
     });
     let _this = this;
-      this.stateList.on('click', '.delete', function() {
-          debugger;
+    this.stateList.on('click', '.delete', function() {
       let state_id = $(this).closest('tr').data("state-id");
       _this.deleteState(state_id);
     });
@@ -32,35 +31,35 @@ export default {
       url: `/admin/countries/${_this.countryId}/states`,
       type: "post",
       dataType: "json",
-        data: data,
-        beforeSend: function() {
-            debugger;
-            _this.clearErrors();
-        },
+      data: data,
+      beforeSend: function() {
+        _this.clearErrors();
+      },
       success: function(data) {
         _this.addToStateList(data);
       },
-        error: function(data) {
-            _this.renderErrors(data);
-        }
+      error: function(data) {
+        _this.renderErrors(data);
+      }
     });
   },
 
-    renderErrors: function(data)   {
-        let errors = data.responseJSON.errors;
-        errors.forEach( ({detail, field}) => {
-            this.stateForm
-                .find(`input[name=${field}]`)
-                .after(`<span class='danger error'>${detail}</span>`);
-        });
-    },
-    clearErrors: function() {
-        this.stateForm.find('.error').remove();
-    },
+  renderErrors: function(data) {
+    let errors = data.responseJSON.errors;
+    errors.forEach(({
+      detail, field
+    }) => {
+      this.stateForm
+        .find(`input[name=${field}]`)
+        .after(`<span class='danger error'>${detail}</span>`);
+    });
+  },
+  clearErrors: function() {
+    this.stateForm.find('.error').remove();
+  },
 
   deleteState: function(state_id) {
-      let _this = this;
-      debugger;
+    let _this = this;
     $.ajax({
       url: `/admin/countries/${_this.countryId}/states/${state_id}`,
       type: "delete",
