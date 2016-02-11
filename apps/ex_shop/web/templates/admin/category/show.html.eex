@@ -22,6 +22,25 @@
     <%= @category.rgt %>
   </li>
 
+  <li>
+    <strong>Ancestors:</strong>
+    <ul>
+      <%= for ancestor <- @ancestors do %>
+        <li><%=ancestor.name%></li>
+      <% end %>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Descendents:</strong>
+    <ul>
+      <%= for descendent <- @descendants do %>
+        <li><%=descendent.name%></li>
+      <% end %>
+    </ul>
+  </li>
+  
+
 </ul>
 
 <%= link "Edit", to: admin_category_path(@conn, :edit, @category) %>

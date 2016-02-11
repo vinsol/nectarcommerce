@@ -35,7 +35,9 @@ defmodule ExShop.Admin.CategoryController do
 
   def show(conn, %{"id" => id}) do
     category = Repo.get!(Category, id)
-    render(conn, "show.html", category: category)
+    descendants = NestedSet.Category.descendants(category)
+    ancestors = NestedSet.Category.ancestors(category)
+    render(conn, "show.html", category: category, descendants: descendants, ancestors: ancestors)
   end
 
   def edit(conn, %{"id" => id}) do

@@ -1,3 +1,4 @@
+require IEx
 defmodule NestedSet.Category do
 
   import Ecto
@@ -6,7 +7,46 @@ defmodule NestedSet.Category do
   alias ExShop.Repo
   
   @model ExShop.Category
+  @order_by_field :name
 
+
+
+  def descendants_count(model) do
+    count = (model.rgt - model.lft - 1)/2
+    round(count)
+  end
+
+  def descendants(model) do
+    _descendants(model)
+      |> Repo.all
+  end
+
+  def self_and_descendants(model) do
+    _self_and_descendants(model)
+      |> Repo.all
+  end
+
+  def ancestors(model) do
+    _ancestors(model)
+      |> Repo.all
+  end
+
+  def self_and_ancestors(model) do
+    _self_and_ancestors(model)
+      |> Repo.all
+  end   
+
+  def self_and_siblings(model) do
+    _self_and_siblings(model)
+      |> Repo.all
+  end 
+
+  def leaves(model) do
+    # descendants.where("#{q_right} - #{q_left} = 1")
+    _descendants(model)
+      |> where(fragment("rgt - lft") == 1 ) 
+      |> Repo.all    
+  end  
 
   def recalculate_lft_rgt do
     # Find the root node
@@ -37,11 +77,8 @@ defmodule NestedSet.Category do
             raise changeset.errors
         end  
 
-
       end)      
     end)
-
-
   end
 
   defp calculate_lft_rgt(node, [], model_map) do
@@ -93,7 +130,7 @@ defmodule NestedSet.Category do
 
   defp get_children(model) do
     assoc(model, :children) 
-      |> ordered(:name) 
+      |> ordered(@order_by_field) 
   end
 
   defp get_root_node do
@@ -101,5 +138,35 @@ defmodule NestedSet.Category do
       |> where(parent_id: 0) 
       |> Repo.one
   end
+
+  defp _descendants(model) do
+    @model 
+      |> where([c], c.lft > ^model.lft  and c.rgt < ^model.rgt) 
+      |> ordered(@order_by_field) 
+  end
+
+  defp _ancestors(model) do
+    @model
+      |> where([c], c.lft < ^model.lft  and c.rgt > ^model.rgt) 
+      |> ordered(@order_by_field) 
+  end  
+
+  defp _self_and_descendants(model) do
+    @model 
+      |> where([c], c.lft >= ^model.lft  and c.rgt <= ^model.rgt) 
+      |> ordered(@order_by_field) 
+  end  
+
+  defp _self_and_ancestors(model) do
+    @model 
+      |> where([c], c.lft <= ^model.lft  and c.rgt >= ^model.rgt) 
+      |> ordered(@order_by_field) 
+  end 
+
+  defp _self_and_siblings(model) do
+    @model 
+      |> where([c], c.parent_id == ^model.parent_id) 
+      |> ordered(@order_by_field) 
+  end 
 
 end
