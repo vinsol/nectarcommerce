@@ -39,6 +39,20 @@ defmodule ExShop.Web do
     end
   end
 
+  def admin_controller do
+    quote do
+      use Phoenix.Controller, namespace: ExShop.Admin
+
+      alias ExShop.Repo
+      import Ecto
+      import Ecto.Query, only: [from: 1, from: 2]
+
+      import ExShop.Router.Helpers
+      import ExShop.Gettext
+    end
+  end
+
+
   def view do
     quote do
       use Phoenix.View, root: "web/templates"
