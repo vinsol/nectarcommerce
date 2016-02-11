@@ -36,6 +36,8 @@ defmodule ExShop.Router do
     end
 
     resources "/settings", SettingController, only: [:edit, :update]
+    resources "/categories", CategoryController
+
     resources "/sessions", SessionController, only: [:new, :create]
     delete "/logout", SessionController, :logout
 

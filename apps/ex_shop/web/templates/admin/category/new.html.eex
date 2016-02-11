@@ -1,0 +1,6 @@
+<h2>New category</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: admin_category_path(@conn, :create) %>
+
+<%= link "Back", to: admin_category_path(@conn, :index) %>
