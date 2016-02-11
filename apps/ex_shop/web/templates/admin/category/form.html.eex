@@ -13,7 +13,7 @@
 
   <div class="form-group">
     <%= label f, :parent_id, class: "control-label" %>
-    <%= number_input f, :parent_id, class: "form-control" %>
+    <%= select f, :parent_id, @categories_for_select, class: "form-control" %>
     <%= error_tag f, :parent_id %>
   </div>
 

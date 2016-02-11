@@ -10,13 +10,13 @@ defmodule ExShop.Admin.CategoryController do
   plug :scrub_params, "category" when action in [:create, :update]
 
   def index(conn, _params) do
-    categories = Repo.all(Category)
+    categories = Category |>  order_by([c], asc: c.parent_id, asc: c.name) |> preload(:parent) |> Repo.all
     render(conn, "index.html", categories: categories)
   end
 
   def new(conn, _params) do
     changeset = Category.changeset(%Category{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "new.html", changeset: changeset, categories_for_select: get_categories_for_select)
   end
 
   def create(conn, %{"category" => category_params}) do
@@ -41,7 +41,7 @@ defmodule ExShop.Admin.CategoryController do
   def edit(conn, %{"id" => id}) do
     category = Repo.get!(Category, id)
     changeset = Category.changeset(category)
-    render(conn, "edit.html", category: category, changeset: changeset)
+    render(conn, "edit.html", category: category, changeset: changeset, categories_for_select: get_categories_for_select)
   end
 
   def update(conn, %{"id" => id, "category" => category_params}) do
@@ -72,6 +72,10 @@ defmodule ExShop.Admin.CategoryController do
   end
 
 
-  
+  defp get_categories_for_select  do
+    Category 
+      |> select([c], {c.name, c.id})  
+      |> Repo.all
+  end
   
 end

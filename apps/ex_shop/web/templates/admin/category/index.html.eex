@@ -3,6 +3,7 @@
 <table class="table">
   <thead>
     <tr>
+      <th>ID</th>
       <th>Name</th>
       <th>Parent</th>
       <th>Lft</th>
@@ -14,8 +15,13 @@
   <tbody>
 <%= for category <- @categories do %>
     <tr>
+      <td><%= category.id %></td>
       <td><%= category.name %></td>
-      <td><%= category.parent_id %></td>
+      <td>
+        <%= if parent = category.parent do %> 
+        <%= category.parent.name %>
+        <% end %>
+      </td>
       <td><%= category.lft %></td>
       <td><%= category.rgt %></td>
 

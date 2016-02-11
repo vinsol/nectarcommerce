@@ -3,11 +3,12 @@ defmodule ExShop.Category do
 
   schema "categories" do
     field :name, :string
-    field :parent_id, :integer, default: 0
-    field :lft, :integer
-    field :rgt, :integer
+    # field :parent_id, :integer, default: 0
+    field :lft, :integer, default: 0
+    field :rgt, :integer, default: 0
 
     has_many :children, ExShop.Category, [foreign_key: :parent_id]
+    belongs_to :parent, ExShop.Category, [foreign_key: :parent_id]
 
     timestamps
   end
