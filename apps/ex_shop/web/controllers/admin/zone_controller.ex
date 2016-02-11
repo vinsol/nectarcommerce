@@ -11,8 +11,9 @@ defmodule ExShop.Admin.ZoneController do
   end
 
   def new(conn, _params) do
-    changeset = Zone.changeset(%Zone{})
-    render(conn, "new.html", changeset: changeset)
+    zone = %Zone{}
+    changeset = Zone.changeset(zone)
+    render(conn, "new.html", changeset: changeset, zone: zone)
   end
 
   def create(conn, %{"zone" => zone_params}) do

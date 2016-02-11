@@ -6,7 +6,9 @@ defmodule ExShop.State do
     field :name, :string
 
     belongs_to :country, ExShop.Country
-    has_many :zones, {"state_zone_members", ExShop.ZoneMember}, foreign_key: :zoneable_id
+
+    has_many :zone_members, {"state_zone_members", ExShop.ZoneMember}, foreign_key: :zoneable_id
+    has_many :zones, through: [:zone_members, :zone]
 
     timestamps
   end
