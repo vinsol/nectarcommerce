@@ -32,13 +32,13 @@ defmodule ExShop.Category do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def ordered(query, field) do
-    from c in query, order_by: ^field
-  end
+  # def ordered(query, field) do
+  #   from c in query, order_by: ^field
+  # end
 
-  def sub_categories(category) do
-    assoc(category, :children) 
-      |> ordered(:name) 
-  end
+  # def sub_categories(category) do
+  #   assoc(category, :children) 
+  #     |> ordered(:name) 
+  # end
 
 end
