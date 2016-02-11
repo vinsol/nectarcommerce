@@ -15,7 +15,12 @@ defmodule Seed.LoadSettings do
 
   defp get_settings do
     [
-     %{name: "store_name", value: "demo"},
+     %{name: "store_name", value: ""},
+     %{name: "seo_title", value: ""},
+     %{name: "meta_description", value: ""},
+     %{name: "meta_keywords", value: ""},
+     %{name: "site_url", value: ""},
+     %{name: "mail_from_address", value: "demo"},
      %{name: "country_code", value: "IN"}
     ]
   end
