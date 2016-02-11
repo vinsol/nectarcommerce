@@ -8,7 +8,7 @@ defmodule Seed.LoadSettings do
     create_general_settings
   end
 
-	defp create_general_settings do
+  defp create_general_settings do
     change = Setting.changeset(%Setting{}, %{name: "general", settings: get_settings})
     Repo.insert!(change)
   end

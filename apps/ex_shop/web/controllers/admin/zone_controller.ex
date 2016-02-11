@@ -35,7 +35,7 @@ defmodule ExShop.Admin.ZoneController do
   end
 
   def edit(conn, %{"id" => id}) do
-    zone = Repo.get!(Zone, id) |> Repo.preload([:country_zone_members, :state_zone_members])
+    zone = Repo.get!(Zone, id)
     changeset = Zone.changeset(zone)
     render(conn, "edit.html", zone: zone, changeset: changeset)
   end
@@ -43,7 +43,7 @@ defmodule ExShop.Admin.ZoneController do
   def update(conn, %{"id" => id, "zone" => zone_params}) do
     zone = Repo.get!(Zone, id)
     changeset = Zone.changeset(zone, zone_params)
-    case Repo.update!(changeset) do
+    case Repo.update(changeset) do
       {:ok, zone} ->
         conn
         |> put_flash(:info, "Zone updated successfully.")
