@@ -1,9 +1,9 @@
 defmodule ExShop.Admin.OptionTypeController do
-  use ExShop.Web, :controller
+  use ExShop.Web, :admin_controller
 
   alias ExShop.OptionType
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Admin.HomeController, key: :admin
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
 
   plug :scrub_params, "option_type" when action in [:create, :update]
 
