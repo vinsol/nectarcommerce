@@ -9,6 +9,7 @@
 
     <title>Hello ExShop!</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <meta name="csrf" content="<%= Plug.CSRFProtection.get_csrf_token() %>">
   </head>
 
   <body>
@@ -30,5 +31,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <%= render_existing @view_module, "script.#{@view_template}", assigns %>
   </body>
 </html>

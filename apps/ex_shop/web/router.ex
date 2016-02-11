@@ -28,8 +28,14 @@ defmodule ExShop.Router do
     pipe_through [:browser, :admin_browser_auth]
 
     get "/", HomeController, :index
-    resources "/countries", CountryController
+    resources "/countries", CountryController do
+      resources "/states", StateController, only: [:create, :delete]
+    end
+    resources "/zones", ZoneController do
+      resources "/members", ZoneMemberController, only: [:create, :delete]
+    end
 
+    resources "/settings", SettingController, only: [:edit, :update]
     resources "/sessions", SessionController, only: [:new, :create]
     delete "/logout", SessionController, :logout
 

@@ -1,0 +1,6 @@
+{
+  "name": "ExShop",
+  "dependencies": {
+    "jquery": "~2.1"
+  }
+}

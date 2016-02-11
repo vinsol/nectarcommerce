@@ -1,0 +1,2 @@
+<h2>Editing <%= @setting.name %> Settings</h2>
+<%= render "form.html", changeset: @changeset, action: admin_setting_path(@conn, :update, @setting) %>

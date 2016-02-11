@@ -1,0 +1,10 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= inputs_for f, :settings, fn f_settings -> %>
+  <div class="form-group">
+    <%= label f_settings, :value, setting_name(f_settings) %>
+    <%= text_input f_settings, :value, class: "form-control" %>
+    <%= hidden_input f_settings, :name %>
+  </div>
+  <% end %>
+  <%= submit "Save", class: "btn btn-primary" %>
+<% end %>
