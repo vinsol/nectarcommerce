@@ -1,0 +1,16 @@
+- cd apps/ex_shop/
+- mix phoenix.gen.model OptionValue option_values name:string:unique presentation:string position:integer option_type_id:references:option_types
+- To scope name uniqueness under option_type_id
+  - Change  create unique_index(:option_values, [:name])
+  - To  create unique_index(:option_values, [:name, :option_type_id], name: :option_values_name_option_type_index)
+  - **AND**
+  - Change unique_constraint(:name)
+  - to unique_constraint(:name, name: :option_values_name_option_type_index)
+- using inputs_for for association `option_values` from `ExShop.OptionType` but it was not loaded. Please preload your associations before using them with loaded models in inputs_for
+- ArgumentError at PUT /admin/option_types/4
+  - attempting to cast or change association `option_values` from `ExShop.OptionType` that was not loaded. Please preload your associations before casting or changing the model
+- ** (RuntimeError) cannot delete related %ExShop.OptionValue{__meta__: #Ecto.Schema.Metadata<:built>, delete: nil, id: nil, inserted_at: nil, name: nil, option_type: #Ecto.Association.NotLoaded<association :option_type is not loaded>, option_type_id: nil, position: nil, presentation: nil, updated_at: nil} because it does not exist in the parent model
+  - Added guard to show Remove link when af.model.id is not present
+- Removed **warning** warning: casting assocs with cast/4 is deprecated, please use cast_assoc/3 instead
+  - Removed option_values association from required fields
+  - used cast_assoc(:option_values, required: true)

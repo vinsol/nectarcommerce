@@ -38,6 +38,8 @@ defmodule ExShop.Router do
     resources "/settings", SettingController, only: [:edit, :update]
     resources "/sessions", SessionController, only: [:new, :create]
     delete "/logout", SessionController, :logout
+
+    resources "/option_types", OptionTypeController
   end
 
   # Other scopes may use custom stacks.
