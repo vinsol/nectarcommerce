@@ -1,6 +1,7 @@
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
             <li><%= link "Home", to: admin_home_path(@conn, :index) %></li>
+            <li><%= link "Categories", to: admin_category_path(@conn, :index) %></li>
             <%= if Guardian.Plug.current_resource(@conn, :admin) do %>
               <li role="presentation" class="dropdown">
                 <%= link "OptionType", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
