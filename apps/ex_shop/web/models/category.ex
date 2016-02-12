@@ -7,7 +7,7 @@ defmodule ExShop.Category do
     field :lft, :integer, default: 0
     field :rgt, :integer, default: 0
 
-    has_many :children, ExShop.Category, [foreign_key: :parent_id]
+    has_many :children, ExShop.Category, [foreign_key: :parent_id, on_delete: :delete_all]
     belongs_to :parent, ExShop.Category, [foreign_key: :parent_id]
 
     timestamps

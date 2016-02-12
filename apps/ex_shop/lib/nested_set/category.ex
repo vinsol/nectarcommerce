@@ -12,46 +12,57 @@ defmodule NestedSet.Category do
 
 
   def descendants_count(model) do
-    count = (model.rgt - model.lft - 1)/2
-    round(count)
+    count = (model.rgt - model.lft )/2
+    Float.floor(count) |> round
   end
 
-  def descendants(model) do
-    _descendants(model)
-      |> Repo.all
+  def descendants(model, opts \\ []) do
+    descendants = _descendants(model)
+
+    if(opts[:ordered] != false) do
+      descendants = descendants
+        |> ordered(@order_by_field) 
+    end
+    
+    descendants
+  end
+
+  def ancestors(model, opts \\ []) do
+    ancestors = _ancestors(model)
+    
+    if(opts[:ordered] != false) do
+      ancestors = ancestors
+        |> ordered(@order_by_field) 
+    end
+    
+    ancestors    
   end
 
   def self_and_descendants(model) do
     _self_and_descendants(model)
-      |> Repo.all
-  end
-
-  def ancestors(model) do
-    _ancestors(model)
-      |> Repo.all
   end
 
   def self_and_ancestors(model) do
     _self_and_ancestors(model)
-      |> Repo.all
   end   
+
+  def ancestors_count(model) do
+    ancestors =_ancestors(model)
+      |> Repo.all
+
+    length(ancestors)
+  end  
 
   def self_and_siblings(model) do
     _self_and_siblings(model)
-      |> Repo.all
   end 
 
   def leaves(model) do
-    # descendants.where("#{q_right} - #{q_left} = 1")
     _descendants(model)
       |> where(fragment("rgt - lft") == 1 ) 
-      |> Repo.all    
   end  
 
-  def recalculate_lft_rgt do
-    # Find the root node
-    root = get_root_node
-    
+  def recalculate_lft_rgt(root) do
     # Load children
     children = get_children(root) |> Repo.all
 
@@ -128,45 +139,39 @@ defmodule NestedSet.Category do
     from c in query, order_by: ^field
   end
 
+  def get_root_node do
+    @model 
+      |> where([m], is_nil(m.parent_id)) 
+  end
+
   defp get_children(model) do
     assoc(model, :children) 
       |> ordered(@order_by_field) 
   end
 
-  defp get_root_node do
-    @model 
-      |> where(parent_id: 0) 
-      |> Repo.one
-  end
-
   defp _descendants(model) do
     @model 
       |> where([c], c.lft > ^model.lft  and c.rgt < ^model.rgt) 
-      |> ordered(@order_by_field) 
   end
 
   defp _ancestors(model) do
     @model
       |> where([c], c.lft < ^model.lft  and c.rgt > ^model.rgt) 
-      |> ordered(@order_by_field) 
   end  
 
   defp _self_and_descendants(model) do
     @model 
       |> where([c], c.lft >= ^model.lft  and c.rgt <= ^model.rgt) 
-      |> ordered(@order_by_field) 
   end  
 
   defp _self_and_ancestors(model) do
     @model 
       |> where([c], c.lft <= ^model.lft  and c.rgt >= ^model.rgt) 
-      |> ordered(@order_by_field) 
   end 
 
   defp _self_and_siblings(model) do
     @model 
       |> where([c], c.parent_id == ^model.parent_id) 
-      |> ordered(@order_by_field) 
   end 
 
 end

@@ -27,7 +27,7 @@
       <td><%= category.lft %></td>
       <td><%= category.rgt %></td>
       <td><%= NestedSet.Category.descendants_count(category) %></td>
-      <td><%= length NestedSet.Category.ancestors(category) %></td>
+      <td><%= NestedSet.Category.ancestors_count(category) %></td>
 
       <td class="text-right">
         <%= link "Show", to: admin_category_path(@conn, :show, category), class: "btn btn-default btn-xs" %>

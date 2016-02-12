@@ -10,7 +10,8 @@ defmodule ExShop.Admin.CategoryController do
   plug :scrub_params, "category" when action in [:create, :update]
 
   def index(conn, _params) do
-    categories = Category |>  order_by([c], asc: c.parent_id, asc: c.name) |> preload(:parent) |> Repo.all
+    # categories = Category |>  order_by([c], asc: c.parent_id, asc: c.name) |> preload(:parent) |> Repo.all
+    categories = Category |>  preload(:parent) |> Repo.all
     render(conn, "index.html", categories: categories)
   end
 
@@ -24,7 +25,7 @@ defmodule ExShop.Admin.CategoryController do
 
     case Repo.insert(changeset) do
       {:ok, _category} ->
-        NestedSet.Category.recalculate_lft_rgt
+        adjust_tree_nodes
         conn
         |> put_flash(:info, "Category created successfully.")
         |> redirect(to: admin_category_path(conn, :index))
@@ -35,8 +36,8 @@ defmodule ExShop.Admin.CategoryController do
 
   def show(conn, %{"id" => id}) do
     category = Repo.get!(Category, id)
-    descendants = NestedSet.Category.descendants(category)
-    ancestors = NestedSet.Category.ancestors(category)
+    descendants = NestedSet.Category.descendants(category) |> Repo.all
+    ancestors = NestedSet.Category.ancestors(category) |> Repo.all
     render(conn, "show.html", category: category, descendants: descendants, ancestors: ancestors)
   end
 
@@ -52,7 +53,7 @@ defmodule ExShop.Admin.CategoryController do
 
     case Repo.update(changeset) do
       {:ok, category} ->
-        NestedSet.Category.recalculate_lft_rgt
+        adjust_tree_nodes
         conn
         |> put_flash(:info, "Category updated successfully.")
         |> redirect(to: admin_category_path(conn, :show, category))
@@ -64,15 +65,25 @@ defmodule ExShop.Admin.CategoryController do
   def delete(conn, %{"id" => id}) do
     category = Repo.get!(Category, id)
 
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(category)
-    NestedSet.Category.recalculate_lft_rgt
+    Repo.transaction(fn ->
+      # Delete all descendants, delete category and then recalculate left and right values for remaining nodes.
+      # Deleting all descendants here because has_many :on_delete :delete_all just delete immediate children. No way to delete the complete subtree
+      NestedSet.Category.descendants(category, [ordered: false]) |> Repo.delete_all 
+      Repo.delete!(category)
+      adjust_tree_nodes
+    end)
+
     conn
     |> put_flash(:info, "Category deleted successfully.")
     |> redirect(to: admin_category_path(conn, :index))
   end
 
+  defp adjust_tree_nodes do
+    root = NestedSet.Category.get_root_node |> Repo.one
+    if root do
+      NestedSet.Category.recalculate_lft_rgt(root)
+    end
+  end
 
   defp get_categories_for_select  do
     Category 
