@@ -11,7 +11,7 @@ defmodule ExShop.Admin.CategoryController do
 
   def index(conn, _params) do
     # categories = Category |>  order_by([c], asc: c.parent_id, asc: c.name) |> preload(:parent) |> Repo.all
-    categories = Category |>  preload(:parent) |> Repo.all
+    categories = Category |>  order_by([c],  asc: c.name) |>  preload(:parent) |> Repo.all
     render(conn, "index.html", categories: categories)
   end
 
@@ -88,6 +88,7 @@ defmodule ExShop.Admin.CategoryController do
   defp get_categories_for_select  do
     Category 
       |> select([c], {c.name, c.id})  
+      |> order_by(asc: :name)
       |> Repo.all
   end
   

@@ -26,7 +26,7 @@
     <strong>Ancestors:</strong>
     <ul>
       <%= for ancestor <- @ancestors do %>
-        <li><%=ancestor.name%></li>
+        <li><%= link ancestor.name, to: admin_category_path(@conn, :show, ancestor)%></li>
       <% end %>
     </ul>
   </li>
@@ -35,7 +35,7 @@
     <strong>Descendents:</strong>
     <ul>
       <%= for descendent <- @descendants do %>
-        <li><%=descendent.name%></li>
+        <li><%= link descendent.name, to: admin_category_path(@conn, :show, descendent) %></li>
       <% end %>
     </ul>
   </li>

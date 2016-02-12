@@ -1,4 +1,3 @@
-require IEx
 defmodule NestedSet.Category do
 
   import Ecto
@@ -75,11 +74,10 @@ defmodule NestedSet.Category do
 
     Repo.transaction(fn ->
       Enum.map(model_map, fn(c_map) -> 
-        {cat_id, %{lft: lft, rgt: rgt} } = c_map
-        IO.puts "id: #{cat_id}, lft: #{lft}, rgt: #{rgt}"
+        {model_id, %{lft: lft, rgt: rgt} } = c_map
 
-        category = Repo.get_by(@model, id: cat_id)
-        changeset = @model.nested_set_changeset(category, %{lft: lft, rgt: rgt})
+        model = Repo.get_by(@model, id: model_id)
+        changeset = @model.nested_set_changeset(model, %{lft: lft, rgt: rgt})
 
         case Repo.update(changeset) do
           {:ok, _model} ->
@@ -126,7 +124,7 @@ defmodule NestedSet.Category do
     updated_model_map = Map.put(updated_model_map, :last_used_count, updated_model_map[:last_used_count] + 1)
 
     
-    # update the category map which include node's lft right value like %{5 => %{lft: 5, rgt: 6}, last_used_count: 6}
+    # update the model map which include node's lft right value like %{5 => %{lft: 5, rgt: 6}, last_used_count: 6}
     map = %{lft: lft, rgt: updated_model_map[:last_used_count] }
     updated_model_map = Map.put_new(updated_model_map, node.id, map)
 

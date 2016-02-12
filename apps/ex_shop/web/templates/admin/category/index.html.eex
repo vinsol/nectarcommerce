@@ -6,8 +6,6 @@
       <th>ID</th>
       <th>Name</th>
       <th>Parent</th>
-      <th>Lft</th>
-      <th>Rgt</th>
       <th>Descendants</th>
       <th>Ancestors</th>
 
@@ -24,15 +22,13 @@
         <%= category.parent.name %>
         <% end %>
       </td>
-      <td><%= category.lft %></td>
-      <td><%= category.rgt %></td>
       <td><%= NestedSet.Category.descendants_count(category) %></td>
       <td><%= NestedSet.Category.ancestors_count(category) %></td>
 
       <td class="text-right">
         <%= link "Show", to: admin_category_path(@conn, :show, category), class: "btn btn-default btn-xs" %>
         <%= link "Edit", to: admin_category_path(@conn, :edit, category), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: admin_category_path(@conn, :delete, category), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Delete", to: admin_category_path(@conn, :delete, category), method: :delete, data: [confirm: "Are you sure you want to delete \"#{category.name}\"?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
 <% end %>
