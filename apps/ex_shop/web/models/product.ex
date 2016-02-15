@@ -1,11 +1,12 @@
 defmodule ExShop.Product do
   use ExShop.Web, :model
+  use Arc.Ecto.Model
 
   schema "products" do
     field :name, :string
     field :description, :string
-    field :available_on, Ecto.DateTime
-    field :discontinue_on, Ecto.DateTime
+    field :available_on, Ecto.Date
+    field :discontinue_on, Ecto.Date
     field :slug, :string
 
     has_one :master, ExShop.Variant, on_delete: :nilify_all # As this and below association same, how to handle on_delete
@@ -39,5 +40,6 @@ defmodule ExShop.Product do
   def master_changeset(model, params \\ :empty) do
     cast(model, params, ~w(cost_price), @optional_fields)
     |> put_change(:is_master, true)
+    |> cast_attachments(params, ~w(), ~w(image))
   end
 end

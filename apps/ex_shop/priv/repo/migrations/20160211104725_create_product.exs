@@ -5,8 +5,8 @@ defmodule ExShop.Repo.Migrations.CreateProduct do
     create table(:products) do
       add :name, :string
       add :description, :text
-      add :available_on, :datetime
-      add :discontinue_on, :datetime
+      add :available_on, :date
+      add :discontinue_on, :date
       add :slug, :string
 
       timestamps

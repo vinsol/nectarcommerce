@@ -5,14 +5,15 @@ defmodule ExShop.Repo.Migrations.CreateVariant do
     create table(:variants) do
       add :is_master, :boolean, default: false
       add :sku, :string
-      add :weight, :integer
-      add :height, :integer
-      add :width, :integer
-      add :depth, :integer
-      add :discontinue_on, :datetime
+      add :weight, :decimal
+      add :height, :decimal
+      add :width, :decimal
+      add :depth, :decimal
+      add :discontinue_on, :date
       add :cost_price, :decimal
       add :cost_currency, :string
       add :product_id, references(:products, on_delete: :nothing)
+      add :image, :string
 
       timestamps
     end

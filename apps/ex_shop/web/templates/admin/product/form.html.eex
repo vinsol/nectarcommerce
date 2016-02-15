@@ -1,4 +1,4 @@
-<%= form_for @changeset, @action, fn f -> %>
+<%= form_for @changeset, @action, [multipart: true], fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
@@ -25,23 +25,31 @@
 
   <div class="form-group">
     <%= label f, :available_on, class: "control-label" %>
-    <%= datetime_select f, :available_on, class: "form-control" %>
+    <%= date_select f, :available_on, class: "form-control" %>
     <%= error_tag f, :available_on %>
   </div>
 
-  <%= inputs_for f, :master, fn m -> %>
+  <%= inputs_for f, :master, [multipart: true], fn m -> %>
     <div class="form-group">
       <%= label m, :cost_price, class: "control-label" %>
       <%= text_input m, :cost_price, class: "form-control" %>
-      <%= error_tag f, :cost_price %>
+      <%= error_tag m, :cost_price %>
     </div>
+
+    <%= if @changeset.model.id do %>
+      <div class="form-group">
+        <label>Image</label>
+        <%= file_input m, :image, class: "form-control" %>
+        <%= error_tag m, :image %>
+      </div>
+    <% end %>
   <% end %>
 
   <%# "If already in DB, that is edit" %>
   <%= if @changeset.model.id do %>
     <div class="form-group">
       <%= label f, :discontinue_on, class: "control-label" %>
-      <%= datetime_select f, :discontinue_on, class: "form-control" %>
+      <%= date_select f, :discontinue_on, class: "form-control" %>
       <%= error_tag f, :discontinue_on %>
     </div>
   <% end %>

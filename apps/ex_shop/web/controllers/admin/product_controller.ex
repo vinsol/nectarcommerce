@@ -42,8 +42,8 @@ defmodule ExShop.Admin.ProductController do
   end
 
   def update(conn, %{"id" => id, "product" => product_params}) do
-    product = Repo.get!(Product, id)
-    changeset = Product.changeset(product, product_params)
+    product = Repo.get!(Product, id) |> Repo.preload(:master)
+    changeset = Product.create_changeset(product, product_params)
 
     case Repo.update(changeset) do
       {:ok, product} ->
