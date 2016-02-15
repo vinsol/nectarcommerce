@@ -1,4 +1,3 @@
-require IEx
 require NestedSet.Base
 defmodule NestedSet do
   
