@@ -1,0 +1,24 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h2>Create Order</h2>
+    <ul class="list-group" id="product-listing">
+      <%= for {id, name} <- @products do %>
+        <li class="list-group-item product" data-product-id="<%= id %>">
+          <%= name %>
+          <span class="pull-right">
+            <input name="" type="text" value="" placeholder="quanitity"/>
+            <button class="btn btn-success add-to-cart">+</button>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <h2>Cart</h2>
+    <ul class="list-group" id="cart">
+      <!-- manage cart here -->
+    </ul>
+  </div>
+</div>
