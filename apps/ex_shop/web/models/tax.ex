@@ -7,4 +7,12 @@ defmodule ExShop.Tax do
     timestamps
   end
 
+  @optional_fields ~w()
+  @required_fields ~w(name)
+
+  def changeset(model, params \\ :empty) do
+    model
+    |> cast(params, @required_fields, @optional_fields)
+  end
+
 end

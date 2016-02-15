@@ -1,0 +1,1 @@
+<%= render "#{@order.state}.form.html", Map.merge(%{action: admin_order_checkout_path(@conn, :next, @order)}, assigns) %>
