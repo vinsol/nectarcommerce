@@ -22,8 +22,8 @@
         <%= category.parent.name %>
         <% end %>
       </td>
-      <td><%= NestedSet.Category.descendants_count(category) %></td>
-      <td><%= NestedSet.Category.ancestors_count(category) %></td>
+      <td><%= ExShop.Category.descendants_count(category) %></td>
+      <td><%= ExShop.Category.ancestors_count(category, ExShop.Repo) %></td>
 
       <td class="text-right">
         <%= link "Show", to: admin_category_path(@conn, :show, category), class: "btn btn-default btn-xs" %>

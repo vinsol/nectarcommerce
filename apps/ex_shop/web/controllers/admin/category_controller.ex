@@ -36,8 +36,8 @@ defmodule ExShop.Admin.CategoryController do
 
   def show(conn, %{"id" => id}) do
     category = Repo.get!(Category, id)
-    descendants = NestedSet.Category.descendants(category) |> Repo.all
-    ancestors = NestedSet.Category.ancestors(category) |> Repo.all
+    descendants = Category.descendants(category) |> Repo.all
+    ancestors = Category.ancestors(category) |> Repo.all
     render(conn, "show.html", category: category, descendants: descendants, ancestors: ancestors)
   end
 
@@ -68,7 +68,7 @@ defmodule ExShop.Admin.CategoryController do
     Repo.transaction(fn ->
       # Delete all descendants, delete category and then recalculate left and right values for remaining nodes.
       # Deleting all descendants here because has_many :on_delete :delete_all just delete immediate children. No way to delete the complete subtree
-      NestedSet.Category.descendants(category, [ordered: false]) |> Repo.delete_all 
+      Category.descendants(category, %{ordered: false}) |> Repo.delete_all 
       Repo.delete!(category)
       adjust_tree_nodes
     end)
@@ -79,9 +79,9 @@ defmodule ExShop.Admin.CategoryController do
   end
 
   defp adjust_tree_nodes do
-    root = NestedSet.Category.get_root_node |> Repo.one
+    root = Category.get_root_node |> Repo.one
     if root do
-      NestedSet.Category.recalculate_lft_rgt(root)
+      Category.recalculate_lft_rgt(root, ExShop.Repo)
     end
   end
 

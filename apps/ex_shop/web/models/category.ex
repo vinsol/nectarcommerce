@@ -1,5 +1,6 @@
 defmodule ExShop.Category do
   use ExShop.Web, :model
+  use NestedSet,  model: __MODULE__, order_by_field: :name
 
   schema "categories" do
     field :name, :string

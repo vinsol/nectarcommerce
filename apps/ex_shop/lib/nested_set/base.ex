@@ -1,37 +1,30 @@
-defmodule NestedSet.Category do
+defmodule NestedSet.Base do
 
   import Ecto
   import Ecto.Query
-
-  alias ExShop.Repo
-  
-  @model ExShop.Category
-  @order_by_field :name
-
-
 
   def descendants_count(model) do
     count = (model.rgt - model.lft )/2
     Float.floor(count) |> round
   end
 
-  def descendants(model, opts \\ []) do
+  def descendants(model, opts \\ %{}) do
     descendants = _descendants(model)
 
     if(opts[:ordered] != false) do
       descendants = descendants
-        |> ordered(@order_by_field) 
+        |> ordered(opts[:order_by_field]) 
     end
     
     descendants
   end
 
-  def ancestors(model, opts \\ []) do
+  def ancestors(model, opts \\ %{}) do
     ancestors = _ancestors(model)
     
     if(opts[:ordered] != false) do
       ancestors = ancestors
-        |> ordered(@order_by_field) 
+        |> ordered(opts[:order_by_field]) 
     end
     
     ancestors    
@@ -45,9 +38,9 @@ defmodule NestedSet.Category do
     _self_and_ancestors(model)
   end   
 
-  def ancestors_count(model) do
-    ancestors =_ancestors(model)
-      |> Repo.all
+  def ancestors_count(model, repo) do
+    ancestors = _ancestors(model)
+      |> repo.all
 
     length(ancestors)
   end  
@@ -61,25 +54,25 @@ defmodule NestedSet.Category do
       |> where(fragment("rgt - lft") == 1 ) 
   end  
 
-  def recalculate_lft_rgt(root) do
+  def recalculate_lft_rgt(root, repo, opts ) do
     # Load children
-    children = get_children(root) |> Repo.all
+    children = get_children(root, opts[:order_by_field]) |> repo.all
 
-    # Starting left counting with 1. and prepare a map. This map would have left and right values for all nodes.
-    model_map = %{last_used_count: 1}
-
-    {_last_used_count, model_map } = calculate_lft_rgt(root, children, model_map)
+    # Starting left counting with initial value passed(default 1). and prepare a map. This map would have left and right values for all nodes.
+   
+    model_map = %{last_used_count: opts[:lft]}
+    {_last_used_count, model_map } = calculate_lft_rgt(root, children, repo, opts, model_map)
     model_map = Map.delete(model_map, :last_used_count)
 
 
-    Repo.transaction(fn ->
+    repo.transaction(fn ->
       Enum.map(model_map, fn(c_map) -> 
         {model_id, %{lft: lft, rgt: rgt} } = c_map
 
-        model = Repo.get_by(@model, id: model_id)
-        changeset = @model.nested_set_changeset(model, %{lft: lft, rgt: rgt})
+        model = repo.get_by(root.__struct__, id: model_id)
+        changeset = root.__struct__.nested_set_changeset(model, %{lft: lft, rgt: rgt})
 
-        case Repo.update(changeset) do
+        case repo.update(changeset) do
           {:ok, _model} ->
             nil
           {:error, changeset} ->
@@ -90,7 +83,7 @@ defmodule NestedSet.Category do
     end)
   end
 
-  defp calculate_lft_rgt(node, [], model_map) do
+  defp calculate_lft_rgt(node, [], repo, opts, model_map) do
     lft = model_map[:last_used_count]
     map = %{lft: lft, rgt: lft+1}
 
@@ -102,7 +95,7 @@ defmodule NestedSet.Category do
     {model_map[:last_used_count], updated_model_map}
   end
 
-  defp calculate_lft_rgt(node, children, model_map) do
+  defp calculate_lft_rgt(node, children, repo, opts, model_map) do
     # left value for the current node
     lft = model_map[:last_used_count]
 
@@ -111,13 +104,13 @@ defmodule NestedSet.Category do
       Enum.map_reduce(children, model_map, 
         fn(node, acc_map) ->
           # Find all sub categories for the current node
-          children = get_children(node) |> Repo.all
+          children = get_children(node, opts[:order_by_field]) |> repo.all
 
           # Increase the last_used_count by 1, as the current one is already assigned to the node
           acc_map = Map.put(acc_map, :last_used_count, acc_map[:last_used_count] + 1)
 
           # Recursion
-          calculate_lft_rgt(node, children, acc_map)
+          calculate_lft_rgt(node, children, repo, opts, acc_map)
         end) 
 
     # Increment the last used count by one as the current one was already assigned to the right value of previous node  
@@ -137,38 +130,38 @@ defmodule NestedSet.Category do
     from c in query, order_by: ^field
   end
 
-  def get_root_node do
-    @model 
+  def get_root_node(model) do
+    model
       |> where([m], is_nil(m.parent_id)) 
   end
 
-  defp get_children(model) do
+  defp get_children(model, order_by_field) do
     assoc(model, :children) 
-      |> ordered(@order_by_field) 
+      |> ordered(order_by_field) 
   end
 
   defp _descendants(model) do
-    @model 
+    model.__struct__
       |> where([c], c.lft > ^model.lft  and c.rgt < ^model.rgt) 
   end
 
   defp _ancestors(model) do
-    @model
+    model.__struct__
       |> where([c], c.lft < ^model.lft  and c.rgt > ^model.rgt) 
   end  
 
   defp _self_and_descendants(model) do
-    @model 
+    model.__struct__
       |> where([c], c.lft >= ^model.lft  and c.rgt <= ^model.rgt) 
   end  
 
   defp _self_and_ancestors(model) do
-    @model 
+    model.__struct__
       |> where([c], c.lft <= ^model.lft  and c.rgt >= ^model.rgt) 
   end 
 
   defp _self_and_siblings(model) do
-    @model 
+    model.__struct__
       |> where([c], c.parent_id == ^model.parent_id) 
   end 
 
