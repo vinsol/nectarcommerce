@@ -1,0 +1,1 @@
+<script>order.init(<%= @order.id %>)</script>
