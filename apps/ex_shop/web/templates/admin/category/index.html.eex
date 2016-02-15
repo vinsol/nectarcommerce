@@ -1,0 +1,38 @@
+<h2>Listing categories</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Parent</th>
+      <th>Descendants</th>
+      <th>Ancestors</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for category <- @categories do %>
+    <tr>
+      <td><%= category.id %></td>
+      <td><%= category.name %></td>
+      <td>
+        <%= if parent = category.parent do %> 
+        <%= category.parent.name %>
+        <% end %>
+      </td>
+      <td><%= ExShop.Category.descendants_count(category) %></td>
+      <td><%= ExShop.Category.ancestors_count(category, ExShop.Repo) %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: admin_category_path(@conn, :show, category), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: admin_category_path(@conn, :edit, category), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: admin_category_path(@conn, :delete, category), method: :delete, data: [confirm: "Are you sure you want to delete \"#{category.name}\"?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New category", to: admin_category_path(@conn, :new) %>

@@ -23,7 +23,7 @@ defmodule ExShop.Mixfile do
   def application do
     [mod: {ExShop, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :worldly, :yamerl]]
+                    :phoenix_ecto, :postgrex, :worldly, :yamerl, :nested_set]]
   end
 
   # Specifies which paths to compile per environment.
@@ -44,6 +44,7 @@ defmodule ExShop.Mixfile do
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.1"},
       {:guardian, "~> 0.9.0"},
+      {:nested_set, "~> 0.0.1"},
       {:worldly, in_umbrella: true}
     ]
   end

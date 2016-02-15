@@ -10,6 +10,7 @@
   "gettext": {:hex, :gettext, "0.9.0"},
   "guardian": {:hex, :guardian, "0.9.1"},
   "jose": {:hex, :jose, "1.6.1"},
+  "nested_set": {:hex, :nested_set, "0.0.1"},
   "phoenix": {:hex, :phoenix, "1.1.4"},
   "phoenix_ecto": {:hex, :phoenix_ecto, "2.0.1"},
   "phoenix_html": {:hex, :phoenix_html, "2.5.0"},

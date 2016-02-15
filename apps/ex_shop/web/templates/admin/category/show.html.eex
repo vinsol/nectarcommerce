@@ -1,0 +1,47 @@
+<h2>Show category</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @category.name %>
+  </li>
+
+  <li>
+    <strong>Parent:</strong>
+    <%= @category.parent_id %>
+  </li>
+
+  <li>
+    <strong>Lft:</strong>
+    <%= @category.lft %>
+  </li>
+
+  <li>
+    <strong>Rgt:</strong>
+    <%= @category.rgt %>
+  </li>
+
+  <li>
+    <strong>Ancestors:</strong>
+    <ul>
+      <%= for ancestor <- @ancestors do %>
+        <li><%= link ancestor.name, to: admin_category_path(@conn, :show, ancestor)%></li>
+      <% end %>
+    </ul>
+  </li>
+
+  <li>
+    <strong>Descendents:</strong>
+    <ul>
+      <%= for descendent <- @descendants do %>
+        <li><%= link descendent.name, to: admin_category_path(@conn, :show, descendent) %></li>
+      <% end %>
+    </ul>
+  </li>
+  
+
+</ul>
+
+<%= link "Edit", to: admin_category_path(@conn, :edit, @category) %>
+<%= link "Back", to: admin_category_path(@conn, :index) %>
