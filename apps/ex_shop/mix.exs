@@ -44,6 +44,7 @@ defmodule ExShop.Mixfile do
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.1"},
       {:guardian, "~> 0.9.0"},
+      {:arc_ecto, "~> 0.3.2"},
       {:worldly, in_umbrella: true}
     ]
   end

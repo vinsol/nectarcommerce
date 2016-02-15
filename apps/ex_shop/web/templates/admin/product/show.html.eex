@@ -27,6 +27,11 @@
     <%= @product.master.cost_price %>
   </li>
 
+  <li>
+    <strong>Image:</strong>
+    <%= tag(:image, src: static_path(@conn, "/#{ExShop.VariantImage.url({@product.master.image, @product.master}, :thumb)}")) %>
+  </li>
+
 </ul>
 
 <%= link "Edit", to: admin_product_path(@conn, :edit, @product) %>

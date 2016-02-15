@@ -1,5 +1,6 @@
 defmodule ExShop.Product do
   use ExShop.Web, :model
+  use Arc.Ecto.Model
 
   schema "products" do
     field :name, :string
@@ -39,5 +40,6 @@ defmodule ExShop.Product do
   def master_changeset(model, params \\ :empty) do
     cast(model, params, ~w(cost_price), @optional_fields)
     |> put_change(:is_master, true)
+    |> cast_attachments(params, ~w(), ~w(image))
   end
 end

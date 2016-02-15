@@ -13,6 +13,7 @@ defmodule ExShop.Repo.Migrations.CreateVariant do
       add :cost_price, :decimal
       add :cost_currency, :string
       add :product_id, references(:products, on_delete: :nothing)
+      add :image, :string
 
       timestamps
     end
