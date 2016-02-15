@@ -5,21 +5,20 @@ defmodule ExShop.CartManager do
   alias ExShop.Repo
   import Ecto.Query
 
-  # adding to cart zero quantity deletes the line item present
-  def add_to_cart(%Order{} = order, %Product{} = product, quantity) when quantity == 0 do
-    find_line_item(order, product)
-    |> Repo.delete
+  def add_to_cart(order_id, %{"product_id" => product_id, "quantity" => quantity}) do
+    order = Repo.get!(Order, order_id)
+    product = Repo.get!(Product, product_id)
+    do_add_to_cart(order, product, quantity || 0)
   end
 
-  # handle other cases
-  def add_to_cart(%Order{} = order, %Product{} = product, quantity) do
+  defp do_add_to_cart(%Order{} = order, %Product{} = product, quantity) do
     find_or_build_line_item(order, product)
     |> LineItem.quantity_changeset(%{quantity: quantity})
     |> Repo.insert_or_update
   end
 
 
-  def find_or_build_line_item(order, product) do
+  defp find_or_build_line_item(order, product) do
     find_line_item(order, product) || build_line_item(order, product)
   end
 
@@ -30,9 +29,9 @@ defmodule ExShop.CartManager do
     |> Repo.one()
   end
 
-  defp build_line_item(order, %Product{id: product_id}) do
-    order
+  defp build_line_item(%Order{id: order_id} = order, %Product{} = product) do
+    product
     |> Ecto.build_assoc(:line_items)
-    |> LineItem.product_id_changeset(%{product_id: product_id})
+    |> LineItem.order_id_changeset(%{order_id: order_id})
   end
 end

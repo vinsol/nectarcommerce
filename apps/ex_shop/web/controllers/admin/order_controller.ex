@@ -3,16 +3,22 @@ defmodule ExShop.Admin.OrderController do
 
   alias ExShop.Order
   alias ExShop.Repo
-  alias ExShop.NotProduct
+  alias ExShop.LineItem
+  alias ExShop.NotProduct, as: Product
 
   import Ecto.Query
 
-  def new(conn, _params) do
+  def cart(conn, _params) do
     # create a blank cart, maybe add it to conn and plug it later on
-    # order = Order.changeset(%Order{}, %{}) |> Repo.insert!
+    # order = Order.cart_changeset(%Order{}, %{}) |> Repo.insert!
     order = Repo.get(Order, 1)
-    products  = NotProduct |> select([c], {c.id, c.name}) |> Repo.all
-    render(conn, "new.html", order: order, products: products)
+    products  = Product |> select([c], {c.id, c.name}) |> Repo.all
+    line_items =
+      LineItem
+      |> LineItem.in_order(order)
+      |> Repo.all
+      |> Repo.preload([:product])
+    render(conn, "new.html", order: order, products: products, line_items: line_items)
   end
 
 end
