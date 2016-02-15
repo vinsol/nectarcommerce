@@ -7,7 +7,14 @@ defmodule ExShop.CheckoutManager do
 
   # States:
   # cart -> address -> shipping -> tax -> payment -> confirmation
+  @states ~w(cart address shipping tax payment confirmation)
 
+  def next_changeset(%Order{state: "cart"} = order), do: Order.transition_changeset(order, "address")
+
+
+
+  # transitions
+  # TODO: metaprogram to autogenerate
   def next(%Order{state: "cart"} = order, params), do: to_state(order, "address", params)
 
   def next(%Order{state: "address"} = order, params), do: to_state(order, "shipping", params)
@@ -50,6 +57,7 @@ defmodule ExShop.CheckoutManager do
 
   def after_transition(%Order{state: "tax"} = order, _data) do
     order
+    |> Order.settle_adjustments
     |> Invoice.generate
   end
 
@@ -61,7 +69,7 @@ defmodule ExShop.CheckoutManager do
       order
       |> before_transition(next_state, params)
       |> Order.transition_changeset(next_state, params)
-      |> Repo.update
+      |> ExShop.Repo.update
 
     # see if succesfully transitioned.
     # if not send back with the changeset

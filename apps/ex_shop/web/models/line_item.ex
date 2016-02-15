@@ -53,6 +53,17 @@ defmodule ExShop.LineItem do
     Repo.preload(line_item, [:product, :order])
   end
 
+  def validate_product_availability(%ExShop.LineItem{} = line_item) do
+    quantity = line_item.quantity
+    # have to make sure product is preloaded
+    product_quantity = line_item.product.quantity
+    if quantity > product_quantity do
+      add_error(line_item, :quantity, "only #{product_quantity} available")
+    else
+      line_item
+    end
+  end
+
   def validate_product_availability(model) do
     quantity = get_field(model, :quantity)
     # have to make sure product is preloaded
@@ -63,5 +74,7 @@ defmodule ExShop.LineItem do
       model
     end
   end
+
+
 
 end

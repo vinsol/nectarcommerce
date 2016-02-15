@@ -7,6 +7,7 @@ defmodule ExShop.Repo.Migrations.CreateAddress do
       add :address_line_2, :string
       add :state_id, :integer
       add :country_id, :integer
+      add :order_id, :integer
 
       timestamps
     end
