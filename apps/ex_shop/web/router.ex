@@ -40,6 +40,7 @@ defmodule ExShop.Router do
     delete "/logout", SessionController, :logout
 
     resources "/option_types", OptionTypeController
+    resources "/products", ProductController
   end
 
   # Other scopes may use custom stacks.

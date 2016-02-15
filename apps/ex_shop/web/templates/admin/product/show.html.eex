@@ -1,0 +1,33 @@
+<h2>Show product</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @product.name %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @product.description %>
+  </li>
+
+  <li>
+    <strong>Available on:</strong>
+    <%= @product.available_on %>
+  </li>
+
+  <li>
+    <strong>Discontinue on:</strong>
+    <%= @product.discontinue_on %>
+  </li>
+
+  <li>
+    <strong>Cost Price:</strong>
+    <%= @product.master.cost_price %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: admin_product_path(@conn, :edit, @product) %>
+<%= link "Back", to: admin_product_path(@conn, :index) %>

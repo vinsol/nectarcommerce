@@ -1,0 +1,158 @@
+- Start from here http://www.phoenixframework.org/docs/heroku
+- Gotchas
+  - Double Check, you are pushing the intended branch to heroku master
+  - `push heroku master` assumes local master branch to be pushed
+  - always use `push heroku <git-branch>:master` # push heroku master:master is explicit and helpful :)
+  - https://devcenter.heroku.com/articles/git#deploying-code
+- Failing `heroku run "mix ecto.migrate -r ExShop.Repo"`
+  - ** (KeyError) key :database not found
+  - Added Postgres add-on from Heroku Dashboard
+  - https://dashboard.heroku.com/apps/fierce-harbor-41883/resources
+  - # TODO: as build-packs allow to configure add-ons in releases, can be added there too :)
+- Failing `heroku run "mix run apps/ex_shop/priv/repo/seeds.exs"`
+  - [ ] Even though file exists in git, still not able to access
+
+
+
+pikender@Pikenders-MacBook-Pro:~/elixir/x-shop-heroku$ heroku run "mix run apps/ex_shop/priv/repo/seeds.exs"
+Running mix run apps/ex_shop/priv/repo/seeds.exs on fierce-harbor-41883... up, run.5376
+** (throw) {:yamerl_exception, [{:yamerl_parsing_error, :error, 'Failed to open file "/tmp/build_6b975b68f68df5826e19e70b357382bc/apps/worldly/lib/data/world.yml": no such file or directory', :undefined, :undefined, :file_open_failure, :undefined, [error: :enoent]}]}
+    (yamerl) src/yamerl_errors.erl:56: :yamerl_errors.throw/1
+    (yamerl) src/yamerl_constr.erl:228: :yamerl_constr.file/2
+    (worldly) lib/worldly/country.ex:31: Worldly.Country.load_country_data/0
+    (ex_shop) lib/seed/load_country.ex:5: Seed.LoadCountry.seed!/0
+    apps/ex_shop/priv/repo/seeds.exs:12: (file)
+
+pikender@Pikenders-MacBook-Pro:~/elixir/x-shop-heroku$ heroku run "mix ecto.migrate -r ExShop.Repo"
+Running mix ecto.migrate -r ExShop.Repo on fierce-harbor-41883... up, run.8556
+** (exit) exited in: :gen_server.call(#PID<0.227.0>, {:checkout, #Reference<0.0.1.47>, true, :infinity}, 5000)
+    ** (EXIT) an exception was raised:
+        ** (KeyError) key :database not found in: [types: true, hostname: "localhost", timeout: 5000, otp_app: :ex_shop, repo: ExShop.Repo, adapter: Ecto.Adapters.Postgres, extensions: [{Ecto.Adapters.Postgres.DateTime, []}, {Postgrex.Extensions.JSON, [library: Poison]}], port: 5432]
+            (elixir) lib/keyword.ex:312: Keyword.fetch!/2
+            (postgrex) lib/postgrex/protocol.ex:54: Postgrex.Protocol.connect/1
+            (db_connection) lib/db_connection/connection.ex:114: DBConnection.Connection.connect/2
+            (connection) lib/connection.ex:623: Connection.enter_connect/5
+            (stdlib) proc_lib.erl:240: :proc_lib.init_p_do_apply/3
+    (db_connection) lib/db_connection/connection.ex:43: DBConnection.Connection.checkout/2
+    (db_connection) lib/db_connection.ex:811: DBConnection.checkout/2
+    (db_connection) lib/db_connection.ex:717: DBConnection.run/3
+    (db_connection) lib/db_connection.ex:957: DBConnection.run_meter/3
+    (db_connection) lib/db_connection.ex:421: DBConnection.query/4
+    (postgrex) lib/postgrex.ex:105: Postgrex.query/4
+    (ecto) lib/ecto/adapters/postgres/connection.ex:31: Ecto.Adapters.Postgres.Connection.query/4
+    (ecto) lib/ecto/adapters/sql.ex:259: Ecto.Adapters.SQL.query/7
+
+
+12:13:51.976 [error] GenServer #PID<0.227.0> terminating
+** (KeyError) key :database not found in: [types: true, hostname: "localhost", timeout: 5000, otp_app: :ex_shop, repo: ExShop.Repo, adapter: Ecto.Adapters.Postgres, extensions: [{Ecto.Adapters.Postgres.DateTime, []}, {Postgrex.Extensions.JSON, [library: Poison]}], port: 5432]
+    (elixir) lib/keyword.ex:312: Keyword.fetch!/2
+    (postgrex) lib/postgrex/protocol.ex:54: Postgrex.Protocol.connect/1
+    (db_connection) lib/db_connection/connection.ex:114: DBConnection.Connection.connect/2
+    (connection) lib/connection.ex:623: Connection.enter_connect/5
+    (stdlib) proc_lib.erl:240: :proc_lib.init_p_do_apply/3
+
+umbrella!x-shop-heroku> push heroku umbrella:master
+Counting objects: 1310, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (1099/1099), done.
+Writing objects: 100% (1310/1310), 254.41 KiB | 0 bytes/s, done.
+Total 1310 (delta 189), reused 1269 (delta 165)
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----> Fetching set buildpack https://github.com/pikender/heroku-buildpack-elixir.git#um_app... done
+remote: -----> /tmp/build_00952440266997ca073a9c6e20832f9b
+remote:        /tmp/build_00952440266997ca073a9c6e20832f9b/mix.exs
+remote:        elixir app detected
+remote: -----> Checking Erlang and Elixir versions
+remote:        WARNING: elixir_buildpack.config wasn't found in the app
+remote:        Using default config from Elixir buildpack
+remote:        Will use the following versions:
+remote:        * Stack cedar-14
+remote:        * Erlang 18.1.3
+remote:        * Elixir 1.2.0
+remote:        Will export the following config vars:
+remote:        * Config vars DATABASE_URL
+remote:        * MIX_ENV=prod
+remote: -----> Stack changed, will rebuild
+remote: -----> Fetching Erlang 18.1.3
+remote: -----> Installing Erlang 18.1.3 (changed)
+remote:
+remote: -----> Fetching Elixir v1.2.0
+remote: -----> Installing Elixir v1.2.0 (changed)
+remote: -----> Installing Hex
+remote: * creating /app/.mix/archives/hex-0.10.4.ez
+remote: -----> Installing rebar
+remote: * creating /app/.mix/rebar
+remote: * creating /app/.mix/rebar3
+remote: -----> Fetching app dependencies with mix
+remote: * Getting yamerl (https://github.com/yakaz/yamerl.git)
+remote: Cloning into '/tmp/build_00952440266997ca073a9c6e20832f9b/deps/yamerl'...
+remote: remote: Counting objects: 2150, done.
+remote: remote: Total 2150 (delta 0), reused 0 (delta 0), pack-reused 2150
+remote: Receiving objects: 100% (2150/2150), 464.04 KiB | 0 bytes/s, done.
+remote: Resolving deltas: 100% (1477/1477), done.
+remote: Checking connectivity... done.
+remote: Running dependency resolution
+remote: * Getting phoenix (Hex package)
+remote: Checking package (https://s3.amazonaws.com/s3.hex.pm/tarballs/phoenix-1.1.4.tar)
+remote: Fetched package
+remote: * Getting postgrex (Hex package)
+remote: Checking package (https://s3.amazonaws.com/s3.hex.pm/tarballs/postgrex-0.11.0.tar)
+remote: Fetched package
+remote: * Getting phoenix_ecto (Hex package)
+remote: Checking package (https://s3.amazonaws.com/s3.hex.pm/tarballs/phoenix_ecto-2.0.1.tar)
+remote: Fetched package
+remote: * Getting phoenix_html (Hex package)
+remote: Checking package (https://s3.amazonaws.com/s3.hex.pm/tarballs/phoenix_html-2.5.0.tar)
+remote: Fetched package
+remote: * Getting phoenix_live_reload (Hex package)
+remote: Checking package (https://s3.amazonaws.com/s3.hex.pm/tarballs/phoenix_live_reload-1.0.3.tar)
+remote:
+** (exit) exited in: GenServer.call(:hex_fetcher, {:await, {:phoenix_live_reload, "1.0.3"}}, 60000)
+remote:     ** (EXIT) time out
+remote:     (elixir) lib/gen_server.ex:564: GenServer.call/3
+remote:     (hex) lib/hex/scm.ex:82: Hex.SCM.checkout/1
+remote:     (mix) lib/mix/dep/fetcher.ex:64: Mix.Dep.Fetcher.do_fetch/3
+remote:     (mix) lib/mix/dep/converger.ex:164: Mix.Dep.Converger.all/8
+remote:     (mix) lib/mix/dep/converger.ex:173: Mix.Dep.Converger.all/8
+remote:     (mix) lib/mix/dep/converger.ex:47: Mix.Dep.Converger.converge/4
+remote:     (mix) lib/mix/dep/fetcher.ex:16: Mix.Dep.Fetcher.all/3
+remote:     (mix) lib/mix/tasks/deps.get.ex:22: Mix.Tasks.Deps.Get.run/1
+remote:
+remote:
+remote:  !     Push rejected, failed to compile /tmp/build_00952440266997ca073a9c6e20832f9b
+remote: /tmp/build_00952440266997ca073a9c6e20832f9b/mix.exs
+remote: elixir app
+remote:
+remote: Verifying deploy....
+remote:
+remote: !	Push rejected to fierce-harbor-41883.
+remote:
+To https://git.heroku.com/fierce-harbor-41883.git
+ ! [remote rejected] umbrella -> master (pre-receive hook declined)
+error: failed to push some refs to 'https://git.heroku.com/fierce-harbor-41883.git'
+
+pikender@Pikenders-MacBook-Pro:~/elixir/x-shop-heroku$ MIX_ENV=prod mix deps.get
+Running dependency resolution
+pikender@Pikenders-MacBook-Pro:~/elixir/x-shop-heroku$ MIX_ENV=prod mix phoenix.server
+** (Mix) Could not start application worldly: could not find application file: worldly.app
+pikender@Pikenders-MacBook-Pro:~/elixir/x-shop-heroku$
+
+
+# References
+- http://www.phoenixframework.org/docs/heroku
+- https://devcenter.heroku.com/articles/buildpacks#detection-failure
+- https://devcenter.heroku.com/articles/buildpack-api
+- https://devcenter.heroku.com/articles/procfile
+- https://devcenter.heroku.com/articles/third-party-buildpacks
+- http://wsmoak.net/2015/07/05/phoenix-on-heroku.html
+- https://github.com/HashNuke/heroku-buildpack-elixir
+- https://github.com/gjaldon/heroku-buildpack-phoenix-static/compare/master...pikender:um_app
+
+# Extras
+- https://toolbelt.heroku.com/
+- https://devcenter.heroku.com/articles/heroku-local
+- https://devcenter.heroku.com/articles/config-vars
+- https://elements.heroku.com/addons/heroku-postgresql
+- https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app
