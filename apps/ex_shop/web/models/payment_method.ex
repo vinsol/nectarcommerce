@@ -1,11 +1,12 @@
-defmodule ExShop.ShippingMethod do
+defmodule ExShop.PaymentMethod do
+
   use ExShop.Web, :model
 
-  schema "shipping_methods" do
-    field :name
-    has_many :shippings, ExShop.Shipping
-    timestamps
+  schema "payment_methods" do
+    field :name, :string
+    has_many :payments, ExShop.Payment
   end
+
 
   @required_fields ~w(name)
   @optional_fields ~w()

@@ -10,4 +10,12 @@ defmodule ExShop.Adjustment do
 
     timestamps
   end
+
+  @required_fields ~w(amount)
+  @optional_fields ~w()
+
+  def changeset(model, params \\ :empty) do
+    model
+    |> cast(params, @required_fields, @optional_fields)
+  end
 end

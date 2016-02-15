@@ -1,0 +1,10 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= inputs_for f, :shippings, fn shipping -> %>
+  <div class="form-group">
+    <%= shipping.shipping_method.name %>
+    <%= label shipping, :selected, class: "control-label" %>
+    <%= checkbox shipping, :selected, class: "form-control" %>
+    <%= error_tag shipping, :selected %>
+  </div>
+  <% end %>
+<% end %>
