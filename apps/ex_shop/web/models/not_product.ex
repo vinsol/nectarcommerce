@@ -5,6 +5,8 @@ defmodule ExShop.NotProduct do
     field :name, :string
     field :quantity, :integer
     field :cost, :decimal
+
+    has_many :line_items, ExShop.LineItem, foreign_key: :product_id
   end
 
   @required_fields ~w(name quantity cost)

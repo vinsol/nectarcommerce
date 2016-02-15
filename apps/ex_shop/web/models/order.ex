@@ -3,7 +3,7 @@ defmodule ExShop.Order do
 
   schema "orders" do
     field :slug, :string
-    field :state, :string
+    field :state, :string, default: "cart"
     has_many :line_items, ExShop.LineItem
     has_one  :shipping_address, ExShop.Address
     has_one  :billing_address, ExShop.Address
@@ -20,7 +20,7 @@ defmodule ExShop.Order do
 
   @states ~w(cart address shipping taxes payment confirmation)
 
-  def changeset(model, params \\ :empty) do
+  def cart_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
