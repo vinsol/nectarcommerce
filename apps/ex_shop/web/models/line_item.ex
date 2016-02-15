@@ -18,13 +18,13 @@ defmodule ExShop.LineItem do
 
   def changeset(model, params \\ :empty) do
     model
-    |> product_id_changeset(params)
+    |> order_id_changeset(params)
     |> quantity_changeset(params)
   end
 
-  def product_id_changeset(model, params \\ :empty) do
+  def order_id_changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(product_id), ~w())
+    |> cast(params, ~w(order_id), ~w())
   end
 
   def quantity_changeset(model, params \\ :empty) do

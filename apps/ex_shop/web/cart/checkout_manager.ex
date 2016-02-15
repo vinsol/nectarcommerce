@@ -57,10 +57,18 @@ defmodule ExShop.CheckoutManager do
   def after_transition(%Order{} = order, _data), do: order
 
   defp to_state(%Order{} = order, next_state, params) do
-    order
-    |> before_transition(next_state, params)
-    |> Order.transition_changeset(next_state, params)
-    |> after_transition(params)
+    {status, model} =
+      order
+      |> before_transition(next_state, params)
+      |> Order.transition_changeset(next_state, params)
+      |> Repo.update
+
+    # see if succesfully transitioned.
+    # if not send back with the changeset
+    case status do
+      :ok -> after_transition(model, params)
+      :error -> model
+    end
   end
 
 end

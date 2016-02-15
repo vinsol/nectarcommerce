@@ -18,7 +18,19 @@
   <div class="panel-body">
     <h2>Cart</h2>
     <ul class="list-group" id="cart">
-      <!-- manage cart here -->
+      <%= for line_item <- @line_items do %>
+        <li class="list-group-item line-item" data-line-item-id="<%= line_item.id %>">
+          <%= line_item.product.name %>
+          <span class="pull-right">
+            <input name="" type="text" value="<%= line_item.quantity %>"/>
+            <button class="btn btn-primary update-cart-quantity">update</button>
+            <button class="btn btn-danger remove-from-cart">-</button>
+          </span>
+        </li>
+      <% end %>
     </ul>
+  </div>
+  <div class="panel-footer">
+    <%= link "checkout", to: admin_order_checkout_path(@conn, :checkout, @order), class: "btn btn-primary" %>
   </div>
 </div>
