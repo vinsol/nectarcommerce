@@ -1,0 +1,1846 @@
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static$ cd ~/phoenix
+pikender@Pikenders-MacBook-Pro:~/phoenix$ cd -
+/Users/pikender/elixir/heroku-buildpack-phoenix-static
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static$ ./bin/detect /Users/pikender/elixir/x-shop-heroku
+-bash: ./bin/detect: Permission denied
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static$ chmod 0777 bin/detect
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static$ ./bin/detect /Users/pikender/elixir/x-shop-heroku
+Phoenix
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static$ chmod 0777 bin/compile
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static$ ./bin/compile /Users/pikender/elixir/x-shop-heroku
+
+-----> Loading configuration and environment
+       Loading config...
+       WARNING: phoenix_static_buildpack.config wasn't found in the app
+       Using default config from Phoenix static buildpack
+       Will use the following versions:
+       * Node 5.3.0
+       Will export the following config vars:
+       * Config vars DATABASE_URL
+       * MIX_ENV=prod
+
+-----> Installing binaries
+       Downloading node 5.3.0...
+^C
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static$ ls -la
+total 32
+drwxr-xr-x   9 pikender  staff   306 Feb 12 13:00 .
+drwxr-xr-x  14 pikender  staff   476 Feb 12 15:19 ..
+drwxr-xr-x  12 pikender  staff   408 Feb 12 12:14 .git
+-rw-r--r--   1 pikender  staff  1083 Feb 12 12:14 LICENSE
+-rw-r--r--   1 pikender  staff  2789 Feb 12 12:14 README.md
+drwxr-xr-x   5 pikender  staff   170 Feb 12 12:14 bin
+-rw-r--r--   1 pikender  staff    45 Feb 12 12:14 compile
+drwxr-xr-x   4 pikender  staff   136 Feb 12 12:14 lib
+-rw-r--r--   1 pikender  staff    74 Feb 12 12:14 phoenix_static_buildpack.config
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static$ ./bin/compile /Users/pikender/elixir/x-shop-heroku
+
+-----> Loading configuration and environment
+       Loading config...
+       WARNING: phoenix_static_buildpack.config wasn't found in the app
+       Using default config from Phoenix static buildpack
+       Will use the following versions:
+       * Node 5.3.0
+       Will export the following config vars:
+       * Config vars DATABASE_URL
+       * MIX_ENV=prod
+
+-----> Installing binaries
+       Using cached node 5.3.0...
+       Installing node 5.3.0...
+tar: Error opening archive: (Empty error message)
+mv: rename /tmp/node-v5.3.0-linux-x64/* to /Users/pikender/elixir/x-shop-heroku/.heroku/node/*: No such file or directory
+chmod: /Users/pikender/elixir/x-shop-heroku/.heroku/node/bin/*: No such file or directory
+       Using default npm version
+
+-----> Building dependencies
+       Installing and caching node modules
+       npm WARN enoent ENOENT: no such file or directory, open '/Users/pikender/elixir/x-shop-heroku/package.json'
+       npm WARN x-shop-heroku No description
+       npm WARN x-shop-heroku No repository field.
+       npm WARN x-shop-heroku No README data
+       npm WARN x-shop-heroku No license field.
+^C
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static$ ./bin/compile /Users/pikender/elixir/x-shop-heroku
+
+-----> Loading configuration and environment
+       Loading config...
+       WARNING: phoenix_static_buildpack.config wasn't found in the app
+       Using default config from Phoenix static buildpack
+       Will use the following versions:
+       * Node 5.3.0
+       Will export the following config vars:
+       * Config vars DATABASE_URL
+       * MIX_ENV=prod
+
+-----> Installing binaries
+       Using cached node 5.3.0...
+       Installing node 5.3.0...
+tar: Error opening archive: (Empty error message)
+mv: rename /tmp/node-v5.3.0-linux-x64/* to /Users/pikender/elixir/x-shop-heroku/.heroku/node/*: No such file or directory
+chmod: /Users/pikender/elixir/x-shop-heroku/.heroku/node/bin/*: No such file or directory
+       Using default npm version
+
+-----> Building dependencies
+       Installing and caching node modules
+       npm WARN enoent ENOENT: no such file or directory, open '/Users/pikender/elixir/x-shop-heroku/package.json'
+       npm WARN x-shop-heroku No description
+       npm WARN x-shop-heroku No repository field.
+       npm WARN x-shop-heroku No README data
+       npm WARN x-shop-heroku No license field.
+^C
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static$ cd ../heroku-buildpack-phoenix-static-piks/
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku
+-bash: ./bin/compile: Permission denied
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ chmod 0777 bin/compile
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender
+/Users/pikender
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+Move
+
+
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+Move
+
+
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+Move
+
+
+
+-----> Installing binaries
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+Move
+
+
+
+-----> Installing binaries
+       Using default npm version
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+Move
+
+
+
+-----> Installing binaries
+
+-----> Building dependencies
+       Installing and caching node modules
+       npm WARN enoent ENOENT: no such file or directory, open '/Users/pikender/elixir/x-shop-heroku/package.json'
+       npm WARN x-shop-heroku No description
+       npm WARN x-shop-heroku No repository field.
+       npm WARN x-shop-heroku No README data
+       npm WARN x-shop-heroku No license field.
+       npm ERR! Darwin 15.3.0
+       npm ERR! argv "/usr/local/Cellar/node/5.5.0/bin/node" "/usr/local/bin/npm" "--unsafe-perm" "prune"
+       npm ERR! node v5.5.0
+       npm ERR! npm  v3.5.3
+       npm ERR! path /Users/pikender/elixir/x-shop-heroku/package.json
+       npm ERR! code ENOENT
+       npm ERR! errno -2
+       npm ERR! syscall open
+
+       npm ERR! enoent ENOENT: no such file or directory, open '/Users/pikender/elixir/x-shop-heroku/package.json'
+       npm ERR! enoent ENOENT: no such file or directory, open '/Users/pikender/elixir/x-shop-heroku/package.json'
+       npm ERR! enoent This is most likely not a problem with npm itself
+       npm ERR! enoent and is related to npm not being able to find a file.
+       npm ERR! enoent
+
+       npm ERR! Please include the following file with any support request:
+       npm ERR!     /Users/pikender/elixir/x-shop-heroku/npm-debug.log
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+Move
+
+
+       Loading config...
+       WARNING: phoenix_static_buildpack.config wasn't found in the app
+       Using default config from Phoenix static buildpack
+       Will use the following versions:
+       * Node 5.3.0
+       Will export the following config vars:
+       * Config vars DATABASE_URL
+apps/ex_shop
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+Move
+
+
+       Loading config...
+       WARNING: phoenix_static_buildpack.config wasn't found in the app
+       Using default config from Phoenix static buildpack
+       Will use the following versions:
+       * Node 5.3.0
+       Will export the following config vars:
+       * Config vars DATABASE_URL
+apps/ex_shop
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+Move
+
+
+       Loading config...
+       WARNING: phoenix_static_buildpack.config wasn't found in the app
+       Using default config from Phoenix static buildpack
+       Will use the following versions:
+       * Node 5.3.0
+       Will export the following config vars:
+       * Config vars DATABASE_URL
+apps/ex_shop
+
+-----> Installing binaries
+
+-----> Building dependencies
+       Installing and caching node modules
+cp: /Users/pikender/elixir/x-shop-heroku/cache/node_modules/*: No such file or directory
+       npm WARN prefer global coffee-script@1.10.0 should be installed with -g
+
+       > fsevents@1.0.7 install /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents
+       > node-pre-gyp install --fallback-to-build
+
+       [fsevents] Success: "/Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/lib/binding/Release/node-v47-darwin-x64/fse.node" is installed via remote
+       /Users/pikender/elixir/x-shop-heroku/apps/ex_shop
+       ├─┬ babel-brunch@6.0.0
+       │ ├─┬ anymatch@1.3.0
+       │ │ ├── arrify@1.0.1
+       │ │ └─┬ micromatch@2.3.7
+       │ │   ├─┬ arr-diff@2.0.0
+       │ │   │ └── arr-flatten@1.0.1
+       │ │   ├── array-unique@0.2.1
+       │ │   ├─┬ braces@1.8.3
+       │ │   │ ├─┬ expand-range@1.8.1
+       │ │   │ │ └─┬ fill-range@2.2.3
+       │ │   │ │   ├── is-number@2.1.0
+       │ │   │ │   ├── isobject@2.0.0
+       │ │   │ │   ├── randomatic@1.1.5
+       │ │   │ │   └── repeat-string@1.5.2
+       │ │   │ ├── preserve@0.2.0
+       │ │   │ └── repeat-element@1.1.2
+       │ │   ├── expand-brackets@0.1.4
+       │ │   ├── extglob@0.3.2
+       │ │   ├── filename-regex@2.0.0
+       │ │   ├── is-extglob@1.0.0
+       │ │   ├─┬ kind-of@3.0.2
+       │ │   │ └── is-buffer@1.1.2
+       │ │   ├── normalize-path@2.0.1
+       │ │   ├─┬ object.omit@2.0.0
+       │ │   │ ├─┬ for-own@0.1.3
+       │ │   │ │ └── for-in@0.1.4
+       │ │   │ └── is-extendable@0.1.1
+       │ │   ├─┬ parse-glob@3.0.4
+       │ │   │ ├── glob-base@0.3.0
+       │ │   │ └── is-dotfile@1.0.2
+       │ │   └─┬ regex-cache@0.4.2
+       │ │     ├── is-equal-shallow@0.1.3
+       │ │     └── is-primitive@2.0.0
+       │ ├─┬ babel-core@6.5.1
+       │ │ ├─┬ babel-code-frame@6.5.0
+       │ │ │ ├─┬ chalk@1.1.1
+       │ │ │ │ ├── ansi-styles@2.1.0
+       │ │ │ │ ├── escape-string-regexp@1.0.4
+       │ │ │ │ ├─┬ has-ansi@2.0.0
+       │ │ │ │ │ └── ansi-regex@2.0.0
+       │ │ │ │ ├── strip-ansi@3.0.0
+       │ │ │ │ └── supports-color@2.0.0
+       │ │ │ ├── esutils@2.0.2
+       │ │ │ ├── js-tokens@1.0.2
+       │ │ │ ├─┬ line-numbers@0.2.0
+       │ │ │ │ └── left-pad@0.0.3
+       │ │ │ └─┬ repeating@1.1.3
+       │ │ │   └─┬ is-finite@1.0.1
+       │ │ │     └── number-is-nan@1.0.0
+       │ │ ├─┬ babel-generator@6.5.0
+       │ │ │ ├─┬ detect-indent@3.0.1
+       │ │ │ │ ├── get-stdin@4.0.1
+       │ │ │ │ └── minimist@1.2.0
+       │ │ │ ├── is-integer@1.0.6
+       │ │ │ └── trim-right@1.0.1
+       │ │ ├── babel-helpers@6.5.0
+       │ │ ├── babel-messages@6.5.0
+       │ │ ├─┬ babel-register@6.5.1
+       │ │ │ ├── core-js@1.2.6
+       │ │ │ ├─┬ home-or-tmp@1.0.0
+       │ │ │ │ └── user-home@1.1.1
+       │ │ │ └─┬ source-map-support@0.2.10
+       │ │ │   └── source-map@0.1.32
+       │ │ ├── babel-runtime@5.8.35
+       │ │ ├── babel-template@6.5.0
+       │ │ ├─┬ babel-traverse@6.5.0
+       │ │ │ ├── globals@8.18.0
+       │ │ │ └─┬ invariant@2.2.0
+       │ │ │   └── loose-envify@1.1.0
+       │ │ ├─┬ babel-types@6.5.1
+       │ │ │ └── to-fast-properties@1.0.1
+       │ │ ├── babylon@6.5.0
+       │ │ ├── convert-source-map@1.1.3
+       │ │ ├── json5@0.4.0
+       │ │ ├── lodash@3.10.1
+       │ │ ├─┬ minimatch@2.0.10
+       │ │ │ └─┬ brace-expansion@1.1.3
+       │ │ │   ├── balanced-match@0.3.0
+       │ │ │   └── concat-map@0.0.1
+       │ │ ├── path-exists@1.0.0
+       │ │ ├── path-is-absolute@1.0.0
+       │ │ ├── private@0.1.6
+       │ │ ├── shebang-regex@1.0.0
+       │ │ └── slash@1.0.0
+       │ └─┬ babel-preset-es2015@6.5.0
+       │   ├── babel-plugin-check-es2015-constants@6.5.0
+       │   ├── babel-plugin-transform-es2015-arrow-functions@6.5.0
+       │   ├── babel-plugin-transform-es2015-block-scoped-functions@6.5.0
+       │   ├── babel-plugin-transform-es2015-block-scoping@6.5.0
+       │   ├─┬ babel-plugin-transform-es2015-classes@6.5.0
+       │   │ ├── babel-helper-define-map@6.5.0
+       │   │ ├── babel-helper-function-name@6.5.0
+       │   │ ├── babel-helper-optimise-call-expression@6.5.0
+       │   │ └── babel-helper-replace-supers@6.5.0
+       │   ├── babel-plugin-transform-es2015-computed-properties@6.5.0
+       │   ├── babel-plugin-transform-es2015-destructuring@6.5.0
+       │   ├── babel-plugin-transform-es2015-for-of@6.5.0
+       │   ├── babel-plugin-transform-es2015-function-name@6.5.0
+       │   ├── babel-plugin-transform-es2015-literals@6.5.0
+       │   ├─┬ babel-plugin-transform-es2015-modules-commonjs@6.5.0
+       │   │ └── babel-plugin-transform-strict-mode@6.5.0
+       │   ├── babel-plugin-transform-es2015-object-super@6.5.0
+       │   ├─┬ babel-plugin-transform-es2015-parameters@6.5.0
+       │   │ ├─┬ babel-helper-call-delegate@6.5.0
+       │   │ │ └── babel-helper-hoist-variables@6.5.0
+       │   │ └── babel-helper-get-function-arity@6.5.0
+       │   ├── babel-plugin-transform-es2015-shorthand-properties@6.5.0
+       │   ├── babel-plugin-transform-es2015-spread@6.5.0
+       │   ├─┬ babel-plugin-transform-es2015-sticky-regex@6.5.0
+       │   │ └── babel-helper-regex@6.5.0
+       │   ├── babel-plugin-transform-es2015-template-literals@6.5.0
+       │   ├── babel-plugin-transform-es2015-typeof-symbol@6.5.0
+       │   ├─┬ babel-plugin-transform-es2015-unicode-regex@6.5.0
+       │   │ └─┬ regexpu-core@1.0.0
+       │   │   ├── regenerate@1.2.1
+       │   │   ├── regjsgen@0.2.0
+       │   │   └─┬ regjsparser@0.1.5
+       │   │     └── jsesc@0.5.0
+       │   └─┬ babel-plugin-transform-regenerator@6.5.0
+       │     └── babel-plugin-syntax-async-functions@6.5.0
+       ├── bower@1.7.7
+       ├─┬ brunch@2.1.3
+       │ ├── anysort@1.0.1
+       │ ├── async-each@0.1.6
+       │ ├─┬ browser-resolve@1.7.2
+       │ │ └── resolve@1.1.5
+       │ ├── charm@1.0.0
+       │ ├─┬ chokidar@1.4.2
+       │ │ ├─┬ fsevents@1.0.7
+       │ │ │ ├── nan@2.2.0
+       │ │ │ └─┬ node-pre-gyp@0.6.19
+       │ │ │   ├─┬ mkdirp@0.5.1
+       │ │ │   │ └── minimist@0.0.8
+       │ │ │   ├─┬ nopt@3.0.6
+       │ │ │   │ └── abbrev@1.0.7
+       │ │ │   ├─┬ npmlog@2.0.0
+       │ │ │   │ ├── ansi@0.3.0
+       │ │ │   │ ├─┬ are-we-there-yet@1.0.5
+       │ │ │   │ │ └── delegates@0.1.0
+       │ │ │   │ └─┬ gauge@1.2.2
+       │ │ │   │   ├── has-unicode@1.0.1
+       │ │ │   │   ├─┬ lodash.pad@3.1.1
+       │ │ │   │   │ ├── lodash._basetostring@3.0.1
+       │ │ │   │   │ └─┬ lodash._createpadding@3.6.1
+       │ │ │   │   │   └── lodash.repeat@3.0.1
+       │ │ │   │   ├── lodash.padleft@3.1.1
+       │ │ │   │   └── lodash.padright@3.1.1
+       │ │ │   ├─┬ rc@1.1.6
+       │ │ │   │ ├── deep-extend@0.4.0
+       │ │ │   │ ├── ini@1.3.4
+       │ │ │   │ ├── minimist@1.2.0
+       │ │ │   │ └── strip-json-comments@1.0.4
+       │ │ │   ├─┬ request@2.67.0
+       │ │ │   │ ├── aws-sign2@0.6.0
+       │ │ │   │ ├── bl@1.0.0
+       │ │ │   │ ├── caseless@0.11.0
+       │ │ │   │ ├─┬ combined-stream@1.0.5
+       │ │ │   │ │ └── delayed-stream@1.0.0
+       │ │ │   │ ├── extend@3.0.0
+       │ │ │   │ ├── forever-agent@0.6.1
+       │ │ │   │ ├─┬ form-data@1.0.0-rc3
+       │ │ │   │ │ └── async@1.5.1
+       │ │ │   │ ├─┬ har-validator@2.0.3
+       │ │ │   │ │ ├─┬ chalk@1.1.1
+       │ │ │   │ │ │ ├── ansi-styles@2.1.0
+       │ │ │   │ │ │ ├── escape-string-regexp@1.0.4
+       │ │ │   │ │ │ ├─┬ has-ansi@2.0.0
+       │ │ │   │ │ │ │ └── ansi-regex@2.0.0
+       │ │ │   │ │ │ ├── strip-ansi@3.0.0
+       │ │ │   │ │ │ └── supports-color@2.0.0
+       │ │ │   │ │ ├─┬ commander@2.9.0
+       │ │ │   │ │ │ └── graceful-readlink@1.0.1
+       │ │ │   │ │ ├─┬ is-my-json-valid@2.12.3
+       │ │ │   │ │ │ ├── generate-function@2.0.0
+       │ │ │   │ │ │ ├─┬ generate-object-property@1.2.0
+       │ │ │   │ │ │ │ └── is-property@1.0.2
+       │ │ │   │ │ │ ├── jsonpointer@2.0.0
+       │ │ │   │ │ │ └── xtend@4.0.1
+       │ │ │   │ │ └─┬ pinkie-promise@2.0.0
+       │ │ │   │ │   └── pinkie@2.0.1
+       │ │ │   │ ├─┬ hawk@3.1.2
+       │ │ │   │ │ ├── boom@2.10.1
+       │ │ │   │ │ ├── cryptiles@2.0.5
+       │ │ │   │ │ ├── hoek@2.16.3
+       │ │ │   │ │ └── sntp@1.0.9
+       │ │ │   │ ├─┬ http-signature@1.1.0
+       │ │ │   │ │ ├── assert-plus@0.1.5
+       │ │ │   │ │ ├─┬ jsprim@1.2.2
+       │ │ │   │ │ │ ├── extsprintf@1.0.2
+       │ │ │   │ │ │ ├── json-schema@0.2.2
+       │ │ │   │ │ │ └── verror@1.3.6
+       │ │ │   │ │ └─┬ sshpk@1.7.2
+       │ │ │   │ │   ├── asn1@0.2.3
+       │ │ │   │ │   ├── assert-plus@0.2.0
+       │ │ │   │ │   ├── dashdash@1.11.0
+       │ │ │   │ │   ├── ecc-jsbn@0.1.1
+       │ │ │   │ │   ├── jodid25519@1.0.2
+       │ │ │   │ │   ├── jsbn@0.1.0
+       │ │ │   │ │   └── tweetnacl@0.13.2
+       │ │ │   │ ├── is-typedarray@1.0.0
+       │ │ │   │ ├── isstream@0.1.2
+       │ │ │   │ ├── json-stringify-safe@5.0.1
+       │ │ │   │ ├─┬ mime-types@2.1.9
+       │ │ │   │ │ └── mime-db@1.21.0
+       │ │ │   │ ├── node-uuid@1.4.7
+       │ │ │   │ ├── oauth-sign@0.8.0
+       │ │ │   │ ├── qs@5.2.0
+       │ │ │   │ ├── stringstream@0.0.5
+       │ │ │   │ ├── tough-cookie@2.2.1
+       │ │ │   │ └── tunnel-agent@0.4.2
+       │ │ │   ├─┬ rimraf@2.5.0
+       │ │ │   │ └─┬ glob@6.0.3
+       │ │ │   │   ├─┬ inflight@1.0.4
+       │ │ │   │   │ └── wrappy@1.0.1
+       │ │ │   │   ├── inherits@2.0.1
+       │ │ │   │   ├─┬ minimatch@3.0.0
+       │ │ │   │   │ └─┬ brace-expansion@1.1.2
+       │ │ │   │   │   ├── balanced-match@0.3.0
+       │ │ │   │   │   └── concat-map@0.0.1
+       │ │ │   │   ├─┬ once@1.3.3
+       │ │ │   │   │ └── wrappy@1.0.1
+       │ │ │   │   └── path-is-absolute@1.0.0
+       │ │ │   ├── semver@5.1.0
+       │ │ │   ├─┬ tar@2.2.1
+       │ │ │   │ ├── block-stream@0.0.8
+       │ │ │   │ ├─┬ fstream@1.0.8
+       │ │ │   │ │ └── graceful-fs@4.1.2
+       │ │ │   │ └── inherits@2.0.1
+       │ │ │   └─┬ tar-pack@3.1.2
+       │ │ │     ├── debug@0.7.4
+       │ │ │     ├─┬ fstream-ignore@1.0.3
+       │ │ │     │ └─┬ minimatch@3.0.0
+       │ │ │     │   └─┬ brace-expansion@1.1.2
+       │ │ │     │     ├── balanced-match@0.3.0
+       │ │ │     │     └── concat-map@0.0.1
+       │ │ │     ├── once@1.1.1
+       │ │ │     ├─┬ readable-stream@2.0.5
+       │ │ │     │ ├── core-util-is@1.0.2
+       │ │ │     │ ├── isarray@0.0.1
+       │ │ │     │ ├── process-nextick-args@1.0.6
+       │ │ │     │ ├── string_decoder@0.10.31
+       │ │ │     │ └── util-deprecate@1.0.2
+       │ │ │     ├─┬ rimraf@2.4.5
+       │ │ │     │ └─┬ glob@6.0.3
+       │ │ │     │   ├─┬ inflight@1.0.4
+       │ │ │     │   │ └── wrappy@1.0.1
+       │ │ │     │   ├── inherits@2.0.1
+       │ │ │     │   ├─┬ minimatch@3.0.0
+       │ │ │     │   │ └─┬ brace-expansion@1.1.2
+       │ │ │     │   │   ├── balanced-match@0.3.0
+       │ │ │     │   │   └── concat-map@0.0.1
+       │ │ │     │   ├─┬ once@1.3.3
+       │ │ │     │   │ └── wrappy@1.0.1
+       │ │ │     │   └── path-is-absolute@1.0.0
+       │ │ │     └── uid-number@0.0.3
+       │ │ ├── glob-parent@2.0.0
+       │ │ ├── inherits@2.0.1
+       │ │ ├─┬ is-binary-path@1.0.1
+       │ │ │ └── binary-extensions@1.4.0
+       │ │ ├── is-glob@2.0.1
+       │ │ └─┬ readdirp@2.0.0
+       │ │   ├── graceful-fs@4.1.3
+       │ │   └─┬ readable-stream@2.0.5
+       │ │     ├── core-util-is@1.0.2
+       │ │     ├── isarray@0.0.1
+       │ │     ├── process-nextick-args@1.0.6
+       │ │     ├── string_decoder@0.10.31
+       │ │     └── util-deprecate@1.0.2
+       │ ├── coffee-script@1.10.0
+       │ ├─┬ commander@2.9.0
+       │ │ └── graceful-readlink@1.0.1
+       │ ├── commonjs-require-definition@0.2.2
+       │ ├─┬ debug@2.2.0
+       │ │ └── ms@0.7.1
+       │ ├─┬ detective@4.0.3
+       │ │ ├── acorn@1.2.2
+       │ │ ├── defined@1.0.0
+       │ │ └─┬ escodegen@1.8.0
+       │ │   ├── estraverse@1.9.3
+       │ │   ├─┬ optionator@0.8.1
+       │ │   │ ├── deep-is@0.1.3
+       │ │   │ ├── fast-levenshtein@1.1.3
+       │ │   │ ├── levn@0.3.0
+       │ │   │ ├── prelude-ls@1.1.2
+       │ │   │ ├── type-check@0.3.2
+       │ │   │ └── wordwrap@1.0.0
+       │ │   └── source-map@0.2.0
+       │ ├── fcache@0.1.1
+       │ ├─┬ init-skeleton@0.7.1
+       │ │ ├── ncp@2.0.0
+       │ │ ├─┬ rimraf@2.4.5
+       │ │ │ └─┬ glob@6.0.4
+       │ │ │   ├─┬ inflight@1.0.4
+       │ │ │   │ └── wrappy@1.0.1
+       │ │ │   └── once@1.3.3
+       │ │ └─┬ tmp@0.0.28
+       │ │   └── os-tmpdir@1.0.1
+       │ ├─┬ loggy@0.2.2
+       │ │ ├── ansi-color@0.2.1
+       │ │ ├── date-utils@1.2.18
+       │ │ └── growl@1.8.1
+       │ ├─┬ mkdirp@0.5.1
+       │ │ └── minimist@0.0.8
+       │ ├─┬ pushserve@1.0.2
+       │ │ ├── connect-slashes@1.3.1
+       │ │ ├─┬ express@4.13.4
+       │ │ │ ├─┬ accepts@1.2.13
+       │ │ │ │ ├─┬ mime-types@2.1.9
+       │ │ │ │ │ └── mime-db@1.21.0
+       │ │ │ │ └── negotiator@0.5.3
+       │ │ │ ├── array-flatten@1.1.1
+       │ │ │ ├── content-disposition@0.5.1
+       │ │ │ ├── content-type@1.0.1
+       │ │ │ ├── cookie@0.1.5
+       │ │ │ ├── cookie-signature@1.0.6
+       │ │ │ ├── depd@1.1.0
+       │ │ │ ├── escape-html@1.0.3
+       │ │ │ ├── etag@1.7.0
+       │ │ │ ├─┬ finalhandler@0.4.1
+       │ │ │ │ └── unpipe@1.0.0
+       │ │ │ ├── fresh@0.3.0
+       │ │ │ ├── merge-descriptors@1.0.1
+       │ │ │ ├── methods@1.1.2
+       │ │ │ ├─┬ on-finished@2.3.0
+       │ │ │ │ └── ee-first@1.1.1
+       │ │ │ ├── parseurl@1.3.1
+       │ │ │ ├── path-to-regexp@0.1.7
+       │ │ │ ├─┬ proxy-addr@1.0.10
+       │ │ │ │ ├── forwarded@0.1.0
+       │ │ │ │ └── ipaddr.js@1.0.5
+       │ │ │ ├── qs@4.0.0
+       │ │ │ ├── range-parser@1.0.3
+       │ │ │ ├─┬ send@0.13.1
+       │ │ │ │ ├── destroy@1.0.4
+       │ │ │ │ ├── http-errors@1.3.1
+       │ │ │ │ ├── mime@1.3.4
+       │ │ │ │ └── statuses@1.2.1
+       │ │ │ ├─┬ type-is@1.6.11
+       │ │ │ │ └── media-typer@0.3.0
+       │ │ │ ├── utils-merge@1.0.0
+       │ │ │ └── vary@1.0.1
+       │ │ └── serve-static@1.10.2
+       │ ├── quickly-copy-file@0.1.0
+       │ ├─┬ read-components@0.6.1
+       │ │ └─┬ component-builder@0.10.1
+       │ │   ├── batch@0.2.1
+       │ │   ├── component-require@0.3.1
+       │ │   ├── cp@0.1.1
+       │ │   ├── mkdirp@0.3.4
+       │ │   └── string-to-js@0.0.1
+       │ └── source-map@0.5.3
+       ├─┬ clean-css-brunch@1.8.0
+       │ └─┬ clean-css@3.4.9
+       │   ├── commander@2.8.1
+       │   └─┬ source-map@0.4.4
+       │     └── amdefine@1.0.0
+       ├── css-brunch@1.7.0
+       ├─┬ javascript-brunch@1.8.0
+       │ └── esprima@2.7.2
+       ├── phoenix@1.1.4
+       ├── phoenix_html@2.5.0
+       └─┬ uglify-js-brunch@1.7.8
+         └─┬ uglify-js@2.4.24
+           ├── async@0.2.10
+           ├── source-map@0.1.34
+           ├── uglify-to-browserify@1.0.2
+           └─┬ yargs@3.5.4
+             ├── camelcase@1.2.1
+             ├── decamelize@1.1.2
+             ├── window-size@0.1.0
+             └── wordwrap@0.0.2
+
+       npm WARN ex_shop No license field.
+       npm WARN prefer global coffee-script@1.10.0 should be installed with -g
+
+       > fsevents@1.0.7 install /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents
+       > node-pre-gyp install --fallback-to-build
+
+       [fsevents] Success: "/Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/lib/binding/Release/node-v47-darwin-x64/fse.node" already installed
+       Pass --update-binary to reinstall or --build-from-source to recompile
+       babel-brunch@6.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-brunch
+       anymatch@1.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/anymatch
+       arrify@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/arrify
+       micromatch@2.3.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/micromatch
+       arr-diff@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/arr-diff
+       arr-flatten@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/arr-flatten
+       array-unique@0.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/array-unique
+       braces@1.8.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/braces
+       expand-range@1.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/expand-range
+       fill-range@2.2.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fill-range
+       is-number@2.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-number
+       kind-of@3.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/kind-of
+       is-buffer@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-buffer
+       isobject@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/isobject
+       isarray@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/isarray
+       randomatic@1.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/randomatic
+       repeat-element@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/repeat-element
+       repeat-string@1.5.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/repeat-string
+       preserve@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/preserve
+       expand-brackets@0.1.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/expand-brackets
+       extglob@0.3.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/extglob
+       is-extglob@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-extglob
+       filename-regex@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/filename-regex
+       is-glob@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-glob
+       normalize-path@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/normalize-path
+       object.omit@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/object.omit
+       for-own@0.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/for-own
+       for-in@0.1.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/for-in
+       is-extendable@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-extendable
+       parse-glob@3.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/parse-glob
+       glob-base@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/glob-base
+       glob-parent@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/glob-parent
+       is-dotfile@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-dotfile
+       regex-cache@0.4.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regex-cache
+       is-equal-shallow@0.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-equal-shallow
+       is-primitive@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-primitive
+       babel-core@6.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-core
+       babel-code-frame@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-code-frame
+       babel-runtime@5.8.35 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-runtime
+       core-js@1.2.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/core-js
+       chalk@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/chalk
+       ansi-styles@2.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ansi-styles
+       escape-string-regexp@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escape-string-regexp
+       has-ansi@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/has-ansi
+       ansi-regex@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ansi-regex
+       strip-ansi@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/strip-ansi
+       supports-color@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/supports-color
+       esutils@2.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/esutils
+       js-tokens@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/js-tokens
+       line-numbers@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/line-numbers
+       left-pad@0.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/left-pad
+       repeating@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/repeating
+       is-finite@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-finite
+       number-is-nan@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/number-is-nan
+       babel-generator@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-generator
+       babel-messages@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-messages
+       babel-types@6.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-types
+       babel-traverse@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-traverse
+       babylon@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babylon
+       debug@2.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/debug
+       ms@0.7.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ms
+       globals@8.18.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/globals
+       invariant@2.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/invariant
+       loose-envify@1.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/loose-envify
+       lodash@3.10.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/lodash
+       to-fast-properties@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/to-fast-properties
+       detect-indent@3.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/detect-indent
+       get-stdin@4.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/get-stdin
+       minimist@1.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/minimist
+       is-integer@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-integer
+       source-map@0.5.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/source-map
+       trim-right@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/trim-right
+       babel-helpers@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helpers
+       babel-template@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-template
+       babel-register@6.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-register
+       home-or-tmp@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/home-or-tmp
+       os-tmpdir@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/os-tmpdir
+       user-home@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/user-home
+       mkdirp@0.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mkdirp
+       minimist@0.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mkdirp/node_modules/minimist
+       path-exists@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/path-exists
+       source-map-support@0.2.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/source-map-support
+       source-map@0.1.32 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/source-map-support/node_modules/source-map
+       amdefine@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/amdefine
+       convert-source-map@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/convert-source-map
+       json5@0.4.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/json5
+       minimatch@2.0.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/minimatch
+       brace-expansion@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/concat-map
+       path-is-absolute@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/path-is-absolute
+       private@0.1.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/private
+       shebang-regex@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/shebang-regex
+       slash@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/slash
+       babel-preset-es2015@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-preset-es2015
+       babel-plugin-check-es2015-constants@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-check-es2015-constants
+       babel-plugin-transform-es2015-arrow-functions@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-arrow-functions
+       babel-plugin-transform-es2015-block-scoped-functions@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-block-scoped-functions
+       babel-plugin-transform-es2015-block-scoping@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-block-scoping
+       babel-plugin-transform-es2015-classes@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-classes
+       babel-helper-define-map@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-define-map
+       babel-helper-function-name@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-function-name
+       babel-helper-get-function-arity@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-get-function-arity
+       babel-helper-optimise-call-expression@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-optimise-call-expression
+       babel-helper-replace-supers@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-replace-supers
+       babel-plugin-transform-es2015-computed-properties@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-computed-properties
+       babel-plugin-transform-es2015-destructuring@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-destructuring
+       babel-plugin-transform-es2015-for-of@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-for-of
+       babel-plugin-transform-es2015-function-name@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-function-name
+       babel-plugin-transform-es2015-literals@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-literals
+       babel-plugin-transform-es2015-modules-commonjs@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-modules-commonjs
+       babel-plugin-transform-strict-mode@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-strict-mode
+       babel-plugin-transform-es2015-object-super@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-object-super
+       babel-plugin-transform-es2015-parameters@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-parameters
+       babel-helper-call-delegate@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-call-delegate
+       babel-helper-hoist-variables@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-hoist-variables
+       babel-plugin-transform-es2015-shorthand-properties@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-shorthand-properties
+       babel-plugin-transform-es2015-spread@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-spread
+       babel-plugin-transform-es2015-sticky-regex@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-sticky-regex
+       babel-helper-regex@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-regex
+       babel-plugin-transform-es2015-template-literals@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-template-literals
+       babel-plugin-transform-es2015-typeof-symbol@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-typeof-symbol
+       babel-plugin-transform-es2015-unicode-regex@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-unicode-regex
+       regexpu-core@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regexpu-core
+       regenerate@1.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regenerate
+       regjsgen@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regjsgen
+       regjsparser@0.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regjsparser
+       jsesc@0.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/jsesc
+       babel-plugin-transform-regenerator@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-regenerator
+       babel-plugin-syntax-async-functions@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-syntax-async-functions
+       brunch@2.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/brunch
+       anysort@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/anysort
+       async-each@0.1.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/async-each
+       browser-resolve@1.7.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/browser-resolve
+       resolve@1.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/resolve
+       charm@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/charm
+       chokidar@1.4.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/chokidar
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/inherits
+       is-binary-path@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-binary-path
+       binary-extensions@1.4.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/binary-extensions
+       readdirp@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/readdirp
+       graceful-fs@4.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/graceful-fs
+       readable-stream@2.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/readable-stream
+       core-util-is@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/core-util-is
+       process-nextick-args@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/process-nextick-args
+       string_decoder@0.10.31 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/string_decoder
+       util-deprecate@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/util-deprecate
+       coffee-script@1.10.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/coffee-script
+       commander@2.9.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/commander
+       graceful-readlink@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/graceful-readlink
+       commonjs-require-definition@0.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/commonjs-require-definition
+       detective@4.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/detective
+       acorn@1.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/acorn
+       defined@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/defined
+       escodegen@1.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escodegen
+       esprima@2.7.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/esprima
+       estraverse@1.9.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/estraverse
+       optionator@0.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/optionator
+       deep-is@0.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/deep-is
+       fast-levenshtein@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fast-levenshtein
+       levn@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/levn
+       prelude-ls@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/prelude-ls
+       type-check@0.3.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/type-check
+       wordwrap@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/wordwrap
+       source-map@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escodegen/node_modules/source-map
+       fcache@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fcache
+       init-skeleton@0.7.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/init-skeleton
+       ncp@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ncp
+       rimraf@2.4.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/rimraf
+       glob@6.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/glob
+       inflight@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/inflight
+       once@1.3.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/once
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/wrappy
+       tmp@0.0.28 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/tmp
+       loggy@0.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/loggy
+       ansi-color@0.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ansi-color
+       date-utils@1.2.18 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/date-utils
+       growl@1.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/growl
+       pushserve@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/pushserve
+       connect-slashes@1.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/connect-slashes
+       express@4.13.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/express
+       accepts@1.2.13 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/accepts
+       mime-types@2.1.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mime-types
+       mime-db@1.21.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mime-db
+       negotiator@0.5.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/negotiator
+       array-flatten@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/array-flatten
+       content-disposition@0.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/content-disposition
+       content-type@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/content-type
+       cookie@0.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/cookie
+       cookie-signature@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/cookie-signature
+       depd@1.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/depd
+       escape-html@1.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escape-html
+       etag@1.7.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/etag
+       finalhandler@0.4.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/finalhandler
+       on-finished@2.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/on-finished
+       ee-first@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ee-first
+       unpipe@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/unpipe
+       fresh@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fresh
+       merge-descriptors@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/merge-descriptors
+       methods@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/methods
+       parseurl@1.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/parseurl
+       path-to-regexp@0.1.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/path-to-regexp
+       proxy-addr@1.0.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/proxy-addr
+       forwarded@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/forwarded
+       ipaddr.js@1.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ipaddr.js
+       qs@4.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/qs
+       range-parser@1.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/range-parser
+       send@0.13.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/send
+       destroy@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/destroy
+       http-errors@1.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/http-errors
+       statuses@1.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/statuses
+       mime@1.3.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mime
+       serve-static@1.10.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/serve-static
+       type-is@1.6.11 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/type-is
+       media-typer@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/media-typer
+       utils-merge@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/utils-merge
+       vary@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/vary
+       quickly-copy-file@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/quickly-copy-file
+       read-components@0.6.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/read-components
+       component-builder@0.10.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/component-builder
+       batch@0.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/batch
+       component-require@0.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/component-require
+       cp@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/cp
+       mkdirp@0.3.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/component-builder/node_modules/mkdirp
+       string-to-js@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/string-to-js
+       clean-css-brunch@1.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css-brunch
+       clean-css@3.4.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css
+       commander@2.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css/node_modules/commander
+       source-map@0.4.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css/node_modules/source-map
+       css-brunch@1.7.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/css-brunch
+       javascript-brunch@1.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/javascript-brunch
+       uglify-js-brunch@1.7.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-js-brunch
+       uglify-js@2.4.24 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-js
+       async@0.2.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/async
+       source-map@0.1.34 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-js/node_modules/source-map
+       uglify-to-browserify@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-to-browserify
+       yargs@3.5.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/yargs
+       camelcase@1.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/camelcase
+       decamelize@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/decamelize
+       window-size@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/window-size
+       wordwrap@0.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/yargs/node_modules/wordwrap
+       phoenix@1.1.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/phoenix
+       phoenix_html@2.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/phoenix_html
+       bower@1.7.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/bower
+       nan@2.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/nan
+       fsevents@1.0.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents
+       node-pre-gyp@0.6.19 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-pre-gyp
+       mkdirp@0.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/mkdirp
+       minimist@0.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/minimist
+       nopt@3.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-pre-gyp/node_modules/nopt
+       abbrev@1.0.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-pre-gyp/node_modules/nopt/node_modules/abbrev
+       npmlog@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/npmlog
+       ansi@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ansi
+       are-we-there-yet@1.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/are-we-there-yet
+       delegates@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/delegates
+       readable-stream@2.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/readable-stream
+       core-util-is@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/core-util-is
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/inherits
+       isarray@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/isarray
+       process-nextick-args@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/process-nextick-args
+       string_decoder@0.10.31 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/string_decoder
+       util-deprecate@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/util-deprecate
+       gauge@1.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/gauge
+       has-unicode@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/has-unicode
+       lodash.pad@3.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.pad
+       lodash._basetostring@3.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash._basetostring
+       lodash._createpadding@3.6.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash._createpadding
+       lodash.repeat@3.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.repeat
+       lodash.padleft@3.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.padleft
+       lodash.padright@3.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.padright
+       rc@1.1.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rc
+       deep-extend@0.4.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/deep-extend
+       ini@1.3.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ini
+       minimist@1.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rc/node_modules/minimist
+       strip-json-comments@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/strip-json-comments
+       request@2.67.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/request
+       aws-sign2@0.6.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/aws-sign2
+       bl@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/bl
+       caseless@0.11.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/caseless
+       combined-stream@1.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/combined-stream
+       delayed-stream@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/delayed-stream
+       extend@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/extend
+       forever-agent@0.6.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/forever-agent
+       form-data@1.0.0-rc3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/form-data
+       async@1.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/async
+       mime-types@2.1.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/mime-types
+       mime-db@1.21.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/mime-db
+       har-validator@2.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/har-validator
+       chalk@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/chalk
+       ansi-styles@2.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ansi-styles
+       escape-string-regexp@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/escape-string-regexp
+       has-ansi@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/has-ansi
+       ansi-regex@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ansi-regex
+       strip-ansi@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/strip-ansi
+       supports-color@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/supports-color
+       commander@2.9.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/commander
+       graceful-readlink@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/graceful-readlink
+       is-my-json-valid@2.12.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/is-my-json-valid
+       generate-function@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/generate-function
+       generate-object-property@1.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/generate-object-property
+       is-property@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/is-property
+       jsonpointer@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jsonpointer
+       xtend@4.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/xtend
+       pinkie-promise@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/pinkie-promise
+       pinkie@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/pinkie
+       hawk@3.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/hawk
+       boom@2.10.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/boom
+       hoek@2.16.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/hoek
+       cryptiles@2.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/cryptiles
+       sntp@1.0.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/sntp
+       http-signature@1.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/http-signature
+       assert-plus@0.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/assert-plus
+       jsprim@1.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jsprim
+       extsprintf@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/extsprintf
+       json-schema@0.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/json-schema
+       verror@1.3.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/verror
+       sshpk@1.7.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/sshpk
+       asn1@0.2.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/asn1
+       assert-plus@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/sshpk/node_modules/assert-plus
+       dashdash@1.11.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/dashdash
+       is-typedarray@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/is-typedarray
+       isstream@0.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/isstream
+       json-stringify-safe@5.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/json-stringify-safe
+       node-uuid@1.4.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-uuid
+       oauth-sign@0.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/oauth-sign
+       qs@5.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/qs
+       stringstream@0.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/stringstream
+       tough-cookie@2.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tough-cookie
+       tunnel-agent@0.4.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tunnel-agent
+       rimraf@2.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf
+       glob@6.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob
+       inflight@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/inflight
+       once@1.3.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/once
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/once/node_modules/wrappy
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/inflight/node_modules/wrappy
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/inherits
+       minimatch@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch
+       brace-expansion@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map
+       path-is-absolute@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/path-is-absolute
+       semver@5.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/semver
+       tar@2.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar
+       block-stream@0.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/block-stream
+       fstream@1.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream
+       graceful-fs@4.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/graceful-fs
+       tar-pack@3.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack
+       debug@0.7.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/debug
+       fstream-ignore@1.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore
+       minimatch@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch
+       brace-expansion@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map
+       once@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/once
+       rimraf@2.4.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf
+       glob@6.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob
+       inflight@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/inflight
+       once@1.3.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/once
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/once/node_modules/wrappy
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/inflight/node_modules/wrappy
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/inherits
+       minimatch@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch
+       brace-expansion@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map
+       path-is-absolute@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/path-is-absolute
+       uid-number@0.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/uid-number
+       ecc-jsbn@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ecc-jsbn
+       jsbn@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jsbn
+       jodid25519@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jodid25519
+       tweetnacl@0.13.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tweetnacl
+       npm WARN package.json @ No license field.
+       Installing and caching bower components
+bower jquery#~2.1               cached git://github.com/jquery/jquery-dist.git#2.1.4
+bower jquery#~2.1             validate 2.1.4 against git://github.com/jquery/jquery-dist.git#~2.1
+bower jquery#~2.1              install jquery#2.1.4
+
+jquery#2.1.4 bower_components/jquery
+
+
+┌──────────────────────────────────────────┐
+│ Update available: 1.7.7 (current: 1.4.1) │
+│ Run npm install -g bower to update.      │
+└──────────────────────────────────────────┘
+
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+Move
+
+
+       Loading config...
+       WARNING: phoenix_static_buildpack.config wasn't found in the app
+       Using default config from Phoenix static buildpack
+       Will use the following versions:
+       * Node 5.3.0
+       Will export the following config vars:
+       * Config vars DATABASE_URL
+apps/ex_shop
+
+-----> Installing binaries
+
+-----> Building dependencies
+       Installing and caching node modules
+/Users/pikender/elixir/heroku-buildpack-phoenix-static-piks/lib/build.sh: line 53: ph_app_path: command not found
+^C
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+/Users/pikender/elixir/x-shop-heroku
+/Users/pikender/elixir/x-shop-heroku/cache
+/Users/pikender/elixir/x-shop-heroku/env
+Move
+
+
+       Loading config...
+       WARNING: phoenix_static_buildpack.config wasn't found in the app
+       Using default config from Phoenix static buildpack
+       Will use the following versions:
+       * Node 5.3.0
+       Will export the following config vars:
+       * Config vars DATABASE_URL
+apps/ex_shop
+
+-----> Installing binaries
+
+-----> Building dependencies
+       Installing and caching node modules
+       npm WARN ex_shop No license field.
+       npm WARN prefer global coffee-script@1.10.0 should be installed with -g
+
+       > fsevents@1.0.7 install /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents
+       > node-pre-gyp install --fallback-to-build
+
+       [fsevents] Success: "/Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/lib/binding/Release/node-v47-darwin-x64/fse.node" already installed
+       Pass --update-binary to reinstall or --build-from-source to recompile
+       babel-brunch@6.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-brunch
+       anymatch@1.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/anymatch
+       arrify@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/arrify
+       micromatch@2.3.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/micromatch
+       arr-diff@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/arr-diff
+       arr-flatten@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/arr-flatten
+       array-unique@0.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/array-unique
+       braces@1.8.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/braces
+       expand-range@1.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/expand-range
+       fill-range@2.2.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fill-range
+       is-number@2.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-number
+       kind-of@3.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/kind-of
+       is-buffer@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-buffer
+       isobject@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/isobject
+       isarray@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/isarray
+       randomatic@1.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/randomatic
+       repeat-element@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/repeat-element
+       repeat-string@1.5.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/repeat-string
+       preserve@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/preserve
+       expand-brackets@0.1.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/expand-brackets
+       extglob@0.3.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/extglob
+       is-extglob@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-extglob
+       filename-regex@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/filename-regex
+       is-glob@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-glob
+       normalize-path@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/normalize-path
+       object.omit@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/object.omit
+       for-own@0.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/for-own
+       for-in@0.1.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/for-in
+       is-extendable@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-extendable
+       parse-glob@3.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/parse-glob
+       glob-base@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/glob-base
+       glob-parent@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/glob-parent
+       is-dotfile@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-dotfile
+       regex-cache@0.4.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regex-cache
+       is-equal-shallow@0.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-equal-shallow
+       is-primitive@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-primitive
+       babel-core@6.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-core
+       babel-code-frame@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-code-frame
+       babel-runtime@5.8.35 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-runtime
+       core-js@1.2.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/core-js
+       chalk@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/chalk
+       ansi-styles@2.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ansi-styles
+       escape-string-regexp@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escape-string-regexp
+       has-ansi@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/has-ansi
+       ansi-regex@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ansi-regex
+       strip-ansi@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/strip-ansi
+       supports-color@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/supports-color
+       esutils@2.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/esutils
+       js-tokens@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/js-tokens
+       line-numbers@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/line-numbers
+       left-pad@0.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/left-pad
+       repeating@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/repeating
+       is-finite@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-finite
+       number-is-nan@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/number-is-nan
+       babel-generator@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-generator
+       babel-messages@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-messages
+       babel-types@6.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-types
+       babel-traverse@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-traverse
+       babylon@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babylon
+       debug@2.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/debug
+       ms@0.7.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ms
+       globals@8.18.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/globals
+       invariant@2.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/invariant
+       loose-envify@1.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/loose-envify
+       lodash@3.10.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/lodash
+       to-fast-properties@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/to-fast-properties
+       detect-indent@3.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/detect-indent
+       get-stdin@4.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/get-stdin
+       minimist@1.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/minimist
+       is-integer@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-integer
+       source-map@0.5.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/source-map
+       trim-right@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/trim-right
+       babel-helpers@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helpers
+       babel-template@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-template
+       babel-register@6.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-register
+       home-or-tmp@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/home-or-tmp
+       os-tmpdir@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/os-tmpdir
+       user-home@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/user-home
+       mkdirp@0.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mkdirp
+       minimist@0.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mkdirp/node_modules/minimist
+       path-exists@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/path-exists
+       source-map-support@0.2.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/source-map-support
+       source-map@0.1.32 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/source-map-support/node_modules/source-map
+       amdefine@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/amdefine
+       convert-source-map@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/convert-source-map
+       json5@0.4.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/json5
+       minimatch@2.0.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/minimatch
+       brace-expansion@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/concat-map
+       path-is-absolute@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/path-is-absolute
+       private@0.1.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/private
+       shebang-regex@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/shebang-regex
+       slash@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/slash
+       babel-preset-es2015@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-preset-es2015
+       babel-plugin-check-es2015-constants@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-check-es2015-constants
+       babel-plugin-transform-es2015-arrow-functions@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-arrow-functions
+       babel-plugin-transform-es2015-block-scoped-functions@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-block-scoped-functions
+       babel-plugin-transform-es2015-block-scoping@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-block-scoping
+       babel-plugin-transform-es2015-classes@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-classes
+       babel-helper-define-map@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-define-map
+       babel-helper-function-name@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-function-name
+       babel-helper-get-function-arity@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-get-function-arity
+       babel-helper-optimise-call-expression@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-optimise-call-expression
+       babel-helper-replace-supers@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-replace-supers
+       babel-plugin-transform-es2015-computed-properties@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-computed-properties
+       babel-plugin-transform-es2015-destructuring@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-destructuring
+       babel-plugin-transform-es2015-for-of@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-for-of
+       babel-plugin-transform-es2015-function-name@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-function-name
+       babel-plugin-transform-es2015-literals@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-literals
+       babel-plugin-transform-es2015-modules-commonjs@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-modules-commonjs
+       babel-plugin-transform-strict-mode@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-strict-mode
+       babel-plugin-transform-es2015-object-super@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-object-super
+       babel-plugin-transform-es2015-parameters@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-parameters
+       babel-helper-call-delegate@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-call-delegate
+       babel-helper-hoist-variables@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-hoist-variables
+       babel-plugin-transform-es2015-shorthand-properties@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-shorthand-properties
+       babel-plugin-transform-es2015-spread@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-spread
+       babel-plugin-transform-es2015-sticky-regex@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-sticky-regex
+       babel-helper-regex@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-regex
+       babel-plugin-transform-es2015-template-literals@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-template-literals
+       babel-plugin-transform-es2015-typeof-symbol@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-typeof-symbol
+       babel-plugin-transform-es2015-unicode-regex@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-unicode-regex
+       regexpu-core@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regexpu-core
+       regenerate@1.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regenerate
+       regjsgen@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regjsgen
+       regjsparser@0.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regjsparser
+       jsesc@0.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/jsesc
+       babel-plugin-transform-regenerator@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-regenerator
+       babel-plugin-syntax-async-functions@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-syntax-async-functions
+       brunch@2.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/brunch
+       anysort@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/anysort
+       async-each@0.1.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/async-each
+       browser-resolve@1.7.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/browser-resolve
+       resolve@1.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/resolve
+       charm@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/charm
+       chokidar@1.4.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/chokidar
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/inherits
+       is-binary-path@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-binary-path
+       binary-extensions@1.4.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/binary-extensions
+       readdirp@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/readdirp
+       graceful-fs@4.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/graceful-fs
+       readable-stream@2.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/readable-stream
+       core-util-is@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/core-util-is
+       process-nextick-args@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/process-nextick-args
+       string_decoder@0.10.31 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/string_decoder
+       util-deprecate@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/util-deprecate
+       coffee-script@1.10.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/coffee-script
+       commander@2.9.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/commander
+       graceful-readlink@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/graceful-readlink
+       commonjs-require-definition@0.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/commonjs-require-definition
+       detective@4.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/detective
+       acorn@1.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/acorn
+       defined@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/defined
+       escodegen@1.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escodegen
+       esprima@2.7.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/esprima
+       estraverse@1.9.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/estraverse
+       optionator@0.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/optionator
+       deep-is@0.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/deep-is
+       fast-levenshtein@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fast-levenshtein
+       levn@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/levn
+       prelude-ls@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/prelude-ls
+       type-check@0.3.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/type-check
+       wordwrap@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/wordwrap
+       source-map@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escodegen/node_modules/source-map
+       fcache@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fcache
+       init-skeleton@0.7.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/init-skeleton
+       ncp@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ncp
+       rimraf@2.4.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/rimraf
+       glob@6.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/glob
+       inflight@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/inflight
+       once@1.3.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/once
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/wrappy
+       tmp@0.0.28 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/tmp
+       loggy@0.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/loggy
+       ansi-color@0.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ansi-color
+       date-utils@1.2.18 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/date-utils
+       growl@1.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/growl
+       pushserve@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/pushserve
+       connect-slashes@1.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/connect-slashes
+       express@4.13.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/express
+       accepts@1.2.13 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/accepts
+       mime-types@2.1.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mime-types
+       mime-db@1.21.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mime-db
+       negotiator@0.5.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/negotiator
+       array-flatten@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/array-flatten
+       content-disposition@0.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/content-disposition
+       content-type@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/content-type
+       cookie@0.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/cookie
+       cookie-signature@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/cookie-signature
+       depd@1.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/depd
+       escape-html@1.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escape-html
+       etag@1.7.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/etag
+       finalhandler@0.4.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/finalhandler
+       on-finished@2.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/on-finished
+       ee-first@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ee-first
+       unpipe@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/unpipe
+       fresh@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fresh
+       merge-descriptors@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/merge-descriptors
+       methods@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/methods
+       parseurl@1.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/parseurl
+       path-to-regexp@0.1.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/path-to-regexp
+       proxy-addr@1.0.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/proxy-addr
+       forwarded@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/forwarded
+       ipaddr.js@1.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ipaddr.js
+       qs@4.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/qs
+       range-parser@1.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/range-parser
+       send@0.13.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/send
+       destroy@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/destroy
+       http-errors@1.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/http-errors
+       statuses@1.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/statuses
+       mime@1.3.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mime
+       serve-static@1.10.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/serve-static
+       type-is@1.6.11 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/type-is
+       media-typer@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/media-typer
+       utils-merge@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/utils-merge
+       vary@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/vary
+       quickly-copy-file@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/quickly-copy-file
+       read-components@0.6.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/read-components
+       component-builder@0.10.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/component-builder
+       batch@0.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/batch
+       component-require@0.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/component-require
+       cp@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/cp
+       mkdirp@0.3.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/component-builder/node_modules/mkdirp
+       string-to-js@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/string-to-js
+       clean-css-brunch@1.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css-brunch
+       clean-css@3.4.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css
+       commander@2.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css/node_modules/commander
+       source-map@0.4.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css/node_modules/source-map
+       css-brunch@1.7.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/css-brunch
+       javascript-brunch@1.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/javascript-brunch
+       uglify-js-brunch@1.7.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-js-brunch
+       uglify-js@2.4.24 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-js
+       async@0.2.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/async
+       source-map@0.1.34 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-js/node_modules/source-map
+       uglify-to-browserify@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-to-browserify
+       yargs@3.5.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/yargs
+       camelcase@1.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/camelcase
+       decamelize@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/decamelize
+       window-size@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/window-size
+       wordwrap@0.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/yargs/node_modules/wordwrap
+       phoenix@1.1.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/phoenix
+       phoenix_html@2.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/phoenix_html
+       bower@1.7.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/bower
+       nan@2.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/nan
+       fsevents@1.0.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents
+       node-pre-gyp@0.6.19 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-pre-gyp
+       mkdirp@0.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/mkdirp
+       minimist@0.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/minimist
+       nopt@3.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-pre-gyp/node_modules/nopt
+       abbrev@1.0.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-pre-gyp/node_modules/nopt/node_modules/abbrev
+       npmlog@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/npmlog
+       ansi@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ansi
+       are-we-there-yet@1.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/are-we-there-yet
+       delegates@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/delegates
+       readable-stream@2.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/readable-stream
+       core-util-is@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/core-util-is
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/inherits
+       isarray@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/isarray
+       process-nextick-args@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/process-nextick-args
+       string_decoder@0.10.31 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/string_decoder
+       util-deprecate@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/util-deprecate
+       gauge@1.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/gauge
+       has-unicode@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/has-unicode
+       lodash.pad@3.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.pad
+       lodash._basetostring@3.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash._basetostring
+       lodash._createpadding@3.6.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash._createpadding
+       lodash.repeat@3.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.repeat
+       lodash.padleft@3.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.padleft
+       lodash.padright@3.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.padright
+       rc@1.1.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rc
+       deep-extend@0.4.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/deep-extend
+       ini@1.3.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ini
+       minimist@1.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rc/node_modules/minimist
+       strip-json-comments@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/strip-json-comments
+       request@2.67.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/request
+       aws-sign2@0.6.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/aws-sign2
+       bl@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/bl
+       caseless@0.11.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/caseless
+       combined-stream@1.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/combined-stream
+       delayed-stream@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/delayed-stream
+       extend@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/extend
+       forever-agent@0.6.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/forever-agent
+       form-data@1.0.0-rc3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/form-data
+       async@1.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/async
+       mime-types@2.1.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/mime-types
+       mime-db@1.21.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/mime-db
+       har-validator@2.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/har-validator
+       chalk@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/chalk
+       ansi-styles@2.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ansi-styles
+       escape-string-regexp@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/escape-string-regexp
+       has-ansi@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/has-ansi
+       ansi-regex@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ansi-regex
+       strip-ansi@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/strip-ansi
+       supports-color@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/supports-color
+       commander@2.9.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/commander
+       graceful-readlink@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/graceful-readlink
+       is-my-json-valid@2.12.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/is-my-json-valid
+       generate-function@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/generate-function
+       generate-object-property@1.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/generate-object-property
+       is-property@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/is-property
+       jsonpointer@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jsonpointer
+       xtend@4.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/xtend
+       pinkie-promise@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/pinkie-promise
+       pinkie@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/pinkie
+       hawk@3.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/hawk
+       boom@2.10.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/boom
+       hoek@2.16.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/hoek
+       cryptiles@2.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/cryptiles
+       sntp@1.0.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/sntp
+       http-signature@1.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/http-signature
+       assert-plus@0.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/assert-plus
+       jsprim@1.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jsprim
+       extsprintf@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/extsprintf
+       json-schema@0.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/json-schema
+       verror@1.3.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/verror
+       sshpk@1.7.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/sshpk
+       asn1@0.2.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/asn1
+       assert-plus@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/sshpk/node_modules/assert-plus
+       dashdash@1.11.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/dashdash
+       is-typedarray@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/is-typedarray
+       isstream@0.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/isstream
+       json-stringify-safe@5.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/json-stringify-safe
+       node-uuid@1.4.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-uuid
+       oauth-sign@0.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/oauth-sign
+       qs@5.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/qs
+       stringstream@0.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/stringstream
+       tough-cookie@2.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tough-cookie
+       tunnel-agent@0.4.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tunnel-agent
+       rimraf@2.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf
+       glob@6.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob
+       inflight@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/inflight
+       once@1.3.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/once
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/once/node_modules/wrappy
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/inflight/node_modules/wrappy
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/inherits
+       minimatch@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch
+       brace-expansion@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map
+       path-is-absolute@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/path-is-absolute
+       semver@5.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/semver
+       tar@2.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar
+       block-stream@0.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/block-stream
+       fstream@1.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream
+       graceful-fs@4.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/graceful-fs
+       tar-pack@3.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack
+       debug@0.7.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/debug
+       fstream-ignore@1.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore
+       minimatch@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch
+       brace-expansion@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map
+       once@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/once
+       rimraf@2.4.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf
+       glob@6.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob
+       inflight@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/inflight
+       once@1.3.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/once
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/once/node_modules/wrappy
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/inflight/node_modules/wrappy
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/inherits
+       minimatch@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch
+       brace-expansion@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map
+       path-is-absolute@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/path-is-absolute
+       uid-number@0.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/uid-number
+       ecc-jsbn@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ecc-jsbn
+       jsbn@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jsbn
+       jodid25519@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jodid25519
+       tweetnacl@0.13.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tweetnacl
+       npm WARN package.json @ No license field.
+       Installing and caching bower components
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+-bash: ./bin/compile: Permission denied
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ chmod 0777 bin/compile
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+
+-----> Loading configuration and environment
+       Loading config...
+       Will use the following versions:
+       * Node 5.3.0
+       Will export the following config vars:
+       * Config vars DATABASE_URL
+       * MIX_ENV=prod
+
+-----> Installing binaries
+       Downloading node 5.3.0...
+^C
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$ ./bin/compile /Users/pikender/elixir/x-shop-heroku /Users/pikender/elixir/x-shop-heroku/cache /Users/pikender/elixir/x-shop-heroku/env
+
+-----> Loading configuration and environment
+       Loading config...
+       Will use the following versions:
+       * Node 5.3.0
+       Will export the following config vars:
+       * Config vars DATABASE_URL
+       * MIX_ENV=prod
+
+-----> Installing binaries
+       Using default npm version
+
+-----> Building dependencies
+       Installing and caching node modules
+       In /Users/pikender/elixir/x-shop-heroku/apps/ex_shop
+       npm WARN ex_shop No license field.
+       npm WARN prefer global coffee-script@1.10.0 should be installed with -g
+
+       > fsevents@1.0.7 install /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents
+       > node-pre-gyp install --fallback-to-build
+
+       [fsevents] Success: "/Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/lib/binding/Release/node-v47-darwin-x64/fse.node" already installed
+       Pass --update-binary to reinstall or --build-from-source to recompile
+       babel-brunch@6.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-brunch
+       anymatch@1.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/anymatch
+       arrify@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/arrify
+       micromatch@2.3.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/micromatch
+       arr-diff@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/arr-diff
+       arr-flatten@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/arr-flatten
+       array-unique@0.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/array-unique
+       braces@1.8.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/braces
+       expand-range@1.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/expand-range
+       fill-range@2.2.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fill-range
+       is-number@2.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-number
+       kind-of@3.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/kind-of
+       is-buffer@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-buffer
+       isobject@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/isobject
+       isarray@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/isarray
+       randomatic@1.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/randomatic
+       repeat-element@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/repeat-element
+       repeat-string@1.5.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/repeat-string
+       preserve@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/preserve
+       expand-brackets@0.1.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/expand-brackets
+       extglob@0.3.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/extglob
+       is-extglob@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-extglob
+       filename-regex@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/filename-regex
+       is-glob@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-glob
+       normalize-path@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/normalize-path
+       object.omit@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/object.omit
+       for-own@0.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/for-own
+       for-in@0.1.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/for-in
+       is-extendable@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-extendable
+       parse-glob@3.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/parse-glob
+       glob-base@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/glob-base
+       glob-parent@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/glob-parent
+       is-dotfile@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-dotfile
+       regex-cache@0.4.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regex-cache
+       is-equal-shallow@0.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-equal-shallow
+       is-primitive@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-primitive
+       babel-core@6.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-core
+       babel-code-frame@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-code-frame
+       babel-runtime@5.8.35 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-runtime
+       core-js@1.2.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/core-js
+       chalk@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/chalk
+       ansi-styles@2.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ansi-styles
+       escape-string-regexp@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escape-string-regexp
+       has-ansi@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/has-ansi
+       ansi-regex@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ansi-regex
+       strip-ansi@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/strip-ansi
+       supports-color@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/supports-color
+       esutils@2.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/esutils
+       js-tokens@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/js-tokens
+       line-numbers@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/line-numbers
+       left-pad@0.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/left-pad
+       repeating@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/repeating
+       is-finite@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-finite
+       number-is-nan@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/number-is-nan
+       babel-generator@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-generator
+       babel-messages@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-messages
+       babel-types@6.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-types
+       babel-traverse@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-traverse
+       babylon@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babylon
+       debug@2.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/debug
+       ms@0.7.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ms
+       globals@8.18.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/globals
+       invariant@2.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/invariant
+       loose-envify@1.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/loose-envify
+       lodash@3.10.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/lodash
+       to-fast-properties@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/to-fast-properties
+       detect-indent@3.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/detect-indent
+       get-stdin@4.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/get-stdin
+       minimist@1.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/minimist
+       is-integer@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-integer
+       source-map@0.5.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/source-map
+       trim-right@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/trim-right
+       babel-helpers@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helpers
+       babel-template@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-template
+       babel-register@6.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-register
+       home-or-tmp@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/home-or-tmp
+       os-tmpdir@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/os-tmpdir
+       user-home@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/user-home
+       mkdirp@0.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mkdirp
+       minimist@0.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mkdirp/node_modules/minimist
+       path-exists@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/path-exists
+       source-map-support@0.2.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/source-map-support
+       source-map@0.1.32 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/source-map-support/node_modules/source-map
+       amdefine@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/amdefine
+       convert-source-map@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/convert-source-map
+       json5@0.4.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/json5
+       minimatch@2.0.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/minimatch
+       brace-expansion@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/concat-map
+       path-is-absolute@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/path-is-absolute
+       private@0.1.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/private
+       shebang-regex@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/shebang-regex
+       slash@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/slash
+       babel-preset-es2015@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-preset-es2015
+       babel-plugin-check-es2015-constants@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-check-es2015-constants
+       babel-plugin-transform-es2015-arrow-functions@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-arrow-functions
+       babel-plugin-transform-es2015-block-scoped-functions@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-block-scoped-functions
+       babel-plugin-transform-es2015-block-scoping@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-block-scoping
+       babel-plugin-transform-es2015-classes@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-classes
+       babel-helper-define-map@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-define-map
+       babel-helper-function-name@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-function-name
+       babel-helper-get-function-arity@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-get-function-arity
+       babel-helper-optimise-call-expression@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-optimise-call-expression
+       babel-helper-replace-supers@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-replace-supers
+       babel-plugin-transform-es2015-computed-properties@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-computed-properties
+       babel-plugin-transform-es2015-destructuring@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-destructuring
+       babel-plugin-transform-es2015-for-of@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-for-of
+       babel-plugin-transform-es2015-function-name@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-function-name
+       babel-plugin-transform-es2015-literals@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-literals
+       babel-plugin-transform-es2015-modules-commonjs@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-modules-commonjs
+       babel-plugin-transform-strict-mode@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-strict-mode
+       babel-plugin-transform-es2015-object-super@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-object-super
+       babel-plugin-transform-es2015-parameters@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-parameters
+       babel-helper-call-delegate@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-call-delegate
+       babel-helper-hoist-variables@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-hoist-variables
+       babel-plugin-transform-es2015-shorthand-properties@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-shorthand-properties
+       babel-plugin-transform-es2015-spread@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-spread
+       babel-plugin-transform-es2015-sticky-regex@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-sticky-regex
+       babel-helper-regex@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-helper-regex
+       babel-plugin-transform-es2015-template-literals@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-template-literals
+       babel-plugin-transform-es2015-typeof-symbol@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-typeof-symbol
+       babel-plugin-transform-es2015-unicode-regex@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-es2015-unicode-regex
+       regexpu-core@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regexpu-core
+       regenerate@1.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regenerate
+       regjsgen@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regjsgen
+       regjsparser@0.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/regjsparser
+       jsesc@0.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/jsesc
+       babel-plugin-transform-regenerator@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-transform-regenerator
+       babel-plugin-syntax-async-functions@6.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/babel-plugin-syntax-async-functions
+       brunch@2.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/brunch
+       anysort@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/anysort
+       async-each@0.1.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/async-each
+       browser-resolve@1.7.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/browser-resolve
+       resolve@1.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/resolve
+       charm@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/charm
+       chokidar@1.4.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/chokidar
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/inherits
+       is-binary-path@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/is-binary-path
+       binary-extensions@1.4.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/binary-extensions
+       readdirp@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/readdirp
+       graceful-fs@4.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/graceful-fs
+       readable-stream@2.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/readable-stream
+       core-util-is@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/core-util-is
+       process-nextick-args@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/process-nextick-args
+       string_decoder@0.10.31 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/string_decoder
+       util-deprecate@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/util-deprecate
+       coffee-script@1.10.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/coffee-script
+       commander@2.9.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/commander
+       graceful-readlink@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/graceful-readlink
+       commonjs-require-definition@0.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/commonjs-require-definition
+       detective@4.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/detective
+       acorn@1.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/acorn
+       defined@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/defined
+       escodegen@1.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escodegen
+       esprima@2.7.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/esprima
+       estraverse@1.9.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/estraverse
+       optionator@0.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/optionator
+       deep-is@0.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/deep-is
+       fast-levenshtein@1.1.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fast-levenshtein
+       levn@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/levn
+       prelude-ls@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/prelude-ls
+       type-check@0.3.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/type-check
+       wordwrap@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/wordwrap
+       source-map@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escodegen/node_modules/source-map
+       fcache@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fcache
+       init-skeleton@0.7.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/init-skeleton
+       ncp@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ncp
+       rimraf@2.4.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/rimraf
+       glob@6.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/glob
+       inflight@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/inflight
+       once@1.3.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/once
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/wrappy
+       tmp@0.0.28 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/tmp
+       loggy@0.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/loggy
+       ansi-color@0.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ansi-color
+       date-utils@1.2.18 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/date-utils
+       growl@1.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/growl
+       pushserve@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/pushserve
+       connect-slashes@1.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/connect-slashes
+       express@4.13.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/express
+       accepts@1.2.13 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/accepts
+       mime-types@2.1.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mime-types
+       mime-db@1.21.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mime-db
+       negotiator@0.5.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/negotiator
+       array-flatten@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/array-flatten
+       content-disposition@0.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/content-disposition
+       content-type@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/content-type
+       cookie@0.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/cookie
+       cookie-signature@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/cookie-signature
+       depd@1.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/depd
+       escape-html@1.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/escape-html
+       etag@1.7.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/etag
+       finalhandler@0.4.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/finalhandler
+       on-finished@2.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/on-finished
+       ee-first@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ee-first
+       unpipe@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/unpipe
+       fresh@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fresh
+       merge-descriptors@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/merge-descriptors
+       methods@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/methods
+       parseurl@1.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/parseurl
+       path-to-regexp@0.1.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/path-to-regexp
+       proxy-addr@1.0.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/proxy-addr
+       forwarded@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/forwarded
+       ipaddr.js@1.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/ipaddr.js
+       qs@4.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/qs
+       range-parser@1.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/range-parser
+       send@0.13.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/send
+       destroy@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/destroy
+       http-errors@1.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/http-errors
+       statuses@1.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/statuses
+       mime@1.3.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/mime
+       serve-static@1.10.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/serve-static
+       type-is@1.6.11 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/type-is
+       media-typer@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/media-typer
+       utils-merge@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/utils-merge
+       vary@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/vary
+       quickly-copy-file@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/quickly-copy-file
+       read-components@0.6.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/read-components
+       component-builder@0.10.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/component-builder
+       batch@0.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/batch
+       component-require@0.3.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/component-require
+       cp@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/cp
+       mkdirp@0.3.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/component-builder/node_modules/mkdirp
+       string-to-js@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/string-to-js
+       clean-css-brunch@1.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css-brunch
+       clean-css@3.4.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css
+       commander@2.8.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css/node_modules/commander
+       source-map@0.4.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/clean-css/node_modules/source-map
+       css-brunch@1.7.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/css-brunch
+       javascript-brunch@1.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/javascript-brunch
+       uglify-js-brunch@1.7.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-js-brunch
+       uglify-js@2.4.24 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-js
+       async@0.2.10 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/async
+       source-map@0.1.34 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-js/node_modules/source-map
+       uglify-to-browserify@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/uglify-to-browserify
+       yargs@3.5.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/yargs
+       camelcase@1.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/camelcase
+       decamelize@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/decamelize
+       window-size@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/window-size
+       wordwrap@0.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/yargs/node_modules/wordwrap
+       phoenix@1.1.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/phoenix
+       phoenix_html@2.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/phoenix_html
+       bower@1.7.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/bower
+       nan@2.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/nan
+       fsevents@1.0.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents
+       node-pre-gyp@0.6.19 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-pre-gyp
+       mkdirp@0.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/mkdirp
+       minimist@0.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/minimist
+       nopt@3.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-pre-gyp/node_modules/nopt
+       abbrev@1.0.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-pre-gyp/node_modules/nopt/node_modules/abbrev
+       npmlog@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/npmlog
+       ansi@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ansi
+       are-we-there-yet@1.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/are-we-there-yet
+       delegates@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/delegates
+       readable-stream@2.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/readable-stream
+       core-util-is@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/core-util-is
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/inherits
+       isarray@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/isarray
+       process-nextick-args@1.0.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/process-nextick-args
+       string_decoder@0.10.31 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/string_decoder
+       util-deprecate@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/util-deprecate
+       gauge@1.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/gauge
+       has-unicode@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/has-unicode
+       lodash.pad@3.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.pad
+       lodash._basetostring@3.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash._basetostring
+       lodash._createpadding@3.6.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash._createpadding
+       lodash.repeat@3.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.repeat
+       lodash.padleft@3.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.padleft
+       lodash.padright@3.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/lodash.padright
+       rc@1.1.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rc
+       deep-extend@0.4.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/deep-extend
+       ini@1.3.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ini
+       minimist@1.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rc/node_modules/minimist
+       strip-json-comments@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/strip-json-comments
+       request@2.67.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/request
+       aws-sign2@0.6.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/aws-sign2
+       bl@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/bl
+       caseless@0.11.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/caseless
+       combined-stream@1.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/combined-stream
+       delayed-stream@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/delayed-stream
+       extend@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/extend
+       forever-agent@0.6.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/forever-agent
+       form-data@1.0.0-rc3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/form-data
+       async@1.5.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/async
+       mime-types@2.1.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/mime-types
+       mime-db@1.21.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/mime-db
+       har-validator@2.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/har-validator
+       chalk@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/chalk
+       ansi-styles@2.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ansi-styles
+       escape-string-regexp@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/escape-string-regexp
+       has-ansi@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/has-ansi
+       ansi-regex@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ansi-regex
+       strip-ansi@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/strip-ansi
+       supports-color@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/supports-color
+       commander@2.9.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/commander
+       graceful-readlink@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/graceful-readlink
+       is-my-json-valid@2.12.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/is-my-json-valid
+       generate-function@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/generate-function
+       generate-object-property@1.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/generate-object-property
+       is-property@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/is-property
+       jsonpointer@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jsonpointer
+       xtend@4.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/xtend
+       pinkie-promise@2.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/pinkie-promise
+       pinkie@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/pinkie
+       hawk@3.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/hawk
+       boom@2.10.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/boom
+       hoek@2.16.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/hoek
+       cryptiles@2.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/cryptiles
+       sntp@1.0.9 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/sntp
+       http-signature@1.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/http-signature
+       assert-plus@0.1.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/assert-plus
+       jsprim@1.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jsprim
+       extsprintf@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/extsprintf
+       json-schema@0.2.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/json-schema
+       verror@1.3.6 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/verror
+       sshpk@1.7.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/sshpk
+       asn1@0.2.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/asn1
+       assert-plus@0.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/sshpk/node_modules/assert-plus
+       dashdash@1.11.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/dashdash
+       is-typedarray@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/is-typedarray
+       isstream@0.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/isstream
+       json-stringify-safe@5.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/json-stringify-safe
+       node-uuid@1.4.7 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/node-uuid
+       oauth-sign@0.8.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/oauth-sign
+       qs@5.2.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/qs
+       stringstream@0.0.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/stringstream
+       tough-cookie@2.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tough-cookie
+       tunnel-agent@0.4.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tunnel-agent
+       rimraf@2.5.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf
+       glob@6.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob
+       inflight@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/inflight
+       once@1.3.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/once
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/once/node_modules/wrappy
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/inflight/node_modules/wrappy
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/inherits
+       minimatch@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch
+       brace-expansion@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map
+       path-is-absolute@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/rimraf/node_modules/glob/node_modules/path-is-absolute
+       semver@5.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/semver
+       tar@2.2.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar
+       block-stream@0.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/block-stream
+       fstream@1.0.8 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream
+       graceful-fs@4.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/graceful-fs
+       tar-pack@3.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack
+       debug@0.7.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/debug
+       fstream-ignore@1.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore
+       minimatch@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch
+       brace-expansion@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/fstream-ignore/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map
+       once@1.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/once
+       rimraf@2.4.5 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf
+       glob@6.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob
+       inflight@1.0.4 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/inflight
+       once@1.3.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/once
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/once/node_modules/wrappy
+       wrappy@1.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/inflight/node_modules/wrappy
+       inherits@2.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/inherits
+       minimatch@3.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch
+       brace-expansion@1.1.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion
+       balanced-match@0.3.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/balanced-match
+       concat-map@0.0.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/minimatch/node_modules/brace-expansion/node_modules/concat-map
+       path-is-absolute@1.0.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tar-pack/node_modules/rimraf/node_modules/glob/node_modules/path-is-absolute
+       uid-number@0.0.3 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/uid-number
+       ecc-jsbn@0.1.1 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/ecc-jsbn
+       jsbn@0.1.0 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jsbn
+       jodid25519@1.0.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/jodid25519
+       tweetnacl@0.13.2 /Users/pikender/elixir/x-shop-heroku/apps/ex_shop/node_modules/fsevents/node_modules/tweetnacl
+       npm WARN package.json @ No license field.
+       Installing and caching bower components
+       In /Users/pikender/elixir/x-shop-heroku/apps/ex_shop
+       Running custom compile
+       [BABEL] Note: The code generator has deoptimised the styling of "bower_components/jquery/dist/jquery.js" as it exceeds the max of "100KB".
+       12 Feb 17:29:48 -compiling...
+12 Feb 17:29:49 - info: compiled 9 files into 2 files, copied 3 in 6.6 sec
+       Check your digested files at "priv/static"
+
+-----> Finalizing build
+       Creating runtime environment
+       export path export PATH="$HOME/.heroku/node/bin:$HOME/bin:$HOME/node_modules/.bin:$PATH"
+                     export MIX_ENV=prod
+pikender@Pikenders-MacBook-Pro:~/elixir/heroku-buildpack-phoenix-static-piks$
