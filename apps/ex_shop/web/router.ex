@@ -37,7 +37,7 @@ defmodule ExShop.Router do
 
     get "/cart", OrderController, :cart
 
-    resources "orders", OrderController, only: [:index] do
+    resources "orders", OrderController, only: [:index, :show] do
       resources "line_items", LineItemController, only: [:create, :delete]
       get "/checkout", CheckoutController, :checkout
       put "/checkout/next", CheckoutController, :next
