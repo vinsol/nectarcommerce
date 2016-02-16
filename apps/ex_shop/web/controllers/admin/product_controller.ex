@@ -1,7 +1,9 @@
 defmodule ExShop.Admin.ProductController do
-  use ExShop.Web, :controller
+  use ExShop.Web, :admin_controller
 
   alias ExShop.Product
+  alias ExShop.OptionType
+  alias ExShop.ProductOptionType
 
   plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Admin.HomeController, key: :admin
 
@@ -13,12 +15,14 @@ defmodule ExShop.Admin.ProductController do
   end
 
   def new(conn, _params) do
-    changeset = Product.changeset(%Product{})
-    render(conn, "new.html", changeset: changeset)
+    changeset = Product.changeset(%Product{product_option_types: [%ProductOptionType{}]})
+    get_option_types = Repo.all(OptionType) |> Enum.map(fn(x) -> {x.name, x.id} end)
+    render(conn, "new.html", changeset: changeset, get_option_types: get_option_types)
   end
 
   def create(conn, %{"product" => product_params}) do
     changeset = Product.create_changeset(%Product{}, product_params)
+    get_option_types = Repo.all(OptionType) |> Enum.map(fn(x) -> {x.name, x.id} end)
 
     case Repo.insert(changeset) do
       {:ok, _product} ->
@@ -26,7 +30,7 @@ defmodule ExShop.Admin.ProductController do
         |> put_flash(:info, "Product created successfully.")
         |> redirect(to: admin_product_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, get_option_types: get_option_types)
     end
   end
 
@@ -36,13 +40,15 @@ defmodule ExShop.Admin.ProductController do
   end
 
   def edit(conn, %{"id" => id}) do
-    product = Repo.get!(Product, id) |> Repo.preload(:master)
+    product = Repo.get!(Product, id) |> Repo.preload([:master, :product_option_types])
+    #changeset = Product.create_changeset(product, %{"product_option_types" => [%{"product_id" => product.id, "option_type_id" => ""}]})
+    get_option_types = Repo.all(OptionType) |> Enum.map(fn(x) -> {x.name, x.id} end)
     changeset = Product.changeset(product)
-    render(conn, "edit.html", product: product, changeset: changeset)
+    render(conn, "edit.html", product: product, changeset: changeset, get_option_types: get_option_types)
   end
 
   def update(conn, %{"id" => id, "product" => product_params}) do
-    product = Repo.get!(Product, id) |> Repo.preload(:master)
+    product = Repo.get!(Product, id) |> Repo.preload([:master, :product_option_types])
     changeset = Product.create_changeset(product, product_params)
 
     case Repo.update(changeset) do

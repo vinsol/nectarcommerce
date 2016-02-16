@@ -12,6 +12,8 @@ defmodule ExShop.Product do
     has_one :master, ExShop.Variant, on_delete: :nilify_all # As this and below association same, how to handle on_delete
     has_many :variants, ExShop.Variant, on_delete: :nilify_all
 
+    has_many :product_option_types, ExShop.ProductOptionType
+
     timestamps
   end
 
@@ -34,6 +36,7 @@ defmodule ExShop.Product do
     |> cast(params, @required_fields, @optional_fields)
     |> ExShop.Slug.generate_slug()
     |> cast_assoc(:master, required: true, with: &master_changeset/2)
+    |> cast_assoc(:product_option_types, required: true, with: &option_type_changeset/2)
     |> unique_constraint(:slug)
   end
 
@@ -41,5 +44,9 @@ defmodule ExShop.Product do
     cast(model, params, ~w(cost_price), @optional_fields)
     |> put_change(:is_master, true)
     |> cast_attachments(params, ~w(), ~w(image))
+  end
+
+  def option_type_changeset(model, params \\ :empty) do
+    cast(model, params, ~w(option_type_id), @optional_fields)
   end
 end

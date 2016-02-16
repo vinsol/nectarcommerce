@@ -54,6 +54,14 @@
     </div>
   <% end %>
 
+  <%= inputs_for f, :product_option_types, fn po -> %>
+    <div class="form-group">
+      <%= label po, :option_type_id, class: "control-label" %>
+      <%= select po, :option_type_id, @get_option_types, class: "form-control", multiple: true %>
+      <%= error_tag po, :option_type_id %>
+    </div>
+  <% end %>
+
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
