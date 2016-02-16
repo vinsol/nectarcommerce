@@ -1,5 +1,5 @@
 defmodule ExShop.LineItem do
-	use ExShop.Web, :model
+  use ExShop.Web, :model
   alias ExShop.Order
   alias ExShop.NotProduct, as: Product
   alias ExShop.Repo

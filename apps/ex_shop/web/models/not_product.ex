@@ -1,5 +1,5 @@
 defmodule ExShop.NotProduct do
-	use ExShop.Web, :model
+  use ExShop.Web, :model
 
   schema "not_products" do
     field :name, :string
