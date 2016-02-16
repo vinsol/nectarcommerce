@@ -1,5 +1,5 @@
 defmodule ExShop.Shipping do
-	use ExShop.Web, :model
+  use ExShop.Web, :model
 
   schema "shippings" do
     belongs_to :order, ExShop.Order

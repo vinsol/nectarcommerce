@@ -1,3 +1,3 @@
 defmodule ExShop.Admin.OrderView do
-	use ExShop.Web, :view
+  use ExShop.Web, :view
 end
