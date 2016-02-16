@@ -1,1 +1,11 @@
-<h4>select payment from the list</h4>
+<%= form_for @changeset, @action, fn f -> %>
+  <h4>Select your payment method</h4>
+  <%= inputs_for f, :payments, fn payment -> %>
+  <div class="form-group">
+    <span class="form-label"><%= payment.data.payment_method.name %></span>
+    <%= checkbox payment, :selected, class: "form-control" %>
+    <%= error_tag payment, :selected %>
+  </div>
+<% end %>
+<%= submit "Next", class: "btn btn-primary" %>
+<% end %>

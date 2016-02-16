@@ -12,7 +12,7 @@ defmodule ExShop.Adjustment do
   end
 
   @required_fields ~w(amount)
-  @optional_fields ~w()
+  @optional_fields ~w(shipping_id tax_id order_id)
 
   def changeset(model, params \\ :empty) do
     model

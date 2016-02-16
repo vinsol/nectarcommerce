@@ -1,1 +1,20 @@
-<h4>Confirm the order</h4>
+<%= form_for @changeset, @action, fn f -> %>
+  <h4>order summary</h4>
+  <div>order_total: <%= @changeset.model.total %></div>
+  <div>line_items:
+    <%= for line_item <- @changeset.model.line_items do %>
+      <%= line_item.product.name %>
+      <%= line_item.product.cost %>
+      <%= line_item.quantity %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :confirm, "Confirm your order", class: "control-label" %>
+    <%= checkbox f, :confirm, class: "form-control" %>
+    <%= error_tag f, :confirm %>
+  </div>
+
+
+<%= submit "Next", class: "btn btn-primary" %>
+<% end %>

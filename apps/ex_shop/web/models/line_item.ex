@@ -8,6 +8,7 @@ defmodule ExShop.LineItem do
     belongs_to :product, ExShop.NotProduct
     belongs_to :order, ExShop.Order
     field :quantity, :integer
+    field :total, :decimal
 
     timestamps
   end
@@ -33,6 +34,14 @@ defmodule ExShop.LineItem do
     |> validate_number(:quantity, greater_than: 0)
     |> preload_assoc
     |> validate_product_availability
+    |> update_total_changeset(params)
+  end
+
+  defp update_total_changeset(model, params \\ :empty) do
+    quantity = get_field(model, :quantity)
+    product  = get_field(model, :product)
+    cost = Decimal.mult(Decimal.new(quantity), product.cost )
+    cast(model, Dict.merge(params, %{total: cost}), ~w(total), ~w())
   end
 
   def in_order(query, %Order{id: order_id}) do
