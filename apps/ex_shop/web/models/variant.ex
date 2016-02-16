@@ -5,11 +5,11 @@ defmodule ExShop.Variant do
   schema "variants" do
     field :is_master, :boolean, default: false
     field :sku, :string
-    field :weight, :integer
-    field :height, :integer
-    field :width, :integer
-    field :depth, :integer
-    field :discontinue_on, Ecto.DateTime
+    field :weight, :decimal
+    field :height, :decimal
+    field :width, :decimal
+    field :depth, :decimal
+    field :discontinue_on, Ecto.Date
     field :cost_price, :decimal
     field :cost_currency, :string
     field :image, ExShop.VariantImage.Type

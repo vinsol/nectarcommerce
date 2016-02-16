@@ -25,7 +25,7 @@
 
   <div class="form-group">
     <%= label f, :available_on, class: "control-label" %>
-    <%= datetime_select f, :available_on, class: "form-control" %>
+    <%= date_select f, :available_on, class: "form-control" %>
     <%= error_tag f, :available_on %>
   </div>
 
@@ -49,7 +49,7 @@
   <%= if @changeset.model.id do %>
     <div class="form-group">
       <%= label f, :discontinue_on, class: "control-label" %>
-      <%= datetime_select f, :discontinue_on, class: "form-control" %>
+      <%= date_select f, :discontinue_on, class: "form-control" %>
       <%= error_tag f, :discontinue_on %>
     </div>
   <% end %>

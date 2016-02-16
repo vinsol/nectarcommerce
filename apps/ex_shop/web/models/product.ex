@@ -5,8 +5,8 @@ defmodule ExShop.Product do
   schema "products" do
     field :name, :string
     field :description, :string
-    field :available_on, Ecto.DateTime
-    field :discontinue_on, Ecto.DateTime
+    field :available_on, Ecto.Date
+    field :discontinue_on, Ecto.Date
     field :slug, :string
 
     has_one :master, ExShop.Variant, on_delete: :nilify_all # As this and below association same, how to handle on_delete

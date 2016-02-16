@@ -1,38 +1,21 @@
 <h2>Show product</h2>
 
-<ul>
-
-  <li>
-    <strong>Name:</strong>
-    <%= @product.name %>
-  </li>
-
-  <li>
-    <strong>Description:</strong>
-    <%= @product.description %>
-  </li>
-
-  <li>
-    <strong>Available on:</strong>
-    <%= @product.available_on %>
-  </li>
-
-  <li>
-    <strong>Discontinue on:</strong>
-    <%= @product.discontinue_on %>
-  </li>
-
-  <li>
-    <strong>Cost Price:</strong>
-    <%= @product.master.cost_price %>
-  </li>
-
-  <li>
-    <strong>Image:</strong>
-    <%= tag(:image, src: static_path(@conn, "/#{ExShop.VariantImage.url({@product.master.image, @product.master}, :thumb)}")) %>
-  </li>
-
-</ul>
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-body"><%= @product.name %></div>
+    <div class="panel-body">
+      <%= tag(:image, src: static_path(@conn, "/#{ExShop.VariantImage.url({@product.master.image, @product.master}, :thumb)}")) %>
+    </div>
+    <div class="panel-footer">
+      <%= @product.description %>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body pull-left">$ <%= @product.master.cost_price %></div>
+    <div class="panel-body pull-left"><%= @product.available_on %></div>
+    <div class="panel-body"<%= @product.discontinue_on %>></div>
+  </div>
+</div>
 
 <%= link "Edit", to: admin_product_path(@conn, :edit, @product) %>
 <%= link "Back", to: admin_product_path(@conn, :index) %>
