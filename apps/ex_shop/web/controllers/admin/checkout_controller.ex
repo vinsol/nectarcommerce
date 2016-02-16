@@ -12,7 +12,11 @@ defmodule ExShop.Admin.CheckoutController do
 
   def next(conn, %{"order" => order_params}) do
     order = Repo.get!(Order, conn.params["order_id"])
-    updated_changeset = CheckoutManager.next(order, order_params)
-    render(conn, "checkout.html", order: order, changeset: updated_changeset)
+    case CheckoutManager.next(order, order_params) do
+      {:error, updated_changeset} ->
+        render(conn, "checkout.html", order: order, changeset: updated_changeset)
+      {:ok, updated_order} ->
+        render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(updated_order))
+    end
   end
 end

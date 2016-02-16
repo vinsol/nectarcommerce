@@ -6,7 +6,7 @@ defmodule ExShop.Repo.Migrations.CreateLineItem do
       add :product_id, :integer
       add :order_id, :integer
       add :quantity, :integer
-
+      add :total, :decimal
       timestamps
     end
 

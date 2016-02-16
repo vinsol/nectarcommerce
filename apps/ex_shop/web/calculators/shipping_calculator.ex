@@ -16,17 +16,18 @@ defmodule ExShop.ShippingCalculator do
       order
       |> Ecto.build_assoc(:shippings)
       |> ExShop.Shipping.changeset(%{"shipping_method_id" => shipping_method.id})
-      |> Repo.insert
+      |> Repo.insert!
     end)
     %ExShop.Order{order|shippings: shippings}
   end
 
-  defp create_shipping_adjustment(order) do
-    shippings = Enum.map(order.shippings, fn (shipping) ->
+  defp create_shipping_adjustment(%Order{adjustments: adjustments} = order) do
+    shipping_adjustments = Enum.map(order.shippings, fn (shipping) ->
       order
-      |> Ecto.build_assoc(:adjustment)
+      |> Ecto.build_assoc(:adjustments)
       |> ExShop.Adjustment.changeset(%{amount: 10.00, shipping_id: shipping.id})
-      |> Repo.insert
+      |> Repo.insert!
     end)
+    %ExShop.Order{order|adjustments: [adjustments|shipping_adjustments]}
   end
 end
