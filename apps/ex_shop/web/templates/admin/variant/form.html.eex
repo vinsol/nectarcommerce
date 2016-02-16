@@ -1,0 +1,59 @@
+<%= form_for @changeset, @action, [multipart: true], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :sku, class: "control-label" %>
+    <%= text_input f, :sku, class: "form-control" %>
+    <%= error_tag f, :sku %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :weight, class: "control-label" %>
+    <%= number_input f, :weight, step: "any", class: "form-control" %>
+    <%= error_tag f, :weight %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :height, class: "control-label" %>
+    <%= number_input f, :height, step: "any", class: "form-control" %>
+    <%= error_tag f, :height %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :width, class: "control-label" %>
+    <%= number_input f, :width, step: "any", class: "form-control" %>
+    <%= error_tag f, :width %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :height, class: "control-label" %>
+    <%= number_input f, :height, step: "any", class: "form-control" %>
+    <%= error_tag f, :height %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :discontinue_on, class: "control-label" %>
+    <%= date_select f, :discontinue_on, class: "form-control" %>
+    <%= error_tag f, :discontinue_on %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :cost_price, class: "control-label" %>
+    <%= number_input f, :cost_price, step: "any", class: "form-control" %>
+    <%= error_tag f, :cost_price %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :image, class: "control-label" %>
+    <%= file_input f, :image, class: "form-control" %>
+    <%= error_tag f, :image %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
