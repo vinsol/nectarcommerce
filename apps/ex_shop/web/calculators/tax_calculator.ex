@@ -15,7 +15,7 @@ defmodule ExShop.TaxCalculator do
       order
       |> Ecto.build_assoc(:adjustments)
       |> ExShop.Adjustment.changeset(%{amount: 20.00, tax_id: tax.id})
-      |> ExShop.insert
+      |> Repo.insert!
     end)
     %Order{order | adjustments: [adjustments | tax_adjustments]}
   end

@@ -10,8 +10,13 @@ defmodule ExShop.CheckoutManager do
   @states ~w(cart address shipping tax payment confirmation)
 
   def next_changeset(%Order{state: "cart"} = order), do: Order.transition_changeset(order, "address")
-
-
+  def next_changeset(%Order{state: "address"} = order), do: Order.transition_changeset(order, "shipping")
+  def next_changeset(%Order{state: "shipping"} = order), do: Order.transition_changeset(order, "tax")
+  def next_changeset(%Order{state: "tax"} = order), do: Order.transition_changeset(order, "payment")
+  def next_changeset(%Order{state: "payment"} = order), do: Order.transition_changeset(order, "confirmation")
+  def next_changeset(%Order{} = order) do
+    order
+  end
 
   # transitions
   # TODO: metaprogram to autogenerate
@@ -25,8 +30,7 @@ defmodule ExShop.CheckoutManager do
 
   def next(%Order{state: "payment"} = order, params), do: to_state(order, "confirmation", params)
 
-  def next(%Order{} = _order, _params) do
-  end
+  def next(%Order{state: "confirmation"} = order, params), do: to_state(order, "confirmation", params)
 
   # TODO: move transitions to seperate modules ?
   def before_transition(order, next_state, data)
@@ -41,23 +45,24 @@ defmodule ExShop.CheckoutManager do
     |> Order.confirm_availability
   end
 
-  def before_transition(%Order{} = order, "tax", _params) do
-    order
-    |> TaxCalculator.calculate_taxes
-  end
 
   # default match do nothing just return order
   def before_transition(%Order{} = order, _to, _data), do: order
 
 
-  def after_transition(%Order{state: "shipping"} = order, _data) do
+  def after_transition(%Order{state: "address"} = order, _data) do
     order
     |> ShippingCalculator.calculate_shippings
   end
 
+  def after_transition(%Order{state: "shipping"} = order, _params) do
+    order
+    |> TaxCalculator.calculate_taxes
+  end
+
   def after_transition(%Order{state: "tax"} = order, _data) do
     order
-    |> Order.settle_adjustments
+    |> Order.settle_adjustments_and_product_payments
     |> Invoice.generate
   end
 
@@ -70,12 +75,9 @@ defmodule ExShop.CheckoutManager do
       |> before_transition(next_state, params)
       |> Order.transition_changeset(next_state, params)
       |> ExShop.Repo.update
-
-    # see if succesfully transitioned.
-    # if not send back with the changeset
     case status do
-      :ok -> after_transition(model, params)
-      :error -> model
+      :ok -> {:ok, after_transition(model, params)}
+      :error -> {:error, model}
     end
   end
 
