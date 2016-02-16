@@ -1,5 +1,5 @@
 defmodule ExShop.Address do
-	use ExShop.Web, :model
+  use ExShop.Web, :model
 
   schema "addresses" do
     field :address_line_1, :string

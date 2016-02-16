@@ -71,6 +71,11 @@ defmodule ExShop.Order do
     |> ExShop.Repo.preload([payments: :payment_method])
   end
 
+  def with_preloaded_assoc(model, "confirmation") do
+    ExShop.Repo.get!(Order, model.id)
+    |> ExShop.Repo.preload([line_items: :product])
+  end
+
   def with_preloaded_assoc(model, _) do
     model
   end
@@ -186,6 +191,5 @@ defmodule ExShop.Order do
       add_error(model, :tax_confirm, "Please confirm to proceed")
     end
   end
-
 
 end

@@ -8,6 +8,22 @@ defmodule ExShop.Admin.OrderController do
 
   import Ecto.Query
 
+  def index(conn, _params) do
+    orders =
+      Repo.all(from o in Order, order_by: o.id)
+    render(conn, "index.html", orders: orders)
+  end
+
+  def show(conn, %{"id" => id}) do
+    order =
+      Repo.get(Order, id)
+      |> Repo.preload([line_items: :product])
+      |> Repo.preload([shippings: [:shipping_method, :adjustment]])
+      |> Repo.preload([adjustments: [:tax, :shipping]])
+      |> Repo.preload([payments: [:payment_method]])
+    render(conn, "show.html", order: order)
+  end
+
   def cart(conn, _params) do
     # create a blank cart, maybe add it to conn and plug it later on
     order = Order.cart_changeset(%Order{}, %{}) |> Repo.insert!
