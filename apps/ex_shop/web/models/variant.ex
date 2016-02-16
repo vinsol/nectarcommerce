@@ -19,8 +19,8 @@ defmodule ExShop.Variant do
     timestamps
   end
 
-  @required_fields ~w(is_master sku weight height width depth discontinue_on cost_price cost_currency)
-  @optional_fields ~w(image)
+  @required_fields ~w(is_master discontinue_on cost_price)
+  @optional_fields ~w(sku weight height width depth cost_currency)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -31,5 +31,11 @@ defmodule ExShop.Variant do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def variant_changeset(model, params \\ :empty) do
+    changeset(model, params)
+    |> put_change(:is_master, false)
+    |> cast_attachments(params, ~w(), ~w(image))
   end
 end

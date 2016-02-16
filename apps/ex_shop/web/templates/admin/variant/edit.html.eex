@@ -1,0 +1,6 @@
+<h2>Edit variant</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: admin_product_variant_path(@conn, :update, @product, @variant) %>
+
+<%= link "Back", to: admin_product_variant_path(@conn, :index, @product) %>
