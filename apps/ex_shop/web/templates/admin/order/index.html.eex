@@ -1,0 +1,22 @@
+
+<h2>Listing Orders</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <td>S.No#</td>
+      <td>Placed</td>
+      <td>State</td>
+      <td>Show</td>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for order <- @orders do %>
+      <tr>
+        <td><%= order.id %></td>
+        <td><%= order.updated_at %></td>
+        <td><%= order.state %></td>
+        <td><%= link "Show", to: admin_order_path(@conn, :show, order), class: "btn btn-default btn-xs" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
