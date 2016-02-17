@@ -1,0 +1,8 @@
+- Editing variant_option_value as blank, throws required validation
+- Deleting variant fails if having variant_option_values due to foreign key constraint with variant
+  - Added on_delete option to variant_option_values to delete, Works !!
+- Deleted OptionType from Product but OptionValue stays for Variant :(
+  - As storing option_type_id in variant_option_values, a delete can be possible ??
+    - nope, would result in not desired rows to be deleted as should be linked to product_otion_type_id and not option_type_id
+    - Rails handle it with next update, deleting unknown variant_option_value_id
+      - Basically, purge existing and creating new

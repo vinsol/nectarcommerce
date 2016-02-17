@@ -4,7 +4,11 @@
   <div class="panel panel-default">
     <div class="panel-body"><%= @product.name %></div>
     <div class="panel-body">
-      <%= tag(:image, src: static_path(@conn, "/#{ExShop.VariantImage.url({@product.master.image, @product.master}, :thumb)}")) %>
+      <%= if @product.master.image do %>
+        <%= tag(:image, src: static_path(@conn, "/#{ExShop.VariantImage.url({@product.master.image, @product.master}, :thumb)}")) %>
+      <% else %>
+        <%= tag(:image, src: ExShop.VariantImage.url({@product.master.image, @product.master}, :thumb)) %>
+      <% end %>
     </div>
     <div class="panel-footer">
       <%= @product.description %>
@@ -15,6 +19,14 @@
     <div class="panel-body pull-left"><%= @product.available_on %></div>
     <div class="panel-body"<%= @product.discontinue_on %>></div>
   </div>
+  <%= if @product.option_types != [] do %>
+    <div class="panel panel-default">
+      <div class="panel-heading">Option Types</div>
+      <%= for option_type <- @product.option_types do %>
+        <div class="panel-body"><%= option_type.presentation %></div>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
 <%= link "Edit", to: admin_product_path(@conn, :edit, @product) %>
