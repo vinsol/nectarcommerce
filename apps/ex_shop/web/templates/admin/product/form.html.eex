@@ -55,12 +55,25 @@
   <% end %>
 
   <%= inputs_for f, :product_option_types, fn po -> %>
-    <div class="form-group">
-      <%= label po, :option_type_id, class: "control-label" %>
-      <%= select po, :option_type_id, @get_option_types, class: "form-control", multiple: true %>
-      <%= error_tag po, :option_type_id %>
+    <div class="product_option_type">
+      <div class="form-group">
+        <%= label po, :option_type_id, class: "control-label" %>
+        <%= select po, :option_type_id, @get_option_types, class: "form-control" %>
+        <%= error_tag po, :option_type_id %>
+      </div>
+
+      <%= if po.model.id do %>
+        <div class="form-group">
+            <%= label po, :delete, "Delete?", class: "control-label" %>
+            <%= checkbox po, :delete %>
+        </div>
+      <% else %>
+        <%= link "Remove", to: "#", id: "delete_product_option_type" %>
+      <% end %>
     </div>
   <% end %>
+
+  <%= link_to_product_option_types_fields %>
 
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>

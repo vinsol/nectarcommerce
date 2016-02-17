@@ -1,0 +1,11 @@
+  <%= inputs_for @f, :product_option_types, fn po -> %>
+    <div class="product_option_type">
+      <div class="form-group">
+        <%= label po, :option_type_id, class: "control-label" %>
+        <%= select po, :option_type_id, @get_option_types, class: "form-control" %>
+        <%= error_tag po, :option_type_id %>
+      </div>
+
+      <%= link "Remove", to: "#", id: "delete_product_option_type" %>
+    </div>
+  <% end %>

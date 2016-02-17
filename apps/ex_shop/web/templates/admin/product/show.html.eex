@@ -15,6 +15,12 @@
     <div class="panel-body pull-left"><%= @product.available_on %></div>
     <div class="panel-body"<%= @product.discontinue_on %>></div>
   </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Option Types</div>
+    <%= for option_type <- @product.option_types do %>
+      <div class="panel-body"><%= option_type.name %></div>
+    <% end %>
+  </div>
 </div>
 
 <%= link "Edit", to: admin_product_path(@conn, :edit, @product) %>

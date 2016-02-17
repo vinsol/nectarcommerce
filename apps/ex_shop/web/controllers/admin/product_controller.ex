@@ -35,7 +35,7 @@ defmodule ExShop.Admin.ProductController do
   end
 
   def show(conn, %{"id" => id}) do
-    product = Repo.get!(Product, id) |> Repo.preload(:master)
+    product = Repo.get!(Product, id) |> Repo.preload([:master, :option_types])
     render(conn, "show.html", product: product)
   end
 
