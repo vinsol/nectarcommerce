@@ -15,6 +15,8 @@ defmodule ExShop.Variant do
     field :image, ExShop.VariantImage.Type
 
     belongs_to :product, ExShop.Product
+    has_many :variant_option_values, ExShop.VariantOptionValue
+    has_many :option_values, through: [:variant_option_values, :option_value]
 
     timestamps
   end
@@ -37,5 +39,6 @@ defmodule ExShop.Variant do
     changeset(model, params)
     |> put_change(:is_master, false)
     |> cast_attachments(params, ~w(), ~w(image))
+    |> cast_assoc(:variant_option_values, required: true, with: &ExShop.VariantOptionValue.from_variant_changeset/2)
   end
 end

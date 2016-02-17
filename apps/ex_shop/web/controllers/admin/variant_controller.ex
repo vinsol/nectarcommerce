@@ -3,6 +3,7 @@ defmodule ExShop.Admin.VariantController do
 
   alias ExShop.Product
   alias ExShop.Variant
+  alias ExShop.VariantOptionValue
 
   plug :scrub_params, "variant" when action in [:create, :update]
   plug :find_product
@@ -15,7 +16,9 @@ defmodule ExShop.Admin.VariantController do
   end
 
   def new(conn, %{"product_id" => _product_id}) do
-    changeset = Variant.changeset(%Variant{})
+    product = conn.assigns[:product]
+    variant_option_values = Enum.map(product.option_types, fn(o) -> %VariantOptionValue{} end)
+    changeset = Variant.changeset(%Variant{variant_option_values: variant_option_values})
     render(conn, "new.html", changeset: changeset)
   end
 
@@ -75,6 +78,7 @@ defmodule ExShop.Admin.VariantController do
 
   defp find_product(conn, _) do
     product = Repo.get_by(Product, id: conn.params["product_id"])
+      |> Repo.preload(option_types: :option_values)
     case product do
       nil ->
         conn
@@ -89,7 +93,7 @@ defmodule ExShop.Admin.VariantController do
 
   defp find_variant(conn, _) do
     product = conn.assigns[:product]
-    variant = Repo.get_by(Variant, id: conn.params["id"], product_id: product.id) |> Repo.preload(:product)
+    variant = Repo.get_by(Variant, id: conn.params["id"], product_id: product.id) |> Repo.preload([:product, :variant_option_values, option_values: :option_type])
     case variant do
       nil ->
         conn

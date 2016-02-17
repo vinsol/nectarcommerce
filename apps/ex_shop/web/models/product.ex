@@ -13,6 +13,7 @@ defmodule ExShop.Product do
     has_many :variants, ExShop.Variant, on_delete: :nilify_all
 
     has_many :product_option_types, ExShop.ProductOptionType
+    has_many :option_types, through: [:product_option_types, :option_type]
 
     timestamps
   end

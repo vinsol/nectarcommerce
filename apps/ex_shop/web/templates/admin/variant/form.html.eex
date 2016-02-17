@@ -5,6 +5,18 @@
     </div>
   <% end %>
 
+  <%= if @product.option_types do %>
+    <%= inputs_for f, :variant_option_values, fn vo -> %>
+      <%= for option_type <- @product.option_types do %>
+        <div class="form-group">
+          <%= label vo, :option_value_id, class: "control-label" %>
+          <%= select vo, :option_value_id, (option_type.option_values |> Enum.map(fn(x) -> {x.name, x.id} end)), class: "form-control" %>
+          <%= error_tag vo, :option_value_id %>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+
   <div class="form-group">
     <%= label f, :sku, class: "control-label" %>
     <%= text_input f, :sku, class: "form-control" %>
