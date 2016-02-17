@@ -1,0 +1,22 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <div class="form-group">
+    <%= label f, :tax_confirm, "Confirm and click next to continue", class: "control-label" %>
+    <%= checkbox f, :tax_confirm, class: "form-control" %>
+    <%= error_tag f, :tax_confirm %>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+      <th>Amount</th>
+      <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for adjustment <- @changeset.model.adjustments do %>
+        <%= adjustment_row(adjustment) %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= submit "Next", class: "btn btn-primary" %>
+<% end %>
