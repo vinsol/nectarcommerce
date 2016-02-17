@@ -1,0 +1,3 @@
+- Use apply call to find the next changeset to use in order.ex
+- The form rendered while checkout corresponds to the next state. i.e. address form rendered when order in cart state.
+- nested preload not working when parent association already exists. currently using a hack to reload from scratch. Investigate to see if an alternate solutions exists or can be implemented.
