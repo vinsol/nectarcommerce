@@ -63,6 +63,12 @@
 
 - mix phoenix.gen.model VariantOptionValue variant_option_values variant_id:references:variants option_value_id:references:option_values
 
-- Missing `do` raises below exception :P 
+- Missing `do` raises below exception :P
 == Compilation error on file web/views/admin/variant_view.ex ==
 ** (EEx.SyntaxError) web/templates/admin/variant/show.html.eex:23: unexpected token ' end '
+
+|> Enum.map(fn(x) -> {x.name, x.id} end)
+
+- Added option_type_id column in variant_option_values to get around showing option_values for which option_type_id
+  - Rails handles it through many-many relationship and using collection_ids to handle such case
+  - Need to check many_to_many in ecto-2 for less hacking

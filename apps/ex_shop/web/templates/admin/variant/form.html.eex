@@ -7,13 +7,16 @@
 
   <%= if @product.option_types do %>
     <%= inputs_for f, :variant_option_values, fn vo -> %>
-      <%= for option_type <- @product.option_types do %>
-        <div class="form-group">
-          <%= label vo, :option_value_id, class: "control-label" %>
-          <%= select vo, :option_value_id, (option_type.option_values |> Enum.map(fn(x) -> {x.name, x.id} end)), class: "form-control" %>
-          <%= error_tag vo, :option_value_id %>
-        </div>
-      <% end %>
+      <div class="form-group">
+        <% required_option_values = ExShop.Repo.all(
+          from o in ExShop.OptionValue,
+          where: o.option_type_id == ^(vo.source.model.option_type_id || vo.source.changes.option_type_id))
+        %>
+        <%= label vo, :option_value_id, class: "control-label" %>
+        <%= select vo, :option_value_id, required_option_values |> Enum.map(fn(x) -> {x.name, x.id} end), class: "form-control" %>
+        <%= hidden_input vo, :option_type_id %>
+        <%= error_tag vo, :option_value_id %>
+      </div>
     <% end %>
   <% end %>
 

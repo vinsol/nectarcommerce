@@ -2,6 +2,8 @@ defmodule ExShop.VariantOptionValue do
   use ExShop.Web, :model
 
   schema "variant_option_values" do
+    field :option_type_id, :integer
+
     belongs_to :variant, ExShop.Variant
     belongs_to :option_value, ExShop.OptionValue
 
@@ -24,6 +26,6 @@ defmodule ExShop.VariantOptionValue do
 
   def from_variant_changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(option_value_id), ~w())
+    |> cast(params, ~w(option_value_id option_type_id), ~w())
   end
 end
