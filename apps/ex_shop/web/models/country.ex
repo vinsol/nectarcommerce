@@ -23,9 +23,13 @@ defmodule ExShop.Country do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> build_iso_name
     |> validate_length(:iso,  is: 2)
     |> validate_length(:iso3, is: 3)
+    |> unique_constraint(:iso)
+    |> unique_constraint(:iso3)
+    |> unique_constraint(:name)
+    |> unique_constraint(:numcode)
+    |> build_iso_name
   end
 
   defp build_iso_name(model) do
