@@ -3,9 +3,8 @@ defmodule ExShop.Repo.Migrations.CreateShipping do
 
   def change do
     create table(:shippings) do
-      add :order_id, :integer
+      add :order_id, references(:orders)
       add :selected, :boolean
-      add :shipping_method_id, :integer
       timestamps
     end
   end
