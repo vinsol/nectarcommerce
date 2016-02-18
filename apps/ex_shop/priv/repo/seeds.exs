@@ -9,20 +9,10 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
-<<<<<<< HEAD
-#Seed.LoadCountry.seed!
-#Seed.CreateZone.seed!
-#Seed.LoadSettings.seed!
-# Seed.LoadCountry.seed!
-# Seed.CreateZone.seed!
-# ExShop.Repo.insert!(%ExShop.User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
-# Seed.LoadSettings.seed!
-=======
 Seed.LoadCountry.seed!
 Seed.CreateZone.seed!
 ExShop.Repo.insert!(%ExShop.User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
 Seed.LoadSettings.seed!
->>>>>>> add calculators and forms to add address and select shipping
 Seed.LoadProducts.seed!
 Seed.CreateShippingMethod.seed!
 Seed.CreateTax.seed!

@@ -26,6 +26,7 @@ defmodule ExShop.LineItem do
   def order_id_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(order_id), ~w())
+    |> foreign_key_constraint(:order_id)
   end
 
   def quantity_changeset(model, params \\ :empty) do
