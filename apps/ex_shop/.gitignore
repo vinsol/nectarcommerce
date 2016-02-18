@@ -22,6 +22,7 @@ erl_crash.dump
 # variables.
 /config/prod.secret.exs
 /config/dev.secret.exs
+/config/test.secret.exs
 
 # Vim Swap Files
 *.swp
@@ -33,5 +34,3 @@ erl_crash.dump
 # Misc
 .DS_Store
 **/.DS_Store
-
-

@@ -18,7 +18,7 @@ defmodule ExShop.Admin.CountryController do
   end
 
   def create(conn, %{"country" => country_params}) do
-    changeset = Country.user_create_changeset(%Country{}, country_params)
+    changeset = Country.changeset(%Country{}, country_params)
     case Repo.insert(changeset) do
       {:ok, _country} ->
         conn
