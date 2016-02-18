@@ -3,9 +3,8 @@ defmodule ExShop.Repo.Migrations.CreateAdjustment do
 
   def change do
     create table(:adjustments) do
-      add :shipping_id, :integer
-      add :tax_id, :integer
-      add :order_id, :integer
+      add :shipping_id, references(:shippings)
+      add :order_id, references(:orders)
       add :amount, :decimal
 
       timestamps

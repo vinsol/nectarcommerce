@@ -5,9 +5,9 @@ defmodule ExShop.Repo.Migrations.CreateAddress do
     create table(:addresses) do
       add :address_line_1, :string
       add :address_line_2, :string
-      add :state_id, :integer
-      add :country_id, :integer
-      add :order_id, :integer
+      add :state_id, references(:states)
+      add :country_id, references(:countries)
+      add :order_id, references(:orders)
 
       timestamps
     end
