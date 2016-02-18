@@ -2,8 +2,11 @@ defmodule ExShop.Admin.CountryControllerTest do
   use ExShop.ConnCase
 
   alias ExShop.Country
-  @valid_attrs %{}
-  @invalid_attrs %{}
+
+  @valid_attrs   %{name: "CountryName", iso: "Co", iso3: "Con", numcode: "123"}
+  @invalid_attrs %{name: "Country", iso: "C", iso3: "Co", numcode: "123"}
+
+
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, admin_country_path(conn, :index)
@@ -27,9 +30,9 @@ defmodule ExShop.Admin.CountryControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    country = Repo.insert! %Country{}
+    country = Repo.insert! Country.changeset(%Country{}, @valid_attrs)
     conn = get conn, admin_country_path(conn, :show, country)
-    assert html_response(conn, 200) =~ "Show country"
+    assert html_response(conn, 200) =~ @valid_attrs[:name]
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
