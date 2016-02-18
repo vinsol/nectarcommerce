@@ -13,9 +13,15 @@ defmodule ExShop.StateTest do
   end
 
   test "save with valid attributes" do
-    {status, state} = State.changeset(%State{}, state_attrs)
-    |> Repo.insert
+    {status, _state} = State.changeset(%State{}, state_attrs) |> Repo.insert
     assert status == :ok
+  end
+
+  test "missing country_id makes changeset invalid" do
+    {status, changeset} = State.changeset(%State{}, @valid_attrs) |> Repo.insert
+    assert status == :error
+    refute changeset.valid?
+    assert [country_id: "can't be blank"] == changeset.errors
   end
 
   defp state_attrs do
