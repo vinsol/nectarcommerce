@@ -4,7 +4,11 @@
   <div class="panel panel-default">
     <div class="panel-body"><%= @variant.product.name %></div>
     <div class="panel-body">
-      <%= tag(:image, src: static_path(@conn, "/#{ExShop.VariantImage.url({@variant.image, @variant}, :thumb)}")) %>
+      <%= if @variant.image do %>
+        <%= tag(:image, src: static_path(@conn, "/#{ExShop.VariantImage.url({@variant.image, @variant}, :thumb)}")) %>
+      <% else %>
+        <%= tag(:image, src: ExShop.VariantImage.url({@variant.image, @variant}, :thumb)) %>
+      <% end %>
     </div>
     <div class="panel-footer">
       <%= @variant.product.description %>
@@ -17,8 +21,8 @@
   </div>
   <%= for option_value <- @variant.option_values do %>
     <div class="panel panel-default">
-      <div class="panel-heading"><%= option_value.option_type.name %></div>
-      <div class="panel-body"><%= option_value.name %></div>
+      <div class="panel-heading"><%= option_value.option_type.presentation %></div>
+      <div class="panel-body"><%= option_value.presentation %></div>
     </div>
   <% end %>
 </div>

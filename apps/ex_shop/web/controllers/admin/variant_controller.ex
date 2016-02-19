@@ -7,11 +7,13 @@ defmodule ExShop.Admin.VariantController do
 
   plug :scrub_params, "variant" when action in [:create, :update]
   plug :find_product
+  plug :restrict_action when action in [:new, :create]
   plug :find_variant when action in [:show, :edit, :update]
 
   def index(conn, %{"product_id" => _product_id}) do
     product = conn.assigns[:product]
     variants = Repo.all(from v in Variant, where: v.product_id == ^product.id)
+      |> Repo.preload(option_values: :option_type)
     render(conn, "index.html", variants: variants)
   end
 
@@ -103,6 +105,19 @@ defmodule ExShop.Admin.VariantController do
       _ ->
         conn
         |> assign(:variant, variant)
+    end
+  end
+
+  defp restrict_action(conn, _) do
+    product = conn.assigns[:product]
+    case product.option_types do
+      [] ->
+        conn
+        |> put_flash(:info, "No Variants Allowed as Product Optin Type Not Present")
+        |> redirect(to: admin_product_variant_path(conn, :index, product))
+        |> halt()
+      _ ->
+        conn
     end
   end
 end

@@ -1,12 +1,15 @@
 <h2>Listing variants</h2>
 
-<%= link "Product", to: admin_product_path(@conn, :index) %>
+<%= link "All Products", to: admin_product_path(@conn, :index) %>
+|
+<%= link "Product", to: admin_product_path(@conn, :show, @product) %>
 |
 <%= link "New variant", to: admin_product_variant_path(@conn, :new, @product) %>
 
 <table class="table">
   <thead>
     <tr>
+      <th>Options</th>
       <th>Sku</th>
       <th>Weight</th>
       <th>Height</th>
@@ -22,6 +25,13 @@
   <tbody>
 <%= for variant <- @variants do %>
     <tr>
+      <td>
+        <%= if variant.is_master do %>
+          <%= "Master Variant" %>
+        <% else %>
+          <%= Enum.map(variant.option_values, fn(x) -> (x.option_type.presentation <>  " - " <> x.presentation) end) |> Enum.join(", ") %>
+        <% end %>
+      </td>
       <td><%= variant.sku %></td>
       <td><%= variant.weight %></td>
       <td><%= variant.height %></td>

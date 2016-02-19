@@ -62,11 +62,16 @@
     <%= error_tag f, :cost_price %>
   </div>
 
-  <div class="form-group">
-    <%= label f, :image, class: "control-label" %>
-    <%= file_input f, :image, class: "form-control" %>
-    <%= error_tag f, :image %>
-  </div>
+  <%= if f.model.id do %>
+    <div class="form-group">
+      <%= label f, :image, class: "control-label" %>
+      <%= file_input f, :image, class: "form-control" %>
+      <%= if @variant && @variant.image do %>
+        <%= tag(:image, src: static_path(@conn, "/#{ExShop.VariantImage.url({@variant.image, @variant}, :thumb)}")) %>
+      <% end %>
+      <%= error_tag f, :image %>
+    </div>
+  <% end %>
 
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>

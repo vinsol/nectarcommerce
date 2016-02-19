@@ -23,7 +23,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">Option Types</div>
       <%= for option_type <- @product.option_types do %>
-        <div class="panel-body"><%= option_type.name %></div>
+        <div class="panel-body"><%= option_type.presentation %></div>
       <% end %>
     </div>
   <% end %>

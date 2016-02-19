@@ -15,7 +15,7 @@ defmodule ExShop.Admin.ProductController do
   end
 
   def new(conn, _params) do
-    changeset = Product.changeset(%Product{product_option_types: [%ProductOptionType{}]})
+    changeset = Product.changeset(%Product{})
     get_option_types = Repo.all(OptionType) |> Enum.map(fn(x) -> {x.name, x.id} end)
     render(conn, "new.html", changeset: changeset, get_option_types: get_option_types)
   end
