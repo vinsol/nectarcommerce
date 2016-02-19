@@ -26,6 +26,7 @@ defmodule ExShop.LineItem do
   def order_id_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(order_id), ~w())
+    |> foreign_key_constraint(:order_id)
   end
 
   def quantity_changeset(model, params \\ :empty) do
@@ -62,7 +63,7 @@ defmodule ExShop.LineItem do
     Repo.preload(line_item, [:product, :order])
   end
 
-  def validate_product_availability(%ExShop.LineItem{} = line_item) do
+  defp validate_product_availability(%ExShop.LineItem{} = line_item) do
     quantity = line_item.quantity
     # have to make sure product is preloaded
     product_quantity = line_item.product.quantity
@@ -73,7 +74,7 @@ defmodule ExShop.LineItem do
     end
   end
 
-  def validate_product_availability(model) do
+  defp validate_product_availability(model) do
     quantity = get_field(model, :quantity)
     # have to make sure product is preloaded
     product_quantity = get_field(model, :product).quantity
