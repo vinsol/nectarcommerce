@@ -53,7 +53,7 @@ defmodule ExShop.Order do
 
   def with_preloaded_assoc(model, "address") do
     ExShop.Repo.get!(Order, model.id)
-    |> ExShop.Repo.preload([:shipping_address, :billing_address])
+    |> ExShop.Repo.preload([:shipping_address, :billing_address, :line_items])
   end
 
   def with_preloaded_assoc(model, "shipping") do
@@ -118,6 +118,7 @@ defmodule ExShop.Order do
   def address_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> ensure_cart_is_not_empty
     |> cast_assoc(:shipping_address, required: true)
     |> cast_assoc(:billing_address, required: true)
   end
@@ -169,6 +170,7 @@ defmodule ExShop.Order do
       |> Enum.filter(&(&1.selected))
 
     case selected do
+      []  -> add_error(model, :payments, "Please select one payment method")
       [_] -> model
       _   -> add_error(model, :payments, "Please select only 1 payment method")
     end
@@ -190,6 +192,14 @@ defmodule ExShop.Order do
       model
     else
       add_error(model, :tax_confirm, "Please confirm to proceed")
+    end
+  end
+
+  defp ensure_cart_is_not_empty(model) do
+    line_items = get_field(model, :line_items)
+    case line_items do
+      []  -> add_error(model, :line_items, "Please add some item to your cart to proceed")
+      [_] -> model
     end
   end
 
