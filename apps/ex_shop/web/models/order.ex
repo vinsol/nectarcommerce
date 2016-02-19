@@ -32,13 +32,13 @@ defmodule ExShop.Order do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def confirm_availability(model) do
+  def confirm_availability(order) do
     line_items =
       ExShop.LineItem
-      |> ExShop.LineItem.in_order(model)
+      |> ExShop.LineItem.in_order(order)
       |> ExShop.Repo.all
       |> ExShop.Repo.preload(:product)
-    %Order{model | line_items: Enum.map(line_items, &(ExShop.LineItem.validate_product_availability(&1)))}
+    %Order{order | line_items: Enum.map(line_items, &(ExShop.LineItem.validate_product_availability(&1)))}
   end
 
   # returns the appropriate changeset required based on the next state
