@@ -157,8 +157,9 @@ defmodule ExShop.Order do
       get_field(model, :shippings)
       |> Enum.filter(&(&1.selected))
     case selected do
+      []  -> add_error(model, :shippings, "Please select atleast one shipping method")
       [_] -> model
-      _   -> add_error(model, :shippings, "Please select only 1 shipping method")
+       _  -> add_error(model, :shippings, "Please select only 1 shipping method")
     end
   end
 
