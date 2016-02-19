@@ -8,7 +8,7 @@ defmodule ExShop.Admin.VariantController do
   plug :scrub_params, "variant" when action in [:create, :update]
   plug :find_product
   plug :restrict_action when action in [:new, :create]
-  plug :find_variant when action in [:show, :edit, :update]
+  plug :find_variant when action in [:show, :edit, :update, :delete]
 
   def index(conn, %{"product_id" => _product_id}) do
     product = conn.assigns[:product]

@@ -15,7 +15,7 @@ defmodule ExShop.Variant do
     field :image, ExShop.VariantImage.Type
 
     belongs_to :product, ExShop.Product
-    has_many :variant_option_values, ExShop.VariantOptionValue
+    has_many :variant_option_values, ExShop.VariantOptionValue, on_delete: :delete_all
     has_many :option_values, through: [:variant_option_values, :option_value]
 
     timestamps
