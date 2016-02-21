@@ -45,8 +45,10 @@ defmodule ExShop.Admin.VariantController do
   end
 
   def edit(conn, %{"id" => id, "product_id" => _product_id}) do
+    product = conn.assigns[:product]
     variant = conn.assigns[:variant]
-    changeset = Variant.changeset(variant)
+    new_params = inspect_missing_option_values(product, variant)
+    changeset = Variant.variant_changeset(variant, new_params)
     render(conn, "edit.html", changeset: changeset)
   end
 
@@ -118,6 +120,20 @@ defmodule ExShop.Admin.VariantController do
         |> halt()
       _ ->
         conn
+    end
+  end
+
+  defp inspect_missing_option_values(product, variant) do
+    available_product_option_type_ids = Enum.map(product.product_option_types, &(&1.option_type_id))
+    available_variant_option_value_ids = Enum.map(variant.option_values, &(&1.option_type_id))
+    missing_variant_option_value_ids = available_product_option_type_ids -- available_variant_option_value_ids
+    missing_variant_option_value_params = Enum.map(missing_variant_option_value_ids, fn(m) ->
+      %{"option_type_id" => m}
+    end)
+    if missing_variant_option_value_params != [] do
+      %{"variant_option_values" => missing_variant_option_value_params}
+    else
+      %{}
     end
   end
 end

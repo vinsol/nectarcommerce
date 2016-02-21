@@ -6,3 +6,4 @@
     - nope, would result in not desired rows to be deleted as should be linked to product_otion_type_id and not option_type_id
     - Rails handle it with next update, deleting unknown variant_option_value_id
       - Basically, purge existing and creating new
+  - Used Rails way but quite expensive as of now :(
