@@ -199,7 +199,7 @@ defmodule ExShop.Order do
     line_items = get_field(model, :line_items)
     case line_items do
       []  -> add_error(model, :line_items, "Please add some item to your cart to proceed")
-      [_] -> model
+      _   -> model
     end
   end
 
