@@ -18,7 +18,14 @@
       <li class="dropdown" role="presentation">
         <%= link "Settings", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
         <ul class="dropdown-menu">
-          <li><a href="admin/settings/general/edit">General</a></li>
+          <li><a href="/admin/settings/general/edit">General</a></li>
+        </ul>
+      </li>
+      <li class="dropdown" role="presentation">
+        <%= link "Orders", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
+        <ul class="dropdown-menu">
+          <li><%= link "All Orders", to: admin_order_path(@conn, :index) %></li>
+          <li><%= link "Cart", to: admin_order_path(@conn, :cart) %></li>
         </ul>
       </li>
       <li><%= link "Admin Logout", to: admin_session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %></li>

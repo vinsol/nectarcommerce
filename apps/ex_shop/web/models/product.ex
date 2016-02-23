@@ -42,8 +42,20 @@ defmodule ExShop.Product do
   end
 
   def master_changeset(model, params \\ :empty) do
-    cast(model, params, ~w(cost_price), @optional_fields)
+    cast(model, params, ~w(cost_price), ~w(quantity))
     |> put_change(:is_master, true)
     |> cast_attachments(params, ~w(), ~w(image))
+  end
+
+  def master_variant(model) do
+    from variant in all_variants_including_master(model), where: variant.is_master
+  end
+
+  def all_variants(model) do
+    from variant in all_variants(model), where: not(variant.is_master)
+  end
+
+  def all_variants_including_master(model) do
+    from variant in assoc(model, :variants)
   end
 end
