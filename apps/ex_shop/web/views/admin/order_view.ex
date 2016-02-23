@@ -11,7 +11,12 @@ defmodule ExShop.Admin.OrderView do
     Enum.map(product.variants, fn (variant) ->
       content_tag(:option, value: variant.id, disabled: out_of_stock?(variant)) do
         # TODO maybe autogenerate sku if one is not provided
-        variant.sku || product.name
+        (variant.sku || product.name)
+        <> if out_of_stock?(variant) do
+          "(Out of stock)"
+        else
+          ""
+        end
       end
     end)
   end
