@@ -61,20 +61,16 @@ defmodule ExShop.LineItem do
     Repo.preload(line_item, [:variant, :order])
   end
 
-  defp sufficient_quantity_available?(%ExShop.LineItem{} = line_item) do
-    quantity = line_item.quantity
+  defp sufficient_quantity_available?(%ExShop.LineItem{} = line_item, requested_quantity) do
     # have to make sure product is preloaded
-    product_quantity = line_item.variant.quantity
-    if quantity > product_quantity do
-      {true, product_quantity}
-    else
-      {false, product_quantity}
-    end
+    available_product_quantity = line_item.variant.quantity
+    {requested_quantity <= available_product_quantity, available_product_quantity}
   end
 
   def validate_product_availability(changeset) do
-    case sufficient_quantity_available?(changeset.model) do
+    case sufficient_quantity_available?(changeset.model, changeset.changes[:quantity]) do
       {true, _} -> changeset
+      {false, 0} -> add_error(changeset, :variant, "out of stock")
       {false, available_product_quantity} -> add_error(changeset, :quantity, "only #{available_product_quantity} available")
     end
   end
