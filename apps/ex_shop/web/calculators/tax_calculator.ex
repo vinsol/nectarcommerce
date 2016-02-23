@@ -9,7 +9,7 @@ defmodule ExShop.TaxCalculator do
     |> create_tax_adjustments
   end
 
-  defp create_tax_adjustments(%Order{adjustments: adjustments} = order) do
+  defp create_tax_adjustments(%Order{} = order) do
     taxes = Repo.all(ExShop.Tax)
     tax_adjustments = Enum.map(taxes, fn (tax) ->
       order
@@ -17,7 +17,7 @@ defmodule ExShop.TaxCalculator do
       |> ExShop.Adjustment.changeset(%{amount: 20.00, tax_id: tax.id})
       |> Repo.insert!
     end)
-    %Order{order | adjustments: [adjustments | tax_adjustments]}
+    %Order{order | adjustments: tax_adjustments}
   end
 
 end

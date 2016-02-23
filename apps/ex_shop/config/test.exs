@@ -10,10 +10,12 @@ config :ex_shop, ExShop.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
-config :ex_shop, ExShop.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "ex_shop_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+# config :ex_shop, ExShop.Repo,
+#   adapter: Ecto.Adapters.Postgres,
+#   username: "postgres",
+#   password: "postgres",
+#   database: "ex_shop_test",
+#   hostname: "localhost",
+#   pool: Ecto.Adapters.SQL.Sandbox
+
+import_config "test.secret.exs"

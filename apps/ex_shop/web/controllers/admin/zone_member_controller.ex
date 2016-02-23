@@ -45,7 +45,12 @@ defmodule ExShop.Admin.ZoneMemberController do
 
   defp load_zoneable(conn, params) do
     zoneable_id = conn.params["zone_member"]["zoneable_id"]
-    zoneable = conn.assigns[:zone] |> Zone.zoneable(zoneable_id)
-    assign(conn, :zoneable, zoneable)
+    if zoneable_id do
+      zoneable = conn.assigns[:zone] |> Zone.zoneable(zoneable_id)
+      assign(conn, :zoneable, zoneable)
+    else
+      conn
+      |> halt
+    end
   end
 end

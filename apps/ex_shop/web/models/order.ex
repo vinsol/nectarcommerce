@@ -32,13 +32,13 @@ defmodule ExShop.Order do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def confirm_availability(model) do
+  def confirm_availability(order) do
     line_items =
       ExShop.LineItem
-      |> ExShop.LineItem.in_order(model)
+      |> ExShop.LineItem.in_order(order)
       |> ExShop.Repo.all
       |> ExShop.Repo.preload(:product)
-    %Order{model | line_items: Enum.map(line_items, &(ExShop.LineItem.validate_product_availability(&1)))}
+    %Order{order | line_items: Enum.map(line_items, &(ExShop.LineItem.validate_product_availability(&1)))}
   end
 
   # returns the appropriate changeset required based on the next state
@@ -53,7 +53,7 @@ defmodule ExShop.Order do
 
   def with_preloaded_assoc(model, "address") do
     ExShop.Repo.get!(Order, model.id)
-    |> ExShop.Repo.preload([:shipping_address, :billing_address])
+    |> ExShop.Repo.preload([:shipping_address, :billing_address, :line_items])
   end
 
   def with_preloaded_assoc(model, "shipping") do
@@ -118,6 +118,7 @@ defmodule ExShop.Order do
   def address_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> ensure_cart_is_not_empty
     |> cast_assoc(:shipping_address, required: true)
     |> cast_assoc(:billing_address, required: true)
   end
@@ -157,8 +158,9 @@ defmodule ExShop.Order do
       get_field(model, :shippings)
       |> Enum.filter(&(&1.selected))
     case selected do
+      []  -> add_error(model, :shippings, "Please select atleast one shipping method")
       [_] -> model
-      _   -> add_error(model, :shippings, "Please select only 1 shipping method")
+       _  -> add_error(model, :shippings, "Please select only 1 shipping method")
     end
   end
 
@@ -168,6 +170,7 @@ defmodule ExShop.Order do
       |> Enum.filter(&(&1.selected))
 
     case selected do
+      []  -> add_error(model, :payments, "Please select one payment method")
       [_] -> model
       _   -> add_error(model, :payments, "Please select only 1 payment method")
     end
@@ -189,6 +192,14 @@ defmodule ExShop.Order do
       model
     else
       add_error(model, :tax_confirm, "Please confirm to proceed")
+    end
+  end
+
+  defp ensure_cart_is_not_empty(model) do
+    line_items = get_field(model, :line_items)
+    case line_items do
+      []  -> add_error(model, :line_items, "Please add some item to your cart to proceed")
+      _   -> model
     end
   end
 

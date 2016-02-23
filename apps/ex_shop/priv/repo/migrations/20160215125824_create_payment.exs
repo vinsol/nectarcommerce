@@ -3,8 +3,7 @@ defmodule ExShop.Repo.Migrations.CreatePayment do
 
   def change do
     create table(:payments) do
-      add :order_id, :integer
-      add :payment_method_id, :integer
+      add :order_id, references(:orders)
       add :selected, :boolean
       timestamps
     end
