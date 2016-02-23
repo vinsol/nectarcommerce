@@ -13,7 +13,7 @@ defmodule ExShop.Order do
     has_many :line_items, ExShop.LineItem
     has_many :adjustments, ExShop.Adjustment
     has_many :shippings, ExShop.Shipping
-    has_many :products, through: [:line_items, :product]
+    has_many :variants, through: [:line_items, :variant]
     has_many :payments, ExShop.Payment
 
     has_one  :billing_address, ExShop.Address
@@ -37,8 +37,9 @@ defmodule ExShop.Order do
       ExShop.LineItem
       |> ExShop.LineItem.in_order(order)
       |> ExShop.Repo.all
-      |> ExShop.Repo.preload(:product)
-    %Order{order | line_items: Enum.map(line_items, &(ExShop.LineItem.validate_product_availability(&1)))}
+      |> ExShop.Repo.preload(:variant)
+    # will need a changeset here to add errors to line items
+    order
   end
 
   # returns the appropriate changeset required based on the next state
@@ -73,7 +74,7 @@ defmodule ExShop.Order do
 
   def with_preloaded_assoc(model, "confirmation") do
     ExShop.Repo.get!(Order, model.id)
-    |> ExShop.Repo.preload([line_items: :product])
+    |> ExShop.Repo.preload([line_items: :variant])
   end
 
   def with_preloaded_assoc(model, _) do

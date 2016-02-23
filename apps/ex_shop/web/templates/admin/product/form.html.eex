@@ -36,6 +36,12 @@
       <%= error_tag m, :cost_price %>
     </div>
 
+    <div class="form-group">
+      <%= label m, :quantity, class: "control-label" %>
+      <%= text_input m, :quantity, class: "form-control" %>
+      <%= error_tag m, :quantity %>
+    </div>
+
     <%= if @changeset.model.id do %>
       <div class="form-group">
         <label>Image</label>

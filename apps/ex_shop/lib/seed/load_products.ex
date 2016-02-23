@@ -1,9 +1,9 @@
 defmodule Seed.LoadProducts do
   def seed! do
-    Enum.each(products, fn(product_params) ->
-      ExShop.NotProduct.changeset(%ExShop.NotProduct{}, product_params)
-      |> ExShop.Repo.insert!
-    end)
+    # Enum.each(products, fn(product_params) ->
+    #   ExShop.NotProduct.changeset(%ExShop.NotProduct{}, product_params)
+    #   |> ExShop.Repo.insert!
+    # end)
   end
 
   defp products do

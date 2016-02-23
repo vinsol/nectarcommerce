@@ -18,9 +18,9 @@
   <tbody>
     <%= for line_item <- @order.line_items do %>
       <tr>
-        <td><%= line_item.product.name %></td>
+        <td><%= line_item.variant.sku %></td>
         <td><%= line_item.quantity %></td>
-        <td><%= line_item.product.cost %></td>
+        <td><%= line_item.variant.cost_price %></td>
         <td><%= line_item.total %></td>
       </tr>
     <% end %>
