@@ -3,7 +3,7 @@ defmodule ExShop.Repo.Migrations.CreateLineItem do
 
   def change do
     create table(:line_items) do
-      add :product_id, references(:not_products)
+      # add :product_id, references(:not_products)
       add :order_id, references(:orders)
       add :quantity, :integer
       add :total, :decimal

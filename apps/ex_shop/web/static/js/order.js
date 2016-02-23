@@ -19,9 +19,9 @@ export default {
     let _this = this;
     this.productList.on('click', '.add-to-cart', function() {
       let product = $(this).closest('.product');
-      let productId = product.data('product-id');
-      let quantity = product.find('input').val();
-      _this.addToCart(productId, quantity);
+      let variantId = product.find('[name=variant]').val() ;
+      let quantity = product.find('input[name=quantity]').val();
+      _this.addToCart(variantId, quantity);
     });
   },
 
@@ -44,14 +44,14 @@ export default {
     });
   },
 
-  addToCart: function(productId, quantity = 0) {
+  addToCart: function(variantId, quantity = 0) {
     let _this = this;
     $.ajax({
       url: `/admin/orders/${this.orderId}/line_items`,
       method: 'post',
       data: {
         line_item: {
-          product_id: productId,
+          variant_id: variantId,
           quantity: quantity
         }
       },
@@ -123,12 +123,10 @@ export default {
 
   makeLineItemHtml: function(lineItem) {
     return `
-            <li class="list-group-item line-item" data-line-item-id="${lineItem.id}">
-            ${lineItem.product.name}
-            <span class="pull-right">
-            <input name="" type="text" value="${lineItem.quantity}"/>
-            <button class="btn btn-primary">update</button>
-            <button class="btn btn-danger remove-from-cart">-</button>
+            <li class="list-group-item line-item row" data-line-item-id="${lineItem.id}">
+            <span class="col-lg-6">${lineItem.variant.sku}</span>
+            <span class="col-lg-6">
+            <button class="btn btn-danger btn-sm remove-from-cart pull-right">-</button>
             </span>
             </li>
         `;

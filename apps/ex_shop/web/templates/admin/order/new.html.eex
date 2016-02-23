@@ -2,13 +2,22 @@
   <div class="panel-body">
     <h2>Create Order</h2>
     <ul class="list-group" id="product-listing">
-      <%= for {id, name} <- @products do %>
-        <li class="list-group-item product" data-product-id="<%= id %>">
-          <%= name %>
-          <span class="pull-right">
-            <input name="" type="text" value="" placeholder="quanitity"/>
-            <button class="btn btn-success add-to-cart">+</button>
-          </span>
+      <%= for product <- @products do %>
+        <li class="list-group-item product row" data-product-id="<%= product.id %>">
+          <div class="row">
+            <span class="col-lg-6"><%= product.name %></span>
+            <span class="col-lg-6">
+              <input name="quantity" type="text" value="" placeholder="quantity" />
+              <%= if only_master_variant?(product) do %>
+                <input name="variant" type="hidden" value="<%= master_variant_id(product) %>">
+              <% else %>
+                <select id="" name="variant">
+                  <%= product_variant_options(product) %>
+                </select>
+              <% end %>
+              <button class="btn btn-sm btn-success add-to-cart pull-right">+</button>
+            </span>
+          </div>
         </li>
       <% end %>
     </ul>
