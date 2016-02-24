@@ -1,4 +1,4 @@
-defmodule ExShop.Repo.Migrations.CreateProduct do
+defmodule ExShop.Repo.Migrations.CreateDummyProduct do
   use Ecto.Migration
 
   def change do
