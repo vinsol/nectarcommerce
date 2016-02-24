@@ -17,7 +17,7 @@ defmodule ExShop.Admin.OrderController do
   def show(conn, %{"id" => id}) do
     order =
       Repo.get(Order, id)
-      |> Repo.preload([line_items: :variant])
+      |> Repo.preload([line_items: [variant: :product]])
       |> Repo.preload([shippings: [:shipping_method, :adjustment]])
       |> Repo.preload([adjustments: [:tax, :shipping]])
       |> Repo.preload([payments: [:payment_method]])

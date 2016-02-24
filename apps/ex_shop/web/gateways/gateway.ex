@@ -1,6 +1,6 @@
 defmodule ExShop.Gateway do
-	def capture_payment(order, selected_payment_id, payment_method_params) do
-    do_capture_payment(order, selected_payment_method(order, selected_payment_id), payment_method_params)
+	def authorize_payment(order, selected_payment_id, payment_method_params) do
+    do_authorize_payment(order, selected_payment_method(order, selected_payment_id), payment_method_params)
   end
 
   defp selected_payment_method(order, selected_payment_id) do
@@ -10,11 +10,11 @@ defmodule ExShop.Gateway do
     |> Map.get(:name)
   end
 
-  defp do_capture_payment(order, "stripe", payment_method_params) do
-    ExShop.Gateway.Stripe.capture(order, payment_method_params)
+  defp do_authorize_payment(order, "stripe", payment_method_params) do
+    ExShop.Gateway.Stripe.authorize(order, payment_method_params)
   end
 
-  defp do_capture_payment(_order, "cheque", _params) do
+  defp do_authorize_payment(_order, "cheque", _params) do
     {:ok}
   end
 end
