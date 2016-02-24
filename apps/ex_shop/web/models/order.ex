@@ -33,13 +33,22 @@ defmodule ExShop.Order do
   end
 
   def confirm_availability(order) do
-    line_items =
+    sufficient_quantity_available =
       ExShop.LineItem
-      |> ExShop.LineItem.in_order(order)
+      |> ExShop.LineItem.in_order(order.model)
       |> ExShop.Repo.all
       |> ExShop.Repo.preload(:variant)
+      |> Enum.reduce(true, fn (ln_item, acc) ->
+           {status, _} = ExShop.LineItem.sufficient_quantity_available?(ln_item)
+           acc && status
+         end)
+
     # will need a changeset here to add errors to line items
-    order
+    if sufficient_quantity_available do
+      order
+    else
+      add_error(order, :line_items, "Some of the line items are out of stock")
+    end
   end
 
   # returns the appropriate changeset required based on the next state

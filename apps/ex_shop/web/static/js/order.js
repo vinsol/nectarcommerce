@@ -124,7 +124,7 @@ export default {
   makeLineItemHtml: function(lineItem) {
     return `
             <li class="list-group-item line-item row" data-line-item-id="${lineItem.id}">
-            <span class="col-lg-6">${lineItem.variant.sku}</span>
+            <span class="col-lg-6">${lineItem.variant.display_name} X ${lineItem.quantity}</span>
             <span class="col-lg-6">
             <button class="btn btn-danger btn-sm remove-from-cart pull-right">-</button>
             </span>

@@ -1,7 +1,6 @@
 defmodule ExShop.Admin.LineItemController do
   use ExShop.Web, :controller
 
-  alias ExShop.Order
   alias ExShop.LineItem
   alias ExShop.CartManager
 

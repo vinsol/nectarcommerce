@@ -37,7 +37,7 @@ defmodule ExShop.LineItem do
     |> update_total_changeset(params)
   end
 
-  defp update_total_changeset(model, params \\ :empty) do
+  defp update_total_changeset(model, params) do
     quantity = get_field(model, :quantity)
     variant  = get_field(model, :variant)
     cost = Decimal.mult(Decimal.new(quantity), variant.cost_price)
@@ -61,11 +61,19 @@ defmodule ExShop.LineItem do
     Repo.preload(line_item, [:variant, :order])
   end
 
-  defp sufficient_quantity_available?(%ExShop.LineItem{} = line_item, requested_quantity) do
+  def sufficient_quantity_available?(%ExShop.LineItem{} = line_item, requested_quantity) do
     # have to make sure product is preloaded
     available_product_quantity = line_item.variant.quantity
     {requested_quantity <= available_product_quantity, available_product_quantity}
   end
+
+  def sufficient_quantity_available?(%ExShop.LineItem{} = line_item) do
+    # have to make sure product is preloaded
+    requested_quantity = line_item.quantity
+    available_product_quantity = line_item.variant.quantity
+    {requested_quantity <= available_product_quantity, available_product_quantity}
+  end
+
 
   def validate_product_availability(changeset) do
     case sufficient_quantity_available?(changeset.model, changeset.changes[:quantity]) do
