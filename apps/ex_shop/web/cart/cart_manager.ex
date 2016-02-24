@@ -7,8 +7,8 @@ defmodule ExShop.CartManager do
 
   def add_to_cart(order_id, %{"variant_id" => variant_id, "quantity" => quantity}) do
     order = Repo.get!(Order, order_id)
-    product = Repo.get!(Variant, variant_id)
-    do_add_to_cart(order, product, quantity)
+    variant = Repo.get!(Variant, variant_id) |> Repo.preload([:product])
+    do_add_to_cart(order, variant, quantity)
   end
 
   defp do_add_to_cart(%Order{} = order, %Variant{} = variant, quantity) do

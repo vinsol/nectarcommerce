@@ -36,20 +36,18 @@ defmodule ExShop.CheckoutManager do
   def before_transition(order, next_state, data)
 
   def before_transition(order, "address", _params) do
-    # order
-    # |> Order.confirm_availability
     order
+    |> Order.confirm_availability
   end
 
   def before_transition(order, "confirmation", _params) do
-    # order
-    # |> Order.confirm_availability
     order
+    |> Order.confirm_availability
   end
 
   def before_transition(order, "payment", params) do
     order
-    |> capture_payment(params)
+    |> authorize_payment(params)
   end
 
 
@@ -90,22 +88,22 @@ defmodule ExShop.CheckoutManager do
   end
 
   # TODO: move these methods to gateway
-  defp capture_payment(order, params) do
+  defp authorize_payment(order, params) do
     # get the selected payment method
-    # if none found return changeset it will handle missing payment method later
+    # if none or more than one found return changeset it will handle missing payment method later
     # else use the selected payment_method_id to complete the transaction.
     case Enum.filter(params["payments"], fn
       ({_, %{"selected" => "false"}}) -> false
       ({_, %{"selected" => "true"}})  -> true
     end) do
-      [] -> order
-      [{_, %{"id" => selected_payment_id}}] -> do_capture_payment(order, String.to_integer(selected_payment_id), params["payment_method"])
+      [{_, %{"id" => selected_payment_id}}] -> do_authorize_payment(order, String.to_integer(selected_payment_id), params["payment_method"])
+      _  -> order
     end
   end
 
-  defp do_capture_payment(order, selected_payment_id, payment_method_params) do
+  defp do_authorize_payment(order, selected_payment_id, payment_method_params) do
     # in case payment fails add the error message to changeset to prevent it from moving to next state.
-    case ExShop.Gateway.capture_payment(order.model, selected_payment_id, payment_method_params) do
+    case ExShop.Gateway.authorize_payment(order.model, selected_payment_id, payment_method_params) do
       {:ok} -> order
       {:error, error_message} -> order |> Ecto.Changeset.add_error(:payments, error_message)
     end
