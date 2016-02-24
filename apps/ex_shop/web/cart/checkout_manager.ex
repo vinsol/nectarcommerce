@@ -35,19 +35,26 @@ defmodule ExShop.CheckoutManager do
   # TODO: move transitions to seperate modules ?
   def before_transition(order, next_state, data)
 
-  def before_transition(%Order{} = order, "address", _params) do
+  def before_transition(order, "address", _params) do
+    # order
+    # |> Order.confirm_availability
     order
-    |> Order.confirm_availability
   end
 
-  def before_transition(%Order{} = order, "confirmation", _params) do
+  def before_transition(order, "confirmation", _params) do
+    # order
+    # |> Order.confirm_availability
     order
-    |> Order.confirm_availability
+  end
+
+  def before_transition(order, "payment", params) do
+    order
+    |> capture_payment(params)
   end
 
 
   # default match do nothing just return order
-  def before_transition(%Order{} = order, _to, _data), do: order
+  def before_transition(order, _to, _data), do: order
 
 
   def after_transition(%Order{state: "address"} = order, _data) do
@@ -72,12 +79,35 @@ defmodule ExShop.CheckoutManager do
   defp to_state(%Order{} = order, next_state, params) do
     {status, model} =
       order
-      |> before_transition(next_state, params)
       |> Order.transition_changeset(next_state, params)
+      |> before_transition(next_state, params)
       |> ExShop.Repo.update
+
     case status do
       :ok -> {:ok, after_transition(model, params)}
       :error -> {:error, model}
+    end
+  end
+
+  # TODO: move these methods to gateway
+  defp capture_payment(order, params) do
+    # get the selected payment method
+    # if none found return changeset it will handle missing payment method later
+    # else use the selected payment_method_id to complete the transaction.
+    case Enum.filter(params["payments"], fn
+      ({_, %{"selected" => "false"}}) -> false
+      ({_, %{"selected" => "true"}})  -> true
+    end) do
+      [] -> order
+      [{_, %{"id" => selected_payment_id}}] -> do_capture_payment(order, String.to_integer(selected_payment_id), params["payment_method"])
+    end
+  end
+
+  defp do_capture_payment(order, selected_payment_id, payment_method_params) do
+    # in case payment fails add the error message to changeset to prevent it from moving to next state.
+    case ExShop.Gateway.capture_payment(order.model, selected_payment_id, payment_method_params) do
+      {:ok} -> order
+      {:error, error_message} -> order |> Ecto.Changeset.add_error(:payments, error_message)
     end
   end
 
