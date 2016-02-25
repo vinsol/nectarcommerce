@@ -35,7 +35,7 @@ defmodule ExShop.ErrorHelpers do
 
   # generic code for creating error json out of changesets
   # see: https://github.com/elixir-lang/ecto/pull/921
-  def render("error.json", %{changeset: changeset}) do
+  def render_changeset_error_json(changeset) do
     errors = Enum.map(changeset.errors, fn {field, details} ->
       %{
         field: field,
