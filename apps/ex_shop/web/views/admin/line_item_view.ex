@@ -3,7 +3,7 @@ defmodule ExShop.Admin.LineItemView do
   use ExShop.Web, :view
 
   def render("line_item.json", %{line_item: line_item}) do
-    %{id: line_item.id, quantity: line_item.quantity, product: %{name: line_item.product.name, id: line_item.product.id}}
+    %{id: line_item.id, quantity: line_item.quantity, variant: %{sku: line_item.variant.sku, id: line_item.variant.id}}
   end
 
   def render("error.json", %{changeset: changeset}) do

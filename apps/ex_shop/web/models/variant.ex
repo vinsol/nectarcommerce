@@ -13,16 +13,19 @@ defmodule ExShop.Variant do
     field :cost_price, :decimal
     field :cost_currency, :string
     field :image, ExShop.VariantImage.Type
+    field :quantity, :integer, default: 0
 
     belongs_to :product, ExShop.Product
     has_many :variant_option_values, ExShop.VariantOptionValue, on_delete: :delete_all, on_replace: :delete
     has_many :option_values, through: [:variant_option_values, :option_value]
 
+    has_many :line_items, ExShop.LineItem
+
     timestamps
   end
 
   @required_fields ~w(is_master discontinue_on cost_price)
-  @optional_fields ~w(sku weight height width depth cost_currency)
+  @optional_fields ~w(sku weight height width depth cost_currency quantity)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
