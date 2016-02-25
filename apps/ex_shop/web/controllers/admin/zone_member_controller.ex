@@ -16,10 +16,10 @@ defmodule ExShop.Admin.ZoneMemberController do
     zone = conn.assigns[:zone]
     changeset = ZoneMember.changeset(zoneable, zone, zone_member_params)
     case Repo.insert(changeset) do
-      {:ok, _zone_member} ->
+      {:ok, zone_member} ->
         conn
         |> put_status(201)
-        |> render("zone_member.json", zoneable: zoneable)
+        |> render("zone_member.json", [zone_member: zone_member, zoneable: zoneable])
       {:error, changeset} ->
         conn
         |> put_status(422)
@@ -27,16 +27,14 @@ defmodule ExShop.Admin.ZoneMemberController do
     end
   end
 
-  # Note: *the id here is the id of the country itself not the zone_member id*
-  # TODO: figure out a better technique for handling this.
   def delete(conn, %{"id" => id}) do
     zone = conn.assigns[:zone]
-    member = Zone.zoneable_member(zone, id)
-    zoneable = Zone.zoneable(zone, id)
+    member = Zone.member_with_id(zone, id)
+    zoneable = Zone.zoneable(zone, member.zoneable_id)
     Repo.delete!(member)
     conn
     |> put_status(200)
-    |> render("zone_member.json", zoneable: zoneable)
+    |> render("zoneable.json", zoneable: zoneable)
   end
 
   defp load_zone(conn, _params) do

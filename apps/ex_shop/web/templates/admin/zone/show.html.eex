@@ -8,8 +8,8 @@
 
   <!-- List group -->
   <ul class="list-group" id="zoneable-list">
-    <%= for zone_member <- @zone_members do %>
-      <li data-zoneable-id="<%= zone_member.id %>" class="list-group-item"><%=  zone_member.name %><button class="delete pull-right">X</button></li>
+    <%= for {id, name} <- @zone_members do %>
+      <li data-zoneable-id="<%= id %>" class="list-group-item"><%= name %><button class="delete pull-right">X</button></li>
     <% end %>
   </ul>
   <div class="panel-footer">

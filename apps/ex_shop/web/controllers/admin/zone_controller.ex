@@ -32,8 +32,8 @@ defmodule ExShop.Admin.ZoneController do
 
   def show(conn, %{"id" => id}) do
     zone = Repo.get!(Zone, id)
-    zone_members = Repo.all Zone.members(zone)
-    zoneables = Zone.zoneables(zone)
+    zone_members = Repo.all Zone.member_ids_and_names(zone)
+    zoneables = Zone.zoneable_candidates(zone)
     render(conn, "show.html", zone: zone, zone_members: zone_members, zoneables: zoneables)
   end
 
