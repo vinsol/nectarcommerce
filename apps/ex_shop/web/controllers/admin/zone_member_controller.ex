@@ -27,6 +27,7 @@ defmodule ExShop.Admin.ZoneMemberController do
     end
   end
 
+  # return the zoneable to add back to the menu.
   def delete(conn, %{"id" => id}) do
     zone = conn.assigns[:zone]
     member = Zone.member_with_id(zone, id)
