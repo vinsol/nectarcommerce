@@ -10,7 +10,7 @@
     <!-- Renders the form for the respective payment method -->
     <%= render_existing @view_module, "payment.#{payment.data.payment_method.name}.html"  %>
   <% end %>
-<div class="form-group">
-  <%= submit "Next", class: "btn btn-primary form-control btn-xs" %>
-</div>
+  <div class="form-group">
+    <%= submit "Next", class: "btn btn-primary form-control btn-xs" %>
+  </div>
 <% end %>
