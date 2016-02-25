@@ -30,26 +30,30 @@ defmodule ExShop.Zone do
   def zoneable(%ExShop.Zone{type: "Country"} = _model, zoneable_id), do: ExShop.Repo.get!(ExShop.Country, zoneable_id)
   def zoneable(%ExShop.Zone{type: "State"}   = _model, zoneable_id), do: ExShop.Repo.get!(ExShop.State, zoneable_id)
 
-  def zoneable_member(%ExShop.Zone{type: "Country"} = model, zoneable_id) do
-    ExShop.Repo.one from a in assoc(model, :country_zone_members), where: a.zoneable_id == ^zoneable_id
-  end
-  def zoneable_member(%ExShop.Zone{type: "State"}   = model, zoneable_id) do
-    ExShop.Repo.one from a in assoc(model, :state_zone_members), where: a.zoneable_id == ^zoneable_id
+  def member_with_id(%ExShop.Zone{type: "Country"} = model, zone_member_id) do
+    ExShop.Repo.one from m in assoc(model, :country_zone_members), where: m.id == ^zone_member_id
   end
 
+  def member_with_id(%ExShop.Zone{type: "State"} = model, zone_member_id) do
+    ExShop.Repo.one from m in assoc(model, :state_zone_members), where: m.id == ^zone_member_id
+  end
 
-  def zoneables(%ExShop.Zone{type: "Country"} = model) do
+  def zoneable_candidates(%ExShop.Zone{type: "Country"} = model) do
     ExShop.Repo.all(from c in ExShop.Country, where: not c.id in ^existing_zoneable_ids(model))
   end
-  def zoneables(%ExShop.Zone{type: "State"} = model) do
+  def zoneable_candidates(%ExShop.Zone{type: "State"} = model) do
     ExShop.Repo.all(from s in ExShop.State, where: not s.id in ^existing_zoneable_ids(model))
   end
 
-  def members(%ExShop.Zone{type: "Country"} = model) do
-    from v in ExShop.Country, where: v.id in ^existing_zoneable_ids(model)
+  def member_ids_and_names(%ExShop.Zone{type: "Country"} = model) do
+    from v in assoc(model, :country_zone_members),
+    join: c in ExShop.Country, on: c.id == v.zoneable_id,
+    select: {v.id, c.name}
   end
-  def members(%ExShop.Zone{type: "State"} = model) do
-    from v in ExShop.State, where: v.id in ^existing_zoneable_ids(model)
+  def member_ids_and_names(%ExShop.Zone{type: "State"} = model) do
+    from v in assoc(model, :state_zone_members),
+    join: c in ExShop.State, on: c.id == v.zoneable_id,
+    select: {v.id, c.name}
   end
 
   defp existing_zoneable_ids(%ExShop.Zone{type: "State"} = model)   ,do: ExShop.Repo.all from cz in assoc(model, :state_zone_members), select: cz.zoneable_id
