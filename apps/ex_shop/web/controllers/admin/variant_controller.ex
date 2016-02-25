@@ -5,6 +5,7 @@ defmodule ExShop.Admin.VariantController do
   alias ExShop.Variant
   alias ExShop.VariantOptionValue
 
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
   plug :scrub_params, "variant" when action in [:create, :update]
   plug :find_product
   plug :restrict_action when action in [:new, :create]
