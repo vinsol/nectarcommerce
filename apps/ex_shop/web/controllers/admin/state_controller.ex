@@ -1,8 +1,10 @@
 defmodule ExShop.Admin.StateController do
-	use ExShop.Web, :controller
+	use ExShop.Web, :admin_controller
 
   alias ExShop.Country
   alias ExShop.State
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
 
   plug :scrub_params, "state" when action in [:create]
   plug :load_country when action in [:create]
