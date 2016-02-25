@@ -33,7 +33,7 @@ defmodule ExShop.Admin.StateController do
     |> json(nil)
   end
 
-  defp load_country(conn, params) do
+  defp load_country(conn, _params) do
     country_id = conn.params["country_id"]
     assign(conn, :country, Repo.get!(Country, country_id))
   end

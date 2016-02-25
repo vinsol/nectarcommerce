@@ -1,7 +1,6 @@
 defmodule ExShop.ShippingCalculator do
   alias ExShop.Order
   alias ExShop.Repo
-  import Ecto.Query
 
   # generate all possible shippings
   def calculate_shippings(%Order{} = order) do
