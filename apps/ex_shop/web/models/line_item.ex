@@ -37,7 +37,7 @@ defmodule ExShop.LineItem do
     |> update_total_changeset(params)
   end
 
-  defp update_total_changeset(model, params \\ :empty) do
+  defp update_total_changeset(model, params) do
     quantity = get_field(model, :quantity)
     variant  = get_field(model, :variant)
     cost = Decimal.mult(Decimal.new(quantity), variant.cost_price)

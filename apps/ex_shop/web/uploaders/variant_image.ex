@@ -22,7 +22,7 @@ defmodule ExShop.VariantImage do
     version
   end
 
-  def storage_dir(_, {file, variant}) do
+  def storage_dir(_, {_file, variant}) do
     "uploads/variant_images/#{variant.id}"
   end
 

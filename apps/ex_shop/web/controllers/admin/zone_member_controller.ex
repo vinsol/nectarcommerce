@@ -15,7 +15,7 @@ defmodule ExShop.Admin.ZoneMemberController do
     zone = conn.assigns[:zone]
     changeset = ZoneMember.changeset(zoneable, zone, zone_member_params)
     case Repo.insert(changeset) do
-      {:ok, zone_member} ->
+      {:ok, _zone_member} ->
         conn
         |> put_status(201)
         |> render("zone_member.json", zoneable: zoneable)
@@ -38,12 +38,12 @@ defmodule ExShop.Admin.ZoneMemberController do
     |> render("zone_member.json", zoneable: zoneable)
   end
 
-  defp load_zone(conn, params) do
+  defp load_zone(conn, _params) do
     zone_id = conn.params["zone_id"]
     assign(conn, :zone, Repo.get!(Zone, zone_id))
   end
 
-  defp load_zoneable(conn, params) do
+  defp load_zoneable(conn, _params) do
     zoneable_id = conn.params["zone_member"]["zoneable_id"]
     if zoneable_id do
       zoneable = conn.assigns[:zone] |> Zone.zoneable(zoneable_id)

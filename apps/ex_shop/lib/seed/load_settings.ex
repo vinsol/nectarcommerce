@@ -1,8 +1,6 @@
 defmodule Seed.LoadSettings do
   alias ExShop.Setting
-  alias ExShop.SettingPair
   alias ExShop.Repo
-
 
   def seed! do
     create_general_settings

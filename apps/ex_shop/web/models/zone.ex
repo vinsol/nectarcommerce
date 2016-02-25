@@ -27,8 +27,8 @@ defmodule ExShop.Zone do
 
 
   # TODO: give better name
-  def zoneable(%ExShop.Zone{type: "Country"} = model, zoneable_id), do: ExShop.Repo.get!(ExShop.Country, zoneable_id)
-  def zoneable(%ExShop.Zone{type: "State"}   = model, zoneable_id), do: ExShop.Repo.get!(ExShop.State, zoneable_id)
+  def zoneable(%ExShop.Zone{type: "Country"} = _model, zoneable_id), do: ExShop.Repo.get!(ExShop.Country, zoneable_id)
+  def zoneable(%ExShop.Zone{type: "State"}   = _model, zoneable_id), do: ExShop.Repo.get!(ExShop.State, zoneable_id)
 
   def zoneable_member(%ExShop.Zone{type: "Country"} = model, zoneable_id) do
     ExShop.Repo.one from a in assoc(model, :country_zone_members), where: a.zoneable_id == ^zoneable_id

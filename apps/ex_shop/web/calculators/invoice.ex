@@ -2,7 +2,6 @@ defmodule ExShop.Invoice do
 
   alias ExShop.Order
   alias ExShop.Repo
-  import Ecto.Query
 
   # generate an invoice each for all possible payment methods
   def generate(order) do

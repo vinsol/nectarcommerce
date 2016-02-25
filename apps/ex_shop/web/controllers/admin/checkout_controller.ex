@@ -4,7 +4,7 @@ defmodule ExShop.Admin.CheckoutController do
   alias ExShop.CheckoutManager
   alias ExShop.Order
 
-  def checkout(conn, params) do
+  def checkout(conn, _params) do
     order = Repo.get!(Order, conn.params["order_id"])
     changeset = CheckoutManager.next_changeset(order)
     render(conn, "checkout.html", order: order, changeset: changeset)

@@ -3,7 +3,6 @@ defmodule ExShop.CartManager do
   alias ExShop.Variant
   alias ExShop.LineItem
   alias ExShop.Repo
-  import Ecto.Query
 
   def add_to_cart(order_id, %{"variant_id" => variant_id, "quantity" => quantity}) do
     order = Repo.get!(Order, order_id)
@@ -29,7 +28,7 @@ defmodule ExShop.CartManager do
     |> Repo.one()
   end
 
-  defp build_line_item(%Order{id: order_id} = order, %Variant{} = variant) do
+  defp build_line_item(%Order{id: order_id} = _order, %Variant{} = variant) do
     variant
     |> Ecto.build_assoc(:line_items)
     |> LineItem.order_id_changeset(%{order_id: order_id})

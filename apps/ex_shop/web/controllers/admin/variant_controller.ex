@@ -42,11 +42,11 @@ defmodule ExShop.Admin.VariantController do
     end
   end
 
-  def show(conn, %{"id" => id, "product_id" => _product_id}) do
+  def show(conn, %{"id" => _id, "product_id" => _product_id}) do
     render(conn, "show.html")
   end
 
-  def edit(conn, %{"id" => id, "product_id" => _product_id}) do
+  def edit(conn, %{"id" => _id, "product_id" => _product_id}) do
     product = conn.assigns[:product]
     variant = conn.assigns[:variant]
     new_params = inspect_missing_option_values(product, variant)
@@ -54,7 +54,7 @@ defmodule ExShop.Admin.VariantController do
     render(conn, "edit.html", changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "variant" => variant_params}) do
+  def update(conn, %{"id" => _id, "variant" => variant_params}) do
     product = conn.assigns[:product]
     variant = conn.assigns[:variant]
     changeset = Variant.variant_changeset(variant, variant_params)
@@ -69,7 +69,7 @@ defmodule ExShop.Admin.VariantController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
+  def delete(conn, %{"id" => _id}) do
     product = conn.assigns[:product]
     variant = conn.assigns[:variant]
 
