@@ -1,7 +1,9 @@
 defmodule ExShop.Admin.LineItemController do
-  use ExShop.Web, :controller
+  use ExShop.Web, :admin_controller
 
-  alias ExShop.Order
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
+
+
   alias ExShop.LineItem
   alias ExShop.CartManager
 

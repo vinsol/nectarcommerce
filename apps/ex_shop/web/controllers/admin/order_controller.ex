@@ -1,10 +1,12 @@
 defmodule ExShop.Admin.OrderController do
-  use ExShop.Web, :controller
+  use ExShop.Web, :admin_controller
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
 
   alias ExShop.Order
   alias ExShop.Repo
   alias ExShop.LineItem
-  alias ExShop.NotProduct, as: Product
+  alias ExShop.Product
 
   import Ecto.Query
 
@@ -17,7 +19,7 @@ defmodule ExShop.Admin.OrderController do
   def show(conn, %{"id" => id}) do
     order =
       Repo.get(Order, id)
-      |> Repo.preload([line_items: :product])
+      |> Repo.preload([line_items: [variant: :product]])
       |> Repo.preload([shippings: [:shipping_method, :adjustment]])
       |> Repo.preload([adjustments: [:tax, :shipping]])
       |> Repo.preload([payments: [:payment_method]])
@@ -28,7 +30,11 @@ defmodule ExShop.Admin.OrderController do
     # create a blank cart, maybe add it to conn and plug it later on
     order = Order.cart_changeset(%Order{}, %{}) |> Repo.insert!
     # order = Repo.get(Order, 1)
-    products  = Product |> select([c], {c.id, c.name}) |> Repo.all
+    products  =
+      Product
+      |> Repo.all
+      |> Repo.preload([:variants])
+
     line_items =
       LineItem
       |> LineItem.in_order(order)

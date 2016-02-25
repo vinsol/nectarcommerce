@@ -13,6 +13,7 @@ defmodule ExShop do
       supervisor(ExShop.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(ExShop.Worker, [arg1, arg2, arg3]),
+      worker(Commerce.Billing.Worker, billing_worker_configuration)
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
@@ -26,5 +27,13 @@ defmodule ExShop do
   def config_change(changed, _new, removed) do
     ExShop.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  def billing_worker_configuration do
+    worker_config = Application.get_env(:ex_shop, :gateway)
+    gateway_type = worker_config[:type]
+    settings = %{credentials: worker_config[:credentials],
+                 default_currency: worker_config[:default_currency]}
+    [gateway_type, settings, [name: :stripe]]
   end
 end

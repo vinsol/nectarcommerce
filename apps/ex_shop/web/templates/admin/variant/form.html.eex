@@ -10,9 +10,10 @@
       <div class="form-group">
         <% required_option_values = ExShop.Repo.all(
           from o in ExShop.OptionValue,
+          preload: [:option_type],
           where: o.option_type_id == ^(vo.source.model.option_type_id || vo.source.changes.option_type_id))
         %>
-        <%= label vo, :option_value_id, class: "control-label" %>
+        <%= label vo, :option_value_id, option_name(required_option_values), class: "control-label" %>
         <%= select vo, :option_value_id, required_option_values |> Enum.map(fn(x) -> {x.name, x.id} end), class: "form-control" %>
         <%= hidden_input vo, :option_type_id %>
         <%= error_tag vo, :option_value_id %>
@@ -54,6 +55,12 @@
     <%= label f, :discontinue_on, class: "control-label" %>
     <%= date_select f, :discontinue_on, class: "form-control" %>
     <%= error_tag f, :discontinue_on %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :quantity, class: "control-label" %>
+    <%= number_input f, :quantity, class: "form-control" %>
+    <%= error_tag f, :quantity %>
   </div>
 
   <div class="form-group">

@@ -18,9 +18,9 @@
   <tbody>
     <%= for line_item <- @order.line_items do %>
       <tr>
-        <td><%= line_item.product.name %></td>
+        <td><%= line_item.variant.product.name %></td>
         <td><%= line_item.quantity %></td>
-        <td><%= line_item.product.cost %></td>
+        <td><%= line_item.variant.cost_price %></td>
         <td><%= line_item.total %></td>
       </tr>
     <% end %>
@@ -33,16 +33,16 @@
     <tr>
       <td>Name</td>
       <td>Cost</td>
-      <td>Selected</td>
     </tr>
   </thead>
   <tbody>
     <%= for shipping <- @order.shippings do %>
-      <tr>
-        <td><%=  shipping.shipping_method.name %></td>
-        <td><%=  shipping.adjustment.amount %></td>
-        <td><%=  shipping.selected %></td>
-      </tr>
+      <%= if shipping.selected do %>
+        <tr>
+          <td><%=  shipping.shipping_method.name %></td>
+          <td><%=  shipping.adjustment.amount %></td>
+        </tr>
+      <% end %>
     <%= end %>
   </tbody>
 </table>
@@ -52,15 +52,15 @@
   <thead>
     <tr>
       <td>Name</td>
-      <td>Selected</td>
     </tr>
   </thead>
   <tbody>
     <%= for payment <- @order.payments do %>
-      <tr>
-        <td><%=  payment.payment_method.name %></td>
-        <td><%=  payment.selected %></td>
-      </tr>
+      <%= if payment.selected do %>
+        <tr>
+          <td><%=  payment.payment_method.name %></td>
+        </tr>
+      <%= end %>
     <%= end %>
   </tbody>
 </table>

@@ -1,11 +1,11 @@
 defmodule ExShop.LineItem do
   use ExShop.Web, :model
   alias ExShop.Order
-  alias ExShop.NotProduct, as: Product
+  alias ExShop.Variant
   alias ExShop.Repo
 
   schema "line_items" do
-    belongs_to :product, ExShop.NotProduct
+    belongs_to :variant, ExShop.Variant
     belongs_to :order, ExShop.Order
     field :quantity, :integer
     field :total, :decimal
@@ -15,7 +15,6 @@ defmodule ExShop.LineItem do
 
   # @required_fields ~w()
   # @optional_fields ~w()
-
 
   def changeset(model, params \\ :empty) do
     model
@@ -38,53 +37,47 @@ defmodule ExShop.LineItem do
     |> update_total_changeset(params)
   end
 
-  defp update_total_changeset(model, params \\ :empty) do
+  defp update_total_changeset(model, params) do
     quantity = get_field(model, :quantity)
-    product  = get_field(model, :product)
-    cost = Decimal.mult(Decimal.new(quantity), product.cost )
-    cast(model, Dict.merge(params, %{total: cost}), ~w(total), ~w())
+    variant  = get_field(model, :variant)
+    cost = Decimal.mult(Decimal.new(quantity), variant.cost_price)
+    cast(model, Map.merge(params, %{total: cost}), ~w(total), ~w())
   end
 
   def in_order(query, %Order{id: order_id}) do
     from c in query, where: c.order_id == ^order_id
   end
 
-  def with_product(query, %Product{id: product_id}) do
-    from c in query, where: c.product_id == ^product_id
+  def with_variant(query, %Variant{id: variant_id}) do
+    from c in query, where: c.variant_id == ^variant_id
   end
 
   # assures that the product is preloaded before validation
   # of the quantity
   defp preload_assoc(%Ecto.Changeset{} = changeset) do
-    model_from_changeset = changeset.model
-    %Ecto.Changeset{changeset| model: Repo.preload(model_from_changeset, [:product, :order])}
+    %Ecto.Changeset{changeset| model: preload_assoc(changeset.model)}
   end
+
   defp preload_assoc(%ExShop.LineItem{} = line_item) do
-    Repo.preload(line_item, [:product, :order])
+    Repo.preload(line_item, [:variant, :order])
   end
 
-  def validate_product_availability(%ExShop.LineItem{} = line_item) do
-    quantity = line_item.quantity
-    # have to make sure product is preloaded
-    product_quantity = line_item.product.quantity
-    if quantity > product_quantity do
-      add_error(line_item, :quantity, "only #{product_quantity} available")
-    else
-      line_item
+  def sufficient_quantity_available?(%ExShop.LineItem{} = line_item) do
+    requested_quantity = line_item.quantity
+    sufficient_quantity_available?(line_item, requested_quantity)
+  end
+
+  def sufficient_quantity_available?(%ExShop.LineItem{} = line_item, requested_quantity) do
+    available_product_quantity = line_item.variant.quantity
+    {requested_quantity <= available_product_quantity, available_product_quantity}
+  end
+
+  def validate_product_availability(changeset) do
+    case sufficient_quantity_available?(changeset.model, changeset.changes[:quantity]) do
+      {true, _} -> changeset
+      {false, 0} -> add_error(changeset, :variant, "out of stock")
+      {false, available_product_quantity} -> add_error(changeset, :quantity, "only #{available_product_quantity} available")
     end
   end
-
-  def validate_product_availability(model) do
-    quantity = get_field(model, :quantity)
-    # have to make sure product is preloaded
-    product_quantity = get_field(model, :product).quantity
-    if quantity > product_quantity do
-      add_error(model, :quantity, "only #{product_quantity} available")
-    else
-      model
-    end
-  end
-
-
 
 end
