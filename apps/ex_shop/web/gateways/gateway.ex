@@ -1,5 +1,5 @@
 defmodule ExShop.Gateway do
-	def authorize_payment(order, selected_payment_id, payment_method_params) do
+  def authorize_payment(order, selected_payment_id, payment_method_params) do
     do_authorize_payment(order, selected_payment_method(order, selected_payment_id), payment_method_params)
   end
 
