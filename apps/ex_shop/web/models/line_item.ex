@@ -57,23 +57,20 @@ defmodule ExShop.LineItem do
   defp preload_assoc(%Ecto.Changeset{} = changeset) do
     %Ecto.Changeset{changeset| model: preload_assoc(changeset.model)}
   end
+
   defp preload_assoc(%ExShop.LineItem{} = line_item) do
     Repo.preload(line_item, [:variant, :order])
   end
 
-  def sufficient_quantity_available?(%ExShop.LineItem{} = line_item, requested_quantity) do
-    # have to make sure product is preloaded
-    available_product_quantity = line_item.variant.quantity
-    {requested_quantity <= available_product_quantity, available_product_quantity}
-  end
-
   def sufficient_quantity_available?(%ExShop.LineItem{} = line_item) do
-    # have to make sure product is preloaded
     requested_quantity = line_item.quantity
+    sufficient_quantity_available?(line_item, requested_quantity)
+  end
+
+  def sufficient_quantity_available?(%ExShop.LineItem{} = line_item, requested_quantity) do
     available_product_quantity = line_item.variant.quantity
     {requested_quantity <= available_product_quantity, available_product_quantity}
   end
-
 
   def validate_product_availability(changeset) do
     case sufficient_quantity_available?(changeset.model, changeset.changes[:quantity]) do
@@ -82,7 +79,5 @@ defmodule ExShop.LineItem do
       {false, available_product_quantity} -> add_error(changeset, :quantity, "only #{available_product_quantity} available")
     end
   end
-
-
 
 end

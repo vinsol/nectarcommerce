@@ -43,7 +43,6 @@ defmodule ExShop.Order do
            acc && status
          end)
 
-    # will need a changeset here to add errors to line items
     if sufficient_quantity_available do
       order
     else
