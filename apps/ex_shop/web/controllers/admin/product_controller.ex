@@ -5,7 +5,7 @@ defmodule ExShop.Admin.ProductController do
   alias ExShop.OptionType
   alias ExShop.ProductOptionType
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Admin.HomeController, key: :admin
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
 
   plug :scrub_params, "product" when action in [:create, :update]
 
