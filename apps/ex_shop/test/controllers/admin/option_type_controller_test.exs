@@ -77,6 +77,10 @@ defmodule ExShop.Admin.OptionTypeControllerTest do
     refute Repo.get(OptionType, option_type.id)
   end
 
+  @tag :pending
+  test "Test Option Values creation/deletion/update along with OptionTypes", %{conn: conn} do
+  end
+
   defp do_setup(%{nologin: _} = context) do
     {:ok, %{conn: conn}}
   end
