@@ -1,0 +1,4 @@
+- Grouping Tests
+  - http://blog.simonstrom.xyz/elixir-testing-tag-tests-in-exunit/
+- Login using Guardian in Tests
+  - https://github.com/hassox/phoenix_guardian/blob/ueberauth-guardian/test/support/conn_case.ex#L35
