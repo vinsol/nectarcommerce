@@ -1,12 +1,16 @@
 defmodule ExShop.Admin.CountryControllerTest do
   use ExShop.ConnCase
 
+  alias ExShop.Repo
   alias ExShop.Country
+  alias ExShop.User
 
   @valid_attrs   %{name: "CountryName", iso: "Co", iso3: "Con", numcode: "123"}
   @invalid_attrs %{name: "Country", iso: "C", iso3: "Co", numcode: "123"}
 
-
+  setup(context) do
+    do_setup(context)
+  end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, admin_country_path(conn, :index)
@@ -65,5 +69,15 @@ defmodule ExShop.Admin.CountryControllerTest do
     conn = delete conn, admin_country_path(conn, :delete, country)
     assert redirected_to(conn) == admin_country_path(conn, :index)
     refute Repo.get(Country, country.id)
+  end
+
+  defp do_setup(%{nologin: _} = _context) do
+    {:ok, %{conn: conn}}
+  end
+
+  defp do_setup(_context) do
+    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
+    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, %{conn: conn}}
   end
 end

@@ -3,7 +3,7 @@ defmodule ExShop.VariantOptionValueTest do
 
   alias ExShop.VariantOptionValue
 
-  @valid_attrs %{}
+  @valid_attrs %{variant_id: 1, option_value_id: 1, option_type_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

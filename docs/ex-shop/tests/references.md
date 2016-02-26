@@ -1,0 +1,12 @@
+- Grouping Tests
+  - http://blog.simonstrom.xyz/elixir-testing-tag-tests-in-exunit/
+- Login using Guardian in Tests
+  - https://github.com/hassox/phoenix_guardian/blob/ueberauth-guardian/test/support/conn_case.ex#L35
+- https://eftimov.net/pending-tests-exunit
+- https://docs.travis-ci.com/user/status-images/
+- https://github.com/vinsol/ex-shop/tree/integrate/travis_build
+- http://code.parent.co/phoenix-circleci-heroku/
+- http://zac.im/2015/11/24/continuous-integration-for-phoenix-apps-on-circleci/
+
+- Adding set-up and returning {:ok, %{conn: conn}}
+  - match fails, if test does not have %{conn: conn} and doesn't get executed

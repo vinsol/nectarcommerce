@@ -1,3 +1,4 @@
+ExUnit.configure(exclude: [pending: true])
 ExUnit.start
 
 Mix.Task.run "ecto.create", ~w(-r ExShop.Repo --quiet)

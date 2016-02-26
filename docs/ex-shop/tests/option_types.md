@@ -1,0 +1,2 @@
+- mix test --trace test/controllers/admin/option_type_controller_test.exs
+- mix test --trace test/controllers/admin/option_type_controller_test.exs --exclude nologin

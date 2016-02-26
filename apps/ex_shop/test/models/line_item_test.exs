@@ -4,20 +4,38 @@ defmodule ExShop.LineItemTest do
   alias ExShop.Repo
   alias ExShop.LineItem
   alias ExShop.Order
-  alias ExShop.NotProduct, as: Product
+  alias ExShop.Product
+  alias ExShop.Variant
 
   @order_attr   %{}
-  @product_attr %{name: "Product", cost: Decimal.new("30.00"), quantity: 3}
+
+  @product_data %{name: "Sample Product",
+    description: "Sample Product for testing without variant",
+    available_on: Ecto.Date.utc,
+  }
+  @max_master_quantity 3
+  @master_cost_price Decimal.new("30.00")
+  @product_master_variant_data %{
+    master: %{
+      cost_price: @master_cost_price,
+      quantity: @max_master_quantity
+    }
+  }
+  @product_attr Map.merge(@product_data, @product_master_variant_data)
+
+  @tag :pending
+  test "LineItem Mgmt with variants and not only master variant" do
+  end
 
   test "line item with available quantity" do
     changeset = create_line_item_with_product_quantity(2)
-    assert changeset.valid?
+    assert changeset.errors == []
   end
 
   test "line item with unavailable quantity" do
-    changeset = create_line_item_with_product_quantity(@product_attr[:quantity] + 2)
+    changeset = create_line_item_with_product_quantity(@max_master_quantity + 2)
     refute changeset.valid?
-    assert changeset.errors[:quantity] == "only #{@product_attr[:quantity]} available"
+    assert changeset.errors[:quantity] == "only #{@max_master_quantity} available"
   end
 
   test "line item with 0 quantity" do
@@ -28,7 +46,7 @@ defmodule ExShop.LineItemTest do
 
   test "adding product calculates total" do
     changeset = create_line_item_with_product_quantity(2)
-    assert changeset.changes[:total] == Decimal.mult(Decimal.new("2"), @product_attr[:cost])
+    assert changeset.changes[:total] == Decimal.mult(Decimal.new("2"), @master_cost_price)
   end
 
   test "line item for non existent order" do
@@ -49,8 +67,8 @@ defmodule ExShop.LineItemTest do
   test "query with product" do
     line_item = create_line_item_with_product_quantity(2)
     |> Repo.insert!
-    product = Repo.get Product, line_item.product_id
-    assert line_item.id in Repo.all(from ln in LineItem.with_product(LineItem, product), select: ln.id)
+    variant = Repo.get Variant, line_item.variant_id
+    assert line_item.id in Repo.all(from ln in LineItem.with_variant(LineItem, variant), select: ln.id)
   end
 
   defp create_order do
@@ -59,8 +77,9 @@ defmodule ExShop.LineItemTest do
   end
 
   defp create_product do
-    Product.changeset(%Product{}, @product_attr)
+    product = Product.create_changeset(%Product{}, @product_attr)
     |> Repo.insert!
+    product.master
   end
 
   defp create_line_item_with_product(order_id \\ nil) do

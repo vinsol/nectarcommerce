@@ -3,7 +3,7 @@ defmodule ExShop.ProductOptionTypeTest do
 
   alias ExShop.ProductOptionType
 
-  @valid_attrs %{}
+  @valid_attrs %{product_id: 1, option_type_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

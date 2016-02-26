@@ -1,13 +1,19 @@
 defmodule ExShop.Admin.CheckoutControllerTest do
 	use ExShop.ConnCase
 
+  alias ExShop.Repo
   alias ExShop.Order
   alias ExShop.Country
   alias ExShop.State
-  alias ExShop.NotProduct, as: Product
+  alias ExShop.Product
   alias ExShop.CartManager
+  alias ExShop.User
 
-  test "checkout flow" do
+  setup(context) do
+    do_setup(context)
+  end
+
+  test "checkout flow", %{conn: conn} do
     cart = setup_cart
 
     address_page_conn = get(conn, admin_order_checkout_path(conn, :checkout, cart))
@@ -38,20 +44,33 @@ defmodule ExShop.Admin.CheckoutControllerTest do
     |> Repo.insert!
   end
 
-  @product_attr %{name: "Product", cost: Decimal.new("30.00"), quantity: 3}
+  @product_data %{name: "Sample Product",
+    description: "Sample Product for testing without variant",
+    available_on: Ecto.Date.utc,
+  }
+  @max_master_quantity 3
+  @master_cost_price Decimal.new("30.00")
+  @product_master_variant_data %{
+    master: %{
+      cost_price: @master_cost_price,
+      quantity: @max_master_quantity
+    }
+  }
+  @product_attr Map.merge(@product_data, @product_master_variant_data)
 
   defp setup_cart do
     cart = setup_cart_without_product
     product = create_product
     quantity = 2
-    {status, line_item} = CartManager.add_to_cart(cart.id, %{"product_id" => product.id, "quantity" => quantity})
+    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => product.id, "quantity" => quantity})
     cart
   end
 
 
   defp create_product do
-    Product.changeset(%Product{}, @product_attr)
+    product = Product.create_changeset(%Product{}, @product_attr)
     |> Repo.insert!
+    product.master
   end
 
   @address_parameters  %{"address_line_1" => "address line 12", "address_line_2" => "address line 22"}
@@ -89,7 +108,7 @@ defmodule ExShop.Admin.CheckoutControllerTest do
   end
 
   defp create_payment_methods do
-    payment_methods = ["Cheque", "Call With a card"]
+    payment_methods = ["cheque", "Call With a card"]
     Enum.each(payment_methods, fn(method_name) ->
       ExShop.PaymentMethod.changeset(%ExShop.PaymentMethod{}, %{name: method_name})
       |> ExShop.Repo.insert!
@@ -110,7 +129,16 @@ defmodule ExShop.Admin.CheckoutControllerTest do
       |> Repo.preload([:payments])
 
     [%{__struct__: _,id: payment_id} , %{__struct__: _, id: payment_id_2}] = cart.payments
-    %{"payments" => [%{"id" => payment_id, "selected" => true}, %{"id" => payment_id_2, "selected" => false}]}
+    %{"payments" => %{"0" => %{"id" => to_string(payment_id), "selected" => "true"}, "1" => %{"id" => to_string(payment_id_2), "selected" => "false"}}, "payment_method" => %{}}
   end
 
+  defp do_setup(%{nologin: _} = _context) do
+    {:ok, %{conn: conn}}
+  end
+
+  defp do_setup(_context) do
+    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
+    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, %{conn: conn}}
+  end
 end

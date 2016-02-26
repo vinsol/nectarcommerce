@@ -1,9 +1,22 @@
 defmodule ExShop.Admin.OptionTypeControllerTest do
   use ExShop.ConnCase
 
+  alias ExShop.Repo
   alias ExShop.OptionType
-  @valid_attrs %{name: "some content", position: 42, presentation: "some content"}
+  alias ExShop.User
+
+  @valid_attrs %{name: "Shirt Size", presentation: "Size"}
   @invalid_attrs %{}
+
+  setup(context) do
+    do_setup(context)
+  end
+
+  @tag nologin: true
+  test "should redirect if not logged in", %{conn: conn} do
+    conn = get conn, admin_option_type_path(conn, :index)
+    assert html_response(conn, 302)
+  end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, admin_option_type_path(conn, :index)
@@ -62,5 +75,19 @@ defmodule ExShop.Admin.OptionTypeControllerTest do
     conn = delete conn, admin_option_type_path(conn, :delete, option_type)
     assert redirected_to(conn) == admin_option_type_path(conn, :index)
     refute Repo.get(OptionType, option_type.id)
+  end
+
+  @tag :pending
+  test "Test Option Values creation/deletion/update along with OptionTypes", %{conn: _conn} do
+  end
+
+  defp do_setup(%{nologin: _} = _context) do
+    {:ok, %{conn: conn}}
+  end
+
+  defp do_setup(_context) do
+    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
+    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, %{conn: conn}}
   end
 end
