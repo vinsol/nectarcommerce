@@ -98,7 +98,7 @@ defmodule ExShop.Admin.VariantController do
 
   defp find_variant(conn, _) do
     product = conn.assigns[:product]
-    variant = Repo.get_by(Variant, id: conn.params["id"], product_id: product.id) |> Repo.preload([:product, :variant_option_values, option_values: :option_type])
+    variant = Repo.get_by(Variant, id: conn.params["id"], product_id: product.id)
     case variant do
       nil ->
         conn
@@ -106,6 +106,9 @@ defmodule ExShop.Admin.VariantController do
         |> redirect(to: admin_product_variant_path(conn, :index, product))
         |> halt()
       _ ->
+        # Preload here as when variant is nil
+        # throws FunctionClauseError :(
+        variant = variant |> Repo.preload([:product, :variant_option_values, option_values: :option_type])
         conn
         |> assign(:variant, variant)
     end
