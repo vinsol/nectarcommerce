@@ -110,6 +110,13 @@ defmodule ExShop.Admin.VariantControllerTest do
     assert html_response(conn, 200) =~ "Edit variant"
   end
 
+  @tag :master_variant
+  test "editing for master variant is not allowed and should take to variants index page instead", (%{conn: conn, product: product} = data) do
+    master_variant = Repo.get_by(Variant, %{is_master: true, product_id: product.id})
+    conn = get conn, admin_product_variant_path(conn, :edit, product, master_variant)
+    assert redirected_to(conn) == admin_product_variant_path(conn, :index, product)
+  end
+
   test "updates chosen resource and redirects when data is valid", (%{conn: conn, product: product} = data) do
     {_, %{variant: variant}} = create_variant(data)
     conn = put conn, admin_product_variant_path(conn, :update, product, variant), variant: @valid_attrs
@@ -128,6 +135,14 @@ defmodule ExShop.Admin.VariantControllerTest do
     conn = delete conn, admin_product_variant_path(conn, :delete, product, variant)
     assert redirected_to(conn) == admin_product_variant_path(conn, :index, product)
     refute Repo.get(Variant, variant.id)
+  end
+
+  @tag :master_variant
+  test "restrict deletion of master variant", (%{conn: conn, product: product} = data) do
+    master_variant = Repo.get_by(Variant, %{is_master: true, product_id: product.id})
+    conn = delete conn, admin_product_variant_path(conn, :delete, product, master_variant)
+    assert redirected_to(conn) == admin_product_variant_path(conn, :index, product)
+    assert Repo.get(Variant, master_variant.id)
   end
 
   defp do_setup(%{nologin: _} = context) do
@@ -181,7 +196,7 @@ defmodule ExShop.Admin.VariantControllerTest do
   defp create_variant(data) do
     {_, %{valid_variant_with_option_value_attrs: valid_variant_with_option_value_attrs}} = get_valid_variant_params(data)
     product = data.product
-    variant_changeset = product |> build_assoc(:variants) |> Variant.variant_changeset(valid_variant_with_option_value_attrs)
+    variant_changeset = product |> build_assoc(:variants) |> Variant.create_variant_changeset(valid_variant_with_option_value_attrs)
     assert variant_changeset.valid?
     variant = Repo.insert! variant_changeset
     {:ok, %{variant: variant}}

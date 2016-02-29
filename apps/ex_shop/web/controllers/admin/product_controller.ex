@@ -48,7 +48,7 @@ defmodule ExShop.Admin.ProductController do
   def update(conn, %{"id" => id, "product" => product_params}) do
     product = Repo.get!(Product, id) |> Repo.preload([:master, :product_option_types])
     get_option_types = Repo.all(OptionType) |> Enum.map(fn(x) -> {x.name, x.id} end)
-    changeset = Product.create_changeset(product, product_params)
+    changeset = Product.update_changeset(product, product_params)
 
     case Repo.update(changeset) do
       {:ok, product} ->

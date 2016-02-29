@@ -2,6 +2,13 @@
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
+      <%= for {:base,v} <- @changeset.errors do %>
+        <p><%= v %></p>
+      <% end %>
+      <%# Works when changeset has master changes but fails otherwise %>
+      <%# for {:base,v} <- @changeset.changes.master.errors do %>
+        <p><%# v %></p>
+      <%# end %>
     </div>
   <% end %>
 

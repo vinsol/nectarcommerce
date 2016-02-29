@@ -9,7 +9,8 @@ defmodule ExShop.Admin.VariantController do
   plug :scrub_params, "variant" when action in [:create, :update]
   plug :find_product
   plug :restrict_action when action in [:new, :create]
-  plug :find_variant when action in [:show, :edit, :update, :delete]
+  plug :find_variant when action in [:show]
+  plug :find_non_master_variant when action in [:delete, :edit, :update]
 
   def index(conn, %{"product_id" => _product_id}) do
     product = conn.assigns[:product]
@@ -29,7 +30,7 @@ defmodule ExShop.Admin.VariantController do
     product = conn.assigns[:product]
     changeset = product
       |> build_assoc(:variants)
-      |> Variant.variant_changeset(variant_params)
+      |> Variant.create_variant_changeset(variant_params)
 
     case Repo.insert(changeset) do
       {:ok, _variant} ->
@@ -49,14 +50,14 @@ defmodule ExShop.Admin.VariantController do
     product = conn.assigns[:product]
     variant = conn.assigns[:variant]
     new_params = inspect_missing_option_values(product, variant)
-    changeset = Variant.variant_changeset(variant, new_params)
+    changeset = Variant.update_variant_changeset(variant, new_params)
     render(conn, "edit.html", changeset: changeset)
   end
 
   def update(conn, %{"id" => _id, "variant" => variant_params}) do
     product = conn.assigns[:product]
     variant = conn.assigns[:variant]
-    changeset = Variant.variant_changeset(variant, variant_params)
+    changeset = Variant.update_variant_changeset(variant, variant_params)
 
     case Repo.update(changeset) do
       {:ok, variant} ->
@@ -114,6 +115,24 @@ defmodule ExShop.Admin.VariantController do
     end
   end
 
+  defp find_non_master_variant(conn, _) do
+    product = conn.assigns[:product]
+    variant = Repo.get_by(Variant, id: conn.params["id"], product_id: product.id, is_master: false)
+    case variant do
+      nil ->
+        conn
+        |> put_flash(:info, "Variant Not Found or is Master Variant")
+        |> redirect(to: admin_product_variant_path(conn, :index, product))
+        |> halt()
+      _ ->
+        # Preload here as when variant is nil
+        # throws FunctionClauseError :(
+        variant = variant |> Repo.preload([:product, :variant_option_values, option_values: :option_type])
+        conn
+        |> assign(:variant, variant)
+    end
+  end
+
   defp restrict_action(conn, _) do
     product = conn.assigns[:product]
     case product.option_types do
@@ -128,16 +147,20 @@ defmodule ExShop.Admin.VariantController do
   end
 
   defp inspect_missing_option_values(product, variant) do
-    available_product_option_type_ids = Enum.map(product.product_option_types, &(&1.option_type_id))
-    available_variant_option_value_ids = Enum.map(variant.option_values, &(&1.option_type_id))
-    missing_variant_option_value_ids = available_product_option_type_ids -- available_variant_option_value_ids
-    missing_variant_option_value_params = Enum.map(missing_variant_option_value_ids, fn(m) ->
-      %{"option_type_id" => m}
-    end)
-    if missing_variant_option_value_params != [] do
-      %{"variant_option_values" => missing_variant_option_value_params}
-    else
+    if variant.is_master do
       %{}
+    else
+      available_product_option_type_ids = Enum.map(product.product_option_types, &(&1.option_type_id))
+      available_variant_option_value_ids = Enum.map(variant.option_values, &(&1.option_type_id))
+      missing_variant_option_value_ids = available_product_option_type_ids -- available_variant_option_value_ids
+      missing_variant_option_value_params = Enum.map(missing_variant_option_value_ids, fn(m) ->
+        %{"option_type_id" => m}
+      end)
+      if missing_variant_option_value_params != [] do
+        %{"variant_option_values" => missing_variant_option_value_params}
+      else
+        %{}
+      end
     end
   end
 end

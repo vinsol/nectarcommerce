@@ -38,10 +38,27 @@ defmodule ExShop.Variant do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def variant_changeset(model, params \\ :empty) do
+  def create_variant_changeset(model, params \\ :empty) do
     changeset(model, params)
     |> put_change(:is_master, false)
     |> cast_attachments(params, ~w(), ~w(image))
     |> cast_assoc(:variant_option_values, required: true, with: &ExShop.VariantOptionValue.from_variant_changeset/2)
+  end
+
+  def update_variant_changeset(model, params \\ :empty) do
+    changeset(model, params)
+    |> validate_not_master
+    # Even if changset is invalid, cast_attachments does it work :(
+    |> cast_attachments(params, ~w(), ~w(image))
+    |> cast_assoc(:variant_option_values, required: true, with: &ExShop.VariantOptionValue.from_variant_changeset/2)
+  end
+
+  defp validate_not_master(changeset) do
+    if changeset.model.is_master do
+      add_error(changeset, :is_master, "can't be updated")
+      |> add_error(:base, "Please go to Product Edit Page to update master variant")
+    else
+      changeset
+    end
   end
 end
