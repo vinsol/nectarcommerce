@@ -36,4 +36,8 @@ defmodule ExShop.Admin.CheckoutView do
     end
   end
 
+  def braintree_client_token do
+    ExShop.Gateway.BrainTree.client_token
+  end
+
 end

@@ -16,11 +16,13 @@ import ajax from "web/static/js/lib/ajax_setup";
 import zone from "web/static/js/zone";
 import state from "web/static/js/state";
 import order from "web/static/js/order";
+import payment from "web/static/js/payment";
 
 ajax.setup();
 window.zone = zone;
 window.state = state;
 window.order = order;
+window.payment = payment;
 
 // Import local files
 //

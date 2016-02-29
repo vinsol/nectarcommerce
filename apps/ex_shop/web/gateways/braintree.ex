@@ -1,20 +1,19 @@
-# Simple Adapter Class Around commerce billing
-# Based on the code in checkout controller of https://github.com/joshnuss/phoenix-billing-demo
-defmodule ExShop.Gateway.Stripe do
+defmodule ExShop.Gateway.BrainTree do
   alias ExShop.Repo
   alias Commerce.Billing.Address
   alias Commerce.Billing.CreditCard
   alias Commerce.Billing
+  alias ExShop.Billing.Gateways.BraintreeImpl
 
-  def authorize(order, card_details) do
+  def authorize(order, %{"nonce" => nonce}) do
     billing_address = get_billing_address(order)
-    card =  get_card(card_details)
-    case Billing.authorize(:stripe, String.to_float(Decimal.to_string(order.total)),
-                      card,
+    nonce = nonce
+    case Billing.authorize(:braintree, String.to_float(Decimal.to_string(order.total)),
+                      nonce,
                       billing_address: billing_address,
                       description: "Order No. #{order.id}") do
       {:ok, _}  -> {:ok}
-      {:error, %Commerce.Billing.Response{raw: %{"error" => %{"message" => message}}}} -> {:error, message}
+      {:error, message} -> {:error, message}
     end
   end
 
@@ -47,5 +46,9 @@ defmodule ExShop.Gateway.Stripe do
   def get_expiration(_, _),
     do: {0, 0}
 
+  def client_token do
+    {:ok, token} = BraintreeImpl.generate_client_token
+    token
+  end
 
 end

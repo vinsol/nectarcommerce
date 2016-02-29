@@ -13,7 +13,11 @@ defmodule ExShop do
       supervisor(ExShop.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(ExShop.Worker, [arg1, arg2, arg3]),
-      worker(Commerce.Billing.Worker, billing_worker_configuration)
+
+      # will need a new supervisor to allow this to run multiple workers in this way with
+      # simple one to one strategy
+      # worker(Commerce.Billing.Worker, stripe_worker_configuration, id: :stripe_gateway),
+      worker(Commerce.Billing.Worker, braintree_worker_configuration)
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
@@ -29,11 +33,18 @@ defmodule ExShop do
     :ok
   end
 
-  def billing_worker_configuration do
-    worker_config = Application.get_env(:ex_shop, :gateway)
+  def stripe_worker_configuration do
+    worker_config = Application.get_env(:ex_shop, :stripe)
     gateway_type = worker_config[:type]
     settings = %{credentials: worker_config[:credentials],
                  default_currency: worker_config[:default_currency]}
     [gateway_type, settings, [name: :stripe]]
+  end
+
+  def braintree_worker_configuration do
+    worker_config = Application.get_env(:ex_shop, :braintree)
+    gateway_type = worker_config[:type]
+    settings = %{}
+    [gateway_type, settings, [name: :braintree]]
   end
 end
