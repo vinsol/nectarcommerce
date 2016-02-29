@@ -92,7 +92,7 @@ defmodule ExShop.CheckoutManager do
     # get the selected payment method
     # if none or more than one found return changeset it will handle missing payment method later
     # else use the selected payment_method_id to complete the transaction.
-    case Enum.filter(params["payments"], fn
+    case Enum.filter(params["payments"] || [], fn
       ({_, %{"selected" => "false"}}) -> false
       ({_, %{"selected" => "true"}})  -> true
     end) do

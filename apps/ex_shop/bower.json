@@ -2,6 +2,7 @@
   "name": "ExShop",
   "dependencies": {
     "jquery": "~2.1",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "braintree-web": "^2.21.0"
   }
 }
