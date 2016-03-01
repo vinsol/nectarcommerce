@@ -56,13 +56,13 @@ defmodule ExShop.Variant do
   def buy_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(buy_count), ~w())
-    |> update_bought_quantity
+    |> increment_bought_quantity
   end
 
   def restocking_changeset(model, params) do
     model
     |> cast(params, ~w(restock_count), ~w())
-    |> update_bought_quantity
+    |> decrement_bought_quantity
   end
 
   defp update_total_quantity(model) do
@@ -74,11 +74,19 @@ defmodule ExShop.Variant do
     end
   end
 
-  defp update_bought_quantity(model) do
-    quantity_to_add = model.changes[:buy_count] || 0
-    quantity_to_subtract = model.changes[:restock_count] || 0
-    if quantity_to_add || quantity_to_subtract do
-      put_change(model, :bought_quantity, (model.model.bought_quantity || 0) + quantity_to_add - quantity_to_subtract)
+  defp increment_bought_quantity(model) do
+    quantity_to_add = model.changes[:buy_count]
+    if quantity_to_add do
+      put_change(model, :bought_quantity, (model.model.bought_quantity || 0) + quantity_to_add)
+    else
+      model
+    end
+  end
+
+  defp decrement_bought_quantity(model) do
+    quantity_to_subtract = model.changes[:restock_count]
+    if quantity_to_subtract do
+      put_change(model, :bought_quantity, (model.model.bought_quantity || 0) - quantity_to_subtract)
     else
       model
     end
