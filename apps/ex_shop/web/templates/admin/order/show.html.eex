@@ -27,7 +27,7 @@
           <%= if line_item.fullfilled do %>
             <input name="" type="checkbox" checked="<%= line_item.fullfilled %>" class="fullfillment" data-line-item-id="<%= line_item.id %>"/>
           <% else %>
-            <input name="" type="checkbox" class="fullfillment" data-line-item-id="<%= line_item.id %>"/>
+            <strong>cancelled</strong>
           <% end %>
         </td>
       </tr>
