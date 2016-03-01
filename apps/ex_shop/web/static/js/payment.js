@@ -4,8 +4,7 @@ export default {
   init: function({
     braintreeClientToken
   }) {
-      debugger;
-      this.initializeBrainTreeClient(braintreeClientToken);
+    this.initializeBrainTreeClient(braintreeClientToken);
     this.bindFormSubmissionListner();
   },
 
@@ -28,7 +27,7 @@ export default {
 
   tokenizeCard: function() {
     let brainTreeForm = this.form.find('.payment-form[data-for=braintree]');
-    let number = brainTreeForm.find('input[name="order[payment_method][card_number]"]').val();
+    let number = brainTreeForm.find('input[name="order[payment_method][braintree][card_number]"]').val();
     let expirationDate = brainTreeForm.find('select').map((idx, val) => val.value).toArray().join("/");
     let _this = this;
     this.brainTreeClient.tokenizeCard({
@@ -40,7 +39,7 @@ export default {
           return;
         }
 
-        let nonce_input = $("<input>").attr("type", "hidden").attr("name", "order[payment_method][nonce]").val(nonce);
+        let nonce_input = $("<input>").attr("type", "hidden").attr("name", "order[payment_method][braintree][nonce]").val(nonce);
         _this.form.append($(nonce_input));
         _this.form.off('submit').submit();
       });

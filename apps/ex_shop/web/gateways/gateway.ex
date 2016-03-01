@@ -11,11 +11,11 @@ defmodule ExShop.Gateway do
   end
 
   defp do_authorize_payment(order, "stripe", payment_method_params) do
-    ExShop.Gateway.Stripe.authorize(order, payment_method_params)
+    ExShop.Gateway.Stripe.authorize(order, payment_method_params["stripe"])
   end
 
   defp do_authorize_payment(order, "braintree", payment_method_params) do
-    ExShop.Gateway.BrainTree.authorize(order, payment_method_params)
+    ExShop.Gateway.BrainTree.authorize(order, payment_method_params["braintree"])
   end
 
   defp do_authorize_payment(_order, "cheque", _params) do

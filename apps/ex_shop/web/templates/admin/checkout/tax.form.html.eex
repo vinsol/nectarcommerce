@@ -10,7 +10,7 @@
       <%= error_tag payment, :selected %>
     </div>
     <!-- Renders the form for the respective payment method -->
-    <%= render_existing @view_module, "payment.#{payment.data.payment_method.name}.html"  %>
+    <%= render_existing @view_module, "payment.#{payment.data.payment_method.name}.html"%>
     </div>
   <% end %>
   <div class="form-group">
