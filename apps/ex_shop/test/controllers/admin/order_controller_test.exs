@@ -16,18 +16,22 @@ defmodule ExShop.Admin.OrderControllerTest do
 
   # CART Actions
   # TODO: implement after integration
+  @tag :pending
   test "add to cart" do
     assert false
   end
 
+  @tag :pending
   test "remove from cart" do
     assert false
   end
 
+  @tag :pending
   test "update cart quantity" do
     assert false
   end
 
+  @tag :pending
   test "add invalid quantity" do
     assert false
   end

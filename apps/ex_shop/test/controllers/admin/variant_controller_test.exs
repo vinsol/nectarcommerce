@@ -85,7 +85,7 @@ defmodule ExShop.Admin.VariantControllerTest do
   end
 
   @tag :pending
-  test "creates resource and redirects when data is valid and has image", (%{conn: conn, product: product} = data) do
+  test "creates resource and redirects when data is valid and has image", (%{conn: _conn, product: _product} = _data) do
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn, product: product} do
@@ -111,7 +111,7 @@ defmodule ExShop.Admin.VariantControllerTest do
   end
 
   @tag :master_variant
-  test "editing for master variant is not allowed and should take to variants index page instead", (%{conn: conn, product: product} = data) do
+  test "editing for master variant is not allowed and should take to variants index page instead", (%{conn: conn, product: product} = _data) do
     master_variant = Repo.get_by(Variant, %{is_master: true, product_id: product.id})
     conn = get conn, admin_product_variant_path(conn, :edit, product, master_variant)
     assert redirected_to(conn) == admin_product_variant_path(conn, :index, product)
@@ -138,20 +138,20 @@ defmodule ExShop.Admin.VariantControllerTest do
   end
 
   @tag :master_variant
-  test "restrict deletion of master variant", (%{conn: conn, product: product} = data) do
+  test "restrict deletion of master variant", (%{conn: conn, product: product} = _data) do
     master_variant = Repo.get_by(Variant, %{is_master: true, product_id: product.id})
     conn = delete conn, admin_product_variant_path(conn, :delete, product, master_variant)
     assert redirected_to(conn) == admin_product_variant_path(conn, :index, product)
     assert Repo.get(Variant, master_variant.id)
   end
 
-  defp do_setup(%{nologin: _} = context) do
+  defp do_setup(%{nologin: _} = _context) do
     product_changeset = Product.create_changeset(%Product{}, @valid_product_attrs)
     product = Repo.insert! product_changeset
     {:ok, %{conn: conn, product: product}}
   end
 
-  defp do_setup(%{no_product_option_types: _} = context) do
+  defp do_setup(%{no_product_option_types: _} = _context) do
     product_changeset = Product.create_changeset(%Product{}, @valid_product_attrs)
     product = Repo.insert! product_changeset
     admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
@@ -159,7 +159,7 @@ defmodule ExShop.Admin.VariantControllerTest do
     {:ok, %{conn: conn, product: product}}
   end
 
-  defp do_setup(context) do
+  defp do_setup(_context) do
     option_type_changeset = OptionType.changeset(%OptionType{}, @option_type_attrs)
     option_type = Repo.insert!(option_type_changeset) |> Repo.preload([:option_values])
     product_option_type_attrs = %{

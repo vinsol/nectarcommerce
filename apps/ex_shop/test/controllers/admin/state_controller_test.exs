@@ -1,11 +1,17 @@
 defmodule ExShop.Admin.StateControllerTest do
   use ExShop.ConnCase
 
+  alias ExShop.Repo
   alias ExShop.State
   alias ExShop.Country
+  alias ExShop.User
 
   @country_attrs %{"name" => "Country", "iso" => "Co", "iso3" => "Con", "numcode" => "123"}
   @state_attrs   %{"abbr" => "ST", "name" => "State"}
+
+  setup(context) do
+    do_setup(context)
+  end
 
   test "create fails with invalid paramters" do
     country = insert_country!
@@ -33,4 +39,13 @@ defmodule ExShop.Admin.StateControllerTest do
     |> Repo.insert!
   end
 
+  defp do_setup(%{nologin: _} = _context) do
+    {:ok, %{conn: conn}}
+  end
+
+  defp do_setup(_context) do
+    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
+    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, %{conn: conn}}
+  end
 end

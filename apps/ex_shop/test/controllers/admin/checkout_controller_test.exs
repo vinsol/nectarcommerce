@@ -44,7 +44,7 @@ defmodule ExShop.Admin.CheckoutControllerTest do
     cart = setup_cart_without_product
     product = create_product
     quantity = 2
-    {status, line_item} = CartManager.add_to_cart(cart.id, %{"product_id" => product.id, "quantity" => quantity})
+    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"product_id" => product.id, "quantity" => quantity})
     cart
   end
 

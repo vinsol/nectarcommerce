@@ -100,11 +100,11 @@ defmodule ExShop.Admin.ProductControllerTest do
   test "Test Product with OptionTypes and product_option_types addition/deletion" do
   end
 
-  defp do_setup(%{nologin: _} = context) do
+  defp do_setup(%{nologin: _} = _context) do
     {:ok, %{conn: conn}}
   end
 
-  defp do_setup(context) do
+  defp do_setup(_context) do
     admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
     conn = guardian_login(admin_user, :token, key: :admin)
     {:ok, %{conn: conn}}

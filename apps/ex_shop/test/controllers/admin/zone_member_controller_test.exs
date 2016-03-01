@@ -1,21 +1,25 @@
 defmodule ExShop.Admin.ZoneMemberControllerTest do
   use ExShop.ConnCase
 
+  alias ExShop.Repo
   alias ExShop.Country
   alias ExShop.Zone
-  alias ExShop.ZoneMember
+  alias ExShop.User
 
   @country_attrs %{"name" => "Country", "iso" => "Co", "iso3" => "Con", "numcode" => "123"}
   @zone_attrs    %{name: "NA", description: "TEST", type: "Country"}
 
+  setup(context) do
+    do_setup(context)
+  end
 
-  test "adds a zone member with missing zoneable id" do
+  test "adds a zone member with missing zoneable id", %{conn: conn} do
     zone = create_zone!
     conn = post conn, admin_zone_zone_member_path(conn, :create, zone), zone_member: %{}
     assert conn.halted
   end
 
-  test "adds a zone member and returns zoneable id" do
+  test "adds a zone member and returns zoneable id", %{conn: conn} do
     zone = create_zone!
     zone_member_attrs = zone_member_valid_attrs
     conn = post conn, admin_zone_zone_member_path(conn, :create, zone), zone_member: zone_member_attrs
@@ -23,14 +27,14 @@ defmodule ExShop.Admin.ZoneMemberControllerTest do
   end
 
 
-  test "removes a zone member" do
+  test "removes a zone member", %{conn: conn} do
     zone = create_zone!
     zone_member_attrs = zone_member_valid_attrs
     zone_member_id = zone_member_attrs |> Map.get("zoneable_id")
     zone_member = Repo.get! Country, zone_member_id
 
     # create the zone
-    create_conn = post conn, admin_zone_zone_member_path(conn, :create, zone), zone_member: zone_member_attrs
+    post conn, admin_zone_zone_member_path(conn, :create, zone), zone_member: zone_member_attrs
     zone_member_initial_count = Repo.one(from z in Zone.members(zone), select: count(z.id))
 
     # delete the zone
@@ -57,4 +61,13 @@ defmodule ExShop.Admin.ZoneMemberControllerTest do
     }
   end
 
+  defp do_setup(%{nologin: _} = _context) do
+    {:ok, %{conn: conn}}
+  end
+
+  defp do_setup(_context) do
+    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
+    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, %{conn: conn}}
+  end
 end
