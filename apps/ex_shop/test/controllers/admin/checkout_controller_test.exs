@@ -4,7 +4,7 @@ defmodule ExShop.Admin.CheckoutControllerTest do
   alias ExShop.Order
   alias ExShop.Country
   alias ExShop.State
-  alias ExShop.NotProduct, as: Product
+  alias ExShop.Product
   alias ExShop.CartManager
 
   test "checkout flow" do
@@ -38,20 +38,33 @@ defmodule ExShop.Admin.CheckoutControllerTest do
     |> Repo.insert!
   end
 
-  @product_attr %{name: "Product", cost: Decimal.new("30.00"), quantity: 3}
+  @product_data %{name: "Sample Product",
+    description: "Sample Product for testing without variant",
+    available_on: Ecto.Date.utc,
+  }
+  @max_master_quantity 3
+  @master_cost_price Decimal.new("30.00")
+  @product_master_variant_data %{
+    master: %{
+      cost_price: @master_cost_price,
+      quantity: @max_master_quantity
+    }
+  }
+  @product_attr Map.merge(@product_data, @product_master_variant_data)
 
   defp setup_cart do
     cart = setup_cart_without_product
     product = create_product
     quantity = 2
-    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"product_id" => product.id, "quantity" => quantity})
+    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => product.id, "quantity" => quantity})
     cart
   end
 
 
   defp create_product do
-    Product.changeset(%Product{}, @product_attr)
+    product = Product.create_changeset(%Product{}, @product_attr)
     |> Repo.insert!
+    product.master
   end
 
   @address_parameters  %{"address_line_1" => "address line 12", "address_line_2" => "address line 22"}

@@ -51,7 +51,7 @@ defmodule ExShop.Product do
   end
 
   def create_master_changeset(model, params \\ :empty) do
-    cast(model, params, ~w(cost_price), ~w())
+    cast(model, params, ~w(cost_price), ~w(quantity))
     |> put_change(:is_master, true)
     |> cast_attachments(params, ~w(), ~w(image))
   end
