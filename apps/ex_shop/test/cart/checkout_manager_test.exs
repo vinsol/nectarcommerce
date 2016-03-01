@@ -91,14 +91,14 @@ defmodule ExShop.CheckoutManagerTest do
   test "move to tax state calculates the order total" do
     {_, c_addr} = move_cart_to_address_state(setup_cart)
     {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
-    {status, c_tax} = move_cart_to_tax_state(c_shipp)
+    {_status, c_tax} = move_cart_to_tax_state(c_shipp)
     assert c_tax.total
   end
 
   test "move to tax state generates the invoice" do
     {_, c_addr} = move_cart_to_address_state(setup_cart)
     {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
-    {status, c_tax} = move_cart_to_tax_state(c_shipp)
+    {_status, c_tax} = move_cart_to_tax_state(c_shipp)
     assert Enum.count(c_tax.payments) > 0
   end
 
@@ -154,6 +154,7 @@ defmodule ExShop.CheckoutManagerTest do
     available_on: Ecto.Date.utc,
   }
   @master_cost_price Decimal.new("30.00")
+  @max_master_quantity 3
   @product_master_variant_data %{
     master: %{
       cost_price: @master_cost_price,
@@ -166,7 +167,7 @@ defmodule ExShop.CheckoutManagerTest do
     cart = setup_cart_without_product
     product = create_product
     quantity = 2
-    {status, line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => product.id, "quantity" => quantity})
+    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => product.id, "quantity" => quantity})
     cart
   end
 
@@ -211,7 +212,7 @@ defmodule ExShop.CheckoutManagerTest do
   end
 
   defp create_payment_methods do
-    payment_methods = ["Cheque", "Call With a card"]
+    payment_methods = ["cheque", "Call With a card"]
     Enum.each(payment_methods, fn(method_name) ->
       ExShop.PaymentMethod.changeset(%ExShop.PaymentMethod{}, %{name: method_name})
       |> ExShop.Repo.insert!
@@ -245,6 +246,6 @@ defmodule ExShop.CheckoutManagerTest do
 
   defp valid_payment_params(cart) do
     [%{__struct__: _,id: payment_id} , %{__struct__: _, id: payment_id_2}] = cart.payments
-    %{"payments" => [%{"id" => payment_id, "selected" => "true"}, %{"id" => payment_id_2, "selected" => "false"}]}
+    %{"payments" => %{"0" => %{"id" => to_string(payment_id), "selected" => "true"}, "1" => %{"id" => to_string(payment_id_2), "selected" => "false"}}, "payment_method" => %{}}
   end
 end

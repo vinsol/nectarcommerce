@@ -23,7 +23,7 @@ defmodule ExShop.Admin.ZoneMemberControllerTest do
     zone = create_zone!
     zone_member_attrs = zone_member_valid_attrs
     conn = post conn, admin_zone_zone_member_path(conn, :create, zone), zone_member: zone_member_attrs
-    assert json_response(conn, 201)["id"] == zone_member_attrs["zoneable_id"]
+    assert json_response(conn, 201)["zoneable_id"] == zone_member_attrs["zoneable_id"]
   end
 
 
@@ -31,12 +31,12 @@ defmodule ExShop.Admin.ZoneMemberControllerTest do
     zone = create_zone!
     zone_member_attrs = zone_member_valid_attrs
     zone_member_id = zone_member_attrs |> Map.get("zoneable_id")
-    zone_member = Repo.get! Country, zone_member_id
 
     # create the zone
     post conn, admin_zone_zone_member_path(conn, :create, zone), zone_member: zone_member_attrs
     zone_member_initial_count = Repo.one(from z in Zone.members(zone), select: count(z.id))
 
+    zone_member = Repo.one(from z in Zone.members(zone), where: z.zoneable_id == ^zone_member_id)
     # delete the zone
     delete_conn = delete conn, admin_zone_zone_member_path(conn, :delete, zone, zone_member)
     zone_member_updated_count = Repo.one(from z in Zone.members(zone), select: count(z.id))
@@ -57,7 +57,7 @@ defmodule ExShop.Admin.ZoneMemberControllerTest do
 
   defp zone_member_valid_attrs do
     %{
-        "zoneable_id" => insert_country!.id
+      "zoneable_id" => insert_country!.id
     }
   end
 

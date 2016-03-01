@@ -56,6 +56,13 @@ defmodule ExShop.Zone do
     select: {v.id, c.name}
   end
 
+  def members(%ExShop.Zone{type: "Country"} = model) do
+    from v in assoc(model, :country_zone_members)
+  end
+  def members(%ExShop.Zone{type: "State"} = model) do
+    from v in assoc(model, :state_zone_members)
+  end
+
   defp existing_zoneable_ids(%ExShop.Zone{type: "State"} = model)   ,do: ExShop.Repo.all from cz in assoc(model, :state_zone_members), select: cz.zoneable_id
   defp existing_zoneable_ids(%ExShop.Zone{type: "Country"} = model) ,do: ExShop.Repo.all from cz in assoc(model, :country_zone_members), select: cz.zoneable_id
 end

@@ -13,19 +13,19 @@ defmodule ExShop.Admin.StateControllerTest do
     do_setup(context)
   end
 
-  test "create fails with invalid paramters" do
+  test "create fails with invalid paramters", %{conn: conn} do
     country = insert_country!
     conn = post conn, admin_country_state_path(conn, :create, country), state: %{}
     assert Enum.count(json_response(conn, 422)["errors"]) > 0
   end
 
-  test "create succeeds with valid parameters" do
+  test "create succeeds with valid parameters", %{conn: conn} do
     country = insert_country!
     conn = post conn, admin_country_state_path(conn, :create, country), state: @state_attrs
     assert json_response(conn, 201)["abbr"] == @state_attrs["abbr"]
   end
 
-  test "remove the state" do
+  test "remove the state", %{conn: conn} do
     country = insert_country!
     state =
       State.changeset(%State{}, Map.merge(@state_attrs, %{"country_id" => country.id}))

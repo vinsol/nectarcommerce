@@ -55,7 +55,7 @@ defmodule ExShop.CartManagerTest do
     order = create_order
     product = create_product
     quantity = 1
-    {status, line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => product.id, "quantity" => quantity})
+    {_status, line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => product.id, "quantity" => quantity})
     {updated_status, updated_line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => product.id, "quantity" => 3})
     assert updated_status == :ok
     assert line_item.id == updated_line_item.id

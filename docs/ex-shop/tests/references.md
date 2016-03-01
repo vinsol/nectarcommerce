@@ -7,3 +7,6 @@
 - https://github.com/vinsol/ex-shop/tree/integrate/travis_build
 - http://code.parent.co/phoenix-circleci-heroku/
 - http://zac.im/2015/11/24/continuous-integration-for-phoenix-apps-on-circleci/
+
+- Adding set-up and returning {:ok, %{conn: conn}}
+  - match fails, if test does not have %{conn: conn} and doesn't get executed
