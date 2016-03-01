@@ -14,9 +14,7 @@ defmodule ExShop.CheckoutManager do
   def next_changeset(%Order{state: "shipping"} = order), do: Order.transition_changeset(order, "tax")
   def next_changeset(%Order{state: "tax"} = order), do: Order.transition_changeset(order, "payment")
   def next_changeset(%Order{state: "payment"} = order), do: Order.transition_changeset(order, "confirmation")
-  def next_changeset(%Order{} = order) do
-    order
-  end
+  def next_changeset(%Order{} = order), do: order
 
   # transitions
   # TODO: metaprogram to autogenerate
@@ -69,6 +67,11 @@ defmodule ExShop.CheckoutManager do
     order
     |> Order.settle_adjustments_and_product_payments
     |> Invoice.generate
+  end
+
+  def after_transition(%Order{state: "confirmation"} = order, _data) do
+    order
+    |> Order.acquire_variant_stock
   end
 
   # default match do nothing just return order

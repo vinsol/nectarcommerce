@@ -17,7 +17,9 @@
   <div class="panel panel-default">
     <div class="panel-body pull-left">$ <%= @variant.cost_price %></div>
     <div class="panel-body pull-left"><%= @variant.product.available_on %></div>
-    <div class="panel-body"<%= @variant.discontinue_on %>></div>
+    <div class="panel-body"><%= @variant.discontinue_on %></div>
+    <div class="panel-body">Total:  <%= @variant.total_quantity %></div>
+    <div class="panel-body">Bought: <%= @variant.bought_quantity %></div>
   </div>
   <%= for option_value <- @variant.option_values do %>
     <div class="panel panel-default">

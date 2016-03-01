@@ -9,7 +9,7 @@ defmodule ExShop.LineItem do
     belongs_to :order, ExShop.Order
     field :quantity, :integer
     field :total, :decimal
-
+    field :fullfilled, :boolean, default: true
     timestamps
   end
 
@@ -22,6 +22,11 @@ defmodule ExShop.LineItem do
     |> quantity_changeset(params)
   end
 
+  def fullfillment_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(fullfilled), ~w())
+  end
+
   def order_id_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(order_id), ~w())
@@ -30,7 +35,7 @@ defmodule ExShop.LineItem do
 
   def quantity_changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(quantity), ~w())
+    |> cast(params, ~w(quantity), ~w(fullfilled))
     |> validate_number(:quantity, greater_than: 0)
     |> preload_assoc
     |> validate_product_availability
@@ -42,6 +47,33 @@ defmodule ExShop.LineItem do
     variant  = get_field(model, :variant)
     cost = Decimal.mult(Decimal.new(quantity), variant.cost_price)
     cast(model, Map.merge(params, %{total: cost}), ~w(total), ~w())
+  end
+
+  def move_stock(%ExShop.LineItem{fullfilled: true} = line_item) do
+    remove_stock_from_variant(line_item)
+  end
+  def move_stock(%ExShop.LineItem{fullfilled: false} = line_item) do
+    move_stock_back_to_variant(line_item)
+  end
+
+  def remove_stock_from_variant(%ExShop.LineItem{variant: variant, quantity: quantity, fullfilled: true}) do
+    variant
+    |> Variant.buy_changeset(%{buy_count: quantity})
+    |> Repo.update!
+  end
+
+  def remove_stock_from_variant(%ExShop.LineItem{variant: variant, quantity: quantity}) do
+    variant
+  end
+
+  def move_stock_back_to_variant(%ExShop.LineItem{variant: variant, quantity: quantity, fullfilled: false}) do
+    variant
+    |> Variant.restocking_changeset(%{restock_count: quantity})
+    |> Repo.update!
+  end
+
+  def move_stock_back_to_variant(%ExShop.LineItem{variant: variant, quantity: quantity}) do
+    variant
   end
 
   def in_order(query, %Order{id: order_id}) do
@@ -68,7 +100,7 @@ defmodule ExShop.LineItem do
   end
 
   def sufficient_quantity_available?(%ExShop.LineItem{} = line_item, requested_quantity) do
-    available_product_quantity = line_item.variant.quantity
+    available_product_quantity = line_item.variant |> Variant.available_quantity
     {requested_quantity <= available_product_quantity, available_product_quantity}
   end
 

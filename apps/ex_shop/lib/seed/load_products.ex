@@ -12,7 +12,7 @@ defmodule Seed.LoadProducts do
   @product_data %{name: "Sample Product",
                   description: "Sample Product for testing without variant",
                   available_on: Ecto.Date.utc,
-                  master: %{cost_price: 20.00, quantity: 10}}
+                  master: %{cost_price: 20.00, add_quantity: 10}}
 
   defp seed_products_without_variant do
     # create the product
@@ -23,9 +23,9 @@ defmodule Seed.LoadProducts do
 
   @product_data %{name: "Sample Product 2",
                   description: "Sample Product for testing with 3 variants(One Master + 2 Other)",
-                  available_on: Ecto.Date.utc,master: %{cost_price: 10.00, quantity: 10}}
+                  available_on: Ecto.Date.utc,master: %{cost_price: 10.00, add_quantity: 10}}
   @variant_one_data %{discontinue_on: Ecto.Date.utc, cost_price: 20.00, sku: "Variant 1"}
-  @variant_two_data %{discontinue_on: Ecto.Date.utc, cost_price: 22.00, sku: "Variant 2", quantity: 11}
+  @variant_two_data %{discontinue_on: Ecto.Date.utc, cost_price: 22.00, sku: "Variant 2", add_quantity: 11}
   defp seed_products_with_variant do
     option_type = seed_option_type_and_values
     data = Map.merge(@product_data, %{product_option_types: [%{option_type_id: option_type.id}]})
