@@ -58,8 +58,8 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :quantity, class: "control-label" %>
-    <%= number_input f, :quantity, class: "form-control" %>
+    <%= label f, :add_count, "Add stock", class: "control-label" %>
+    <%= number_input f, :add_count, class: "form-control" %>
     <%= error_tag f, :quantity %>
   </div>
 
