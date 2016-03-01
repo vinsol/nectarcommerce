@@ -18,7 +18,7 @@ defmodule ExShop.LineItemTest do
   @product_master_variant_data %{
     master: %{
       cost_price: @master_cost_price,
-      quantity: @max_master_quantity
+      add_count: @max_master_quantity
     }
   }
   @product_attr Map.merge(@product_data, @product_master_variant_data)
