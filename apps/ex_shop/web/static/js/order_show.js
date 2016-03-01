@@ -19,6 +19,7 @@ export default {
   },
 
   updateFullfillment: function(lineItemId, fullfilled) {
+    let _this = this;
     $.ajax({
       url: `/admin/orders/${this.orderId}/line_items/${lineItemId}/update_fullfillment`,
       data: {
@@ -27,8 +28,14 @@ export default {
         }
       },
       contentType: "application/json",
-      method: 'put'
+      method: 'put',
+      success: function() {
+        _this.removeCheckbox(lineItemId);
+      }
     });
+  },
+  removeCheckbox: function(lineItemId) {
+    this.lineItems.find(`.fullfillment[data-line-item-id=${lineItemId}]`).replaceWith("<strong>cancelled</strong>");
   }
 
 }
