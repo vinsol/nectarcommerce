@@ -14,10 +14,8 @@ defmodule ExShop do
       # Here you could define other workers and supervisors as children
       # worker(ExShop.Worker, [arg1, arg2, arg3]),
 
-      # will need a new supervisor to allow this to run multiple workers in this way with
-      # simple one to one strategy
-      # worker(Commerce.Billing.Worker, stripe_worker_configuration, id: :stripe_gateway),
-      worker(Commerce.Billing.Worker, braintree_worker_configuration)
+      worker(Commerce.Billing.Worker, stripe_worker_configuration, id: :stripe),
+      worker(Commerce.Billing.Worker, braintree_worker_configuration, id: :braintree)
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
