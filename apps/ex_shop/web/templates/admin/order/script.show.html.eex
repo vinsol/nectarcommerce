@@ -1,0 +1,1 @@
+<script>order_show.init(<%= @order.id %>)</script>
