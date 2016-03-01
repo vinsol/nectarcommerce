@@ -1,10 +1,12 @@
 defmodule ExShop.Admin.CheckoutController do
-  use ExShop.Web, :controller
+  use ExShop.Web, :admin_controller
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
 
   alias ExShop.CheckoutManager
   alias ExShop.Order
 
-  def checkout(conn, params) do
+  def checkout(conn, _params) do
     order = Repo.get!(Order, conn.params["order_id"])
     changeset = CheckoutManager.next_changeset(order)
     render(conn, "checkout.html", order: order, changeset: changeset)

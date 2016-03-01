@@ -1,0 +1,46 @@
+<div class="credit-cart col-md-6">
+  <div class="form-group">
+    <label for="order[payment_method][stripe][card_number]">Card Number</label>
+    <input class="form-control" name="order[payment_method][stripe][card_number]" type="text" value=""/>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 form-group">
+      <label for="order[payment_method][stripe][month]">Expiration</label>
+      <select class="form-control" id="" name="order[payment_method][stripe][month]">
+        <option value="1">01</option>
+        <option value="2">02</option>
+        <option value="3">03</option>
+        <option value="4">04</option>
+        <option value="5">05</option>
+        <option value="6">06</option>
+        <option value="7">07</option>
+        <option value="8">08</option>
+        <option value="9">09</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+      </select>
+    </div>
+    <div class="col-md-6 form-group">
+      <label for="order[payment_method][stripe][year]">&nbsp;</label>
+      <select class="form-control" id="" name="order[payment_method][stripe][year]">
+      <option value="2016">2016</option>
+      <option value="2017">2017</option>
+      <option value="2018">2018</option>
+      <option value="2019">2019</option>
+      <option value="2020">2021</option>
+      <option value="2020">2022</option>
+      <option value="2020">2023</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 form-group">
+      <div class="form-group">
+        <label for="order[payement_method][stripe][cvc]">CVC</label>
+        <input class="form-control" name="order[payment_method][stripe][cvc]" type="text" value="" maxlength="4"/>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,8 +3,8 @@
   <div>order_total: <%= @changeset.model.total %></div>
   <div>line_items:
     <%= for line_item <- @changeset.model.line_items do %>
-      <%= line_item.product.name %>
-      <%= line_item.product.cost %>
+      <%= line_item.variant.sku %>
+      <%= line_item.variant.cost_price %>
       <%= line_item.quantity %>
     <% end %>
   </div>

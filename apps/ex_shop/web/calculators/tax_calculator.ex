@@ -2,7 +2,6 @@ defmodule ExShop.TaxCalculator do
 
   alias ExShop.Order
   alias ExShop.Repo
-  import Ecto.Query
 
   def calculate_taxes(%Order{} = order) do
     order

@@ -1,8 +1,10 @@
 defmodule ExShop.Admin.StateController do
-	use ExShop.Web, :controller
+	use ExShop.Web, :admin_controller
 
   alias ExShop.Country
   alias ExShop.State
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
 
   plug :scrub_params, "state" when action in [:create]
   plug :load_country when action in [:create]
@@ -33,7 +35,7 @@ defmodule ExShop.Admin.StateController do
     |> json(nil)
   end
 
-  defp load_country(conn, params) do
+  defp load_country(conn, _params) do
     country_id = conn.params["country_id"]
     assign(conn, :country, Repo.get!(Country, country_id))
   end

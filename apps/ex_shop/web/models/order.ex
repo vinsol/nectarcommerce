@@ -13,7 +13,7 @@ defmodule ExShop.Order do
     has_many :line_items, ExShop.LineItem
     has_many :adjustments, ExShop.Adjustment
     has_many :shippings, ExShop.Shipping
-    has_many :products, through: [:line_items, :product]
+    has_many :variants, through: [:line_items, :variant]
     has_many :payments, ExShop.Payment
 
     has_one  :billing_address, ExShop.Address
@@ -33,12 +33,21 @@ defmodule ExShop.Order do
   end
 
   def confirm_availability(order) do
-    line_items =
+    sufficient_quantity_available =
       ExShop.LineItem
-      |> ExShop.LineItem.in_order(order)
+      |> ExShop.LineItem.in_order(order.model)
       |> ExShop.Repo.all
-      |> ExShop.Repo.preload(:product)
-    %Order{order | line_items: Enum.map(line_items, &(ExShop.LineItem.validate_product_availability(&1)))}
+      |> ExShop.Repo.preload(:variant)
+      |> Enum.reduce(true, fn (ln_item, acc) ->
+           {status, _} = ExShop.LineItem.sufficient_quantity_available?(ln_item)
+           acc && status
+         end)
+
+    if sufficient_quantity_available do
+      order
+    else
+      add_error(order, :line_items, "Some of the line items are out of stock")
+    end
   end
 
   # returns the appropriate changeset required based on the next state
@@ -73,7 +82,7 @@ defmodule ExShop.Order do
 
   def with_preloaded_assoc(model, "confirmation") do
     ExShop.Repo.get!(Order, model.id)
-    |> ExShop.Repo.preload([line_items: :product])
+    |> ExShop.Repo.preload([line_items: :variant])
   end
 
   def with_preloaded_assoc(model, _) do

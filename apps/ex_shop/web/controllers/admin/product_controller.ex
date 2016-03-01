@@ -3,7 +3,6 @@ defmodule ExShop.Admin.ProductController do
 
   alias ExShop.Product
   alias ExShop.OptionType
-  alias ExShop.ProductOptionType
 
   plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
 
