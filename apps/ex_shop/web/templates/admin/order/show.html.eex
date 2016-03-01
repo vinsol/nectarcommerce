@@ -13,15 +13,23 @@
       <td>Quantity</td>
       <td>Cost Per Product</td>
       <td>Total</td>
+      <td>Fullfilled</td>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="line_items">
     <%= for line_item <- @order.line_items do %>
       <tr>
         <td><%= line_item.variant.product.name %></td>
         <td><%= line_item.quantity %></td>
         <td><%= line_item.variant.cost_price %></td>
         <td><%= line_item.total %></td>
+        <td>
+          <%= if line_item.fullfilled do %>
+            <input name="" type="checkbox" checked="<%= line_item.fullfilled %>" class="fullfillment" data-line-item-id="<%= line_item.id %>"/>
+          <% else %>
+            <strong>cancelled</strong>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
