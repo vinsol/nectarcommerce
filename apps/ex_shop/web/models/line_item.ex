@@ -50,29 +50,29 @@ defmodule ExShop.LineItem do
   end
 
   def move_stock(%ExShop.LineItem{fullfilled: true} = line_item) do
-    remove_stock_from_variant(line_item)
+    acquire_stock_from_variant(line_item)
   end
   def move_stock(%ExShop.LineItem{fullfilled: false} = line_item) do
-    move_stock_back_to_variant(line_item)
+    restock_variant(line_item)
   end
 
-  def remove_stock_from_variant(%ExShop.LineItem{variant: variant, quantity: quantity, fullfilled: true}) do
+  def acquire_stock_from_variant(%ExShop.LineItem{variant: variant, quantity: quantity, fullfilled: true}) do
     variant
     |> Variant.buy_changeset(%{buy_count: quantity})
     |> Repo.update!
   end
 
-  def remove_stock_from_variant(%ExShop.LineItem{variant: variant, quantity: quantity}) do
+  def acquire_stock_from_variant(%ExShop.LineItem{variant: variant, quantity: quantity}) do
     variant
   end
 
-  def move_stock_back_to_variant(%ExShop.LineItem{variant: variant, quantity: quantity, fullfilled: false}) do
+  def restock_variant(%ExShop.LineItem{variant: variant, quantity: quantity, fullfilled: false}) do
     variant
     |> Variant.restocking_changeset(%{restock_count: quantity})
     |> Repo.update!
   end
 
-  def move_stock_back_to_variant(%ExShop.LineItem{variant: variant, quantity: quantity}) do
+  def restock_variant(%ExShop.LineItem{variant: variant, quantity: quantity}) do
     variant
   end
 

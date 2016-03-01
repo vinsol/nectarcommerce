@@ -125,12 +125,12 @@ defmodule ExShop.Order do
   end
 
   def acquire_variant_stock(model) do
-    Enum.each(model.line_items, &ExShop.LineItem.remove_stock_from_variant/1)
+    Enum.each(model.line_items, &ExShop.LineItem.acquire_stock_from_variant/1)
     model
   end
 
   def restock_unfullfilled_line_items(model) do
-    Enum.each(model.line_items, &ExShop.LineItem.move_stock_back_to_variant/1)
+    Enum.each(model.line_items, &ExShop.LineItem.restock_variant/1)
     model
   end
 
