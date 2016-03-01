@@ -46,6 +46,31 @@ defmodule ExShop.Variant do
     |> update_total_quantity
   end
 
+  def create_master_changeset(model, params \\ :empty) do
+    cast(model, params, ~w(cost_price), ~w(add_count))
+    |> update_total_quantity
+    |> put_change(:is_master, true)
+    |> cast_attachments(params, ~w(), ~w(image))
+  end
+
+  def update_master_changeset(model, params \\ :empty) do
+    cast(model, params, ~w(cost_price), ~w(add_count))
+    |> update_total_quantity
+    |> put_change(:is_master, true)
+    |> check_is_master_changed
+    # Even if changset is invalid, cast_attachments does it work :(
+    |> cast_attachments(params, ~w(), ~w(image))
+  end
+
+  defp check_is_master_changed(changeset) do
+    if get_change(changeset, :is_master) do
+      add_error(changeset, :is_master, "appears to assign another variant as master variant")
+      |> add_error(:base, "Please check whether your Master Variant is deleted :(")
+    else
+      changeset
+    end
+  end
+
   def create_variant_changeset(model, params \\ :empty) do
     changeset(model, params)
     |> put_change(:is_master, false)
