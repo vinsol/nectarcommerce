@@ -38,6 +38,7 @@ defmodule ExShop.LineItem do
   def quantity_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(quantity), ~w(fullfilled))
+    |> add_to_existing_quantity
     |> validate_number(:quantity, greater_than: 0)
     |> preload_assoc
     |> validate_product_availability
@@ -49,6 +50,16 @@ defmodule ExShop.LineItem do
     variant  = get_field(model, :variant)
     cost = Decimal.mult(Decimal.new(quantity), variant.cost_price)
     cast(model, Map.merge(params, %{total: cost}), ~w(total), ~w())
+  end
+
+  defp add_to_existing_quantity(changeset) do
+    existing_quantity = changeset.model.quantity
+    change_in_quantity = changeset.changes[:quantity]
+    cond do
+      existing_quantity && change_in_quantity -> put_change(changeset, :quantity, existing_quantity + change_in_quantity)
+      existing_quantity -> put_change(changeset, :quantity, existing_quantity * 2)
+      true -> changeset
+    end
   end
 
   def move_stock(%ExShop.LineItem{fullfilled: true} = line_item) do
