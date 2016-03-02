@@ -1,5 +1,6 @@
 <!-- each state form contains data required for moving to next state -->
 <%= form_for @changeset, @action, fn f -> %>
+  <%= error_tag f, :line_items %>
   <h4>Shipping Address</h4>
   <%= inputs_for f, :shipping_address, fn shipping_addr_f -> %>
   <div class="form-group">

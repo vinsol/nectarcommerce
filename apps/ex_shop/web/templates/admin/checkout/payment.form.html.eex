@@ -1,4 +1,5 @@
 <%= form_for @changeset, @action, fn f -> %>
+  <%= error_tag f, :line_items %>
   <h4>order summary</h4>
   <div>order_total: <%= @changeset.model.total %></div>
   <div>line_items:

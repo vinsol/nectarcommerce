@@ -142,4 +142,9 @@ defmodule ExShop.Variant do
     total_quantity - bought_quantity
   end
 
+  def display_name(variant) do
+    product = variant |> ExShop.Repo.preload([:product]) |> Map.get(:product)
+    "#{product.name}(#{variant.sku})"
+  end
+
 end
