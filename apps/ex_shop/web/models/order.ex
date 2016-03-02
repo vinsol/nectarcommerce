@@ -27,26 +27,35 @@ defmodule ExShop.Order do
 
   @states ~w(cart address shipping tax payment confirmation)
 
+  def confirmed?(%Order{state: "confirmation"}), do: true
+  def confirmed?(%Order{state: _}), do: false
+
   def cart_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
 
   def confirm_availability(order) do
-    sufficient_quantity_available =
+    {sufficient_quantity_available, oos_items} =
       ExShop.LineItem
       |> ExShop.LineItem.in_order(order.model)
       |> ExShop.Repo.all
       |> ExShop.Repo.preload(:variant)
-      |> Enum.reduce(true, fn (ln_item, acc) ->
-           {status, _} = ExShop.LineItem.sufficient_quantity_available?(ln_item)
-           acc && status
-         end)
-
+      |> Enum.reduce({true, []}, fn (ln_item, {status, out_of_stock}) ->
+                                   {available, _} = ExShop.LineItem.sufficient_quantity_available?(ln_item)
+                                   if available do
+                                     {status, out_of_stock}
+                                   else
+                                     {false, [ln_item|out_of_stock]}
+                                   end
+                                 end)
     if sufficient_quantity_available do
       order
     else
-      add_error(order, :line_items, "Some of the line items are out of stock")
+      name_of_oos =
+       oos_items
+       |> Enum.reduce("", fn (item, acc) -> acc <> ExShop.Variant.display_name(item.variant) <> "," end)
+      add_error(order, :line_items, "#{name_of_oos} are out of stock")
     end
   end
 

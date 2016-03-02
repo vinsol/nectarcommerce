@@ -2,11 +2,13 @@ defmodule ExShop.LineItem do
   use ExShop.Web, :model
   alias ExShop.Order
   alias ExShop.Variant
+  alias ExShop.Product
   alias ExShop.Repo
 
   schema "line_items" do
     belongs_to :variant, ExShop.Variant
     belongs_to :order, ExShop.Order
+    field :add_quantity, :integer, virtual: true, default: 0
     field :quantity, :integer
     field :total, :decimal
     field :fullfilled, :boolean, default: true
@@ -18,24 +20,27 @@ defmodule ExShop.LineItem do
 
   def changeset(model, params \\ :empty) do
     model
-    |> order_id_changeset(params)
+    |> create_changeset(params)
     |> quantity_changeset(params)
   end
 
   def fullfillment_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(fullfilled), ~w())
+    |> ensure_order_is_confirmed
   end
 
-  def order_id_changeset(model, params \\ :empty) do
+  def create_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(order_id), ~w())
     |> foreign_key_constraint(:order_id)
+    |> ensure_product_has_no_variants_if_master()
   end
 
   def quantity_changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(quantity), ~w(fullfilled))
+    |> cast(params, ~w(), ~w(fullfilled add_quantity))
+    |> add_to_existing_quantity
     |> validate_number(:quantity, greater_than: 0)
     |> preload_assoc
     |> validate_product_availability
@@ -47,6 +52,12 @@ defmodule ExShop.LineItem do
     variant  = get_field(model, :variant)
     cost = Decimal.mult(Decimal.new(quantity), variant.cost_price)
     cast(model, Map.merge(params, %{total: cost}), ~w(total), ~w())
+  end
+
+  defp add_to_existing_quantity(changeset) do
+    existing_quantity = changeset.model.quantity || 0
+    change_in_quantity = changeset.changes[:add_quantity] || 0
+    put_change(changeset, :quantity, existing_quantity + change_in_quantity)
   end
 
   def move_stock(%ExShop.LineItem{fullfilled: true} = line_item) do
@@ -105,10 +116,49 @@ defmodule ExShop.LineItem do
   end
 
   def validate_product_availability(changeset) do
+    changeset
+    |> validate_available_product_quantity
+    |> validate_product_discontinuation_date
+  end
+
+  defp validate_available_product_quantity(changeset) do
     case sufficient_quantity_available?(changeset.model, changeset.changes[:quantity]) do
       {true, _} -> changeset
       {false, 0} -> add_error(changeset, :variant, "out of stock")
       {false, available_product_quantity} -> add_error(changeset, :quantity, "only #{available_product_quantity} available")
+    end
+  end
+
+  defp validate_product_discontinuation_date(changeset) do
+    discontinue_on = changeset.model.variant.discontinue_on
+    if discontinue_on do
+      case Ecto.Date.compare(discontinue_on, Ecto.Date.utc) do
+        :lt -> add_error(changeset, :variant, "has been discontinued")
+        _  -> changeset
+      end
+    else
+      changeset
+    end
+  end
+
+  defp ensure_product_has_no_variants_if_master(changeset) do
+    variant =
+      changeset.model
+      |> Repo.preload([variant: :product])
+      |> Map.get(:variant)
+    if variant.is_master and Product.has_variants_excluding_master?(variant.product) do
+      add_error(changeset, :variant, "cannot add master variant to cart when other variants are present.")
+    else
+      changeset
+    end
+  end
+
+  defp ensure_order_is_confirmed(changeset) do
+    order = changeset.model |> Repo.preload([:order]) |> Map.get(:order)
+    if Order.confirmed?(order) do
+      changeset
+    else
+      add_error(changeset, :fullfilled, "Order should be confirmed before updating the fullfillment status")
     end
   end
 

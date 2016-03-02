@@ -21,10 +21,33 @@ defmodule ExShop.LineItemTest do
       add_count: @max_master_quantity
     }
   }
-  @product_attr Map.merge(@product_data, @product_master_variant_data)
+  @variant_option_value_attrs %{
+    variant_option_values: [
+      %{
+        option_value_id: "1",
+        option_type_id: "1"
+      }
+    ]
+  }
+
+  @product_attr Map.merge(@product_data, @product_master_variant_data) |> Map.merge(@variant_option_value_attrs)
+
+  @valid_variant_attrs %{
+    cost_price: "120.5",
+    discontinue_on: %{"year" => "2016", "month" => "2", "day" => "1"},
+    height: "120.5", weight: "120.5", width: "120.5",
+    sku: "URG123"
+  }
 
   @tag :pending
   test "LineItem Mgmt with variants and not only master variant" do
+    assert false
+  end
+
+  test "line item cannot add master variant if other variants present" do
+    changeset = create_line_item_with_invalid_master_variant
+    refute changeset.valid?
+    assert changeset.errors[:variant] == "cannot add master variant to cart when other variants are present."
   end
 
   test "line item with available quantity" do
@@ -79,18 +102,35 @@ defmodule ExShop.LineItemTest do
   defp create_product do
     product = Product.create_changeset(%Product{}, @product_attr)
     |> Repo.insert!
-    product.master
+    product
   end
 
+  defp create_product_with_variant do
+    product = create_product
+    master_variant = product.master
+    product
+    |> build_assoc(:variants)
+    |> Variant.create_variant_changeset(@valid_variant_attrs)
+    |> Repo.insert!
+    product
+  end
+
+
   defp create_line_item_with_product(order_id \\ nil) do
-    create_product
+    create_product.master
     |> Ecto.build_assoc(:line_items)
-    |> LineItem.order_id_changeset(%{order_id: order_id || create_order.id})
+    |> LineItem.create_changeset(%{order_id: order_id || create_order.id})
+  end
+
+  defp create_line_item_with_invalid_master_variant do
+    create_product_with_variant.master
+    |> Ecto.build_assoc(:line_items)
+    |> LineItem.create_changeset(%{order_id: create_order.id})
   end
 
   defp create_line_item_with_product_quantity(quantity) do
     create_line_item_with_product
-    |> LineItem.quantity_changeset(%{quantity: quantity})
+    |> LineItem.quantity_changeset(%{add_quantity: quantity})
   end
 
 end

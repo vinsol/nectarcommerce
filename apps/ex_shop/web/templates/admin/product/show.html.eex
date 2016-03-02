@@ -16,8 +16,10 @@
   </div>
   <div class="panel panel-default">
     <div class="panel-body pull-left">$ <%= @product.master.cost_price %></div>
+    <div class="panel-body pull-left">Total:  <%= @product.master.total_quantity %></div>
+    <div class="panel-body pull-left">Bought: <%= @product.master.bought_quantity %></div>
     <div class="panel-body pull-left"><%= @product.available_on %></div>
-    <div class="panel-body"<%= @product.discontinue_on %>></div>
+    <div class="panel-body"><%= @product.discontinue_on %></div>
   </div>
   <%= if @product.option_types != [] do %>
     <div class="panel panel-default">

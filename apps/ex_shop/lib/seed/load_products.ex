@@ -22,10 +22,13 @@ defmodule Seed.LoadProducts do
   end
 
   @product_data %{name: "Sample Product 2",
-                  description: "Sample Product for testing with 3 variants(One Master + 2 Other)",
+                  description: "Sample Product for testing with 3 variants(One Master + 3 Other)",
                   available_on: Ecto.Date.utc,master: %{cost_price: 10.00, add_count: 10}}
-  @variant_one_data %{discontinue_on: Ecto.Date.utc, cost_price: 20.00, sku: "Variant 1"}
-  @variant_two_data %{discontinue_on: Ecto.Date.utc, cost_price: 22.00, sku: "Variant 2", add_count: 11}
+  @not_discontinue_date  Ecto.Date.cast!("2017-03-01")
+  @discontinue_date  Ecto.Date.cast!("2016-03-01")
+  @variant_one_data %{discontinue_on: @not_discontinue_date, cost_price: 20.00, sku: "Variant 1"}
+  @variant_two_data %{discontinue_on: @not_discontinue_date, cost_price: 22.00, sku: "Variant 2", add_count: 11}
+  @variant_three_data %{discontinue_on: @discontinue_date, cost_price: 22.00, sku: "Discontinued Example", add_count: 11}
   defp seed_products_with_variant do
     option_type = seed_option_type_and_values
     data = Map.merge(@product_data, %{product_option_types: [%{option_type_id: option_type.id}]})
@@ -43,14 +46,27 @@ defmodule Seed.LoadProducts do
                                   ]
                                 })
 
+    variant_3_data = Map.merge(@variant_three_data,
+                               %{variant_option_values: [
+                                    %{option_type_id: option_type.id,
+                                      option_value_id: List.last(option_type.option_values).id}
+                                  ]
+                                })
+
+
     product
     |> Ecto.build_assoc(:variants)
-    |> Variant.variant_changeset(variant_1_data)
+    |> Variant.create_variant_changeset(variant_1_data)
     |> Repo.insert!
 
     product
     |> Ecto.build_assoc(:variants)
-    |> Variant.variant_changeset(variant_2_data)
+    |> Variant.create_variant_changeset(variant_2_data)
+    |> Repo.insert!
+
+    product
+    |> Ecto.build_assoc(:variants)
+    |> Variant.create_variant_changeset(variant_3_data)
     |> Repo.insert!
   end
 

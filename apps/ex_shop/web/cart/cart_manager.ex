@@ -12,7 +12,7 @@ defmodule ExShop.CartManager do
 
   defp do_add_to_cart(%Order{} = order, %Variant{} = variant, quantity) do
     find_or_build_line_item(order, variant)
-    |> LineItem.quantity_changeset(%{quantity: quantity})
+    |> LineItem.quantity_changeset(%{add_quantity: quantity})
     |> Repo.insert_or_update
   end
 
@@ -31,6 +31,6 @@ defmodule ExShop.CartManager do
   defp build_line_item(%Order{id: order_id} = _order, %Variant{} = variant) do
     variant
     |> Ecto.build_assoc(:line_items)
-    |> LineItem.order_id_changeset(%{order_id: order_id})
+    |> LineItem.create_changeset(%{order_id: order_id})
   end
 end

@@ -46,6 +46,8 @@
     <div class="form-group">
       <%= label m, :add_count,"Add Stock", class: "control-label" %>
       <%= number_input m, :add_count, class: "form-control" %>
+      <span>Total:  <%= m.data.total_quantity %></span>
+      <span>Bought: <%= m.data.bought_quantity %></span>
       <%= error_tag m, :add_count %>
     </div>
 
