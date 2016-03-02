@@ -50,6 +50,10 @@ defmodule ExShop.Product do
     |> unique_constraint(:slug)
   end
 
+  def variant_count(product) do
+    ExShop.Repo.one(from variant in all_variants_including_master(product), select: count(variant.id))
+  end
+
   def master_variant(model) do
     from variant in all_variants_including_master(model), where: variant.is_master
   end

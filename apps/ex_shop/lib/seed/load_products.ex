@@ -45,12 +45,12 @@ defmodule Seed.LoadProducts do
 
     product
     |> Ecto.build_assoc(:variants)
-    |> Variant.variant_changeset(variant_1_data)
+    |> Variant.create_variant_changeset(variant_1_data)
     |> Repo.insert!
 
     product
     |> Ecto.build_assoc(:variants)
-    |> Variant.variant_changeset(variant_2_data)
+    |> Variant.create_variant_changeset(variant_2_data)
     |> Repo.insert!
   end
 

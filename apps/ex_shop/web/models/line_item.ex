@@ -2,6 +2,7 @@ defmodule ExShop.LineItem do
   use ExShop.Web, :model
   alias ExShop.Order
   alias ExShop.Variant
+  alias ExShop.Product
   alias ExShop.Repo
 
   schema "line_items" do
@@ -18,7 +19,7 @@ defmodule ExShop.LineItem do
 
   def changeset(model, params \\ :empty) do
     model
-    |> order_id_changeset(params)
+    |> create_changeset(params)
     |> quantity_changeset(params)
   end
 
@@ -27,10 +28,11 @@ defmodule ExShop.LineItem do
     |> cast(params, ~w(fullfilled), ~w())
   end
 
-  def order_id_changeset(model, params \\ :empty) do
+  def create_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(order_id), ~w())
     |> foreign_key_constraint(:order_id)
+    |> ensure_product_has_no_variants_if_master()
   end
 
   def quantity_changeset(model, params \\ :empty) do
@@ -109,6 +111,18 @@ defmodule ExShop.LineItem do
       {true, _} -> changeset
       {false, 0} -> add_error(changeset, :variant, "out of stock")
       {false, available_product_quantity} -> add_error(changeset, :quantity, "only #{available_product_quantity} available")
+    end
+  end
+
+  defp ensure_product_has_no_variants_if_master(changeset) do
+    variant =
+      changeset.model
+      |> Repo.preload([variant: :product])
+      |> Map.get(:variant)
+    if variant.is_master and Product.variant_count(variant.product) > 1 do
+      add_error(changeset, :variant, "cannot add master variant to cart when other variants are present.")
+    else
+      changeset
     end
   end
 

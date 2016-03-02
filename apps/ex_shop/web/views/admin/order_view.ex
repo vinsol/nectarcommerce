@@ -7,16 +7,18 @@ defmodule ExShop.Admin.OrderView do
   def out_of_stock?(%ExShop.Variant{} = variant), do: ExShop.Variant.available_quantity(variant) == 0
 
   def product_variant_options(%ExShop.Product{} = product) do
-    Enum.map(product.variants, fn (variant) ->
-      content_tag(:option, value: variant.id, disabled: out_of_stock?(variant)) do
+    Enum.map(product.variants, fn
+      (%ExShop.Variant{is_master: true}) -> "" # Do not add master variant to product list
+      (variant) ->
+        content_tag(:option, value: variant.id, disabled: out_of_stock?(variant)) do
         # TODO maybe autogenerate sku if one is not provided
-        (variant.sku || product.name)
-        <> if out_of_stock?(variant) do
-          "(Out of stock)"
-        else
-          ""
+          (variant.sku || product.name)
+          <> if out_of_stock?(variant) do
+            "(Out of stock)"
+          else
+            ""
+          end
         end
-      end
     end)
   end
 
