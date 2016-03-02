@@ -118,10 +118,24 @@ defmodule ExShop.LineItem do
   end
 
   def validate_product_availability(changeset) do
+    changeset
+    |> validate_available_product_quantity
+    |> validate_product_discontinuation_date
+  end
+
+  defp validate_available_product_quantity(changeset) do
     case sufficient_quantity_available?(changeset.model, changeset.changes[:quantity]) do
       {true, _} -> changeset
       {false, 0} -> add_error(changeset, :variant, "out of stock")
       {false, available_product_quantity} -> add_error(changeset, :quantity, "only #{available_product_quantity} available")
+    end
+  end
+
+  defp validate_product_discontinuation_date(changeset) do
+    discontinue_on = changeset.model.variant.discontinue_on
+    case Ecto.Date.compare(discontinue_on, Ecto.Date.utc) do
+      :lt -> add_error(changeset, :variant, "has been discontinued")
+       _  -> changeset
     end
   end
 
