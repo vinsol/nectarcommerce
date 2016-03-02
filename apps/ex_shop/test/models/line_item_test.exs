@@ -39,6 +39,11 @@ defmodule ExShop.LineItemTest do
     sku: "URG123"
   }
 
+  @tag :pending
+  test "LineItem Mgmt with variants and not only master variant" do
+    assert false
+  end
+
   test "line item cannot add master variant if other variants present" do
     changeset = create_line_item_with_invalid_master_variant
     refute changeset.valid?
