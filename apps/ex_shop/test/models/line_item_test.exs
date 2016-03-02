@@ -102,28 +102,28 @@ defmodule ExShop.LineItemTest do
   defp create_product do
     product = Product.create_changeset(%Product{}, @product_attr)
     |> Repo.insert!
-    product.master
+    product
   end
 
   defp create_product_with_variant do
-    master_variant = create_product
-    product = master_variant |> Repo.preload([:product]) |> Map.get(:product)
+    product = create_product
+    master_variant = product.master
     product
     |> build_assoc(:variants)
     |> Variant.create_variant_changeset(@valid_variant_attrs)
     |> Repo.insert!
-    master_variant
+    product
   end
 
 
   defp create_line_item_with_product(order_id \\ nil) do
-    create_product
+    create_product.master
     |> Ecto.build_assoc(:line_items)
     |> LineItem.create_changeset(%{order_id: order_id || create_order.id})
   end
 
   defp create_line_item_with_invalid_master_variant do
-    create_product_with_variant
+    create_product_with_variant.master
     |> Ecto.build_assoc(:line_items)
     |> LineItem.create_changeset(%{order_id: create_order.id})
   end

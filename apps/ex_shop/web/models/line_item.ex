@@ -119,7 +119,7 @@ defmodule ExShop.LineItem do
       changeset.model
       |> Repo.preload([variant: :product])
       |> Map.get(:variant)
-    if variant.is_master and Product.variant_count(variant.product) > 1 do
+    if variant.is_master and Product.has_variants_excluding_master?(variant.product) do
       add_error(changeset, :variant, "cannot add master variant to cart when other variants are present.")
     else
       changeset
