@@ -18,6 +18,10 @@ defmodule ExShop.Gateway do
     ExShop.Gateway.BrainTree.authorize(order, payment_method_params["braintree"])
   end
 
+  defp do_authorize_payment(order, "new_payment_gateway", payment_method_params) do
+    ExShop.Billing.Gateway.NewPaymentGateway.authorize(order, payment_method_params["new_payment_gateway"])
+  end
+
   defp do_authorize_payment(_order, "cheque", _params) do
     {:ok}
   end
