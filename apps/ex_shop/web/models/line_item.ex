@@ -8,6 +8,7 @@ defmodule ExShop.LineItem do
   schema "line_items" do
     belongs_to :variant, ExShop.Variant
     belongs_to :order, ExShop.Order
+    field :add_quantity, :integer, virtual: true, default: 0
     field :quantity, :integer
     field :total, :decimal
     field :fullfilled, :boolean, default: true
@@ -37,7 +38,7 @@ defmodule ExShop.LineItem do
 
   def quantity_changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(quantity), ~w(fullfilled))
+    |> cast(params, ~w(), ~w(fullfilled add_quantity))
     |> add_to_existing_quantity
     |> validate_number(:quantity, greater_than: 0)
     |> preload_assoc
@@ -53,13 +54,9 @@ defmodule ExShop.LineItem do
   end
 
   defp add_to_existing_quantity(changeset) do
-    existing_quantity = changeset.model.quantity
-    change_in_quantity = changeset.changes[:quantity]
-    cond do
-      existing_quantity && change_in_quantity -> put_change(changeset, :quantity, existing_quantity + change_in_quantity)
-      existing_quantity -> put_change(changeset, :quantity, existing_quantity * 2)
-      true -> changeset
-    end
+    existing_quantity = changeset.model.quantity || 0
+    change_in_quantity = changeset.changes[:add_quantity] || 0
+    put_change(changeset, :quantity, existing_quantity + change_in_quantity)
   end
 
   def move_stock(%ExShop.LineItem{fullfilled: true} = line_item) do
@@ -133,9 +130,13 @@ defmodule ExShop.LineItem do
 
   defp validate_product_discontinuation_date(changeset) do
     discontinue_on = changeset.model.variant.discontinue_on
-    case Ecto.Date.compare(discontinue_on, Ecto.Date.utc) do
-      :lt -> add_error(changeset, :variant, "has been discontinued")
-       _  -> changeset
+    if discontinue_on do
+      case Ecto.Date.compare(discontinue_on, Ecto.Date.utc) do
+        :lt -> add_error(changeset, :variant, "has been discontinued")
+        _  -> changeset
+      end
+    else
+      changeset
     end
   end
 

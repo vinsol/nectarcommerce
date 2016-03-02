@@ -130,7 +130,7 @@ defmodule ExShop.LineItemTest do
 
   defp create_line_item_with_product_quantity(quantity) do
     create_line_item_with_product
-    |> LineItem.quantity_changeset(%{quantity: quantity})
+    |> LineItem.quantity_changeset(%{add_quantity: quantity})
   end
 
 end

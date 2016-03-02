@@ -12,7 +12,7 @@ defmodule ExShop.CartManager do
 
   defp do_add_to_cart(%Order{} = order, %Variant{} = variant, quantity) do
     find_or_build_line_item(order, variant)
-    |> LineItem.quantity_changeset(%{quantity: quantity})
+    |> LineItem.quantity_changeset(%{add_quantity: quantity})
     |> Repo.insert_or_update
   end
 
