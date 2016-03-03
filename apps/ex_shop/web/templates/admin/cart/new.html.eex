@@ -28,12 +28,10 @@
     <h2>Cart</h2>
     <ul class="list-group" id="cart">
       <%= for line_item <- @line_items do %>
-        <li class="list-group-item line-item" data-line-item-id="<%= line_item.id %>">
-          <%= line_item.product.name %>
-          <span class="pull-right">
-            <input name="" type="text" value="<%= line_item.quantity %>"/>
-            <button class="btn btn-primary update-cart-quantity">update</button>
-            <button class="btn btn-danger remove-from-cart">-</button>
+        <li class="list-group-item line-item row" data-line-item-id="<%= line_item.id %>">
+          <span class="col-lg-6"><%= ExShop.Variant.display_name(line_item.variant) %> X <%= line_item.quantity %></span>
+          <span class="col-lg-6">
+            <button class="btn btn-danger btn-sm remove-from-cart pull-right">-</button>
           </span>
         </li>
       <% end %>

@@ -35,6 +35,47 @@ defmodule ExShop.Order do
     |> cast(params, @required_fields, @optional_fields)
   end
 
+  def move_back_to_cart_state(order) do
+    ExShop.Repo.transaction(fn ->
+      order
+      |> delete_shippings
+      |> delete_tax_adjustments
+      |> delete_payments
+      |> delete_addresses
+      |> cast(%{state: "cart"}, ~w(state), ~w())
+      |> ExShop.Repo.update!
+    end)
+  end
+
+  alias ExShop.Repo
+
+  defp delete_shippings(order) do
+    shipping_ids = Repo.all(from o in assoc(order, :shippings), select: o.id)
+    Repo.delete_all(from o in assoc(order, :adjustments), where: o.shipping_id in ^shipping_ids)
+    Repo.delete_all(from o in assoc(order, :shippings))
+    order
+  end
+
+  defp delete_tax_adjustments(order) do
+    Repo.delete_all(from o in assoc(order, :adjustments), where: not(is_nil(o.tax_id)))
+    order
+  end
+
+  defp delete_payments(order) do
+    # will want to create a refund here
+    Repo.delete_all(from o in assoc(order, :payments))
+    order
+  end
+
+  defp delete_addresses(order) do
+    # Caution, dangerous bug, since assoc will load with where order_id
+    # both of these actions have same impact
+    Repo.delete_all(from o in assoc(order, :billing_address))
+    Repo.delete_all(from o in assoc(order, :shipping_address))
+    order
+  end
+
+
   def confirm_availability(order) do
     {sufficient_quantity_available, oos_items} =
       ExShop.LineItem
