@@ -27,6 +27,9 @@ defmodule ExShop.Order do
 
   @states ~w(cart address shipping tax payment confirmation)
 
+  def confirmed?(%Order{state: "confirmation"}), do: true
+  def confirmed?(%Order{state: _}), do: false
+
   def cart_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)

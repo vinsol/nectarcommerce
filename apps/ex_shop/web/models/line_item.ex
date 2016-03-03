@@ -27,6 +27,7 @@ defmodule ExShop.LineItem do
   def fullfillment_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(fullfilled), ~w())
+    |> ensure_order_is_confirmed
   end
 
   def create_changeset(model, params \\ :empty) do
@@ -149,6 +150,15 @@ defmodule ExShop.LineItem do
       add_error(changeset, :variant, "cannot add master variant to cart when other variants are present.")
     else
       changeset
+    end
+  end
+
+  defp ensure_order_is_confirmed(changeset) do
+    order = changeset.model |> Repo.preload([:order]) |> Map.get(:order)
+    if Order.confirmed?(order) do
+      changeset
+    else
+      add_error(changeset, :fullfilled, "Order should be confirmed before updating the fullfillment status")
     end
   end
 
