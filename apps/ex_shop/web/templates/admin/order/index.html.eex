@@ -7,6 +7,7 @@
       <td>Placed</td>
       <td>State</td>
       <td>Show</td>
+      <td>Edit Cart</td>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +21,7 @@
         <% else %>
           <td><%= link "Continue", to: admin_order_checkout_path(@conn, :checkout, order), class: "btn btn-default btn-xs" %></td>
         <% end %>
+        <td><%= link "Goto Cart", to: admin_cart_path(@conn, :edit, order), class: "btn btn-default btn-xs" %></td>
       </tr>
     <% end %>
   </tbody>
