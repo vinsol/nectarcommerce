@@ -25,22 +25,4 @@ defmodule ExShop.Admin.OrderController do
       |> Repo.preload([payments: [:payment_method]])
     render(conn, "show.html", order: order)
   end
-
-  def cart(conn, _params) do
-    # create a blank cart, maybe add it to conn and plug it later on
-    order = Order.cart_changeset(%Order{}, %{}) |> Repo.insert!
-    # order = Repo.get(Order, 1)
-    products  =
-      Product
-      |> Repo.all
-      |> Repo.preload([:variants])
-
-    line_items =
-      LineItem
-      |> LineItem.in_order(order)
-      |> Repo.all
-      |> Repo.preload([:product])
-    render(conn, "new.html", order: order, products: products, line_items: line_items)
-  end
-
 end
