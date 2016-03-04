@@ -44,14 +44,10 @@
     </tr>
   </thead>
   <tbody>
-    <%= for shipping <- @order.shippings do %>
-      <%= if shipping.selected do %>
-        <tr>
-          <td><%=  shipping.shipping_method.name %></td>
-          <td><%=  shipping.adjustment.amount %></td>
-        </tr>
-      <% end %>
-    <%= end %>
+    <tr>
+      <td><%=  @order.shipping.shipping_method.name %></td>
+      <td><%=  @order.shipping.adjustment.amount %></td>
+    </tr>
   </tbody>
 </table>
 
@@ -63,13 +59,9 @@
     </tr>
   </thead>
   <tbody>
-    <%= for payment <- @order.payments do %>
-      <%= if payment.selected do %>
-        <tr>
-          <td><%=  payment.payment_method.name %></td>
-        </tr>
-      <%= end %>
-    <%= end %>
+    <tr>
+      <td><%=  @order.payment.payment_method.name %></td>
+    </tr>
   </tbody>
 </table>
 
