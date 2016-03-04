@@ -56,7 +56,7 @@
         <label>Image</label>
         <%= file_input m, :image, class: "form-control" %>
         <%= if @product.master.image do %>
-          <%= tag(:image, src: static_path(@conn, "/#{ExShop.VariantImage.url({@product.master.image, @product.master}, :thumb)}")) %>
+          <%= tag(:image, src: ExShop.VariantImage.url({@product.master.image, @product.master}, :thumb)) %>
         <% end %>
         <%= error_tag m, :image %>
       </div>

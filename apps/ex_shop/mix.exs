@@ -21,9 +21,14 @@ defmodule ExShop.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {ExShop, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :worldly, :yamerl, :commerce_billing, :braintree]]
+    [
+      mod: {ExShop, []},
+      applications: [
+        :phoenix, :phoenix_html, :cowboy, :logger, :gettext,
+        :phoenix_ecto, :postgrex, :worldly, :yamerl, :commerce_billing, :braintree,
+        :ex_aws, :httpoison
+      ]
+    ]
   end
 
   # Specifies which paths to compile per environment.
@@ -44,6 +49,7 @@ defmodule ExShop.Mixfile do
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.1"},
       {:guardian, "~> 0.9.0"},
+      {:ex_aws, "~> 0.4.10"},
       {:arc_ecto, "~> 0.3.2"},
       {:commerce_billing, "~> 0.0.2"},
       {:braintree, "~> 0.3.2"},

@@ -79,8 +79,8 @@
     <div class="form-group">
       <%= label f, :image, class: "control-label" %>
       <%= file_input f, :image, class: "form-control" %>
-      <%= if @variant && @variant.image do %>
-        <%= tag(:image, src: static_path(@conn, "/#{ExShop.VariantImage.url({@variant.image, @variant}, :thumb)}")) %>
+      <%= if @variant do %>
+        <%= tag(:image, src: ExShop.VariantImage.url({@variant.image, @variant}, :thumb)) %>
       <% end %>
       <%= error_tag f, :image %>
     </div>
