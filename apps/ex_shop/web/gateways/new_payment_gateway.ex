@@ -1,4 +1,4 @@
-defmodule ExShop.Billing.Gateway.NewPaymentGateway do
+defmodule ExShop.Billing.Gateways.NewPaymentGateway do
   use Commerce.Billing.Gateways.Base
 
   # undefined function ExShop.Billing.Gateway.NewPaymentGateway.authorize/2
