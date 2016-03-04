@@ -13,15 +13,13 @@ defmodule ExShop.Admin.CheckoutView do
   end
 
   def adjustment_row(%ExShop.Adjustment{shipping_id: shipping_id} = adjustment) when not is_nil(shipping_id) do
-    if adjustment.shipping.selected do
-      content_tag :tr do
-        [content_tag :td do
-          to_string(adjustment.amount)
-        end,
-        content_tag :td do
-          "shipping: #{adjustment.shipping.shipping_method.name}"
-        end]
-      end
+    content_tag :tr do
+      [content_tag :td do
+        to_string(adjustment.amount)
+      end,
+      content_tag :td do
+        "shipping: #{adjustment.shipping.shipping_method.name}"
+      end]
     end
   end
 

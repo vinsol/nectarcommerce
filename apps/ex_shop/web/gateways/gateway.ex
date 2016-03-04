@@ -1,13 +1,10 @@
 defmodule ExShop.Gateway do
   def authorize_payment(order, selected_payment_id, payment_method_params) do
-    do_authorize_payment(order, selected_payment_method(order, selected_payment_id), payment_method_params)
+    do_authorize_payment(order, selected_payment_method(selected_payment_id), payment_method_params)
   end
 
-  defp selected_payment_method(order, selected_payment_id) do
-    Enum.filter(order.payments, &(&1.id == selected_payment_id))
-    |> List.first
-    |> Map.get(:payment_method)
-    |> Map.get(:name)
+  defp selected_payment_method(selected_payment_id) do
+    ExShop.Repo.get!(ExShop.PaymentMethod, selected_payment_id) |> Map.get(:name)
   end
 
   defp do_authorize_payment(order, "stripe", payment_method_params) do

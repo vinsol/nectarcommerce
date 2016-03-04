@@ -81,12 +81,6 @@ defmodule ExShop.CheckoutManager do
   # default match do nothing just return order
   def before_transition(order, _to, _data), do: order
 
-
-  def after_transition(%Order{state: "address"} = order, _data) do
-    order
-    |> ShippingCalculator.calculate_shippings
-  end
-
   def after_transition(%Order{state: "shipping"} = order, _params) do
     order
     |> TaxCalculator.calculate_taxes
@@ -95,7 +89,6 @@ defmodule ExShop.CheckoutManager do
   def after_transition(%Order{state: "tax"} = order, _data) do
     order
     |> Order.settle_adjustments_and_product_payments
-    |> Invoice.generate
   end
 
   def after_transition(%Order{state: "confirmation"} = order, _data) do
@@ -107,6 +100,7 @@ defmodule ExShop.CheckoutManager do
   def after_transition(%Order{} = order, _data), do: order
 
   defp to_state(%Order{} = order, next_state, params) do
+    ExShop.Repo.transaction(fn ->
     {status, model} =
       order
       |> Order.transition_changeset(next_state, params)
@@ -114,9 +108,10 @@ defmodule ExShop.CheckoutManager do
       |> ExShop.Repo.update
 
     case status do
-      :ok -> {:ok, after_transition(model, params)}
-      :error -> {:error, model}
+      :ok -> after_transition(model, params)
+      :error -> ExShop.Repo.rollback model
     end
+    end)
   end
 
   # TODO: move these methods to gateway
@@ -124,12 +119,9 @@ defmodule ExShop.CheckoutManager do
     # get the selected payment method
     # if none or more than one found return changeset it will handle missing payment method later
     # else use the selected payment_method_id to complete the transaction.
-    case Enum.filter(params["payments"] || [], fn
-      ({_, %{"selected" => "false"}}) -> false
-      ({_, %{"selected" => "true"}})  -> true
-    end) do
-      [{_, %{"id" => selected_payment_id}}] -> do_authorize_payment(order, String.to_integer(selected_payment_id), params["payment_method"])
-      _  -> order
+    case params["payment"] do
+      %{"payment_method_id" => selected_payment_id} -> do_authorize_payment(order, String.to_integer(selected_payment_id), params["payment_method"])
+        _  -> order
     end
   end
 
@@ -137,7 +129,7 @@ defmodule ExShop.CheckoutManager do
     # in case payment fails add the error message to changeset to prevent it from moving to next state.
     case ExShop.Gateway.authorize_payment(order.model, selected_payment_id, payment_method_params) do
       {:ok} -> order
-      {:error, error_message} -> order |> Ecto.Changeset.add_error(:payments, error_message)
+      {:error, error_message} -> IO.puts error_message; order |> Ecto.Changeset.add_error(:payments, error_message)
     end
   end
 
