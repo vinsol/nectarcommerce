@@ -47,6 +47,44 @@ defmodule ExShop.Order do
     end)
   end
 
+  def move_back_to_address_state(order) do
+    ExShop.Repo.transaction(fn ->
+      order
+      |> reset_shippings
+      |> delete_tax_adjustments
+      |> delete_payments
+      |> cast(%{state: "address"}, ~w(state), ~w())
+      |> ExShop.Repo.update!
+    end)
+  end
+
+  def move_back_to_shipping_state(order) do
+    ExShop.Repo.transaction(fn ->
+      order
+      |> delete_payments
+      |> reset_shippings
+      |> cast(%{state: "shipping"}, ~w(state), ~w())
+      |> ExShop.Repo.update!
+    end)
+  end
+
+  def move_back_to_tax_state(order) do
+    ExShop.Repo.transaction(fn ->
+      order
+      |> reset_payments
+      |> cast(%{state: "tax"}, ~w(state), ~w())
+      |> ExShop.Repo.update!
+    end)
+  end
+
+  def move_back_to_payment_state(order) do
+    ExShop.Repo.transaction(fn ->
+      order
+      |> cast(%{state: "payment"}, ~w(state), ~w())
+      |> ExShop.Repo.update!
+    end)
+  end
+
   alias ExShop.Repo
 
   defp delete_shippings(order) do
@@ -72,6 +110,16 @@ defmodule ExShop.Order do
     # both of these actions have same impact
     Repo.delete_all(from o in assoc(order, :billing_address))
     Repo.delete_all(from o in assoc(order, :shipping_address))
+    order
+  end
+
+  def reset_payments(order) do
+    Repo.update_all((from o in assoc(order, :payments)), set: [selected: false])
+    order
+  end
+
+  def reset_shippings(order) do
+    Repo.update_all((from o in assoc(order, :shippings)), set: [selected: false])
     order
   end
 

@@ -17,18 +17,47 @@ defmodule ExShop.CheckoutManager do
   def next_changeset(%Order{} = order), do: order
 
   # transitions
-  # TODO: metaprogram to autogenerate
-  def next(%Order{state: "cart"} = order, params), do: to_state(order, "address", params)
+  # TODO: autogenerate the transitions
 
-  def next(%Order{state: "address"} = order, params), do: to_state(order, "shipping", params)
-
-  def next(%Order{state: "shipping"} = order, params), do: to_state(order, "tax", params)
-
-  def next(%Order{state: "tax"} = order, params), do: to_state(order, "payment", params)
-
-  def next(%Order{state: "payment"} = order, params), do: to_state(order, "confirmation", params)
-
+  def next(%Order{state: "cart"} = order, params),         do: to_state(order, "address", params)
+  def next(%Order{state: "address"} = order, params),      do: to_state(order, "shipping", params)
+  def next(%Order{state: "shipping"} = order, params),     do: to_state(order, "tax", params)
+  def next(%Order{state: "tax"} = order, params),          do: to_state(order, "payment", params)
+  def next(%Order{state: "payment"} = order, params),      do: to_state(order, "confirmation", params)
   def next(%Order{state: "confirmation"} = order, params), do: to_state(order, "confirmation", params)
+
+
+  def back(order)
+
+  def back(%Order{state: "address"} = order),  do: Order.move_back_to_cart_state(order)
+  def back(%Order{state: "shipping"} = order), do: Order.move_back_to_address_state(order)
+  def back(%Order{state: "tax"} = order),      do: Order.move_back_to_shipping_state(order)
+  def back(%Order{state: "payment"} = order),  do: Order.move_back_to_tax_state(order)
+
+  # cannot go back from confirmation or cart
+  def back(%Order{state: _} = order), do: {:ok, order}
+
+
+  Module.register_attribute(__MODULE__, :backable_states, accumulate: true)
+
+  # when state is specified
+  # helper method used in back actions
+  defp move_back_to_state(order, state) do
+    apply(Order, String.to_atom("move_back_to_#{state}_state"), [order])
+  end
+
+  def back(order, state)
+  @backable_states "cart"
+  def back(%Order{state: "address"} = order, state)  when state in @backable_states, do: move_back_to_state(order, state)
+  @backable_states "address"
+  def back(%Order{state: "shipping"} = order, state) when state in @backable_states, do: move_back_to_state(order, state)
+  @backable_states "shipping"
+  def back(%Order{state: "tax"} = order, state)      when state in @backable_states, do: move_back_to_state(order, state)
+  @backable_states "tax"
+  def back(%Order{state: "payment"} = order, state)  when state in @backable_states, do: move_back_to_state(order, state)
+
+  # default match cannot send the order back because not going to proper state, return the order
+  def back(%Order{state: _} = order, _), do: {:ok, order}
 
   # TODO: move transitions to seperate modules ?
   def before_transition(order, next_state, data)
