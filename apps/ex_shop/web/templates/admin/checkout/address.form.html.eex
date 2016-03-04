@@ -1,11 +1,9 @@
 <%= form_for @changeset, @action, fn f -> %>
   <h4>Select your shipping method</h4>
-  <%= inputs_for f, :shippings, fn shipping -> %>
-  <div class="form-group">
-    <span class="form-label"><%= shipping.data.shipping_method.name %></span>
-    <%= checkbox shipping, :selected, class: "form-control" %>
-    <%= error_tag shipping, :selected %>
-  </div>
-  <% end %>
+    <select name="order[shipping][shipping_method_id]">
+      <%= for shipping_method <- @changeset.model.applicable_shipping_methods do %>
+        <option value="<%= shipping_method.id %>"><%= shipping_method.name %> (+<%= shipping_method.shipping_cost %>)</option>
+      <% end %>
+    </select>
   <%= submit "Next", class: "btn btn-primary" %>
 <% end %>

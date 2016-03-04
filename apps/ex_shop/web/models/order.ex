@@ -10,9 +10,12 @@ defmodule ExShop.Order do
     field :total, :decimal
     field :tax_confirm, :boolean, virtual: true
 
+    field :applicable_shipping_methods, {:array, :map}, virtual: true
+    field :applicable_payment_methods,  {:array, :map}, virtual: true
+
     has_many :line_items, ExShop.LineItem
     has_many :adjustments, ExShop.Adjustment
-    has_many :shippings, ExShop.Shipping
+    has_one :shipping, ExShop.Shipping
     has_many :variants, through: [:line_items, :variant]
     has_many :payments, ExShop.Payment
 
@@ -50,7 +53,7 @@ defmodule ExShop.Order do
   def move_back_to_address_state(order) do
     ExShop.Repo.transaction(fn ->
       order
-      |> reset_shippings
+      |> delete_shippings
       |> delete_tax_adjustments
       |> delete_payments
       |> cast(%{state: "address"}, ~w(state), ~w())
@@ -62,7 +65,7 @@ defmodule ExShop.Order do
     ExShop.Repo.transaction(fn ->
       order
       |> delete_payments
-      |> reset_shippings
+      |> delete_shippings
       |> cast(%{state: "shipping"}, ~w(state), ~w())
       |> ExShop.Repo.update!
     end)
@@ -88,9 +91,9 @@ defmodule ExShop.Order do
   alias ExShop.Repo
 
   defp delete_shippings(order) do
-    shipping_ids = Repo.all(from o in assoc(order, :shippings), select: o.id)
+    shipping_ids = Repo.all(from o in assoc(order, :shipping), select: o.id)
     Repo.delete_all(from o in assoc(order, :adjustments), where: o.shipping_id in ^shipping_ids)
-    Repo.delete_all(from o in assoc(order, :shippings))
+    Repo.delete_all(from o in assoc(order, :shipping))
     order
   end
 
@@ -117,12 +120,6 @@ defmodule ExShop.Order do
     Repo.update_all((from o in assoc(order, :payments)), set: [selected: false])
     order
   end
-
-  def reset_shippings(order) do
-    Repo.update_all((from o in assoc(order, :shippings)), set: [selected: false])
-    order
-  end
-
 
   def confirm_availability(order) do
     {sufficient_quantity_available, oos_items} =
@@ -164,8 +161,8 @@ defmodule ExShop.Order do
   end
 
   def with_preloaded_assoc(model, "shipping") do
-    ExShop.Repo.get!(Order, model.id)
-    |> ExShop.Repo.preload([shippings: :shipping_method])
+    order = ExShop.Repo.get!(Order, model.id) |> Repo.preload([:shipping])
+    %Order{order|applicable_shipping_methods: ExShop.ShippingCalculator.calculate_applicable_shippings(order)}
   end
 
   def with_preloaded_assoc(model, "tax") do
@@ -199,10 +196,9 @@ defmodule ExShop.Order do
   end
 
   def shipping_total(model) do
-    selected_shipping_id = ExShop.Repo.all(from shipping in assoc(model, :shippings), where: shipping.selected, select: shipping.id)
     ExShop.Repo.one(
       from shipping_adj in assoc(model, :adjustments),
-      where: shipping_adj.shipping_id in ^selected_shipping_id,
+      where: not is_nil(shipping_adj.shipping_id),
       select: sum(shipping_adj.amount)
     )
   end
@@ -243,10 +239,16 @@ defmodule ExShop.Order do
   # use this to set shipping
   def shipping_changeset(model, params \\ :empty) do
     model
-    |> cast(params, @required_fields, @optional_fields)
-    |> cast_assoc(:shippings, required: true)
-    |> ensure_only_one_shipping_selected
+    |> cast(shipping_params(model, params), @required_fields, @optional_fields)
+    |> cast_assoc(:shipping, required: true, with: &ExShop.Shipping.applicable_shipping_changeset/2)
   end
+
+  defp shipping_params(order, %{"shipping" => shipping_params} = params) do
+    shipping_method = ExShop.Repo.get(ExShop.ShippingMethod, shipping_params["shipping_method_id"])
+    %{params | "shipping" => %{shipping_method_id: shipping_method.id,
+                              adjustment: %{amount: ExShop.ShippingCalculator.shipping_cost(shipping_method, order), order_id: order.id}}}
+  end
+  defp shipping_params(order, params), do: params
 
   # no changes to be made with tax
   def tax_changeset(model, params \\ :empty) do
@@ -268,17 +270,6 @@ defmodule ExShop.Order do
     model
     |> cast(params, ~w(confirm state), ~w())
     |> validate_order_confirmed
-  end
-
-  defp ensure_only_one_shipping_selected(model) do
-    selected =
-      get_field(model, :shippings)
-      |> Enum.filter(&(&1.selected))
-    case selected do
-      []  -> add_error(model, :shippings, "Please select atleast one shipping method")
-      [_] -> model
-       _  -> add_error(model, :shippings, "Please select only 1 shipping method")
-    end
   end
 
   defp ensure_only_one_payment_selected(model) do
