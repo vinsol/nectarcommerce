@@ -19,7 +19,7 @@ defmodule ExShop.Admin.OrderController do
   def show(conn, %{"id" => id}) do
     order =
       Repo.get(Order, id)
-      |> Repo.preload([line_items: [variant: :product]])
+      |> Repo.preload([line_items: [variant: [:product, [option_values: :option_type]]]])
       |> Repo.preload([shippings: [:shipping_method, :adjustment]])
       |> Repo.preload([adjustments: [:tax, :shipping]])
       |> Repo.preload([payments: [:payment_method]])
@@ -33,7 +33,7 @@ defmodule ExShop.Admin.OrderController do
     products  =
       Product
       |> Repo.all
-      |> Repo.preload([:variants])
+      |> Repo.preload([variants: [option_values: :option_type]])
 
     line_items =
       LineItem

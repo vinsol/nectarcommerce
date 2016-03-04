@@ -12,7 +12,7 @@ defmodule ExShop.Admin.OrderView do
       (variant) ->
         content_tag(:option, value: variant.id, disabled: out_of_stock?(variant)) do
         # TODO maybe autogenerate sku if one is not provided
-          (variant.sku || product.name)
+          (variant_options_text(variant))
           <> if out_of_stock?(variant) do
             "(Out of stock)"
           else
@@ -23,4 +23,28 @@ defmodule ExShop.Admin.OrderView do
   end
 
   def master_variant_id(%ExShop.Product{variants: [master_variant]}), do: master_variant.id
+
+  def line_item_display_name(line_item) do
+    ## Assuming everything pre-loaded
+    variant = line_item.variant
+    product = variant.product
+    product.name <> variant_options_text(variant)
+  end
+
+  # Calling from Admin.LineItemView
+  # so made Public
+  # TODO: Move to Common Module
+  def variant_options_text(variant) do
+    if variant.is_master do
+      ""
+    else
+      " (" <> (
+        Enum.map(variant.option_values,
+          fn(y) -> "#{y.option_type.presentation}:#{y.presentation}" end
+        )
+        |> Enum.join(", ")
+      )
+      <> ")"
+    end
+  end
 end

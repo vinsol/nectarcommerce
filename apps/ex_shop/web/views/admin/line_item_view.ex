@@ -3,7 +3,7 @@ defmodule ExShop.Admin.LineItemView do
   use ExShop.Web, :view
 
   def render("line_item.json", %{line_item: line_item}) do
-    line_item = ExShop.Repo.get!(ExShop.LineItem, line_item.id) |> ExShop.Repo.preload([variant: :product])
+    line_item = ExShop.Repo.get!(ExShop.LineItem, line_item.id) |> ExShop.Repo.preload([variant: [:product, [option_values: :option_type]]])
     if line_item.variant.is_master do
       %{id: line_item.id,
         quantity: line_item.quantity,
@@ -14,7 +14,7 @@ defmodule ExShop.Admin.LineItemView do
       %{id: line_item.id,
         quantity: line_item.quantity,
         variant: %{
-          display_name: "#{line_item.variant.product.name} (#{line_item.variant.sku})",
+          display_name: "#{line_item.variant.product.name} #{ExShop.Admin.OrderView.variant_options_text(line_item.variant)}",
           id: line_item.variant.id}}
     end
   end

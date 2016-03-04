@@ -3,10 +3,10 @@
     <li><%= link "Home", to: admin_home_path(@conn, :index) %></li>
     <%= if Guardian.Plug.current_resource(@conn, :admin) do %>
       <li role="presentation" class="dropdown">
-        <%= link "Product Mgmt", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
+        <%= link "Products", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
         <ul class="dropdown-menu">
-          <li><%= link "OptionType", to: admin_option_type_path(@conn, :index) %></li>
-          <li><%= link "Product", to: admin_product_path(@conn, :index) %></li>
+          <li><%= link "Option Types", to: admin_option_type_path(@conn, :index) %></li>
+          <li><%= link "Products", to: admin_product_path(@conn, :index) %></li>
         </ul>
       </li>
       <li class="dropdown" role="presentation">
