@@ -81,12 +81,6 @@ defmodule ExShop.CheckoutManager do
   # default match do nothing just return order
   def before_transition(order, _to, _data), do: order
 
-
-  def after_transition(%Order{state: "address"} = order, _data) do
-    order
-    |> ShippingCalculator.calculate_shippings
-  end
-
   def after_transition(%Order{state: "shipping"} = order, _params) do
     order
     |> TaxCalculator.calculate_taxes

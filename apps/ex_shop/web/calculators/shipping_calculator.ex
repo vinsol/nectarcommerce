@@ -3,30 +3,23 @@ defmodule ExShop.ShippingCalculator do
   alias ExShop.Repo
 
   # generate all possible shippings
-  def calculate_shippings(%Order{} = order) do
-    order
-    |> create_shipping
-    |> create_shipping_adjustment
+  def calculate_applicable_shippings(%Order{} = order) do
+    # replace with a distributed worker/async approach
+    # collect all available results avoid awaiting for all
+    # see: http://theerlangelist.com/article/beyond_taskasync for reference
+    Enum.map(Repo.all(ExShop.ShippingMethod), fn (shipping_method) -> calculate_shipping_cost(shipping_method, order) end)
   end
 
-  defp create_shipping(order) do
-    shipping_methods = Repo.all(ExShop.ShippingMethod)
-    shippings = Enum.map(shipping_methods, fn (shipping_method) ->
-      order
-      |> Ecto.build_assoc(:shippings)
-      |> ExShop.Shipping.changeset(%{"shipping_method_id" => shipping_method.id})
-      |> Repo.insert!
-    end)
-    %ExShop.Order{order|shippings: shippings}
+  def calculate_shipping_cost(shipping_method, order) do
+    # launch the shipping calculator here.
+    Map.from_struct(%ExShop.ShippingMethod{shipping_method|shipping_cost: shipping_cost(shipping_method, order)})
+    |> Map.drop([:__meta__, :shippings])
   end
 
-  defp create_shipping_adjustment(%Order{adjustments: adjustments} = order) do
-    shipping_adjustments = Enum.map(order.shippings, fn (shipping) ->
-      order
-      |> Ecto.build_assoc(:adjustments)
-      |> ExShop.Adjustment.changeset(%{amount: 10.00, shipping_id: shipping.id})
-      |> Repo.insert!
-    end)
-    %ExShop.Order{order|adjustments: [adjustments|shipping_adjustments]}
+  def shipping_cost(method, order) do
+    # link this with ETS to allow quick look up once done.
+    # will be dispatched to the corresponding worker which either calculates it
+    # or returns with a quick lookup
+    Decimal.new(10)
   end
 end
