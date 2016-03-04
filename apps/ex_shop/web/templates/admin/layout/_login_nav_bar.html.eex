@@ -13,7 +13,11 @@
         <%= link "Countries", to: admin_country_path(@conn, :index) %>
       </li>
       <li class="dropdown" role="presentation">
-        <%= link "Zone", to: admin_zone_path(@conn, :index) %>
+        <%= link "Zones", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
+        <ul class="dropdown-menu">
+          <li><%= link "Zone", to: admin_zone_path(@conn, :index) %></li>
+          <li><%= link "New Zone", to: admin_zone_path(@conn, :new) %></li>
+        </ul>
       </li>
       <li class="dropdown" role="presentation">
         <%= link "Settings", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>

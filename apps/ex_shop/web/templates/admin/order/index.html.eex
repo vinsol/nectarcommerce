@@ -16,12 +16,13 @@
         <td><%= order.id %></td>
         <td><%= order.updated_at %></td>
         <td><%= order.state %></td>
-        <%= if order.state == "confirmation" do %>
+        <%= if ExShop.Order.confirmed? (order) do %>
           <td><%= link "Show", to: admin_order_path(@conn, :show, order), class: "btn btn-default btn-xs" %></td>
+          <td>-</td>
         <% else %>
           <td><%= link "Continue", to: admin_order_checkout_path(@conn, :checkout, order), class: "btn btn-default btn-xs" %></td>
+          <td><%= link "Goto Cart", to: admin_cart_path(@conn, :edit, order), class: "btn btn-default btn-xs" %></td>
         <% end %>
-        <td><%= link "Goto Cart", to: admin_cart_path(@conn, :edit, order), class: "btn btn-default btn-xs" %></td>
       </tr>
     <% end %>
   </tbody>
