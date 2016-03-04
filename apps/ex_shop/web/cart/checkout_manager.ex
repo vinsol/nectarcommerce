@@ -100,6 +100,7 @@ defmodule ExShop.CheckoutManager do
   def after_transition(%Order{} = order, _data), do: order
 
   defp to_state(%Order{} = order, next_state, params) do
+    ExShop.Repo.transaction(fn ->
     {status, model} =
       order
       |> Order.transition_changeset(next_state, params)
@@ -107,9 +108,10 @@ defmodule ExShop.CheckoutManager do
       |> ExShop.Repo.update
 
     case status do
-      :ok -> {:ok, after_transition(model, params)}
-      :error -> {:error, model}
+      :ok -> after_transition(model, params)
+      :error -> ExShop.Repo.rollback model
     end
+    end)
   end
 
   # TODO: move these methods to gateway
