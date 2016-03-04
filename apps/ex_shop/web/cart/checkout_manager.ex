@@ -89,7 +89,6 @@ defmodule ExShop.CheckoutManager do
   def after_transition(%Order{state: "tax"} = order, _data) do
     order
     |> Order.settle_adjustments_and_product_payments
-    |> Invoice.generate
   end
 
   def after_transition(%Order{state: "confirmation"} = order, _data) do
@@ -118,12 +117,9 @@ defmodule ExShop.CheckoutManager do
     # get the selected payment method
     # if none or more than one found return changeset it will handle missing payment method later
     # else use the selected payment_method_id to complete the transaction.
-    case Enum.filter(params["payments"] || [], fn
-      ({_, %{"selected" => "false"}}) -> false
-      ({_, %{"selected" => "true"}})  -> true
-    end) do
-      [{_, %{"id" => selected_payment_id}}] -> do_authorize_payment(order, String.to_integer(selected_payment_id), params["payment_method"])
-      _  -> order
+    case params["payment"] do
+      %{"payment_method_id" => selected_payment_id} -> do_authorize_payment(order, String.to_integer(selected_payment_id), params["payment_method"])
+        _  -> order
     end
   end
 
@@ -131,7 +127,7 @@ defmodule ExShop.CheckoutManager do
     # in case payment fails add the error message to changeset to prevent it from moving to next state.
     case ExShop.Gateway.authorize_payment(order.model, selected_payment_id, payment_method_params) do
       {:ok} -> order
-      {:error, error_message} -> order |> Ecto.Changeset.add_error(:payments, error_message)
+      {:error, error_message} -> IO.puts error_message; order |> Ecto.Changeset.add_error(:payments, error_message)
     end
   end
 
