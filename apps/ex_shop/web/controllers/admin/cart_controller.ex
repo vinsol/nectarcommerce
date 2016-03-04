@@ -29,7 +29,7 @@ defmodule ExShop.Admin.CartController do
   end
 
   def edit(conn, %{"id" => id}) do
-    {:ok, order} = Repo.get!(ExShop.Order, id) |> Order.move_back_to_cart_state
+    {:ok, order} = Repo.get!(ExShop.Order, id) |> ExShop.CheckoutManager.back("cart")
     products  =
       Product
       |> Repo.all

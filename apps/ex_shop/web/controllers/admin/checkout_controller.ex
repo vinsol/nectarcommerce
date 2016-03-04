@@ -21,4 +21,13 @@ defmodule ExShop.Admin.CheckoutController do
         render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(updated_order))
     end
   end
+
+  def back(conn, _params) do
+    order = Repo.get!(Order, conn.params["order_id"])
+    case CheckoutManager.back(order) do
+      {:ok, updated_order} ->
+        render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(updated_order))
+    end
+  end
+
 end

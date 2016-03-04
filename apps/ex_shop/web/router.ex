@@ -43,6 +43,7 @@ defmodule ExShop.Router do
       end
       get "/checkout", CheckoutController, :checkout
       put "/checkout/next", CheckoutController, :next
+      get "/checkout/back", CheckoutController, :back
     end
 
     resources "/settings", SettingController, only: [:edit, :update]
