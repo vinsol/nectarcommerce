@@ -1,6 +1,8 @@
 defmodule ExShop.Admin.OrderView do
   use ExShop.Web, :view
 
+  alias ExShop.Admin.VariantView
+
   def only_master_variant?(%ExShop.Product{variants: [_]}), do: true
   def only_master_variant?(%ExShop.Product{variants: [_|_]}), do: false
 
@@ -12,7 +14,7 @@ defmodule ExShop.Admin.OrderView do
       (variant) ->
         content_tag(:option, value: variant.id, disabled: out_of_stock?(variant)) do
         # TODO maybe autogenerate sku if one is not provided
-          (variant.sku || product.name)
+          (VariantView.variant_options_text(variant))
           <> if out_of_stock?(variant) do
             "(Out of stock)"
           else
@@ -23,4 +25,11 @@ defmodule ExShop.Admin.OrderView do
   end
 
   def master_variant_id(%ExShop.Product{variants: [master_variant]}), do: master_variant.id
+
+  def line_item_display_name(line_item) do
+    ## Assuming everything pre-loaded
+    variant = line_item.variant
+    product = variant.product
+    product.name <> VariantView.variant_options_text(variant)
+  end
 end

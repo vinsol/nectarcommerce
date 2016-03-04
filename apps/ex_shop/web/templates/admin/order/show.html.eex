@@ -19,7 +19,7 @@
   <tbody id="line_items">
     <%= for line_item <- @order.line_items do %>
       <tr>
-        <td><%= line_item.variant.product.name %></td>
+        <td><%= link line_item_display_name(line_item), to: admin_product_path(@conn, :show, line_item.variant.product), target: "_blank" %></td>
         <td><%= line_item.quantity %></td>
         <td><%= line_item.variant.cost_price %></td>
         <td><%= line_item.total %></td>

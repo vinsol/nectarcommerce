@@ -1,3 +1,5 @@
+<%= link "New Zone", to: admin_zone_path(@conn, :new) %>
+
 <h2>Listing Zones</h2>
 
 <table class="table">

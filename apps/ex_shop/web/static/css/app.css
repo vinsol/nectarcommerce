@@ -76,3 +76,6 @@ form.link, form.button {
     border-bottom: 0;
   }
 }
+.payment-form {
+  clear: both;
+}

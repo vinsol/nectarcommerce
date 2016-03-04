@@ -19,11 +19,19 @@ defmodule ExShop.Admin.OrderController do
   def show(conn, %{"id" => id}) do
     order =
       Repo.get(Order, id)
-      |> Repo.preload([line_items: [variant: :product]])
-      |> Repo.preload([shippings: [:shipping_method, :adjustment]])
-      |> Repo.preload([adjustments: [:tax, :shipping]])
-      |> Repo.preload([payments: [:payment_method]])
-    render(conn, "show.html", order: order)
+    if order do
+      order = order
+        |> Repo.preload([line_items: [variant: [:product, [option_values: :option_type]]]])
+        |> Repo.preload([shippings: [:shipping_method, :adjustment]])
+        |> Repo.preload([adjustments: [:tax, :shipping]])
+        |> Repo.preload([payments: [:payment_method]])
+      render(conn, "show.html", order: order)
+    else
+      conn
+        |> put_flash(:info, "Order Not found with id #{id}")
+        |> redirect(to: admin_order_path(conn, :index))
+        |> halt()
+    end
   end
 
   def cart(conn, _params) do
@@ -33,7 +41,7 @@ defmodule ExShop.Admin.OrderController do
     products  =
       Product
       |> Repo.all
-      |> Repo.preload([:variants])
+      |> Repo.preload([variants: [option_values: :option_type]])
 
     line_items =
       LineItem
@@ -42,5 +50,4 @@ defmodule ExShop.Admin.OrderController do
       |> Repo.preload([:product])
     render(conn, "new.html", order: order, products: products, line_items: line_items)
   end
-
 end
