@@ -198,7 +198,7 @@ defmodule ExShop.Order do
       from shipping_adj in assoc(model, :adjustments),
       where: not is_nil(shipping_adj.shipping_id),
       select: sum(shipping_adj.amount)
-    )
+    ) || Decimal.new("0")
   end
 
   def tax_total(model) do
@@ -206,14 +206,14 @@ defmodule ExShop.Order do
       from tax_adj in assoc(model, :adjustments),
       where: not is_nil(tax_adj.tax_id),
       select: sum(tax_adj.amount)
-    )
+    ) || Decimal.new("0")
   end
 
   def product_total(model) do
     ExShop.Repo.one(
       from line_item in assoc(model, :line_items),
       select: sum(line_item.total)
-    )
+    ) || Decimal.new("0")
   end
 
   def acquire_variant_stock(model) do
