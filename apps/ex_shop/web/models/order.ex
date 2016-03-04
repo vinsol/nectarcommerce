@@ -10,14 +10,15 @@ defmodule ExShop.Order do
     field :total, :decimal
     field :tax_confirm, :boolean, virtual: true
 
+    # use to hold invoices and payment methods
     field :applicable_shipping_methods, {:array, :map}, virtual: true
     field :applicable_payment_methods,  {:array, :map}, virtual: true
 
     has_many :line_items, ExShop.LineItem
     has_many :adjustments, ExShop.Adjustment
-    has_one :shipping, ExShop.Shipping
+    has_one  :shipping, ExShop.Shipping
     has_many :variants, through: [:line_items, :variant]
-    has_many :payments, ExShop.Payment
+    has_one  :payment, ExShop.Payment
 
     has_one  :billing_address, ExShop.Address
     has_one  :shipping_address, ExShop.Address
@@ -74,7 +75,7 @@ defmodule ExShop.Order do
   def move_back_to_tax_state(order) do
     ExShop.Repo.transaction(fn ->
       order
-      |> reset_payments
+      |> delete_payments
       |> cast(%{state: "tax"}, ~w(state), ~w())
       |> ExShop.Repo.update!
     end)
@@ -104,7 +105,7 @@ defmodule ExShop.Order do
 
   defp delete_payments(order) do
     # will want to create a refund here
-    Repo.delete_all(from o in assoc(order, :payments))
+    Repo.delete_all(from o in assoc(order, :payment))
     order
   end
 
@@ -116,10 +117,6 @@ defmodule ExShop.Order do
     order
   end
 
-  def reset_payments(order) do
-    Repo.update_all((from o in assoc(order, :payments)), set: [selected: false])
-    order
-  end
 
   def confirm_availability(order) do
     {sufficient_quantity_available, oos_items} =
@@ -171,8 +168,9 @@ defmodule ExShop.Order do
   end
 
   def with_preloaded_assoc(model, "payment") do
-    ExShop.Repo.get!(Order, model.id)
-    |> ExShop.Repo.preload([payments: :payment_method])
+    order = ExShop.Repo.get!(Order, model.id)
+    |> ExShop.Repo.preload([:payment])
+    %Order{order|applicable_payment_methods: ExShop.Invoice.generate_applicable_payment_invoices(order)}
   end
 
   def with_preloaded_assoc(model, "confirmation") do
@@ -261,8 +259,7 @@ defmodule ExShop.Order do
   def payment_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> cast_assoc(:payments, required: true)
-    |> ensure_only_one_payment_selected
+    |> cast_assoc(:payment, required: true, with: &ExShop.Payment.applicable_payment_changeset/2)
   end
 
   # Check availability and othe stuff here
@@ -270,19 +267,6 @@ defmodule ExShop.Order do
     model
     |> cast(params, ~w(confirm state), ~w())
     |> validate_order_confirmed
-  end
-
-  defp ensure_only_one_payment_selected(model) do
-    selected =
-      get_field(model, :payments)
-      |> Enum.filter(&(&1.selected))
-
-    case selected do
-      []  -> add_error(model, :payments, "Please select one payment method")
-      [_] -> model
-      _   -> add_error(model, :payments, "Please select only 1 payment method")
-    end
-
   end
 
   defp validate_order_confirmed(model) do

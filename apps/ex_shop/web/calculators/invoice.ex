@@ -4,19 +4,17 @@ defmodule ExShop.Invoice do
   alias ExShop.Repo
 
   # generate an invoice each for all possible payment methods
-  def generate(order) do
+  def generate_applicable_payment_invoices(order) do
     order
     |> create_invoices
   end
 
-  defp create_invoices(%Order{} = order) do
+  defp create_invoices(%Order{} = _order) do
     payment_methods = Repo.all(ExShop.PaymentMethod)
     invoices =  Enum.map(payment_methods, fn(p_method) ->
-      order
-      |> Ecto.build_assoc(:payments)
-      |> ExShop.Payment.changeset(%{payment_method_id: p_method.id})
-      |> Repo.insert!
+      p_method
+      |> Map.from_struct
+      |> Map.drop([:__meta__, :payments])
     end)
-    %Order{order | payments: invoices}
   end
 end
