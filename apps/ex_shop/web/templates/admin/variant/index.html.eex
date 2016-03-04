@@ -39,7 +39,7 @@
       <td><%= variant.height %></td>
       <td><%= variant.discontinue_on %></td>
       <td><%= variant.cost_price %></td>
-      <td><%= tag(:image, src: static_path(@conn, "/#{ExShop.VariantImage.url({variant.image, variant}, :thumb)}")) %></td>
+      <td><%= tag(:image, src: ExShop.VariantImage.url({variant.image, variant}, :thumb)) %></td>
 
       <td class="text-right">
         <%= link "Show", to: admin_product_variant_path(@conn, :show, @product, variant), class: "btn btn-default btn-xs" %>

@@ -5,7 +5,7 @@ defmodule ExShop.VariantImage do
   @versions [:original, :thumb]
   @extension_whitelist ~w(.jpg .jpeg .gif .png)
 
-  def __storage, do: Arc.Storage.Local
+  def __storage, do: Arc.Storage.S3
 
   def acl(:thumb, _), do: :public_read
 
