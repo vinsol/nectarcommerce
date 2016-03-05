@@ -1,9 +1,13 @@
-<%= form_for @changeset, @action, fn f -> %>
-  <h4>Select your shipping method</h4>
+<%= if shipping_methods_available? @changeset.model do %>
+  <%= form_for @changeset, @action, fn f -> %>
+    <h4>Select your shipping method</h4>
     <select name="order[shipping][shipping_method_id]">
       <%= for shipping_method <- @changeset.model.applicable_shipping_methods do %>
         <option value="<%= shipping_method.id %>"><%= shipping_method.name %> (+<%= shipping_method.shipping_cost %>)</option>
       <% end %>
     </select>
-  <%= submit "Next", class: "btn btn-primary" %>
+    <%= submit "Next", class: "btn btn-primary" %>
+  <% end %>
+<% else %>
+  <h4>No shipping methods applicable. Unable to proceed forward</h4>
 <% end %>
