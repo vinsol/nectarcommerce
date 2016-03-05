@@ -2,6 +2,8 @@ defmodule ExShop.Admin.CheckoutView do
 	use ExShop.Web, :view
 
   alias ExShop.Repo
+  alias ExShop.CheckoutManager
+
   import Ecto.Query
 
   def country_names_and_ids do
@@ -13,15 +15,13 @@ defmodule ExShop.Admin.CheckoutView do
   end
 
   def adjustment_row(%ExShop.Adjustment{shipping_id: shipping_id} = adjustment) when not is_nil(shipping_id) do
-    if adjustment.shipping.selected do
-      content_tag :tr do
-        [content_tag :td do
-          to_string(adjustment.amount)
-        end,
-        content_tag :td do
-          "shipping: #{adjustment.shipping.shipping_method.name}"
-        end]
-      end
+    content_tag :tr do
+      [content_tag :td do
+        to_string(adjustment.amount)
+      end,
+      content_tag :td do
+        "shipping: #{adjustment.shipping.shipping_method.name}"
+      end]
     end
   end
 
@@ -39,5 +39,25 @@ defmodule ExShop.Admin.CheckoutView do
   def braintree_client_token do
     ExShop.Gateway.BrainTree.client_token
   end
+
+  def next_step(%ExShop.Order{state: state, confirmation_status: true} = order) do
+    next_state = CheckoutManager.next_state(order)
+    # cannot move forward therefore must be in confirmed state.
+    if next_state == state do
+      "confirmed.html"
+    else
+      "#{next_state}.form.html"
+    end
+  end
+
+  def next_step(%ExShop.Order{confirmation_status: false}) do
+    "cancelled.html"
+  end
+
+  def payment_methods_available?(%ExShop.Order{applicable_payment_methods: []}), do: false
+  def payment_methods_available?(%ExShop.Order{}), do: true
+
+  def shipping_methods_available?(%ExShop.Order{applicable_shipping_methods: []}), do: false
+  def shipping_methods_available?(%ExShop.Order{}), do: true
 
 end

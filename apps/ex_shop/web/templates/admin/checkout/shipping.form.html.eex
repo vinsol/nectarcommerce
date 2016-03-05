@@ -1,22 +1,13 @@
-<%= form_for @changeset, @action, fn f -> %>
-  <div class="form-group">
-    <%= label f, :tax_confirm, "Confirm and click next to continue", class: "control-label" %>
-    <%= checkbox f, :tax_confirm, class: "form-control" %>
-    <%= error_tag f, :tax_confirm %>
-  </div>
-
-  <table class="table">
-    <thead>
-      <tr>
-      <th>Amount</th>
-      <th>Reason</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= for adjustment <- @changeset.model.adjustments do %>
-        <%= adjustment_row(adjustment) %>
+<%= if shipping_methods_available? @changeset.model do %>
+  <%= form_for @changeset, @action, fn f -> %>
+    <h4>Select your shipping method</h4>
+    <select name="order[shipping][shipping_method_id]">
+      <%= for shipping_method <- @changeset.model.applicable_shipping_methods do %>
+        <option value="<%= shipping_method.id %>"><%= shipping_method.name %> (+<%= shipping_method.shipping_cost %>)</option>
       <% end %>
-    </tbody>
-  </table>
-  <%= submit "Next", class: "btn btn-primary" %>
+    </select>
+    <%= submit "Next", class: "btn btn-primary" %>
+  <% end %>
+<% else %>
+  <h4>No shipping methods applicable. Unable to proceed forward</h4>
 <% end %>

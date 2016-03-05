@@ -4,6 +4,9 @@ defmodule ExShop.ShippingMethod do
   schema "shipping_methods" do
     field :name
     has_many :shippings, ExShop.Shipping
+
+    field :shipping_cost, :decimal, virtual: true, default: Decimal.new("0")
+
     timestamps
   end
 

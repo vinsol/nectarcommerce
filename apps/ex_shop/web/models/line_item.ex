@@ -1,5 +1,6 @@
 defmodule ExShop.LineItem do
   use ExShop.Web, :model
+
   alias ExShop.Order
   alias ExShop.Variant
   alias ExShop.Product
@@ -15,8 +16,22 @@ defmodule ExShop.LineItem do
     timestamps
   end
 
-  # @required_fields ~w()
-  # @optional_fields ~w()
+  def cancel_fullfillment(%ExShop.LineItem{fullfilled: false} = line_item), do: line_item
+
+  def cancel_fullfillment(%ExShop.LineItem{fullfilled: true} = line_item) do
+    ExShop.Repo.transaction(fn ->
+      case line_item
+      |> fullfillment_changeset(%{fullfilled: false})
+      |> ExShop.Repo.update do
+        {:ok, line_item} ->
+          move_stock(line_item)
+          Order.settle_adjustments_and_product_payments(line_item.order)
+          line_item
+        {:error, changeset} ->
+          ExShop.Repo.rollback changeset
+      end
+    end)
+  end
 
   def changeset(model, params \\ :empty) do
     model
@@ -158,7 +173,7 @@ defmodule ExShop.LineItem do
     if Order.confirmed?(order) do
       changeset
     else
-      add_error(changeset, :fullfilled, "Order should be confirmed before updating the fullfillment status")
+      add_error(changeset, :fullfilled, "Order should be in confirmation state before updating the fullfillment status")
     end
   end
 

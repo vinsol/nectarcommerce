@@ -31,12 +31,9 @@ defmodule ExShop.Admin.LineItemController do
   end
 
   def update_fullfillment(conn, %{"order_id" => id, "line_item_id" => line_item_id}) do
-    line_item = Repo.get!(LineItem, line_item_id) |> Repo.preload([:variant])
-    case LineItem.fullfillment_changeset(line_item, %{fullfilled: !line_item.fullfilled})
-         |> Repo.update
-    do
+    line_item = Repo.get!(LineItem, line_item_id) |> Repo.preload([:variant, :order])
+    case LineItem.cancel_fullfillment(line_item) do
       {:ok, line_item} ->
-        LineItem.move_stock(line_item)
         conn
         |> put_status(:no_content)
         |> json(nil)
@@ -46,5 +43,4 @@ defmodule ExShop.Admin.LineItemController do
         |> render("error.json", changeset: changeset)
     end
   end
-
 end
