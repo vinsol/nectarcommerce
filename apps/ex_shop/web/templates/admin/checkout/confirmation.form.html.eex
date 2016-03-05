@@ -1,2 +1,21 @@
-<h1>Order placed successfully</h1>
-<%= link "click here to view details", to: admin_order_path(@conn, :show, @order) %>
+<%= form_for @changeset, @action, fn f -> %>
+  <%= error_tag f, :line_items %>
+  <h4>order summary</h4>
+  <div>order_total: <%= @changeset.model.total %></div>
+  <div>line_items:
+    <%= for line_item <- @changeset.model.line_items do %>
+      <%= line_item.variant.sku %>
+      <%= line_item.variant.cost_price %>
+      <%= line_item.quantity %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :confirm, "Confirm your order", class: "control-label" %>
+    <%= checkbox f, :confirm, class: "form-control" %>
+    <%= error_tag f, :confirm %>
+  </div>
+
+
+<%= submit "Next", class: "btn btn-primary" %>
+<% end %>

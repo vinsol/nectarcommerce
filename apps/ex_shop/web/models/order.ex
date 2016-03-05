@@ -6,8 +6,10 @@ defmodule ExShop.Order do
   schema "orders" do
     field :slug, :string
     field :state, :string, default: "cart"
-    field :confirm, :boolean, virtual: true
     field :total, :decimal
+    field :confirmation_status, :boolean, default: true
+
+    field :confirm, :boolean, virtual: true
     field :tax_confirm, :boolean, virtual: true
 
     # use to hold invoices and payment methods
@@ -27,7 +29,7 @@ defmodule ExShop.Order do
   end
 
   @required_fields ~w(state)
-  @optional_fields ~w(slug total)
+  @optional_fields ~w(slug total confirmation_status)
 
   @states ~w(cart address shipping tax payment confirmation)
 
@@ -37,6 +39,16 @@ defmodule ExShop.Order do
   def cart_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+  end
+
+  # cancelling all line items will automatically cancel the order.
+  def cancel_order(model) do
+    Repo.transaction(fn ->
+      model
+      |> ExShop.Repo.preload([:line_items])
+      |> Map.get(:line_items)
+      |> Enum.each(&(ExShop.LineItem.cancel_fullfillment(&1)))
+    end)
   end
 
   def move_back_to_cart_state(order) do
@@ -183,14 +195,28 @@ defmodule ExShop.Order do
   end
 
   def settle_adjustments_and_product_payments(model) do
-    total =
-      shipping_total(model)
-      |> Decimal.add(tax_total(model))
-      |> Decimal.add(product_total(model))
+    import IEx
+    IEx.pry
+    if can_be_fullfilled? model do
+      total =
+        shipping_total(model)
+        |> Decimal.add(tax_total(model))
+        |> Decimal.add(product_total(model))
 
-    model
-    |> cast(%{total: total}, @required_fields, @optional_fields)
-    |> ExShop.Repo.update!
+      model
+      |> cast(%{total: total}, @required_fields, @optional_fields)
+      |> ExShop.Repo.update!
+    else
+      model
+      |> cast(%{total: Decimal.new("0"), confirmation_status: false}, @required_fields, @optional_fields)
+      |> ExShop.Repo.update!
+    end
+  end
+
+  # if none of the line items can be fullfilled cancel the order
+  def can_be_fullfilled?(%ExShop.Order{} = order) do
+    ExShop.Repo.all(from ln in assoc(order, :line_items), select: ln.fullfilled)
+    |> Enum.any?
   end
 
   def shipping_total(model) do
