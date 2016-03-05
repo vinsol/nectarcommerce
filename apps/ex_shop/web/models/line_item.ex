@@ -1,5 +1,6 @@
 defmodule ExShop.LineItem do
   use ExShop.Web, :model
+
   alias ExShop.Order
   alias ExShop.Variant
   alias ExShop.Product
@@ -17,6 +18,21 @@ defmodule ExShop.LineItem do
 
   # @required_fields ~w()
   # @optional_fields ~w()
+
+  def update_fullfillment(line_item) do
+    ExShop.Repo.transaction(fn ->
+      case line_item
+      |> fullfillment_changeset(%{fullfilled: !line_item.fullfilled})
+      |> ExShop.Repo.update do
+        {:ok, line_item} ->
+          move_stock(line_item)
+          Order.settle_adjustments_and_product_payments(line_item.order)
+          line_item
+        {:error, changeset} ->
+          ExShop.Repo.rollback changeset
+      end
+    end)
+  end
 
   def changeset(model, params \\ :empty) do
     model

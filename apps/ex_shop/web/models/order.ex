@@ -212,6 +212,7 @@ defmodule ExShop.Order do
   def product_total(model) do
     ExShop.Repo.one(
       from line_item in assoc(model, :line_items),
+      where: line_item.fullfilled == true,
       select: sum(line_item.total)
     ) || Decimal.new("0")
   end
