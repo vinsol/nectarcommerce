@@ -42,6 +42,7 @@ defmodule ExShop.Admin.CheckoutView do
 
   def next_step(%ExShop.Order{state: state, confirmation_status: true} = order) do
     next_state = CheckoutManager.next_state(order)
+    # cannot move forward therefore must be in confirmed state.
     if next_state == state do
       "confirmed.html"
     else
@@ -49,8 +50,14 @@ defmodule ExShop.Admin.CheckoutView do
     end
   end
 
-  def next_step(%ExShop.Order{confirmation_status: false} = order) do
+  def next_step(%ExShop.Order{confirmation_status: false}) do
     "cancelled.html"
   end
+
+  def payment_methods_available?(%ExShop.Order{applicable_payment_methods: []}), do: false
+  def payment_methods_available?(%ExShop.Order{}), do: true
+
+  def shipping_methods_available?(%ExShop.Order{applicable_shipping_methods: []}), do: false
+  def shipping_methods_available?(%ExShop.Order{}), do: true
 
 end
