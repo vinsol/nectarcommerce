@@ -2,6 +2,8 @@ defmodule ExShop.Admin.CheckoutView do
 	use ExShop.Web, :view
 
   alias ExShop.Repo
+  alias ExShop.CheckoutManager
+
   import Ecto.Query
 
   def country_names_and_ids do
@@ -36,6 +38,19 @@ defmodule ExShop.Admin.CheckoutView do
 
   def braintree_client_token do
     ExShop.Gateway.BrainTree.client_token
+  end
+
+  def next_step(%ExShop.Order{state: state, confirmation_status: true} = order) do
+    next_state = CheckoutManager.next_state(order)
+    if next_state == state do
+      "confirmed.html"
+    else
+      "#{next_state}.form.html"
+    end
+  end
+
+  def next_step(%ExShop.Order{confirmation_status: false} = order) do
+    "cancelled.html"
   end
 
 end
