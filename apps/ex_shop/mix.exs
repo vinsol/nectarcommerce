@@ -51,7 +51,7 @@ defmodule ExShop.Mixfile do
       {:guardian, "~> 0.9.0"},
       {:ex_aws, "~> 0.4.10"},
       {:arc_ecto, "~> 0.3.2"},
-      {:commerce_billing, "~> 0.0.2"},
+      {:commerce_billing, github: "nimish-mehta/commerce_billing",  override: true},
       {:braintree, "~> 0.3.2"},
       {:worldly, in_umbrella: true}
     ]
