@@ -1,0 +1,2 @@
+<h1>Order placed successfully</h1>
+<%= link "click here to view details", to: admin_order_path(@conn, :show, @order) %>

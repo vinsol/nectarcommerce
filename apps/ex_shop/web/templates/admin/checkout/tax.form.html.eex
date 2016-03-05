@@ -1,16 +1,22 @@
-<div id="payment-form">
-  <%= form_for @changeset, @action, fn f -> %>
-    <h4>Select your payment method</h4>
-    <%= for method <- @changeset.model.applicable_payment_methods do %>
-      <div>
-        <h4><%= method.name %></h4>
-        <input name="order[payment][payment_method_id]" type="checkbox" value="<%= method.id %>"/>
-        <%= render_existing @view_module, "payment.#{method.name}.html"%>
-      </div>
-    <% end %>
+<%= form_for @changeset, @action, fn f -> %>
   <div class="form-group">
-    <%= submit "Next", class: "btn btn-primary form-control btn-xs" %>
+    <%= label f, :tax_confirm, "Confirm and click next to continue", class: "control-label" %>
+    <%= checkbox f, :tax_confirm, class: "form-control" %>
+    <%= error_tag f, :tax_confirm %>
   </div>
-<% end %>
 
-</div>
+  <table class="table">
+    <thead>
+      <tr>
+      <th>Amount</th>
+      <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for adjustment <- @changeset.model.adjustments do %>
+        <%= adjustment_row(adjustment) %>
+      <% end %>
+    </tbody>
+  </table>
+  <%= submit "Next", class: "btn btn-primary" %>
+<% end %>

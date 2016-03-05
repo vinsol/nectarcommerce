@@ -1,13 +1,14 @@
 defmodule ExShop.CheckoutManager do
 
   alias ExShop.Order
-  alias ExShop.ShippingCalculator
   alias ExShop.TaxCalculator
-  alias ExShop.Invoice
 
   # States:
   # cart -> address -> shipping -> tax -> payment -> confirmation
   @states ~w(cart address shipping tax payment confirmation)
+  @state_transitions @states
+                     |> Enum.zip(Enum.drop(@states, 1))
+                     |> Enum.reduce(%{}, fn ({frm, to}, acc) -> Map.put_new(acc, frm, to) end)
 
   def next_changeset(%Order{state: "cart"} = order), do: Order.transition_changeset(order, "address")
   def next_changeset(%Order{state: "address"} = order), do: Order.transition_changeset(order, "shipping")
@@ -26,6 +27,9 @@ defmodule ExShop.CheckoutManager do
   def next(%Order{state: "payment"} = order, params),      do: to_state(order, "confirmation", params)
   def next(%Order{state: "confirmation"} = order, params), do: to_state(order, "confirmation", params)
 
+  @nextable_states Enum.drop(Enum.reverse(@states), 1)
+  def next_state(%Order{state: state}) when state in @nextable_states, do: Map.get(@state_transitions, state)
+  def next_state(%Order{state: state}), do: state
 
   def back(order)
 
