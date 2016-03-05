@@ -124,16 +124,19 @@ defmodule ExShop.CheckoutManager do
     # if none or more than one found return changeset it will handle missing payment method later
     # else use the selected payment_method_id to complete the transaction.
     case params["payment"] do
-      %{"payment_method_id" => selected_payment_id} -> do_authorize_payment(order, String.to_integer(selected_payment_id), params["payment_method"])
+      %{"payment_method_id" => selected_payment_id} -> do_authorize_payment(order, selected_payment_id, params["payment_method"])
         _  -> order
     end
   end
+
+  defp do_authorize_payment(order, selected_payment_id, payment_method_params) when is_binary(selected_payment_id),
+    do: do_authorize_payment(order, String.to_integer(selected_payment_id), payment_method_params)
 
   defp do_authorize_payment(order, selected_payment_id, payment_method_params) do
     # in case payment fails add the error message to changeset to prevent it from moving to next state.
     case ExShop.Gateway.authorize_payment(order.model, selected_payment_id, payment_method_params) do
       {:ok} -> order
-      {:error, error_message} -> IO.puts error_message; order |> Ecto.Changeset.add_error(:payments, error_message)
+      {:error, error_message} -> order |> Ecto.Changeset.add_error(:payment, error_message)
     end
   end
 

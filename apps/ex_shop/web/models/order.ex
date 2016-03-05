@@ -195,8 +195,6 @@ defmodule ExShop.Order do
   end
 
   def settle_adjustments_and_product_payments(model) do
-    import IEx
-    IEx.pry
     if can_be_fullfilled? model do
       total =
         shipping_total(model)

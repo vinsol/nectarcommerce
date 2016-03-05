@@ -21,7 +21,7 @@ defmodule ExShop.Admin.OrderController do
       Repo.get(Order, id)
     if order do
       order = order
-              |> Repo.preload([line_items: [variant: :product]])
+              |> Repo.preload([line_items: [variant: [:product, [option_values: :option_type]]]])
               |> Repo.preload([shipping: [:shipping_method, :adjustment]])
               |> Repo.preload([adjustments: [:tax, :shipping]])
               |> Repo.preload([payment: [:payment_method]])

@@ -1,6 +1,6 @@
 <div class="credit-cart col-md-6">
-  <%= if Map.get(@payment.params, "selected") do %>
-    <%= error_tag @f, :payments %>
+  <%= if @error_in_payment_method do %>
+    <%= error_tag @f, :payment %>
   <% end %>
   <div class="form-group">
     <label for="order[payment_method][stripe][card_number]">Card Number</label>

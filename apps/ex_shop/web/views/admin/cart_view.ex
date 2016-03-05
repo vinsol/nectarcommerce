@@ -1,7 +1,7 @@
 defmodule ExShop.Admin.CartView do
   use ExShop.Web, :view
 
-    def only_master_variant?(%ExShop.Product{variants: [_]}), do: true
+  def only_master_variant?(%ExShop.Product{variants: [_]}), do: true
   def only_master_variant?(%ExShop.Product{variants: [_|_]}), do: false
 
   def out_of_stock?(%ExShop.Variant{} = variant), do: ExShop.Variant.available_quantity(variant) == 0

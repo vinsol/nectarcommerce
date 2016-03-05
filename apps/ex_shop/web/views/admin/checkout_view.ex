@@ -7,11 +7,11 @@ defmodule ExShop.Admin.CheckoutView do
   import Ecto.Query
 
   def country_names_and_ids do
-    Repo.all(from c in ExShop.Country, select: {c.name, c.id})
+    [{"--Select Country--", ""} | Repo.all(from c in ExShop.Country, select: {c.name, c.id})]
   end
 
   def state_names_and_ids do
-    Repo.all(from c in ExShop.State, select: {c.name, c.id})
+    [{"--Select State--", ""} | Repo.all(from c in ExShop.State, select: {c.name, c.id})]
   end
 
   def adjustment_row(%ExShop.Adjustment{shipping_id: shipping_id} = adjustment) when not is_nil(shipping_id) do
@@ -42,6 +42,7 @@ defmodule ExShop.Admin.CheckoutView do
 
   def next_step(%ExShop.Order{state: state, confirmation_status: true} = order) do
     next_state = CheckoutManager.next_state(order)
+    # cannot move forward therefore must be in confirmed state.
     if next_state == state do
       "confirmed.html"
     else
@@ -49,8 +50,18 @@ defmodule ExShop.Admin.CheckoutView do
     end
   end
 
-  def next_step(%ExShop.Order{confirmation_status: false} = order) do
+  def next_step(%ExShop.Order{confirmation_status: false}) do
     "cancelled.html"
+  end
+
+  def payment_methods_available?(%ExShop.Order{applicable_payment_methods: []}), do: false
+  def payment_methods_available?(%ExShop.Order{}), do: true
+
+  def shipping_methods_available?(%ExShop.Order{applicable_shipping_methods: []}), do: false
+  def shipping_methods_available?(%ExShop.Order{}), do: true
+
+  def error_in_payment_method?(changeset, payment_method_id) do
+    (!changeset.valid?) && changeset.params["payment"]["payment_method_id"] == to_string(payment_method_id)
   end
 
 end
