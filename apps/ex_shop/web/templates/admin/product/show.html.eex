@@ -24,6 +24,7 @@
         <div class="panel-body"><%= option_type.presentation %></div>
       <% end %>
     </div>
+    <%= link "Show Variants", to: admin_product_variant_path(@conn, :index, @product) %>
   <% end %>
 </div>
 

@@ -16,4 +16,6 @@ defmodule ExShop.Payment do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
+
+  # TODO: can we add errors while payment authorisation here ??
 end
