@@ -1,6 +1,7 @@
 defmodule ExShop.Admin.LineItemView do
-
   use ExShop.Web, :view
+
+  alias ExShop.Admin.VariantView
 
   def render("line_item.json", %{line_item: line_item}) do
     line_item = ExShop.Repo.get!(ExShop.LineItem, line_item.id) |> ExShop.Repo.preload([variant: [:product, [option_values: :option_type]]])
@@ -14,7 +15,7 @@ defmodule ExShop.Admin.LineItemView do
       %{id: line_item.id,
         quantity: line_item.quantity,
         variant: %{
-          display_name: "#{line_item.variant.product.name} #{ExShop.Admin.OrderView.variant_options_text(line_item.variant)}",
+          display_name: "#{line_item.variant.product.name} #{VariantView.variant_options_text(line_item.variant)}",
           id: line_item.variant.id}}
     end
   end
@@ -22,5 +23,4 @@ defmodule ExShop.Admin.LineItemView do
   def render("error.json", %{changeset: changeset}) do
     render_changeset_error_json(changeset)
   end
-
 end
