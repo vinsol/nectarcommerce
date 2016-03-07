@@ -35,22 +35,25 @@
   </tbody>
 </table>
 
-<h4>Shipping Method</h4>
-<table class="table">
-  <thead>
-    <tr>
-      <td>Name</td>
-      <td>Cost</td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><%=  @order.shipping.shipping_method.name %></td>
-      <td><%=  @order.shipping.adjustment.amount %></td>
-    </tr>
-  </tbody>
-</table>
+<%= if @order.shipping do %>
+  <h4>Shipping Method</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <td>Name</td>
+        <td>Cost</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%=  @order.shipping.shipping_method.name %></td>
+        <td><%=  @order.shipping.adjustment.amount %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
 
+<%= if @order.payment do %>
 <h4>Payment Method</h4>
 <table class="table">
   <thead>
@@ -64,6 +67,7 @@
     </tr>
   </tbody>
 </table>
+<% end %>
 
 <h4>Taxes</h4>
 <table class="table">

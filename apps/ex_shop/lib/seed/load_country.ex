@@ -8,14 +8,12 @@ defmodule Seed.LoadCountry do
   def load_country_data(country) do
     change = ExShop.Country.changeset(%ExShop.Country{}, to_param(country))
     inserted_country = Repo.insert!(change)
-    IO.puts "loaded country"
     if country.has_regions do
       Enum.each(Worldly.Region.regions_for(country), fn(rg) -> load_state_data(inserted_country, rg) end)
     end
   end
 
   def load_state_data(country, state) do
-    IO.puts "loaded state"
     country
     |> Ecto.build_assoc(:states, to_param(state))
     |> Repo.insert!
