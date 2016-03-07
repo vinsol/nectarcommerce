@@ -80,6 +80,29 @@ defmodule ExShop.CheckoutManagerTest do
     assert c_tax.state == "tax"
   end
 
+  test "move to tax state valid parameters but no taxes present" do
+    {_, c_addr} = move_cart_to_address_state(setup_cart)
+    # delete taxes before moving to shipping since it calculates the taxes.
+    Repo.delete_all(ExShop.Tax)
+    {_, c_shipp} = move_cart_to_shipping_state(c_addr)
+    {status, c_tax} = move_cart_to_tax_state(c_shipp)
+    assert status == :ok
+    assert c_tax.state == "tax"
+  end
+
+  test "move to tax state valid parameters but no taxes present calculates the order total" do
+    {_, c_addr} = move_cart_to_address_state(setup_cart)
+    # delete taxes before moving to shipping since it calculates the taxes.
+    Repo.delete_all(ExShop.Tax)
+    {_, c_shipp} = move_cart_to_shipping_state(c_addr)
+    {status, c_tax} = move_cart_to_tax_state(c_shipp)
+    assert status == :ok
+    assert c_tax.state == "tax"
+    assert c_tax.total > 0
+  end
+
+
+
   test "move to tax state calculates the order total" do
     {_, c_addr} = move_cart_to_address_state(setup_cart)
     {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
