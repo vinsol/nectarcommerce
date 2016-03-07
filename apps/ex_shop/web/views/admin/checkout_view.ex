@@ -64,4 +64,16 @@ defmodule ExShop.Admin.CheckoutView do
     (!changeset.valid?) && changeset.params["payment"]["payment_method_id"] == to_string(payment_method_id)
   end
 
+  def back_link(conn, %ExShop.Order{state: "cart"} = order) do
+    link "Back", to: admin_cart_path(conn, :edit, order), class: "btn btn-xs"
+  end
+
+  def back_link(_conn, %ExShop.Order{state: "confirmation"} = _order) do
+    ""
+  end
+
+  def back_link(conn, %ExShop.Order{} = order) do
+    link "Back", to: admin_order_checkout_path(conn, :back, order), method: "put", class: "btn btn-xs"
+  end
+
 end

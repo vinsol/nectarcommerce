@@ -207,7 +207,6 @@ defmodule ExShop.Order do
               confirmation_status: can_be_fullfilled?(model)},
             ~w(confirmation_status total product_total), ~w())
     |> Repo.update!
-
   end
 
   # if none of the line items can be fullfilled cancel the order

@@ -33,13 +33,14 @@ defmodule ExShop.Admin.CartController do
     products  =
       Product
       |> Repo.all
-      |> Repo.preload([:variants])
+      |> Repo.preload([variants: [option_values: :option_type]])
 
     line_items =
       LineItem
       |> LineItem.in_order(order)
       |> Repo.all
       |> Repo.preload([variant: [:product, [option_values: :option_type]]])
+
     render(conn, "new.html", order: order, products: products, line_items: line_items)
   end
 

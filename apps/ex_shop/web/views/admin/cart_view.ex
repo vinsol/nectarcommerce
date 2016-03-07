@@ -11,7 +11,6 @@ defmodule ExShop.Admin.CartView do
       (%ExShop.Variant{is_master: true}) -> "" # Do not add master variant to product list
       (variant) ->
         content_tag(:option, value: variant.id, disabled: out_of_stock?(variant)) do
-        # TODO maybe autogenerate sku if one is not provided
           ExShop.Admin.VariantView.variant_options_text(variant)
           <> if out_of_stock?(variant) do
             "(Out of stock)"
