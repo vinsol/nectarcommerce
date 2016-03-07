@@ -15,6 +15,29 @@ defmodule ExShop.Gateway do
     ExShop.Gateway.BrainTree.authorize(order, payment_method_params["braintree"])
   end
 
+  defp do_authorize_payment(order, "new_payment_gateway", payment_method_params) do
+    # ExShop.Billing.Gateway.NewPaymentGateway.authorize(order, payment_method_params["new_payment_gateway"])
+    # Use Commerce.Billing instead of Module implementing authorise
+    # to leverage GenServer created for each payment Gateway
+    # Below, will dispatch authorise to the dedicated GenServer for it
+    # which in turn will call App Module implementing authorise
+    # Direct call like above will leave the GenServer created useless / idle
+    # Refer web/gateways/braintree_impl.ex on example to extract Billing Address
+    Commerce.Billing.authorize(:new_payment_gateway,
+      String.to_float(Decimal.to_string(order.total)),
+      "123",
+      billing_address: %Commerce.Billing.Address{
+        street1: "House No - Unknown",
+        street2: "Street Name",
+        city:    "City Name",
+        region:  "India",
+        country: "India",
+        postal_code: "121005"
+      },
+      description: "Order No. #{order.id}"
+    )
+  end
+
   defp do_authorize_payment(_order, "cheque", _params) do
     {:ok}
   end

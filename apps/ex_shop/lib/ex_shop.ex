@@ -15,7 +15,8 @@ defmodule ExShop do
       # worker(ExShop.Worker, [arg1, arg2, arg3]),
 
       worker(Commerce.Billing.Worker, stripe_worker_configuration, id: :stripe),
-      worker(Commerce.Billing.Worker, braintree_worker_configuration, id: :braintree)
+      worker(Commerce.Billing.Worker, braintree_worker_configuration, id: :braintree),
+      worker(Commerce.Billing.Worker, new_payment_gateway_configuration, id: :new_payment_gateway)
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
@@ -44,5 +45,12 @@ defmodule ExShop do
     gateway_type = worker_config[:type]
     settings = %{}
     [gateway_type, settings, [name: :braintree]]
+  end
+
+  def new_payment_gateway_configuration do
+    worker_config = Application.get_env(:ex_shop, :new_payment_gateway)
+    gateway_type = worker_config[:type]
+    settings = %{}
+    [gateway_type, settings, [name: :new_payment_gateway]]
   end
 end
