@@ -93,7 +93,7 @@ defmodule ExShop.Admin.CheckoutControllerTest do
 
   defp create_shipping_methods do
     shipping_methods = ["regular", "express"]
-    Enum.each(shipping_methods, fn(method_name) ->
+    Enum.map(shipping_methods, fn(method_name) ->
       ExShop.ShippingMethod.changeset(%ExShop.ShippingMethod{}, %{name: method_name})
       |> ExShop.Repo.insert!
     end)
@@ -109,27 +109,20 @@ defmodule ExShop.Admin.CheckoutControllerTest do
 
   defp create_payment_methods do
     payment_methods = ["cheque", "Call With a card"]
-    Enum.each(payment_methods, fn(method_name) ->
+    Enum.map(payment_methods, fn(method_name) ->
       ExShop.PaymentMethod.changeset(%ExShop.PaymentMethod{}, %{name: method_name})
       |> ExShop.Repo.insert!
     end)
   end
 
   defp valid_shipping_params(%Order{"id": id}) do
-    cart =
-      Repo.get(Order, id)
-      |> Repo.preload([:shippings])
-    [%{__struct__: _,id: shipping_id} , %{__struct__: _, id: shipping_id_2}] = cart.shippings
-    %{"shippings" => [%{"id" => shipping_id, "selected" => true}, %{"id" => shipping_id_2, "selected" => false}]}
+    shipping_method_id = create_shipping_methods |> List.first |> Map.get(:id)
+    %{"shipping" => %{"shipping_method_id" => shipping_method_id}}
   end
 
   defp valid_payment_params(%Order{"id": id}) do
-    cart =
-      Repo.get(Order, id)
-      |> Repo.preload([:payments])
-
-    [%{__struct__: _,id: payment_id} , %{__struct__: _, id: payment_id_2}] = cart.payments
-    %{"payments" => %{"0" => %{"id" => to_string(payment_id), "selected" => "true"}, "1" => %{"id" => to_string(payment_id_2), "selected" => "false"}}, "payment_method" => %{}}
+    payment_method_id = create_payment_methods |> List.first |> Map.get(:id)
+    %{"payment" => %{"payment_method_id" => payment_method_id}}
   end
 
   defp do_setup(%{nologin: _} = _context) do
