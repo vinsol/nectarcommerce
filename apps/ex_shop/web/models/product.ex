@@ -35,6 +35,7 @@ defmodule ExShop.Product do
   def create_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> Validations.Date.validate_not_past_date(:available_on)
     |> ExShop.Slug.generate_slug()
     |> cast_assoc(:master, required: true, with: &ExShop.Variant.create_master_changeset/2)
     |> cast_assoc(:product_option_types, required: true, with: &ExShop.ProductOptionType.from_product_changeset/2)
@@ -44,10 +45,23 @@ defmodule ExShop.Product do
   def update_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> Validations.Date.validate_not_past_date(:available_on)
     |> ExShop.Slug.generate_slug()
     |> cast_assoc(:master, required: true, with: &ExShop.Variant.update_master_changeset/2)
+    |> validate_available_on_lt_discontinue_on
     |> cast_assoc(:product_option_types, required: true, with: &ExShop.ProductOptionType.from_product_changeset/2)
     |> unique_constraint(:slug)
+  end
+
+  defp validate_available_on_lt_discontinue_on(changeset) do
+    changed_master = get_change(changeset, :master)
+    if changed_master do
+      changed_discontinue_on = get_change(changed_master, :discontinue_on) || changed_master.model.discontinue_on
+    else
+      changed_discontinue_on = changeset.model.master.discontinue_on
+    end
+    changeset
+      |> Validations.Date.validate_lt_date(:available_on, changed_discontinue_on)
   end
 
   def has_variants_excluding_master?(product) do
@@ -69,5 +83,4 @@ defmodule ExShop.Product do
   def all_variants_including_master(model) do
     from variant in assoc(model, :variants)
   end
-
 end

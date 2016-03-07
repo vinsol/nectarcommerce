@@ -60,16 +60,13 @@
         <% end %>
         <%= error_tag m, :image %>
       </div>
-    <% end %>
-  <% end %>
 
-  <%# "If already in DB, that is edit" %>
-  <%= if @changeset.model.id do %>
-    <div class="form-group">
-      <%= label f, :discontinue_on, class: "control-label" %>
-      <%= date_select f, :discontinue_on, class: "form-control" %>
-      <%= error_tag f, :discontinue_on %>
-    </div>
+      <div class="form-group">
+        <%= label m, :discontinue_on, class: "control-label" %>
+        <%= date_select m, :discontinue_on, class: "form-control" %>
+        <%= error_tag m, :discontinue_on %>
+      </div>
+    <% end %>
   <% end %>
 
   <%= inputs_for f, :product_option_types, fn po -> %>

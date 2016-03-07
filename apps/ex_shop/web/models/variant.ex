@@ -54,7 +54,9 @@ defmodule ExShop.Variant do
   end
 
   def update_master_changeset(model, params \\ :empty) do
-    cast(model, params, ~w(cost_price), ~w(add_count))
+    cast(model, params, ~w(cost_price discontinue_on), ~w(add_count))
+    |> Validations.Date.validate_not_past_date(:discontinue_on)
+    |> validate_discontinue_gt_available_on
     |> update_total_quantity
     |> put_change(:is_master, true)
     |> check_is_master_changed
@@ -147,4 +149,9 @@ defmodule ExShop.Variant do
     "#{product.name}(#{variant.sku})"
   end
 
+  defp validate_discontinue_gt_available_on(changeset) do
+    product = changeset.model |> ExShop.Repo.preload([:product]) |> Map.get(:product)
+    changeset
+      |> Validations.Date.validate_gt_date(:discontinue_on, product.available_on)
+  end
 end
