@@ -179,7 +179,7 @@ defmodule ExShop.LineItemTest do
     |> LineItem.quantity_changeset(%{add_quantity: quantity})
   end
 
-    @address_parameters  %{"address_line_1" => "address line 12", "address_line_2" => "address line 22"}
+  @address_parameters  %{"address_line_1" => "address line 12", "address_line_2" => "address line 22"}
 
   defp valid_address_params do
     address = Dict.merge(@address_parameters, valid_country_and_state_ids)
