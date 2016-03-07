@@ -19,7 +19,7 @@ defmodule ExShop.Product do
   end
 
   @required_fields ~w(name description available_on)
-  @optional_fields ~w()
+  @optional_fields ~w(slug)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
