@@ -7,11 +7,11 @@ defmodule ExShop.Admin.CheckoutView do
   import Ecto.Query
 
   def country_names_and_ids do
-    Repo.all(from c in ExShop.Country, select: {c.name, c.id})
+    [{"--Select Country--", ""} | Repo.all(from c in ExShop.Country, select: {c.name, c.id})]
   end
 
   def state_names_and_ids do
-    Repo.all(from c in ExShop.State, select: {c.name, c.id})
+    [{"--Select State--", ""} | Repo.all(from c in ExShop.State, select: {c.name, c.id})]
   end
 
   def adjustment_row(%ExShop.Adjustment{shipping_id: shipping_id} = adjustment) when not is_nil(shipping_id) do
