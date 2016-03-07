@@ -9,8 +9,8 @@ defmodule ExShop.Shipping do
     timestamps
   end
 
-  @required_fields ~w()
-  @optional_fields ~w(shipping_method_id)
+  @required_fields ~w(shipping_method_id)
+  @optional_fields ~w()
 
   def changeset(model, params \\ :empty) do
     model
@@ -21,5 +21,6 @@ defmodule ExShop.Shipping do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> cast_assoc(:adjustment)
+    |> foreign_key_constraint(:shipping_method_id)
   end
 end

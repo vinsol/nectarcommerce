@@ -36,6 +36,9 @@ defmodule ExShop.Order do
   def confirmed?(%Order{state: "confirmation"}), do: true
   def confirmed?(%Order{state: _}), do: false
 
+  def in_cart_state?(%Order{state: "cart"}), do: true
+  def in_cart_state?(%Order{state: _}), do: false
+
   def cart_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
@@ -256,7 +259,7 @@ defmodule ExShop.Order do
     |> cast(params, @required_fields, @optional_fields)
     |> ensure_cart_is_not_empty
     |> cast_assoc(:shipping_address, required: true)
-    |> cast_assoc(:billing_address, required: true)
+    |> cast_assoc(:billing_address, required: true, with: &ExShop.Address.billing_address_changeset/2)
   end
 
   # use this to set shipping
@@ -266,6 +269,7 @@ defmodule ExShop.Order do
     |> cast_assoc(:shipping, required: true, with: &ExShop.Shipping.applicable_shipping_changeset/2)
   end
 
+  defp shipping_params(order, %{"shipping" => %{"shipping_method_id" => ""}} = params), do: params
   defp shipping_params(order, %{"shipping" => shipping_params} = params) do
     shipping_method = ExShop.Repo.get(ExShop.ShippingMethod, shipping_params["shipping_method_id"])
     %{params | "shipping" => %{shipping_method_id: shipping_method.id,
