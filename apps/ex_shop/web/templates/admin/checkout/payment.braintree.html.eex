@@ -1,5 +1,5 @@
 <div id="braintree" class="credit-cart col-md-6" data-client-token='<%= {:safe, braintree_client_token} %>'>
-  <%= if  error_in_payment_method?(@order_changeset, @payment_method_id) do %>
+  <%= if @error_in_payment_method do %>
     <%= error_tag @f, :payment %>
   <% end %>
   <div class="form-group">

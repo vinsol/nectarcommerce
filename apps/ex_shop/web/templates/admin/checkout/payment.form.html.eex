@@ -6,7 +6,7 @@
         <div>
           <h4><%= method.name %></h4>
           <input name="order[payment][payment_method_id]" type="checkbox" value="<%= method.id %>"/>
-          <%= render_existing @view_module, "payment.#{method.name}.html", order_changeset: @changeset, f: f, payment_method_id: method.id%>
+          <%= render_existing @view_module, "payment.#{method.name}.html", f: f, error_in_payment_method: error_in_payment_method?(@changeset, method.id) %>
         </div>
       <% end %>
       <div class="form-group">
