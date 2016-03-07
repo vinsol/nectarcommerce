@@ -1,5 +1,5 @@
 defmodule ExShop.Admin.SettingController do
-	use ExShop.Web, :admin_controller
+  use ExShop.Web, :admin_controller
 
   plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
 

@@ -127,11 +127,16 @@ defmodule ExShop.LineItemTest do
     refute line_item.fullfilled
 
     updated_order = ExShop.Repo.get(ExShop.Order, order_id)
+    # helper method for calculating the sum of adjustments.
     prod_diff = fn (order) -> Decimal.sub(order.total, order.product_total) end
 
+    # order cancelled because only 1 line item in the order
     refute updated_order.confirmation_status
+    # the order total changed
     assert updated_order.total != c_confirm.total
+    # the product total also changed
     assert updated_order.product_total != c_confirm.product_total
+    # the total of adjustments remain the same (product_total + adjustments = total)
     assert Decimal.compare(prod_diff.(updated_order), prod_diff.(c_confirm)) == Decimal.new("0")
   end
 

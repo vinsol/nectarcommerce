@@ -1,5 +1,5 @@
 defmodule ExShop.Admin.CheckoutView do
-	use ExShop.Web, :view
+  use ExShop.Web, :view
 
   alias ExShop.Repo
   alias ExShop.CheckoutManager
