@@ -6,8 +6,9 @@ defmodule ExShop.Order do
   schema "orders" do
     field :slug, :string
     field :state, :string, default: "cart"
-    field :total, :decimal
+    field :total, :decimal, default: Decimal.new("0")
     field :confirmation_status, :boolean, default: true
+    field :product_total, :decimal, default: Decimal.new("0")
 
     field :confirm, :boolean, virtual: true
     field :tax_confirm, :boolean, virtual: true
@@ -29,7 +30,7 @@ defmodule ExShop.Order do
   end
 
   @required_fields ~w(state)
-  @optional_fields ~w(slug total confirmation_status)
+  @optional_fields ~w(slug confirmation_status)
 
   @states ~w(cart address shipping tax payment confirmation)
 
@@ -198,20 +199,15 @@ defmodule ExShop.Order do
   end
 
   def settle_adjustments_and_product_payments(model) do
-    if can_be_fullfilled? model do
-      total =
-        shipping_total(model)
-        |> Decimal.add(tax_total(model))
-        |> Decimal.add(product_total(model))
+    adjustment_total = shipping_total(model) |> Decimal.add(tax_total(model))
+    product_total = product_total(model)
+    total = Decimal.add(adjustment_total, product_total)
+    model
+    |> cast(%{total: total, product_total: product_total,
+              confirmation_status: can_be_fullfilled?(model)},
+            ~w(confirmation_status total product_total), ~w())
+    |> Repo.update!
 
-      model
-      |> cast(%{total: total}, @required_fields, @optional_fields)
-      |> ExShop.Repo.update!
-    else
-      model
-      |> cast(%{total: Decimal.new("0"), confirmation_status: false}, @required_fields, @optional_fields)
-      |> ExShop.Repo.update!
-    end
   end
 
   # if none of the line items can be fullfilled cancel the order
