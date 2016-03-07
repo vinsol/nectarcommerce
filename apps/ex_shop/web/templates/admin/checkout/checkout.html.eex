@@ -1,2 +1,2 @@
-<%= link "Back", to: admin_order_checkout_path(@conn, :back, @order), class: "btn btn-xs" %>
+<%= link "Back", to: admin_order_checkout_path(@conn, :back, @order), method: "put", class: "btn btn-xs" %>
 <%= render next_step(@order), Map.merge(%{action: admin_order_checkout_path(@conn, :next, @order)}, assigns) %>
