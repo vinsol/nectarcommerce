@@ -6,8 +6,9 @@ defmodule ExShop.Order do
   schema "orders" do
     field :slug, :string
     field :state, :string, default: "cart"
-    field :total, :decimal
+    field :total, :decimal, default: Decimal.new("0")
     field :confirmation_status, :boolean, default: true
+    field :product_total, :decimal, default: Decimal.new("0")
 
     field :confirm, :boolean, virtual: true
     field :tax_confirm, :boolean, virtual: true
@@ -29,12 +30,15 @@ defmodule ExShop.Order do
   end
 
   @required_fields ~w(state)
-  @optional_fields ~w(slug total confirmation_status)
+  @optional_fields ~w(slug confirmation_status)
 
   @states ~w(cart address shipping tax payment confirmation)
 
   def confirmed?(%Order{state: "confirmation"}), do: true
   def confirmed?(%Order{state: _}), do: false
+
+  def in_cart_state?(%Order{state: "cart"}), do: true
+  def in_cart_state?(%Order{state: _}), do: false
 
   def cart_changeset(model, params \\ :empty) do
     model
@@ -195,20 +199,14 @@ defmodule ExShop.Order do
   end
 
   def settle_adjustments_and_product_payments(model) do
-    if can_be_fullfilled? model do
-      total =
-        shipping_total(model)
-        |> Decimal.add(tax_total(model))
-        |> Decimal.add(product_total(model))
-
-      model
-      |> cast(%{total: total}, @required_fields, @optional_fields)
-      |> ExShop.Repo.update!
-    else
-      model
-      |> cast(%{total: Decimal.new("0"), confirmation_status: false}, @required_fields, @optional_fields)
-      |> ExShop.Repo.update!
-    end
+    adjustment_total = shipping_total(model) |> Decimal.add(tax_total(model))
+    product_total = product_total(model)
+    total = Decimal.add(adjustment_total, product_total)
+    model
+    |> cast(%{total: total, product_total: product_total,
+              confirmation_status: can_be_fullfilled?(model)},
+            ~w(confirmation_status total product_total), ~w())
+    |> Repo.update!
   end
 
   # if none of the line items can be fullfilled cancel the order
@@ -256,7 +254,7 @@ defmodule ExShop.Order do
     |> cast(params, @required_fields, @optional_fields)
     |> ensure_cart_is_not_empty
     |> cast_assoc(:shipping_address, required: true)
-    |> cast_assoc(:billing_address, required: true)
+    |> cast_assoc(:billing_address, required: true, with: &ExShop.Address.billing_address_changeset/2)
   end
 
   # use this to set shipping
@@ -266,6 +264,7 @@ defmodule ExShop.Order do
     |> cast_assoc(:shipping, required: true, with: &ExShop.Shipping.applicable_shipping_changeset/2)
   end
 
+  defp shipping_params(order, %{"shipping" => %{"shipping_method_id" => ""}} = params), do: params
   defp shipping_params(order, %{"shipping" => shipping_params} = params) do
     shipping_method = ExShop.Repo.get(ExShop.ShippingMethod, shipping_params["shipping_method_id"])
     %{params | "shipping" => %{shipping_method_id: shipping_method.id,

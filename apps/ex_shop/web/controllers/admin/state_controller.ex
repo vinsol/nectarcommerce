@@ -1,5 +1,5 @@
 defmodule ExShop.Admin.StateController do
-	use ExShop.Web, :admin_controller
+  use ExShop.Web, :admin_controller
 
   alias ExShop.Country
   alias ExShop.State

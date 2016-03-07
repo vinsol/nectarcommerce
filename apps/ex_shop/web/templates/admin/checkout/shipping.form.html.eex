@@ -2,10 +2,14 @@
   <%= form_for @changeset, @action, fn f -> %>
     <h4>Select your shipping method</h4>
     <select name="order[shipping][shipping_method_id]">
+      <option value="">--Select Shipping Method--</option>
       <%= for shipping_method <- @changeset.model.applicable_shipping_methods do %>
         <option value="<%= shipping_method.id %>"><%= shipping_method.name %> (+<%= shipping_method.shipping_cost %>)</option>
       <% end %>
     </select>
+    <%= if @changeset.changes[:shipping] do %>
+      <div class="info alert"><%= @changeset.changes.shipping.errors[:shipping_method_id] %></div>
+    <% end %>
     <%= submit "Next", class: "btn btn-primary" %>
   <% end %>
 <% else %>

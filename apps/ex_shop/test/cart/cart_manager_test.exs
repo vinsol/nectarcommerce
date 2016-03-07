@@ -1,5 +1,5 @@
 defmodule ExShop.CartManagerTest do
-	use ExShop.ModelCase
+  use ExShop.ModelCase
 
   alias ExShop.CartManager
 
