@@ -101,8 +101,6 @@ defmodule ExShop.CheckoutManagerTest do
     assert c_tax.total > 0
   end
 
-
-
   test "move to tax state calculates the order total" do
     {_, c_addr} = move_cart_to_address_state(setup_cart)
     {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
@@ -146,6 +144,63 @@ defmodule ExShop.CheckoutManagerTest do
     {status,  c_confirm} = move_cart_to_confirmation_state(c_payment)
     assert status == :ok
     assert c_confirm.state == "confirmation"
+  end
+
+  test "cannot move back from confirmation state" do
+    {_, c_addr} = move_cart_to_address_state(setup_cart)
+    {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
+    {_status, c_tax} = move_cart_to_tax_state(c_shipp)
+    {_status, c_payment} = move_cart_to_payment_state(c_tax)
+    {status,  c_confirm} = move_cart_to_confirmation_state(c_payment)
+    assert status == :ok
+    assert c_confirm.state == "confirmation"
+    {:ok, backed_order} = CheckoutManager.back(c_confirm)
+    assert backed_order.state == c_confirm.state
+  end
+
+  test "moving back from payment state goes to tax state" do
+    {_, c_addr} = move_cart_to_address_state(setup_cart)
+    {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
+    {_status, c_tax} = move_cart_to_tax_state(c_shipp)
+    {status, c_payment} = move_cart_to_payment_state(c_tax)
+    assert status == :ok
+    assert c_payment.state == "payment"
+    {:ok, backed_order} = CheckoutManager.back(c_payment)
+    assert backed_order.state == "tax"
+  end
+
+  test "moving back from tax state goes to shipping state" do
+    {_, c_addr} = move_cart_to_address_state(setup_cart)
+    {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
+    {status, c_tax} = move_cart_to_tax_state(c_shipp)
+    assert status == :ok
+    assert c_tax.state == "tax"
+    {:ok, backed_order} = CheckoutManager.back(c_tax)
+    assert backed_order.state == "shipping"
+  end
+
+  test "moving back from shipping state goes to address state" do
+    {_, c_addr} = move_cart_to_address_state(setup_cart)
+    {status, c_shipp} = move_cart_to_shipping_state(c_addr)
+    assert status == :ok
+    assert c_shipp.state == "shipping"
+    {:ok, backed_order} = CheckoutManager.back(c_shipp)
+    assert backed_order.state == "address"
+  end
+
+  test "moving back from address state goes to cart state" do
+    {status, c_addr} = move_cart_to_address_state(setup_cart)
+    assert status == :ok
+    assert c_addr.state == "address"
+    {:ok, backed_order} = CheckoutManager.back(c_addr)
+    assert backed_order.state == "cart"
+  end
+
+  test "cannot move back from cart state" do
+    cart = setup_cart
+    assert cart.state == "cart"
+    {:ok, backed_order} = CheckoutManager.back(cart)
+    assert backed_order.state == "cart"
   end
 
   defp setup_cart_without_product do

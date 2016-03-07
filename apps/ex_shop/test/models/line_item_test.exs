@@ -6,6 +6,9 @@ defmodule ExShop.LineItemTest do
   alias ExShop.Order
   alias ExShop.Product
   alias ExShop.Variant
+  alias ExShop.Country
+  alias ExShop.State
+  alias ExShop.CheckoutManager
 
   @order_attr   %{}
 
@@ -94,6 +97,45 @@ defmodule ExShop.LineItemTest do
     assert line_item.id in Repo.all(from ln in LineItem.with_variant(LineItem, variant), select: ln.id)
   end
 
+  test "cancel fulfillment does not work if order is not confirmed" do
+    line_item = create_line_item_with_product_quantity(2) |> Repo.insert!
+    order_id = line_item.order_id
+    order = ExShop.Repo.get(ExShop.Order, order_id)
+    {status, changeset} = ExShop.LineItem.cancel_fullfillment(%ExShop.LineItem{line_item|order: order})
+    assert status == :error
+    assert changeset.errors[:fullfilled] == "Order should be in confirmation state before updating the fullfillment status"
+  end
+
+  test "cancel fullfillment on confirmed order updates the order status and total" do
+    line_item = create_line_item_with_product_quantity(2) |> Repo.insert!
+    order_id = line_item.order_id
+    order = ExShop.Repo.get(ExShop.Order, order_id) |> Repo.preload([:line_items])
+    assert order.state == "cart"
+    assert Enum.count(order.line_items) == 1
+
+    {_, c_addr} = move_cart_to_address_state(order)
+    {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
+    {_status, c_tax} = move_cart_to_tax_state(c_shipp)
+    {_status, c_payment} = move_cart_to_payment_state(c_tax)
+    {status,  c_confirm} = move_cart_to_confirmation_state(c_payment)
+
+    assert status == :ok
+    assert c_confirm.state == "confirmation"
+    assert c_confirm.confirmation_status
+
+    {status, line_item} = ExShop.LineItem.cancel_fullfillment(%ExShop.LineItem{line_item|order: c_confirm})
+    refute line_item.fullfilled
+
+    updated_order = ExShop.Repo.get(ExShop.Order, order_id)
+    prod_diff = fn (order) -> Decimal.sub(order.total, order.product_total) end
+
+    refute updated_order.confirmation_status
+    assert updated_order.total != c_confirm.total
+    assert updated_order.product_total != c_confirm.product_total
+    assert Decimal.compare(prod_diff.(updated_order), prod_diff.(c_confirm)) == Decimal.new("0")
+  end
+
+
   defp create_order do
     Order.cart_changeset(%Order{}, %{})
     |> Repo.insert!
@@ -115,7 +157,6 @@ defmodule ExShop.LineItemTest do
     product
   end
 
-
   defp create_line_item_with_product(order_id \\ nil) do
     create_product.master
     |> Ecto.build_assoc(:line_items)
@@ -131,6 +172,78 @@ defmodule ExShop.LineItemTest do
   defp create_line_item_with_product_quantity(quantity) do
     create_line_item_with_product
     |> LineItem.quantity_changeset(%{add_quantity: quantity})
+  end
+
+    @address_parameters  %{"address_line_1" => "address line 12", "address_line_2" => "address line 22"}
+
+  defp valid_address_params do
+    address = Dict.merge(@address_parameters, valid_country_and_state_ids)
+    %{"shipping_address" => address, "billing_address" => address}
+  end
+
+  defp valid_country_and_state_ids do
+    country =
+      Country.changeset(%Country{}, %{"name" => "Country", "iso" => "Co",
+                                    "iso3" => "Con", "numcode" => "123"})
+      |> Repo.insert!
+    state =
+      State.changeset(%State{}, %{"name" => "State", "abbr" => "ST", "country_id" => country.id})
+      |> Repo.insert!
+    %{"country_id" => country.id, "state_id" => state.id}
+  end
+
+  defp create_shipping_methods do
+    shipping_methods = ["regular", "express"]
+    Enum.map(shipping_methods, fn(method_name) ->
+      ExShop.ShippingMethod.changeset(%ExShop.ShippingMethod{}, %{name: method_name})
+      |> ExShop.Repo.insert!
+    end)
+  end
+
+  defp create_taxations do
+    taxes = ["VAT", "GST"]
+    Enum.each(taxes, fn(tax_name) ->
+      ExShop.Tax.changeset(%ExShop.Tax{}, %{name: tax_name})
+      |> ExShop.Repo.insert!
+    end)
+  end
+
+  defp create_payment_methods do
+    payment_methods = ["cheque", "Call With a card"]
+    Enum.map(payment_methods, fn(method_name) ->
+      ExShop.PaymentMethod.changeset(%ExShop.PaymentMethod{}, %{name: method_name})
+      |> ExShop.Repo.insert!
+    end)
+  end
+
+  defp move_cart_to_address_state(cart) do
+    CheckoutManager.next(cart, valid_address_params)
+  end
+
+  defp move_cart_to_shipping_state(cart) do
+    CheckoutManager.next(cart, valid_shipping_params(cart))
+  end
+
+  defp move_cart_to_tax_state(cart) do
+    CheckoutManager.next(cart, %{"tax_confirm" => true})
+  end
+
+  defp move_cart_to_payment_state(cart) do
+    CheckoutManager.next(cart, valid_payment_params(cart))
+  end
+
+  defp move_cart_to_confirmation_state(cart) do
+    CheckoutManager.next(cart, %{"confirm" => true})
+  end
+
+  defp valid_shipping_params(_cart) do
+    shipping_method_id = create_shipping_methods |> List.first |> Map.get(:id)
+    %{"shipping" => %{"shipping_method_id" => shipping_method_id}}
+  end
+
+  defp valid_payment_params(cart) do
+    payment_method_id = create_payment_methods |> List.first |> Map.get(:id)
+    %{"payment" => %{"payment_method_id" => payment_method_id}, "payment_method" => %{}}
   end
 
 end
