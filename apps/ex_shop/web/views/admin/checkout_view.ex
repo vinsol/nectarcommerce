@@ -60,4 +60,8 @@ defmodule ExShop.Admin.CheckoutView do
   def shipping_methods_available?(%ExShop.Order{applicable_shipping_methods: []}), do: false
   def shipping_methods_available?(%ExShop.Order{}), do: true
 
+  def error_in_payment_method?(changeset, payment_method_id) do
+    (!changeset.valid?) && changeset.params["payment"]["payment_method_id"] == to_string(payment_method_id)
+  end
+
 end

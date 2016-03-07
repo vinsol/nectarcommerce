@@ -136,7 +136,7 @@ defmodule ExShop.CheckoutManager do
     # in case payment fails add the error message to changeset to prevent it from moving to next state.
     case ExShop.Gateway.authorize_payment(order.model, selected_payment_id, payment_method_params) do
       {:ok} -> order
-      {:error, error_message} -> IO.puts error_message; order |> Ecto.Changeset.add_error(:payments, error_message)
+      {:error, error_message} -> order |> Ecto.Changeset.add_error(:payment, error_message)
     end
   end
 

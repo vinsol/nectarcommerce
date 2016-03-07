@@ -1,6 +1,6 @@
 <div id="braintree" class="credit-cart col-md-6" data-client-token='<%= {:safe, braintree_client_token} %>'>
-  <%= if Map.get(@payment.params, "selected") do %>
-    <%= error_tag @f, :payments %>
+  <%= if  error_in_payment_method?(@order_changeset, @payment_method_id) do %>
+    <%= error_tag @f, :payment %>
   <% end %>
   <div class="form-group">
     <label for="order[payment_method][braintree][card_number]">Card Number</label>
