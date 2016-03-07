@@ -12,7 +12,7 @@ defmodule ExShop.Admin.CartView do
       (variant) ->
         content_tag(:option, value: variant.id, disabled: out_of_stock?(variant)) do
         # TODO maybe autogenerate sku if one is not provided
-          (variant.sku || product.name)
+          ExShop.Admin.VariantView.variant_options_text(variant)
           <> if out_of_stock?(variant) do
             "(Out of stock)"
           else
