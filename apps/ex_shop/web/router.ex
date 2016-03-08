@@ -22,6 +22,7 @@ defmodule ExShop.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/registrations", RegistrationController, only: [:new, :create]
   end
 
   scope "/admin", ExShop.Admin, as: :admin do

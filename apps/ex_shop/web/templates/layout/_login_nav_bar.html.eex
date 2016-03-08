@@ -1,5 +1,6 @@
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
+            <li><%= link "SignUp", to: registration_path(@conn, :new) %></li>
             <li><%= link "Home", to: admin_home_path(@conn, :index) %></li>
             <%= if Guardian.Plug.current_resource(@conn, :admin) do %>
               <li role="presentation" class="dropdown">
