@@ -16,7 +16,7 @@ defmodule ExShop.Admin.ProductController do
   end
 
   def new(conn, _params) do
-    changeset = Product.changeset(%Product{})
+    changeset = Product.changeset(%Product{available_on: Ecto.Date.utc})
     render(conn, "new.html", changeset: changeset)
   end
 

@@ -22,7 +22,7 @@ defmodule ExShop.Admin.VariantController do
   def new(conn, %{"product_id" => _product_id}) do
     product = conn.assigns[:product]
     variant_option_values = Enum.map(product.option_types, fn(o) -> %VariantOptionValue{option_type_id: o.id} end)
-    changeset = Variant.changeset(%Variant{variant_option_values: variant_option_values})
+    changeset = Variant.changeset(%Variant{discontinue_on: Ecto.Date.utc, variant_option_values: variant_option_values})
     render(conn, "new.html", changeset: changeset)
   end
 
