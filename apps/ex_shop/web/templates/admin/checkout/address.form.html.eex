@@ -26,7 +26,13 @@
   </div>
   <% end %>
 
+
   <h4>Billing Address</h4>
+  <div class="form-group">
+    <%= label f, :same_as_shipping, class: "control-label" %>
+    <%= checkbox f, :same_as_shipping, class: "form-control"%>
+    <%= error_tag f, :same_as_shipping %>
+  </div>
   <%= inputs_for f, :billing_address, fn billing_addr_f -> %>
     <div class="form-group">
       <%= label billing_addr_f, :address_line_1, class: "control-label" %>
