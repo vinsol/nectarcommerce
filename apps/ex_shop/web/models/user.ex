@@ -8,6 +8,8 @@ defmodule ExShop.User do
     field :password, :string, virtual: true
     field :is_admin, :boolean
 
+    has_many :orders, ExShop.Order
+
     timestamps
   end
 

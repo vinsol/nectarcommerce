@@ -46,6 +46,10 @@ defmodule ExShop.Router do
       put "/checkout/back", CheckoutController, :back
     end
 
+    resources "/users", UserController do
+      get "all_pending_orders", UserController, :all_pending_orders
+    end
+
     resources "/settings", SettingController, only: [:edit, :update]
     resources "/sessions", SessionController, only: [:new, :create]
     delete "/logout", SessionController, :logout
