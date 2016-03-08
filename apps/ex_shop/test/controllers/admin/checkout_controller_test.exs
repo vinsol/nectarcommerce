@@ -115,12 +115,12 @@ defmodule ExShop.Admin.CheckoutControllerTest do
     end)
   end
 
-  defp valid_shipping_params(%Order{"id": id}) do
+  defp valid_shipping_params(%Order{"id": _id}) do
     shipping_method_id = create_shipping_methods |> List.first |> Map.get(:id)
     %{"shipping" => %{"shipping_method_id" => shipping_method_id}}
   end
 
-  defp valid_payment_params(%Order{"id": id}) do
+  defp valid_payment_params(%Order{"id": _id}) do
     payment_method_id = create_payment_methods |> List.first |> Map.get(:id)
     %{"payment" => %{"payment_method_id" => payment_method_id}}
   end

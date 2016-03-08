@@ -11,7 +11,7 @@ defmodule Validations.Date do
     # ref_date = ref_date || Ecto.Date.utc
     validate_change(changeset, field, fn _,value ->
       case Ecto.Date.compare(value, ref_date) do
-        :lt -> [{field, options[:message] || "should be greater than #{Ecto.Date.to_string(ref_date)}"}]
+        :lt -> [{field, options[:message] || "should be greater or same as #{Ecto.Date.to_string(ref_date)}"}]
         _  -> []
       end
     end)
@@ -23,7 +23,7 @@ defmodule Validations.Date do
     validate_change(changeset, field, fn _,value ->
       # Note the changed references
       case Ecto.Date.compare(ref_date, value) do
-        :lt -> [{field, options[:message] || "should be less than #{Ecto.Date.to_string(ref_date)}"}]
+        :lt -> [{field, options[:message] || "should be less or same as #{Ecto.Date.to_string(ref_date)}"}]
         _  -> []
       end
     end)

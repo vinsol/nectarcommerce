@@ -8,7 +8,7 @@ defmodule ExShop.Admin.ProductControllerTest do
   @product_attrs %{
     name: "Reebok Premium",
     description: "Reebok Premium Exclusively for you",
-    available_on: "2010-04-17 14:00:00"
+    available_on: Ecto.Date.utc
   }
   @master_variant_attrs %{
     master: %{

@@ -10,7 +10,7 @@ defmodule ExShop.Admin.VariantControllerTest do
   @product_attrs %{
     name: "Reebok Premium",
     description: "Reebok Premium Exclusively for you",
-    available_on: "2010-04-17 14:00:00"
+    available_on: Ecto.Date.utc
   }
   @master_variant_attrs %{
     master: %{
@@ -43,7 +43,7 @@ defmodule ExShop.Admin.VariantControllerTest do
   }
   @valid_attrs %{
     cost_price: "120.5",
-    discontinue_on: %{"year" => "2016", "month" => "2", "day" => "1"},
+    discontinue_on: Ecto.Date.utc,
     height: "120.5", weight: "120.5", width: "120.5",
     sku: "URG123"
   }
@@ -180,7 +180,7 @@ defmodule ExShop.Admin.VariantControllerTest do
   defp get_valid_variant_params(data) do
     option_type = data.option_type
     option_values = option_type.option_values
-    first_option_value = Enum.at(option_values, 1)
+    first_option_value = Enum.at(option_values, 0)
     valid_variant_option_value_attrs = %{
       variant_option_values: [
         %{

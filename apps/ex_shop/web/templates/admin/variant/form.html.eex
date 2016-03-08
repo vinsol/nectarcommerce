@@ -49,9 +49,9 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :height, class: "control-label" %>
-    <%= number_input f, :height, step: "any", class: "form-control" %>
-    <%= error_tag f, :height %>
+    <%= label f, :depth, class: "control-label" %>
+    <%= number_input f, :depth, step: "any", class: "form-control" %>
+    <%= error_tag f, :depth %>
   </div>
 
   <div class="form-group">
