@@ -12,20 +12,8 @@ defmodule ExShop.Admin.CartController do
 
 
   def new(conn, _params) do
-    # create a blank cart, maybe add it to conn and plug it later on
-    order = Order.cart_changeset(%Order{}, %{}) |> Repo.insert!
-    # order = Repo.get(Order, 1)
-    products  =
-      Product
-      |> Repo.all
-      |> Repo.preload([variants: [option_values: :option_type]])
-
-    line_items =
-      LineItem
-      |> LineItem.in_order(order)
-      |> Repo.all
-      |> Repo.preload([variant: [:product, [option_values: :option_type]]])
-    render(conn, "new.html", order: order, products: products, line_items: line_items)
+    users = ExShop.Repo.all(ExShop.User)
+    render(conn, "new.html", users: users)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -41,7 +29,7 @@ defmodule ExShop.Admin.CartController do
       |> Repo.all
       |> Repo.preload([variant: [:product, [option_values: :option_type]]])
 
-    render(conn, "new.html", order: order, products: products, line_items: line_items)
+    render(conn, "edit.html", order: order, products: products, line_items: line_items)
   end
 
 end

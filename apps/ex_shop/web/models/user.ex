@@ -9,6 +9,8 @@ defmodule ExShop.User do
     field :password_confirmation, :string, virtual: true
     field :is_admin, :boolean
 
+    has_many :orders, ExShop.Order
+
     timestamps
   end
 

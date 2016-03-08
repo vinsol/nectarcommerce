@@ -33,6 +33,8 @@ defmodule ExShop.Order do
     # for reading addresses.
     has_many :addresses, ExShop.Address
 
+    belongs_to :user, ExShop.User
+
     timestamps
   end
 
@@ -352,6 +354,21 @@ defmodule ExShop.Order do
       []  -> add_error(model, :line_items, "Please add some item to your cart to proceed")
       _   -> model
     end
+  end
+
+  def current_order(%ExShop.User{id: id} = user) do
+    Repo.one(from order in all_abandoned_orders_for(user),
+             order_by: order.updated_at,
+             limit: 1)
+  end
+
+  def all_abandoned_orders_for(%ExShop.User{} = user) do
+    (from order in all_orders_for(user),
+     where: not(order.state == "confirmation"))
+  end
+
+  def all_orders_for(%ExShop.User{id: id}) do
+    (from o in ExShop.Order, where: o.user_id == ^id)
   end
 
 end

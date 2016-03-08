@@ -1,43 +1,12 @@
 <div class="panel panel-default">
+  <div class="panel-heading"><h2>Select user to begin or start checkout as guest</h2></div>
   <div class="panel-body">
-    <h2>Create Order</h2>
-    <ul class="list-group" id="product-listing">
-      <%= for product <- @products do %>
-        <li class="list-group-item product row" data-product-id="<%= product.id %>">
-          <div class="row">
-            <span class="col-lg-6"><%= product.name %></span>
-            <span class="col-lg-6">
-              <input name="quantity" type="text" value="" placeholder="quantity" />
-              <%= if only_master_variant?(product) do %>
-                <input name="variant" type="hidden" value="<%= master_variant_id(product) %>">
-              <% else %>
-                <select id="" name="variant">
-                  <%= product_variant_options(product) %>
-                </select>
-              <% end %>
-              <button class="btn btn-sm btn-success add-to-cart pull-right">+</button>
-            </span>
-          </div>
-        </li>
+    <select id="user-list" name="">
+      <option value="">--Select User--</option>
+      <%= for user <- @users do %>
+        <option value="<%= user.id %>"><%= user.name %></option>
       <% end %>
-    </ul>
-  </div>
-</div>
-<div class="panel panel-default">
-  <div class="panel-body">
-    <h2>Cart</h2>
-    <ul class="list-group" id="cart">
-      <%= for line_item <- @line_items do %>
-        <li class="list-group-item line-item row" data-line-item-id="<%= line_item.id %>">
-          <span class="col-lg-6"><%= ExShop.Variant.display_name(line_item.variant) %> X <%= line_item.quantity %></span>
-          <span class="col-lg-6">
-            <button class="btn btn-danger btn-sm remove-from-cart pull-right">-</button>
-          </span>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-  <div class="panel-footer">
-    <%= link "checkout", to: admin_order_checkout_path(@conn, :checkout, @order), class: "btn btn-primary" %>
+    </select>
+    <button id="create-order" data-user-id="">create order for Guest</button>
   </div>
 </div>

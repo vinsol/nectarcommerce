@@ -18,6 +18,7 @@ import state from "web/static/js/state";
 import order from "web/static/js/order";
 import order_show from "web/static/js/order_show";
 import payment from "web/static/js/payment";
+import cart_creator from "web/static/js/cart_creator";
 
 ajax.setup();
 window.zone = zone;
@@ -25,6 +26,7 @@ window.state = state;
 window.order = order;
 window.payment = payment;
 window.order_show = order_show;
+window.cart_creator = cart_creator;
 // Import local files
 //
 // Local files can be imported directly using relative
