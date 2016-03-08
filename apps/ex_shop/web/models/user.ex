@@ -6,6 +6,7 @@ defmodule ExShop.User do
     field :email, :string
     field :encrypted_password, :string
     field :password, :string, virtual: true
+    field :password_confirmation, :string, virtual: true
     field :is_admin, :boolean
 
     timestamps
