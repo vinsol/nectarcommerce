@@ -1,0 +1,2 @@
+- https://github.com/niftyn8/elixir_style_guide
+- http://stackoverflow.com/questions/34066395/how-to-import-a-function-with-different-number-of-params

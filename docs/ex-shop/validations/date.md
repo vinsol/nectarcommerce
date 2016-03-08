@@ -1,0 +1,2 @@
+- http://blog.danielberkompas.com/elixir/2015/05/20/useful-ecto-validators.html
+- https://github.com/elixir-lang/ecto/issues/390#issuecomment-71269649

@@ -1,0 +1,3 @@
+- Avoid adding validations in Default changeset which is referring any associated record as might not be available
+  - Moving validate_discontinue_gt_available_on in changeset which is used in VariantController#new
+    - gives error as not able to preload product and throws error on nil.available_on :()

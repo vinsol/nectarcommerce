@@ -4,7 +4,8 @@ defmodule ExShop.ProductTest do
   alias ExShop.Repo
   alias ExShop.Product
 
-  import ExShop.DateTestHelpers
+  import ExShop.DateTestHelpers, only: [get_past_date: 0, get_current_date: 0, get_future_date: 1]
+  import ExShop.TestSetup.Product, only: [create_product: 0]
 
 
   @valid_attrs %{available_on: "2010-04-17 14:00:00", description: "some content", discontinue_on: "2010-04-17 14:00:00", name: "some content"}
@@ -25,7 +26,7 @@ defmodule ExShop.ProductTest do
     master_variant = Repo.one(Product.master_variant(product))
 
     changeset = Product.update_changeset(product, %{"master" => %{"discontinue_on" => get_past_date, "id" => master_variant.id}})
-    assert changeset.changes.master.errors == [discontinue_on: "should be greater than #{Ecto.Date.utc}", discontinue_on: "can not be past date"]
+    assert changeset.changes.master.errors == [discontinue_on: "should be greater or same as #{Ecto.Date.utc}", discontinue_on: "can not be past date"]
   end
 
   test "Available on should be less than Master Variant discontinue_on" do
@@ -42,7 +43,7 @@ defmodule ExShop.ProductTest do
     assert master_variant.discontinue_on == get_future_date(5)
 
     changeset = Product.update_changeset(product, %{"available_on" => get_future_date(7)})
-    assert changeset.errors == [available_on: "should be less than #{get_future_date(5)}"]
+    assert changeset.errors == [available_on: "should be less or same as #{get_future_date(5)}"]
 
     changeset = Product.update_changeset(product, %{
       "available_on" => get_future_date(7),
@@ -50,24 +51,6 @@ defmodule ExShop.ProductTest do
         "discontinue_on" => get_future_date(6), "id" => master_variant.id
       }
     })
-    assert changeset.errors == [available_on: "should be less than #{get_future_date(6)}"]
-  end
-
-  @product_attrs %{
-    name: "Reebok Premium",
-    description: "Reebok Premium Exclusively for you",
-    available_on: Ecto.Date.utc
-  }
-  @master_variant_attrs %{
-    master: %{
-      cost_price: "20"
-    }
-  }
-  @valid_product_attrs Map.merge(@product_attrs, @master_variant_attrs)
-
-  defp create_product do
-    product_changeset = Product.create_changeset(%Product{}, @valid_product_attrs)
-    product = Repo.insert! product_changeset
-    product |> Repo.preload(:product_option_types)
+    assert changeset.errors == [available_on: "should be less or same as #{get_future_date(6)}"]
   end
 end

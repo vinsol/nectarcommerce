@@ -43,6 +43,7 @@ defmodule ExShop.Variant do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> Validations.Date.validate_not_past_date(:discontinue_on)
     |> update_total_quantity
   end
 
@@ -75,6 +76,7 @@ defmodule ExShop.Variant do
 
   def create_variant_changeset(model, params \\ :empty) do
     changeset(model, params)
+    |> validate_discontinue_gt_available_on
     |> put_change(:is_master, false)
     |> cast_attachments(params, ~w(), ~w(image))
     |> cast_assoc(:variant_option_values, required: true, with: &ExShop.VariantOptionValue.from_variant_changeset/2)
@@ -82,6 +84,7 @@ defmodule ExShop.Variant do
 
   def update_variant_changeset(model, params \\ :empty) do
     changeset(model, params)
+    |> validate_discontinue_gt_available_on
     |> validate_not_master
     # Even if changset is invalid, cast_attachments does it work :(
     |> cast_attachments(params, ~w(), ~w(image))
