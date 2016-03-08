@@ -1,4 +1,4 @@
-defmodule ExShop.Admin.SessionController do
+defmodule ExShop.SessionController do
   use ExShop.Web, :controller
   alias ExShop.User
   alias ExShop.Repo
@@ -13,12 +13,13 @@ defmodule ExShop.Admin.SessionController do
 
   def create(conn, %{"user" => user_params}) do
     changeset = User.changeset(%User{}, user_params)
-    case Session.admin_login(changeset, Repo) do
+    case Session.user_login(changeset, Repo) do
       {:ok, user} ->
+        IO.inspect user
         conn
-        |> Guardian.Plug.sign_in(user, :token, key: :admin)
+        |> Guardian.Plug.sign_in(user)
         |> put_flash(:info, "Signed In Succesfully")
-        |> redirect(to: admin_home_path(conn, :index))
+        |> redirect(to: page_path(conn, :index))
       {:error, changeset} ->
         conn
         |> render("new.html", changeset: changeset)
@@ -26,11 +27,11 @@ defmodule ExShop.Admin.SessionController do
   end
 
   def logout(conn, _params) do
-    case Guardian.Plug.current_resource(conn, :admin) do
+    case Guardian.Plug.current_resource(conn) do
       nil ->
         conn
         |> put_flash(:info, "Not logged in")
-        |> redirect(to: admin_session_path(conn, :new))
+        |> redirect(to: session_path(conn, :new))
       _ ->
         conn
         # This clears the whole session.
@@ -39,7 +40,7 @@ defmodule ExShop.Admin.SessionController do
         # use tokens in two locations - :default and :admin - we need to load it (see above)
         |> Guardian.Plug.sign_out
         |> put_flash(:info, "Signed out")
-        |> redirect(to: admin_session_path(conn, :new))
+        |> redirect(to: session_path(conn, :new))
     end
   end
 end
