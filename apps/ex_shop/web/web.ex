@@ -66,6 +66,7 @@ defmodule ExShop.Web do
       import ExShop.Router.Helpers
       import ExShop.ErrorHelpers
       import ExShop.Gettext
+      import ExShop.Auth.ViewHelper
     end
   end
 
