@@ -67,4 +67,10 @@ defmodule ExShop.Admin.UserController do
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: admin_user_path(conn, :index))
   end
+
+  def all_pending_orders(conn, %{"user_id" => id}) do
+    user = Repo.get!(User, id)
+    orders = Repo.all Order.all_abandoned_orders_for(user)
+    render(conn, "pending_orders.json",  orders: orders)
+  end
 end
