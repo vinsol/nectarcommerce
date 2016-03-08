@@ -7,6 +7,9 @@ defmodule ExShop.CartManagerTest do
   alias ExShop.LineItem
   alias ExShop.Order
   alias ExShop.Product
+  alias ExShop.Variant
+
+  import ExShop.DateTestHelpers, only: [get_past_date: 1]
 
   @order_attr   %{}
   @product_data %{name: "Sample Product",
@@ -19,7 +22,7 @@ defmodule ExShop.CartManagerTest do
       cost_price: @master_cost_price,
       add_count: @max_master_quantity
   }
-  @discontinued_master_variant_data Map.merge(@master_variant_data, %{discontinue_on: Ecto.Date.cast!("2016-03-01")})
+  @discontinued_master_variant_data Map.merge(@master_variant_data, %{discontinue_on: Ecto.Date.utc})
   @product_master_variant_data %{
     master: @master_variant_data
   }
@@ -58,9 +61,9 @@ defmodule ExShop.CartManagerTest do
 
   test "add to cart discontinued product" do
     order = create_order
-    product = create_discontinued_product
+    %{product: _product, master_variant: master_variant} = create_discontinued_product
     quantity = 1
-    {status, line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => product.master.id, "quantity" => quantity})
+    {status, line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => master_variant.id, "quantity" => quantity})
     assert status == :error
     assert line_item.errors[:variant] == "has been discontinued"
   end
@@ -108,12 +111,13 @@ defmodule ExShop.CartManagerTest do
 
   defp create_product do
     product = Product.create_changeset(%Product{}, @product_attr)
-    |> Repo.insert!
+      |> Repo.insert!
+    product
   end
 
   @variant_attrs %{
     cost_price: "120.5",
-    discontinue_on: %{"year" => "2016", "month" => "2", "day" => "1"},
+    discontinue_on: Ecto.Date.utc,
     height: "120.5", weight: "120.5", width: "120.5",
     sku: "URG123"
   }
@@ -130,6 +134,21 @@ defmodule ExShop.CartManagerTest do
   defp create_discontinued_product do
     product = Product.create_changeset(%Product{}, @discontinued_product_attr)
     |> Repo.insert!
+    assert product.id
+    # update as discontinued
+    # can be asserted for change but updates are not assumed to fail
+    # can fail with database constraint so good to check
+    from(p in Product, where: p.id == ^product.id, update: [set: [available_on: ^get_past_date(3)]])
+      |> Repo.update_all([])
+    from(v in Variant, where: (v.product_id == ^product.id and v.is_master == true), update: [set: [discontinue_on: ^get_past_date(2)]])
+      |> Repo.update_all([])
+    product = Repo.get(Product, product.id)
+    master_variant = product
+      |> Product.master_variant
+      |> Repo.one
+    assert product.available_on == get_past_date(3)
+    assert master_variant.discontinue_on == get_past_date(2)
+    %{product: product, master_variant: master_variant}
   end
 
 end

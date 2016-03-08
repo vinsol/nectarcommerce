@@ -306,7 +306,7 @@ defmodule ExShop.CheckoutManagerTest do
     %{"shipping" => %{"shipping_method_id" => shipping_method_id}}
   end
 
-  defp valid_payment_params(cart) do
+  defp valid_payment_params(_cart) do
     payment_method_id = create_payment_methods |> List.first |> Map.get(:id)
     %{"payment" => %{"payment_method_id" => payment_method_id}, "payment_method" => %{}}
   end

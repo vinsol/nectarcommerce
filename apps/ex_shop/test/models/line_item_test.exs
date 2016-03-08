@@ -37,7 +37,7 @@ defmodule ExShop.LineItemTest do
 
   @valid_variant_attrs %{
     cost_price: "120.5",
-    discontinue_on: %{"year" => "2016", "month" => "2", "day" => "1"},
+    discontinue_on: Ecto.Date.utc,
     height: "120.5", weight: "120.5", width: "120.5",
     sku: "URG123"
   }
@@ -123,7 +123,7 @@ defmodule ExShop.LineItemTest do
     assert c_confirm.state == "confirmation"
     assert c_confirm.confirmation_status
 
-    {status, line_item} = ExShop.LineItem.cancel_fullfillment(%ExShop.LineItem{line_item|order: c_confirm})
+    {_status, line_item} = ExShop.LineItem.cancel_fullfillment(%ExShop.LineItem{line_item|order: c_confirm})
     refute line_item.fullfilled
 
     updated_order = ExShop.Repo.get(ExShop.Order, order_id)
@@ -154,7 +154,7 @@ defmodule ExShop.LineItemTest do
 
   defp create_product_with_variant do
     product = create_product
-    master_variant = product.master
+    #master_variant = product.master
     product
     |> build_assoc(:variants)
     |> Variant.create_variant_changeset(@valid_variant_attrs)
@@ -246,7 +246,7 @@ defmodule ExShop.LineItemTest do
     %{"shipping" => %{"shipping_method_id" => shipping_method_id}}
   end
 
-  defp valid_payment_params(cart) do
+  defp valid_payment_params(_cart) do
     payment_method_id = create_payment_methods |> List.first |> Map.get(:id)
     %{"payment" => %{"payment_method_id" => payment_method_id}, "payment_method" => %{}}
   end
