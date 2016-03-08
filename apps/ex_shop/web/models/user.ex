@@ -11,8 +11,10 @@ defmodule ExShop.User do
     timestamps
   end
 
-  #@required_fields ~w(name email encrypted_password)
-  #@optional_fields ~w()
+  def changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(), ~w(email password))
+  end
 
   @doc """
   Creates a register form changeset based on the `model` and `params`.

@@ -7,21 +7,22 @@ defmodule ExShop.Admin.SessionController do
   plug :scrub_params, "user" when action in [:create]
 
   def new(conn, _params) do
-    changeset = User.register_admin_form_changeset(%User{})
+    changeset = User.changeset(%User{})
     render conn, "new.html", changeset: changeset
   end
 
   def create(conn, %{"user" => user_params}) do
-    case Session.admin_login(user_params, Repo) do
+    changeset = User.changeset(%User{}, user_params)
+    case Session.admin_login(changeset, Repo) do
       {:ok, user} ->
         conn
         |> Guardian.Plug.sign_in(user, :token, key: :admin)
         |> put_flash(:info, "Signed In Succesfully")
         |> redirect(to: admin_home_path(conn, :index))
-      {:error, _changeset} ->
+      {:error, changeset} ->
         conn
         |> put_flash(:error, "Check Username or Password")
-        |> render("new.html", changeset: User.register_admin_form_changeset(%User{}))
+        |> render("new.html", changeset: changeset)
     end
   end
 
