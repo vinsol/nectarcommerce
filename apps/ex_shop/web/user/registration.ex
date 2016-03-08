@@ -14,15 +14,14 @@ defmodule ExShop.Registration do
 
   defp changeset_helper(changeset) do
     changeset
+    |> Changeset.put_change(:is_admin, false)
     |> set_hashed_password
   end
 
   def set_hashed_password(changeset = %{errors: [_]}), do: changeset
   def set_hashed_password(changeset = %{params: %{"password" => password}}) when password != "" and password != nil do
-    hashed_password = Comeonin.Bcrypt.hashpwsalt(password)
-
     changeset
-    |> Changeset.put_change(:hashed_password, hashed_password)
+    |> Changeset.put_change(:encrypted_password, Comeonin.Bcrypt.hashpwsalt(password))
   end
   def set_hashed_password(changeset) do
     changeset
