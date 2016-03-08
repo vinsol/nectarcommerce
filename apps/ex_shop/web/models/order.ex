@@ -4,33 +4,40 @@ defmodule ExShop.Order do
   alias __MODULE__
 
   schema "orders" do
+    # concrete fields
     field :slug, :string
     field :state, :string, default: "cart"
     field :total, :decimal, default: Decimal.new("0")
     field :confirmation_status, :boolean, default: true
     field :product_total, :decimal, default: Decimal.new("0")
 
+    # virtual fields
     field :confirm, :boolean, virtual: true
     field :tax_confirm, :boolean, virtual: true
-
+    field :same_as_shipping, :boolean, virtual: true
     # use to hold invoices and payment methods
     field :applicable_shipping_methods, {:array, :map}, virtual: true
     field :applicable_payment_methods,  {:array, :map}, virtual: true
 
+    # relationships
     has_many :line_items, ExShop.LineItem
     has_many :adjustments, ExShop.Adjustment
     has_one  :shipping, ExShop.Shipping
     has_many :variants, through: [:line_items, :variant]
     has_one  :payment, ExShop.Payment
 
+    # only used for convenient casting. Do not use for reading back.
     has_one  :billing_address, ExShop.Address
     has_one  :shipping_address, ExShop.Address
+
+    # for reading addresses.
+    has_many :addresses, ExShop.Address
 
     timestamps
   end
 
   @required_fields ~w(state)
-  @optional_fields ~w(slug confirmation_status)
+  @optional_fields ~w(slug confirmation_status same_as_shipping)
 
   @states ~w(cart address shipping tax payment confirmation)
 
@@ -39,6 +46,24 @@ defmodule ExShop.Order do
 
   def in_cart_state?(%Order{state: "cart"}), do: true
   def in_cart_state?(%Order{state: _}), do: false
+
+  def shipping_address(%Order{} = order) do
+    [address1, address2] = order |> ExShop.Repo.preload([:addresses]) |> Map.get(:addresses)
+    if address1.address_type == "shipping" do
+      address1
+    else
+      address2
+    end
+  end
+
+  def billing_address(%Order{} = order) do
+    [address1, address2] = order |> ExShop.Repo.preload([:addresses]) |> Map.get(:addresses)
+    if address1.address_type == "billing" do
+      address1
+    else
+      address2
+    end
+  end
 
   def cart_changeset(model, params \\ :empty) do
     model
@@ -128,8 +153,7 @@ defmodule ExShop.Order do
   defp delete_addresses(order) do
     # Caution, dangerous bug, since assoc will load with where order_id
     # both of these actions have same impact
-    Repo.delete_all(from o in assoc(order, :billing_address))
-    Repo.delete_all(from o in assoc(order, :shipping_address))
+    Repo.delete_all(from o in assoc(order, :addresses))
     order
   end
 
@@ -253,8 +277,19 @@ defmodule ExShop.Order do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> ensure_cart_is_not_empty
+    |> duplicate_params_if_same_as_shipping
     |> cast_assoc(:shipping_address, required: true)
     |> cast_assoc(:billing_address, required: true, with: &ExShop.Address.billing_address_changeset/2)
+  end
+
+  defp duplicate_params_if_same_as_shipping(changeset) do
+    same_as_billing = get_field(changeset, :same_as_shipping)
+    if same_as_billing do
+      updated_params = Map.put(changeset.params, "billing_address", Map.get(changeset.params, "shipping_address"))
+      %Ecto.Changeset{changeset|params: updated_params}
+    else
+      changeset
+    end
   end
 
   # use this to set shipping

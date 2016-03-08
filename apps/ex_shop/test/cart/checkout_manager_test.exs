@@ -40,6 +40,17 @@ defmodule ExShop.CheckoutManagerTest do
     assert order.state == "address"
   end
 
+  test "move to address state with same_as_shipping copies creates two seperate addresses with same data" do
+    {status, order} = CheckoutManager.next(setup_cart, valid_address_params_same_as_shipping)
+    shipping_address = ExShop.Order.shipping_address(order)
+    billing_address = ExShop.Order.billing_address(order)
+    assert status == :ok
+    assert order.state == "address"
+    assert shipping_address.address_line_1 == billing_address.address_line_1
+    assert shipping_address.address_line_2 == billing_address.address_line_2
+    refute shipping_address.id == billing_address.id
+  end
+
   test "move to shipping state missing parameters" do
     cart = setup_cart
     {:ok, cart_in_addr_state} = move_cart_to_address_state(cart)
@@ -244,6 +255,11 @@ defmodule ExShop.CheckoutManagerTest do
   defp valid_address_params do
     address = Dict.merge(@address_parameters, valid_country_and_state_ids)
     %{"shipping_address" => address, "billing_address" => address}
+  end
+
+  defp valid_address_params_same_as_shipping do
+    address = Dict.merge(@address_parameters, valid_country_and_state_ids)
+    %{"shipping_address" => address, "billing_address" => %{}, "same_as_shipping" => true}
   end
 
   defp valid_country_and_state_ids do
