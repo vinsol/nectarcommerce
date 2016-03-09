@@ -1,10 +1,24 @@
-<div class="row">
-  <div class="row"><strong>Name:</strong><%= @product.name %></div>
-  <div class="row"><strong>Description:</strong><%= @product.description %></div>
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-body"><%= @product.name %></div>
+    <div class="panel-body">
+      <%= tag(:image, src: ExShop.VariantImage.url({@product.master.image, @product.master}, :thumb)) %>
+    </div>
+    <div class="panel-footer">
+      <%= @product.description %>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body pull-left">$ <%= @product.master.cost_price %></div>
+    <div class="panel-body pull-left">Total:  <%= @product.master.total_quantity %></div>
+    <div class="panel-body pull-left">Bought: <%= @product.master.bought_quantity %></div>
+    <div class="panel-body pull-left"><%= @product.available_on %></div>
+    <div class="panel-body"><%= @product.discontinue_on %></div>
+  </div>
 </div>
 <!-- if no variants use master variant as input -->
 <!-- else use product_variant_options -->
-<%= form_for @conn, line_item_path(@conn, :create), [name: :line_item], fn f -> %>
+<%= form_for @conn, line_item_path(@conn, :create), [as: :line_item], fn f -> %>
   <%= hidden_input f, :product_id, value: @product.id %>
   <%= number_input f, :quantity, placeholder: "0" %>
   <%= if only_master_variant?(@product) do %>
