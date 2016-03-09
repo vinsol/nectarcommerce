@@ -83,4 +83,29 @@ defmodule ExShop.Product do
   def all_variants_including_master(model) do
     from variant in assoc(model, :variants)
   end
+
+  # helper queries for preloading variant data.
+  @master_query  from m in ExShop.Variant, where: m.is_master
+  @variant_query from m in ExShop.Variant, where: not(m.is_master), preload: [option_values: :option_type]
+
+  def products_with_master_variant do
+    from p in ExShop.Product, preload: [master: ^@master_query]
+  end
+
+  def products_with_variants do
+    from p in ExShop.Product, preload: [master: ^@master_query, variants: ^@variant_query]
+  end
+
+  def product_with_master_variant(product_id) do
+    from p in ExShop.Product,
+    where: p.id == ^product_id,
+    preload: [master: ^@master_query]
+  end
+
+  def product_with_variants(product_id) do
+    from p in ExShop.Product,
+    where: p.id == ^product_id,
+    preload: [variants: ^@variant_query, master: ^@master_query]
+  end
+
 end
