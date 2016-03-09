@@ -1,0 +1,12 @@
+<%= if cart_empty?(@order) do %>
+  <h4>Your cart seems to be empty. Please visit product catalog to add some products to it <%= link "Products", to: product_path(@conn, :index) %></h4>
+<% else %>
+  <ul>
+    <%= for line_item <- @order.line_items do %>
+      <li><%= line_item.variant.product.name %><%= ExShop.Admin.VariantView.variant_options_text(line_item.variant) %> X <%= line_item.quantity %></li>
+    <% end %>
+  </ul>
+  <%= link "Continue Shopping", to: product_path(@conn, :index) %>
+  <%= link "Goto Checkout", to: checkout_path(@conn, :checkout) %>
+
+<% end %>

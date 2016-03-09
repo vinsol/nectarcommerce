@@ -4,6 +4,15 @@ defmodule ExShop.CartManager do
   alias ExShop.LineItem
   alias ExShop.Repo
 
+  def add_to_cart(_, %{"variant_id" => nil}) do
+    {:error, %Ecto.Changeset{errors: [variant: "can't be blank"]}}
+  end
+
+  def add_to_cart(%ExShop.Order{} = order, %{"variant_id" => variant_id, "quantity" => quantity}) do
+    variant = Repo.get!(Variant, variant_id) |> Repo.preload([:product])
+    do_add_to_cart(order, variant, quantity)
+  end
+
   def add_to_cart(order_id, %{"variant_id" => variant_id, "quantity" => quantity}) do
     order = Repo.get!(Order, order_id)
     variant = Repo.get!(Variant, variant_id) |> Repo.preload([:product])

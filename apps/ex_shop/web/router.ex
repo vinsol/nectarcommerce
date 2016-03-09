@@ -22,7 +22,13 @@ defmodule ExShop.Router do
     pipe_through [:browser, ExShop.Plugs.Cart] # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/products", User.ProductController, only: [:show]
+    get "/cart", User.CartController, :show
+    resources "/products", User.ProductController, only: [:show, :index]
+    resources "/line_items", User.LineItemController, only: [:create, :delete]
+    get "/checkout",      User.CheckoutController, :checkout
+    put "/checkout/next", User.CheckoutController, :next
+    put "/checkout/back", User.CheckoutController, :back
+
   end
 
   scope "/admin", ExShop.Admin, as: :admin do
