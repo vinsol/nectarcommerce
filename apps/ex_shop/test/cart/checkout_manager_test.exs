@@ -9,7 +9,8 @@ defmodule ExShop.CheckoutManagerTest do
   alias ExShop.CartManager
 
   test "assert cart is not empty before each step" do
-    {status, order} = CheckoutManager.next(setup_cart_without_product, %{})
+    cart = setup_cart_without_product
+    {status, order} = CheckoutManager.next(cart, %{})
     assert status == :error
     assert order.errors[:line_items] == "Please add some item to your cart to proceed"
   end
@@ -18,38 +19,46 @@ defmodule ExShop.CheckoutManagerTest do
     {status, order} = CheckoutManager.next(setup_cart, %{})
     assert status == :error
     assert order.model.state == "cart"
-    assert order.errors[:billing_address] == "can't be blank"
-    assert order.errors[:shipping_address] == "can't be blank"
+    assert order.errors[:order_billing_address] == "can't be blank"
+    assert order.errors[:order_shipping_address] == "can't be blank"
   end
 
   test "move to address state invalid parameters" do
-    {status, order} = CheckoutManager.next(setup_cart, %{"shipping_address" => %{"address_line_1" => "asd", "country_id" => 1}, "billing_address" => %{}})
+    {status, order} = CheckoutManager.next(setup_cart, %{"order_shipping_address" =>  %{"address_line_1" => "asd", "country_id" => 1},
+                                                         "order_billing_address" => %{}})
     assert status == :error
     assert order.model.state == "cart"
     assert order.errors == []
-    assert order.changes[:shipping_address].errors == [address_line_1: {"should be at least %{count} character(s)",
-                                                                        [count: 10]}, address_line_2: "can't be blank",
-                                                       state_id: "can't be blank"]
-    assert order.changes[:billing_address].errors == [address_line_1: "can't be blank", address_line_2: "can't be blank",
-                                                       country_id: "can't be blank", state_id: "can't be blank"]
+    assert order.changes[:order_shipping_address].errors[:address_line_1] == {"should be at least %{count} character(s)", [count: 10]}
+    assert order.changes[:order_billing_address].errors[:country_id] == "can't be blank"
   end
 
   test "move to address state with valid parameters" do
     {status, order} = CheckoutManager.next(setup_cart, valid_address_params)
     assert status == :ok
     assert order.state == "address"
+    assert order.order_shipping_address.id
+    assert order.order_billing_address.id
   end
 
   test "move to address state with same_as_shipping copies creates two seperate addresses with same data" do
-    {status, order} = CheckoutManager.next(setup_cart, valid_address_params_same_as_shipping)
-    shipping_address = ExShop.Order.shipping_address(order)
-    billing_address = ExShop.Order.billing_address(order)
+    {status, order} = CheckoutManager.next(setup_cart, valid_address_params_same_as_billing)
     assert status == :ok
     assert order.state == "address"
-    assert shipping_address.address_line_1 == billing_address.address_line_1
-    assert shipping_address.address_line_2 == billing_address.address_line_2
-    refute shipping_address.id == billing_address.id
+    assert order.order_shipping_address.address_id
+    assert order.order_shipping_address.address_id
+    assert order.order_shipping_address.address_id == order.order_billing_address.address_id
   end
+
+  test "move to address state invalid parameters with same_as billing" do
+    {status, order} = CheckoutManager.next(setup_cart, %{"order_shipping_address" =>  %{"address_line_1" => "asd", "country_id" => 1},
+                                                         "order_billing_address" => %{}, "same_as_billing" => true})
+    assert status == :error
+    assert order.model.state == "cart"
+    assert order.errors == []
+    assert order.changes[:order_billing_address].errors[:country_id] == "can't be blank"
+  end
+
 
   test "move to shipping state missing parameters" do
     cart = setup_cart
@@ -254,12 +263,11 @@ defmodule ExShop.CheckoutManagerTest do
 
   defp valid_address_params do
     address = Dict.merge(@address_parameters, valid_country_and_state_ids)
-    %{"shipping_address" => address, "billing_address" => address}
+    %{"order_shipping_address" => address, "order_billing_address" => address}
   end
 
-  defp valid_address_params_same_as_shipping do
-    address = Dict.merge(@address_parameters, valid_country_and_state_ids)
-    %{"shipping_address" => address, "billing_address" => %{}, "same_as_shipping" => true}
+  defp valid_address_params_same_as_billing do
+    Map.merge(valid_address_params, %{"same_as_billing" => true})
   end
 
   defp valid_country_and_state_ids do
