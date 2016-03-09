@@ -7,6 +7,8 @@ defmodule ExShop.Session do
   end
 
   def user_login(changeset, repo) do
+    # TODO: Check whether is_admin scope should
+    # be mandatory for user or can be just dropped
     login(changeset, repo, false)
   end
 

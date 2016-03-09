@@ -1,0 +1,22 @@
+<h2>Show user</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @user.name %>
+  </li>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @user.email %>
+  </li>
+
+  <li>
+    <strong>Admin:</strong>
+    <%= @user.is_admin %>
+  </li>
+</ul>
+
+<%= link "Edit", to: admin_user_path(@conn, :edit, @user) %>
+<%= link "Back", to: admin_user_path(@conn, :index) %>

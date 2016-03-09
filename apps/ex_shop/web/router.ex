@@ -63,6 +63,7 @@ defmodule ExShop.Router do
     resources "/products", ProductController do
       resources "/variants", VariantController
     end
+    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.

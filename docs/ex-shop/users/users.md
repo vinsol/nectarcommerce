@@ -1,0 +1,3 @@
+- https://github.com/britton-jb/sentinel
+- mix phoenix.gen.html User users name:string email:string password:string password_confirmation:string --no-model
+- mix phoenix.gen.html Registration users name:string email:string password:string password_confirmation:string --no-model
