@@ -1,0 +1,3 @@
+<script>
+ user_cart.init(<%= @current_order.id %>)
+</script>

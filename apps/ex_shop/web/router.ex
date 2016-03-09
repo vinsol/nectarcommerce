@@ -24,12 +24,17 @@ defmodule ExShop.Router do
   end
 
   scope "/", ExShop do
-    pipe_through [:browser, :browser_auth] # Use the default browser stack
+
+    pipe_through [:browser, :browser_auth, ExShop.Plugs.Cart] # Use the default browser stack
 
     get "/", PageController, :index
     resources "/registrations", RegistrationController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create]
     delete "/logout", SessionController, :logout
+
+    get "/", PageController, :index
+    resources "/products", User.ProductController, only: [:show]
+
   end
 
   scope "/admin", ExShop.Admin, as: :admin do

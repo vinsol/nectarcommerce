@@ -1,0 +1,5 @@
+<div class="col-lg-3">
+  Name: <%= @product.name %>
+  Price: <%= @product.master.cost_price %>
+  <%= link "view", to: product_path(@conn, :show, @product) %>
+</div>
