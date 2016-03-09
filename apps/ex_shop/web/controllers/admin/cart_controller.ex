@@ -13,8 +13,23 @@ defmodule ExShop.Admin.CartController do
 
   def new(conn, _params) do
     users = ExShop.Repo.all(ExShop.User)
-    render(conn, "new.html", users: users)
+    cart_changeset = ExShop.Order.cart_changeset(%ExShop.Order{}, %{})
+    render(conn, "new.html", users: users, cart_changeset: cart_changeset)
   end
+
+  # use guest checkout unless user id provided.
+  def create(conn, %{"order" => %{"user_id" => ""}}) do
+    order = ExShop.Order.cart_changeset(%ExShop.Order{}, %{}) |> Repo.insert!
+    conn
+    |> redirect(to: admin_cart_path(conn, :edit, order))
+  end
+
+  def create(conn, %{"order" => %{"user_id" => user_id}}) do
+    order = ExShop.Order.user_cart_changeset(%ExShop.Order{}, %{user_id: user_id}) |> Repo.insert!
+    conn
+    |> redirect(to: admin_cart_path(conn, :edit, order))
+  end
+
 
   def edit(conn, %{"id" => id}) do
     {:ok, order} = Repo.get!(ExShop.Order, id) |> ExShop.CheckoutManager.back("cart")

@@ -10,6 +10,8 @@ defmodule ExShop.User do
     field :is_admin, :boolean
 
     has_many :orders, ExShop.Order
+    has_many :user_addresses, ExShop.UserAddress
+    has_many :addresses, through: [:user_addresses, :address]
 
     timestamps
   end
