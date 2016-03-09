@@ -1,0 +1,3 @@
+<%= for product <- @products do %>
+  <%= render "product_card.html", product: product, conn: @conn %>
+<% end %>

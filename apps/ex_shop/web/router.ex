@@ -33,7 +33,16 @@ defmodule ExShop.Router do
     delete "/logout", SessionController, :logout
 
     get "/", PageController, :index
+
     resources "/products", User.ProductController, only: [:show]
+
+    get "/cart", User.CartController, :show
+    resources "/products", User.ProductController, only: [:show, :index]
+    resources "/line_items", User.LineItemController, only: [:create, :delete]
+    get "/checkout",      User.CheckoutController, :checkout
+    put "/checkout/next", User.CheckoutController, :next
+    put "/checkout/back", User.CheckoutController, :back
+
 
   end
 

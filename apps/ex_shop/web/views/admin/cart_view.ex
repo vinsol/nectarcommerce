@@ -1,6 +1,10 @@
 defmodule ExShop.Admin.CartView do
   use ExShop.Web, :view
 
+  # This will depend on preload ??
+  # We should actually look at whether product has product option types
+  # This can lead to incorrect variant additions in corrupted data
+  # We might have to disallow such products in listing and addition too
   def only_master_variant?(%ExShop.Product{variants: [], master: master}), do: true
   def only_master_variant?(%ExShop.Product{variants: [_]}), do: true
   def only_master_variant?(%ExShop.Product{variants: [_|_]}), do: false
