@@ -43,7 +43,7 @@ defmodule ExShop.Router do
       resources "/members", ZoneMemberController, only: [:create, :delete]
     end
 
-
+    resources "/categories", CategoryController
     resources "cart", CartController, only: [:new, :edit]
     resources "orders", OrderController, only: [:index, :show] do
       resources "line_items", LineItemController, only: [:create, :delete] do

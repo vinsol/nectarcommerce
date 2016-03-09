@@ -1,0 +1,13 @@
+<h2>Show category</h2>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @category.name %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: admin_category_path(@conn, :edit, @category) %>
+<%= link "Back", to: admin_category_path(@conn, :index) %>
