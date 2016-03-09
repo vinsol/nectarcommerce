@@ -44,6 +44,7 @@ defmodule ExShop.Variant do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> Validations.Date.validate_not_past_date(:discontinue_on)
+    |> validate_number(:add_count, greater_than: 0)
     |> update_total_quantity
   end
 
@@ -51,6 +52,7 @@ defmodule ExShop.Variant do
     cast(model, params, ~w(cost_price), ~w(add_count discontinue_on))
     |> update_total_quantity
     |> put_change(:is_master, true)
+    |> validate_number(:add_count, greater_than: 0)
     |> cast_attachments(params, ~w(), ~w(image))
   end
 
@@ -60,6 +62,7 @@ defmodule ExShop.Variant do
     |> validate_discontinue_gt_available_on
     |> update_total_quantity
     |> put_change(:is_master, true)
+    |> validate_number(:add_count, greater_than: 0)
     |> check_is_master_changed
     # Even if changset is invalid, cast_attachments does it work :(
     |> cast_attachments(params, ~w(), ~w(image))
@@ -103,12 +106,14 @@ defmodule ExShop.Variant do
   def buy_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(buy_count), ~w())
+    |> validate_number(:buy_count, greater_than: 0)
     |> increment_bought_quantity
   end
 
   def restocking_changeset(model, params) do
     model
     |> cast(params, ~w(restock_count), ~w())
+    |> validate_number(:restock_count, greater_than: 0)
     |> decrement_bought_quantity
   end
 

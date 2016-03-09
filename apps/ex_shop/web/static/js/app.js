@@ -36,7 +36,7 @@ window.cart_creator = cart_creator;
 
 // TODO: Re-write in ES6 style
 $(document).ready(function() {
-  $(document).on("click", "#add_option_value, #add_product_option_type", function(e) {
+  $(document).on("click", "#add_option_value, #add_product_option_type, #add_category, #add_product_category", function(e) {
     e.preventDefault();
     let time = new Date().getTime();
     let template = $(this).data("template");
@@ -45,7 +45,7 @@ $(document).ready(function() {
     $(this).after(uniq_template);
   });
 
-  $(document).on("click", "#delete_option_value, #delete_product_option_type", function(e) {
+  $(document).on("click", "#delete_option_value, #delete_product_option_type, #delete_category, #delete_product_category", function(e) {
     e.preventDefault();
     $(this).parent().remove();
   });

@@ -15,6 +15,9 @@ defmodule ExShop.Product do
     has_many :product_option_types, ExShop.ProductOptionType
     has_many :option_types, through: [:product_option_types, :option_type]
 
+    has_many :product_categories, ExShop.ProductCategory
+    has_many :categories, through: [:product_categories, :category]
+
     timestamps
   end
 
@@ -39,6 +42,7 @@ defmodule ExShop.Product do
     |> ExShop.Slug.generate_slug()
     |> cast_assoc(:master, required: true, with: &ExShop.Variant.create_master_changeset/2)
     |> cast_assoc(:product_option_types, required: true, with: &ExShop.ProductOptionType.from_product_changeset/2)
+    |> cast_assoc(:product_categories, with: &ExShop.ProductCategory.from_product_changeset/2)
     |> unique_constraint(:slug)
   end
 
@@ -47,6 +51,7 @@ defmodule ExShop.Product do
     |> cast(params, @required_fields, @optional_fields)
     |> Validations.Date.validate_not_past_date(:available_on)
     |> ExShop.Slug.generate_slug()
+    |> cast_assoc(:product_categories, with: &ExShop.ProductCategory.from_product_changeset/2)
     |> cast_assoc(:master, required: true, with: &ExShop.Variant.update_master_changeset/2)
     |> validate_available_on_lt_discontinue_on
     |> cast_assoc(:product_option_types, required: true, with: &ExShop.ProductOptionType.from_product_changeset/2)
@@ -55,10 +60,10 @@ defmodule ExShop.Product do
 
   defp validate_available_on_lt_discontinue_on(changeset) do
     changed_master = get_change(changeset, :master)
-    if changed_master do
-      changed_discontinue_on = get_change(changed_master, :discontinue_on) || changed_master.model.discontinue_on
+    changed_discontinue_on = if changed_master do
+      get_change(changed_master, :discontinue_on) || changed_master.model.discontinue_on
     else
-      changed_discontinue_on = changeset.model.master.discontinue_on
+      changeset.model.master.discontinue_on
     end
     changeset
       |> Validations.Date.validate_lt_date(:available_on, changed_discontinue_on)

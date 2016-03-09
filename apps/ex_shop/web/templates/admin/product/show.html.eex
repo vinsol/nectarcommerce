@@ -17,7 +17,15 @@
     <div class="panel-body pull-left"><%= @product.available_on %></div>
     <div class="panel-body"><%= @product.discontinue_on %></div>
   </div>
-  <%= if @product.option_types != [] do %>
+  <%= unless Enum.empty? @product.categories do %>
+    <div class="panel panel-default">
+      <div class="panel-heading">Categories</div>
+      <%= for category <- @product.categories do %>
+        <div class="panel-body"><%= category.name %></div>
+      <% end %>
+    </div>
+  <% end %>
+  <%= unless Enum.empty? @product.option_types do %>
     <div class="panel panel-default">
       <div class="panel-heading">Option Types</div>
       <%= for option_type <- @product.option_types do %>
@@ -26,6 +34,7 @@
     </div>
     <%= link "Show Variants", to: admin_product_variant_path(@conn, :index, @product) %>
   <% end %>
+
 </div>
 
 <%= link "Edit", to: admin_product_path(@conn, :edit, @product) %>
