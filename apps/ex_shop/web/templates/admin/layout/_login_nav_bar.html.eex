@@ -3,6 +3,9 @@
     <li><%= link "Home", to: admin_home_path(@conn, :index) %></li>
     <%= if Guardian.Plug.current_resource(@conn, :admin) do %>
       <li role="presentation" class="dropdown">
+        <%= link "Users", to: admin_user_path(@conn, :index) %>
+      </li>
+      <li role="presentation" class="dropdown">
         <%= link "Products", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
         <ul class="dropdown-menu">
           <li><%= link "Option Types", to: admin_option_type_path(@conn, :index) %></li>
@@ -32,7 +35,17 @@
           <li><%= link "Cart", to: admin_cart_path(@conn, :new) %></li>
         </ul>
       </li>
-      <li><%= link "Admin Logout", to: admin_session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %></li>
+      <li class="dropdown" role="presentation">
+      <%= link "Profile", to: "#",  class: "dropdown-toggle btn btn-danger", "aria-expanded": "false", "data-toggle": "dropdown" %>
+        <ul class="dropdown-menu">
+          <li role="presentation">
+            <%= link "Welcome #{Guardian.Plug.current_resource(@conn, :admin).email}", to: "#", method: :delete, class: "btn btn-info" %>
+          </li>
+          <li role="presentation">
+            <%= link "Admin Logout", to: admin_session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %>
+          </li>
+        </ul>
+      </li>
     <% else %>
       <li><%= link "Admin Login", to: admin_session_path(@conn, :new) %></li>
     <% end %>

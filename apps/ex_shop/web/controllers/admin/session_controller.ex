@@ -2,7 +2,7 @@ defmodule ExShop.Admin.SessionController do
   use ExShop.Web, :controller
   alias ExShop.User
   alias ExShop.Repo
-  alias ExShop.Session
+  alias ExShop.User.Session
 
   plug :scrub_params, "user" when action in [:create]
 

@@ -1,7 +1,7 @@
 defmodule ExShop.RegistrationController do
   use ExShop.Web, :controller
 
-  alias ExShop.Registration
+  alias ExShop.User.Registration
   alias ExShop.User
 
   plug :scrub_params, "registration" when action in [:create, :update]
@@ -12,7 +12,7 @@ defmodule ExShop.RegistrationController do
   end
 
   def create(conn, %{"registration" => registration_params}) do
-    changeset = Registration.changeset(%User{}, registration_params)
+    changeset = Registration.user_changeset(%User{}, registration_params)
 
     case Repo.insert(changeset) do
       {:ok, _registration} ->

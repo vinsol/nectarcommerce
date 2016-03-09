@@ -1,4 +1,4 @@
-defmodule ExShop.Session do
+defmodule ExShop.User.Session do
   alias ExShop.User
   alias Ecto.Changeset
 
@@ -7,16 +7,18 @@ defmodule ExShop.Session do
   end
 
   def user_login(changeset, repo) do
+    # TODO: Check whether is_admin scope should
+    # be mandatory for user or can be just dropped
     login(changeset, repo, false)
   end
 
-  def login(changeset = %{params: %{"email" => email}}, repo, is_admin) when (email == "" or email == nil) do
+  def login(changeset = %{params: %{"email" => email}}, repo, is_admin) when (email == "" or is_nil(email)) do
     changeset = changeset
       |> Changeset.add_error(:email, "can't be blank")
 
     {:error, changeset}
   end
-  def login(changeset = %{params: %{"password" => password}}, repo, is_admin) when (password == "" or password == nil) do
+  def login(changeset = %{params: %{"password" => password}}, repo, is_admin) when (password == "" or is_nil(password)) do
     changeset = changeset
       |> Changeset.add_error(:password, "can't be blank")
 
