@@ -28,3 +28,5 @@
     <%= submit "Login", class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<%= link "SignUp", to: registration_path(@conn, :new) %>

@@ -43,8 +43,13 @@ defmodule ExShop.User do
     |> set_hashed_password
   end
 
-  defp set_hashed_password(changeset = %{errors: [_]}), do: changeset
-  defp set_hashed_password(changeset = %{params: %{"password" => password}}) when password != "" and password != nil do
+  # Changing pattern match to valid?: instead of errors:
+  # would fail for more than one error also :(
+  # Passing no params to changeset, results in valid? to be false
+  # should not be a problem here but good to know as could lead to some edge case :P
+  # Intent is to not perform hashing if changeset is invalid
+  defp set_hashed_password(changeset = %{valid?: false}), do: changeset
+  defp set_hashed_password(changeset = %{params: %{"password" => password}}) when password != "" and not(is_nil(password)) do
     changeset
     |> put_change(:encrypted_password, Comeonin.Bcrypt.hashpwsalt(password))
   end

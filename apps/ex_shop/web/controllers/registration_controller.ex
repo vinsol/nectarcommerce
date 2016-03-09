@@ -1,7 +1,7 @@
 defmodule ExShop.RegistrationController do
   use ExShop.Web, :controller
 
-  alias ExShop.Registration
+  alias ExShop.User.Registration
   alias ExShop.User
 
   plug :scrub_params, "registration" when action in [:create, :update]

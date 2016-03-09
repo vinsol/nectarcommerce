@@ -1,7 +1,6 @@
 defmodule ExShop.RegistrationControllerTest do
   use ExShop.ConnCase
 
-  alias ExShop.Registration
   alias ExShop.User
 
   @valid_attrs %{email: "test@vinsol.com", password: "vinsol", password_confirmation: "vinsol"}

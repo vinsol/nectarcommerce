@@ -2,7 +2,7 @@ defmodule ExShop.Admin.UserController do
   use ExShop.Web, :admin_controller
 
   alias ExShop.User
-  alias ExShop.Registration
+  alias ExShop.User.Registration
 
   plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
 

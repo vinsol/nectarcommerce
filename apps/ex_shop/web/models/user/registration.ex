@@ -1,4 +1,4 @@
-defmodule ExShop.Registration do
+defmodule ExShop.User.Registration do
   alias ExShop.User
   alias Ecto.Changeset
 
