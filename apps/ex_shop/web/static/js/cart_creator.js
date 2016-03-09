@@ -1,6 +1,8 @@
 export default {
   ordersList: $("#orders-list"),
   createOrderButton: $("#create-order"),
+  userIdInput: $("#order_user_id"),
+
   init: function() {
     this.bindEvents();
   },
@@ -15,12 +17,14 @@ export default {
         _this.updateCreateButton(userId, userName);
       } else {
         _this.updateCreateButton("", "Guest");
+        _this.userIdInput.attr("value", "");
+          _this.ordersList.html("");
       }
     });
 
-      this.createOrderButton.on('click', function(){
+    this.createOrderButton.on('click', function() {
 
-      });
+    });
   },
 
   fetchUsersPendingOrders: function(userId) {
@@ -38,8 +42,8 @@ export default {
   },
 
   updateCreateButton: function(userId, userName) {
-    this.createOrderButton.data('user-id', userId);
-      this.createOrderButton.html(`create order for ${userName}`);
+    this.userIdInput.attr('value', userId);
+    this.createOrderButton.html(`create order for ${userName}`);
   },
 
   displayUsersOrderList: function(orders) {
@@ -50,8 +54,8 @@ export default {
   },
 
   buildOrderHtml: function(order) {
-    return `order created on ${order.created_on} in ${order.state},
-        click <a href="${order.edit_cart_link}">here</a> to continue adding products to cart.
-            Or, click <a href="${order.continue_checkout_link}">here</a> to continue checkout`;
+      return `<li>order created on ${order.created_on} in state: <strong>${order.state}</strong>,
+        click <a href="${order.edit_cart_link}" class="btn btn-danger">here</a> to continue adding products to cart.
+            Or, click <a href="${order.continue_checkout_link}" class="btn btn-primary">here</a> to continue checkout</li>`;
   }
 };

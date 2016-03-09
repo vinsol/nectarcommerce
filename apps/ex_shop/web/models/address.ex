@@ -4,18 +4,24 @@ defmodule ExShop.Address do
   schema "addresses" do
     field :address_line_1, :string
     field :address_line_2, :string
-    field :address_type, ExShop.AddressType, default: ExShop.AddressType.get_address_type!("shipping")
 
     belongs_to :state, ExShop.State
     belongs_to :country, ExShop.Country
-    belongs_to :order, ExShop.Order
 
+    has_one :user_address, ExShop.UserAddress
+    has_one :user, through: [:user_address, :user]
+
+    has_many :order_billing_addresses, ExShop.OrderBillingAddress
+    has_many :billing_orders, through: [:order_billing_addresses, :order]
+
+    has_many :order_shipping_addresses, ExShop.OrderShippingAddress
+    has_many :shipping_order, through: [:order_shipping_addresses, :order]
 
     timestamps
   end
 
   @required_fields ~w(address_line_1 address_line_2 country_id state_id)
-  @optional_fields ~w(address_type)
+  @optional_fields ~w()
 
 
   # currently called by order's build assoc
@@ -29,9 +35,9 @@ defmodule ExShop.Address do
     |> foreign_key_constraint(:country_id)
   end
 
-  @billing_address_type ExShop.AddressType.get_address_type!("billing")
-  def billing_address_changeset(model, params \\ :empty) do
-    changeset = changeset(model, params)
-    put_change(changeset, :address_type, @billing_address_type)
+  def registered_user_changeset(model, params \\ :empty) do
+    changeset(model, params)
+    |> cast_assoc(:user_address, required: true)
   end
+
 end
