@@ -1,9 +1,15 @@
-<%= form_for @changeset, @action, [as: :registration], fn f -> %>
+<%= form_for @changeset, @action, fn f -> %>
   <%= if @changeset.action do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
   <% end %>
+
+  <div class="form-group">
+    <%= label f, :name, class: "control-label" %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
+  </div>
 
   <div class="form-group">
     <%= label f, :email, class: "control-label" %>
@@ -24,6 +30,12 @@
   </div>
 
   <div class="form-group">
-    <%= submit "SignUp", class: "btn btn-primary" %>
+    <%= label f, :is_admin, "Admin", class: "control-label" %>
+    <%= checkbox f, :is_admin, class: "form-control" %>
+    <%= error_tag f, :is_admin %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
   </div>
 <% end %>

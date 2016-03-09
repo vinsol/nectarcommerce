@@ -12,7 +12,7 @@ defmodule ExShop.RegistrationController do
   end
 
   def create(conn, %{"registration" => registration_params}) do
-    changeset = Registration.changeset(%User{}, registration_params)
+    changeset = Registration.user_changeset(%User{}, registration_params)
 
     case Repo.insert(changeset) do
       {:ok, _registration} ->
