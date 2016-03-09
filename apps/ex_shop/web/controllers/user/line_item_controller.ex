@@ -25,11 +25,11 @@ defmodule ExShop.User.LineItemController do
   end
 
   def delete(conn, %{"id" => id}) do
-    line_item = Repo.get!(LineItem, id)
-    Repo.delete!(line_item)
+    line_item = Repo.get!(ExShop.LineItem, id)
+    ExShop.Repo.delete!(line_item)
     conn
-    |> put_status(:no_content)
-    |> json(nil)
+    |> put_flash(:success, "Removed product succesfully")
+    |> redirect(to: cart_path(conn, :show))
   end
 
 

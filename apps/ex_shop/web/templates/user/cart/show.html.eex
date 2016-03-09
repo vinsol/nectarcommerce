@@ -4,6 +4,7 @@
   <ul>
     <%= for line_item <- @order.line_items do %>
       <li><%= line_item.variant.product.name %><%= ExShop.Admin.VariantView.variant_options_text(line_item.variant) %> X <%= line_item.quantity %></li>
+      <%= link "Delete", to: line_item_path(@conn, :delete, line_item), method: :delete, data: [confirm: "Are you sure?"] %>
     <% end %>
   </ul>
   <%= link "Continue Shopping", to: product_path(@conn, :index) %>
