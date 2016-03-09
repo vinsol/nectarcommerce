@@ -19,9 +19,10 @@ defmodule ExShop.Router do
   end
 
   scope "/", ExShop do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, ExShop.Plugs.Cart] # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/products", User.ProductController, only: [:show]
   end
 
   scope "/admin", ExShop.Admin, as: :admin do
