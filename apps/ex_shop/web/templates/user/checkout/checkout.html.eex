@@ -1,0 +1,2 @@
+<%= back_link(@conn, @order) %>
+<%= render next_step(@order), Map.merge(%{action: checkout_path(@conn, :next)}, assigns) %>

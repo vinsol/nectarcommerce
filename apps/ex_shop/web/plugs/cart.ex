@@ -24,11 +24,10 @@ defmodule ExShop.Plugs.Cart do
   end
 
   defp fetch_current_order_from_session(conn) do
-    order = ExShop.Repo.get(ExShop.Order, get_session(conn, :current_order) || 0)
-    if ExShop.Order.confirmed? order do
-      nil # already confirmed we have to create a new one.
-    else
-      order
+    case ExShop.Repo.get(ExShop.Order, get_session(conn, :current_order) || 0) do
+      nil -> nil
+      %ExShop.Order{state: "confirmation"} -> nil
+      order -> order
     end
   end
 
