@@ -90,6 +90,28 @@
 
   <%= link_to_product_option_types_fields %>
 
+  <%= inputs_for f, :product_categories, fn po -> %>
+    <div class="product_categories">
+      <div class="form-group">
+        <%= label po, :category_id, class: "control-label" %>
+        <%= select po, :category_id, @categories, class: "form-control" %>
+        <%= error_tag po, :category_id %>
+      </div>
+
+      <%= if po.model.id do %>
+        <div class="form-group">
+          <%= label po, :delete, "Delete?", class: "control-label" %>
+          <%= checkbox po, :delete %>
+        </div>
+      <% else %>
+        <%= link "Remove", to: "#", id: "delete_product_category" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= link_to_product_category_fields %>
+
+
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>
   </div>
