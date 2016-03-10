@@ -19,7 +19,7 @@ defmodule ExShop.User.LineItemController do
         |> redirect(to: cart_path(conn, :show))
       {:error, changeset} ->
         conn
-        |> put_flash(:error, "Something went wrong please select the proper variant and try again")
+        |> put_flash(:error, extract_error_message(changeset))
         |> redirect(to: product_path(conn, :show, product))
     end
   end
@@ -32,5 +32,9 @@ defmodule ExShop.User.LineItemController do
     |> redirect(to: cart_path(conn, :show))
   end
 
+  defp extract_error_message(%Ecto.Changeset{errors: errors}) do
+    Enum.map(errors, fn ({key, value}) -> to_string(key) <> " " <> ExShop.ErrorHelpers.translate_error(value) end)
+    |> Enum.reduce("", fn(error_message, acc) -> acc <> error_message <> ". " end)
+  end
 
 end
