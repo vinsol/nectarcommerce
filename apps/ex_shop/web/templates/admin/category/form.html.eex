@@ -13,7 +13,7 @@
 
   <div class="form-group">
     <%= label f, :parent_id, "Parent", class: "control-label" %>
-    <%= select f, :parent_id, @categories, class: "form-control" %>
+    <%= select f, :parent_id, @categories, class: "form-control", prompt: "Select Parent Category" %>
     <%= error_tag f, :name %>
   </div>
 

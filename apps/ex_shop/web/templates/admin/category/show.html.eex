@@ -1,12 +1,14 @@
 <h2>Show category</h2>
 
 <ul>
-
   <li>
     <strong>Name:</strong>
-    <%= @category.name %>
+    <%= if @category.parent do %>
+      <%= @category.parent.name %> -> <%= @category.name %>
+    <% else %>
+      <%= @category.name %>
+    <% end %>
   </li>
-
 </ul>
 
 <%= link "Edit", to: admin_category_path(@conn, :edit, @category) %>

@@ -12,7 +12,7 @@ defmodule ExShop.Category do
   end
 
   @required_fields ~w(name)
-  @optional_fields ~w()
+  @optional_fields ~w(parent_id)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -31,6 +31,7 @@ defmodule ExShop.Category do
   end
 
   def leaf_categories do
-    ExShop.Category
+    parent_ids = ExShop.Repo.all(from cat in ExShop.Category, where: not is_nil(cat.parent_id), select: cat.parent_id)
+    leaf = (from cat in ExShop.Category, where: not cat.id in ^parent_ids)
   end
 end
