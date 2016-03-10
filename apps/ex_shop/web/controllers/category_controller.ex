@@ -37,7 +37,7 @@ defmodule ExShop.Admin.CategoryController do
 
   def edit(conn, %{"id" => id}) do
     category = Repo.get!(Category, id)
-    categories = [{"--No Parent--", ""}| Repo.all(from c in Category, select: {c.name, c.id}, where: c.id != ^id)]
+    categories = Repo.all(from c in Category, select: {c.name, c.id}, where: c.id != ^id)
     changeset = Category.changeset(category)
     render(conn, "edit.html", category: category, changeset: changeset, categories: categories)
   end
@@ -45,6 +45,7 @@ defmodule ExShop.Admin.CategoryController do
   def update(conn, %{"id" => id, "category" => category_params}) do
     category = Repo.get!(Category, id)
     changeset = Category.changeset(category, category_params)
+    categories = Repo.all(from c in Category, select: {c.name, c.id}, where: c.id != ^id)
 
     case Repo.update(changeset) do
       {:ok, category} ->
@@ -52,7 +53,7 @@ defmodule ExShop.Admin.CategoryController do
         |> put_flash(:info, "Category updated successfully.")
         |> redirect(to: admin_category_path(conn, :show, category))
       {:error, changeset} ->
-        render(conn, "edit.html", category: category, changeset: changeset)
+        render(conn, "edit.html", category: category, changeset: changeset, categories: categories)
     end
   end
 
