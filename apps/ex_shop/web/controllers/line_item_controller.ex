@@ -1,4 +1,4 @@
-defmodule ExShop.User.LineItemController do
+defmodule ExShop.LineItemController do
   use ExShop.Web, :controller
 
   alias ExShop.CartManager

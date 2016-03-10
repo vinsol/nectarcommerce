@@ -1,4 +1,4 @@
-defmodule ExShop.User.CartController do
+defmodule ExShop.CartController do
   use ExShop.Web, :controller
 
   def show(conn, _) do

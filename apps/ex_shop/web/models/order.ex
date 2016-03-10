@@ -58,6 +58,11 @@ defmodule ExShop.Order do
     |> cast(params, ~w(state user_id), ~w())
   end
 
+  def link_to_user_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(user_id), ~w())
+  end
+
   # cancelling all line items will automatically cancel the order.
   def cancel_order(model) do
     Repo.transaction(fn ->
@@ -347,7 +352,7 @@ defmodule ExShop.Order do
 
   def current_order(%ExShop.User{id: id} = user) do
     Repo.one(from order in all_abandoned_orders_for(user),
-             order_by: order.updated_at,
+             order_by: [desc: order.updated_at],
              limit: 1)
   end
 

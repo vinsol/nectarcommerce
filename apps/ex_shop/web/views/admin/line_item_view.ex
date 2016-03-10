@@ -1,4 +1,4 @@
-defmodule ExShop.Admin.LineItemView do
+defmodule ExShop.LineItemView do
   use ExShop.Web, :view
 
   alias ExShop.Admin.VariantView

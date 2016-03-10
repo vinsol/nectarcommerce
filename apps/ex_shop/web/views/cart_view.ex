@@ -1,4 +1,4 @@
-defmodule ExShop.User.CartView do
+defmodule ExShop.CartView do
   use ExShop.Web, :view
 
   def cart_empty?(%ExShop.Order{line_items: []}), do: true

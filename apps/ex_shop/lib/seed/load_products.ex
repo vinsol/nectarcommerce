@@ -25,7 +25,7 @@ defmodule Seed.LoadProducts do
                   description: "Sample Product for testing with 3 variants(One Master + 3 Other)",
                   available_on: Ecto.Date.utc,master: %{cost_price: 10.00, add_count: 10}}
   @not_discontinue_date  Ecto.Date.cast!("2017-03-01")
-  @discontinue_date  Ecto.Date.cast!("2016-03-01")
+  @discontinue_date  Ecto.Date.utc
   @variant_one_data %{discontinue_on: @not_discontinue_date, cost_price: 20.00, sku: "Variant 1"}
   @variant_two_data %{discontinue_on: @not_discontinue_date, cost_price: 22.00, sku: "Variant 2", add_count: 11}
   @variant_three_data %{discontinue_on: @discontinue_date, cost_price: 22.00, sku: "Discontinued Example", add_count: 11}

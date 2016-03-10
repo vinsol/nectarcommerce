@@ -19,7 +19,7 @@ defmodule ExShop.SessionController do
         conn
         |> Guardian.Plug.sign_in(user)
         |> put_flash(:info, "Signed In Succesfully")
-        |> redirect(to: page_path(conn, :index))
+        |> redirect(to: next_page_after_login(conn))
       {:error, changeset} ->
         conn
         |> render("new.html", changeset: changeset)
@@ -41,6 +41,17 @@ defmodule ExShop.SessionController do
         |> Guardian.Plug.sign_out
         |> put_flash(:info, "Signed out")
         |> redirect(to: session_path(conn, :new))
+    end
+  end
+
+  defp next_page_after_login(conn) do
+    next_page = get_session(conn, :next_page)
+    if next_page do
+      # remove it since it is not needed anymore.
+      delete_session(conn, :next_page)
+      next_page
+    else
+      page_path(conn, :index)
     end
   end
 end
