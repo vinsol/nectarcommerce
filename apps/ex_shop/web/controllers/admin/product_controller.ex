@@ -71,7 +71,7 @@ defmodule ExShop.Admin.ProductController do
 
   defp load_categories_and_option_types(conn, _params) do
     get_option_types = Repo.all(from strct in OptionType, select: {strct.name, strct.id})
-    categories = Repo.all(from strct in Category, select: {strct.name, strct.id})
+    categories = Repo.all(from strct in Category.leaf_categories, select: {strct.name, strct.id})
     conn
     |> assign(:get_option_types, get_option_types)
     |> assign(:categories, categories)

@@ -18,6 +18,7 @@ defmodule ExShop.Admin.CategoryController do
 
   def create(conn, %{"category" => category_params}) do
     changeset = Category.changeset(%Category{}, category_params)
+    categories = Repo.all(from c in Category, select: {c.name, c.id})
 
     case Repo.insert(changeset) do
       {:ok, _category} ->
@@ -25,12 +26,12 @@ defmodule ExShop.Admin.CategoryController do
         |> put_flash(:info, "Category created successfully.")
         |> redirect(to: admin_category_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, "new.html", changeset: changeset, categories: categories)
     end
   end
 
   def show(conn, %{"id" => id}) do
-    category = Repo.get!(Category, id)
+    category = Repo.get!(Category, id) |> Repo.preload([:parent])
     render(conn, "show.html", category: category)
   end
 

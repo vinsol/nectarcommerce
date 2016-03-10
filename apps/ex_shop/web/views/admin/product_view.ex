@@ -20,7 +20,7 @@ defmodule ExShop.Admin.ProductView do
   def link_to_product_category_fields do
     changeset = Product.changeset(%Product{product_categories: [%ProductCategory{}]})
     form = Phoenix.HTML.FormData.to_form(changeset, [])
-    categories = Repo.all(from c in Category, select: {c.name, c.id})
+    categories = Repo.all(from c in Category.leaf_categories, select: {c.name, c.id})
     fields = render_to_string(__MODULE__, "product_categories.html", f: form, categories: categories)
     link "Add Category", to: "#", "data-template": fields, id: "add_product_category"
   end
