@@ -3,7 +3,7 @@ defmodule ExShop.ProductCategoryTest do
 
   alias ExShop.ProductCategory
 
-  @valid_attrs %{}
+  @valid_attrs %{product_id: 1, category_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

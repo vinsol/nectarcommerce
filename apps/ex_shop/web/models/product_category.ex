@@ -10,8 +10,8 @@ defmodule ExShop.ProductCategory do
     timestamps
   end
 
-  @required_fields ~w()
-  @optional_fields ~w(category_id)
+  @required_fields ~w(product_id category_id)
+  @optional_fields ~w()
 
   @doc """
   Creates a changeset based on the `model` and `params`.

@@ -17,6 +17,6 @@ defmodule ExShop.TestSetup.Product do
   def create_product do
     product_changeset = Product.create_changeset(%Product{}, @valid_product_attrs)
     product = Repo.insert! product_changeset
-    product |> Repo.preload(:product_option_types)
+    product |> Repo.preload([:product_option_types, :product_categories])
   end
 end
