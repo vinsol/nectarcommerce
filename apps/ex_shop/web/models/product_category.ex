@@ -5,6 +5,8 @@ defmodule ExShop.ProductCategory do
     belongs_to :product, ExShop.Product
     belongs_to :category, ExShop.Category
 
+    field :delete, :boolean, virtual: true, default: false
+
     timestamps
   end
 
@@ -22,10 +24,17 @@ defmodule ExShop.ProductCategory do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def multi_category_changeset(model, params \\ :empty) do
-    import IEx
-    IEx.pry
-    model
-    |> cast(params, @required_fields, @optional_fields)
+  def from_product_changeset(model, params \\ :empty) do
+    cast(model, params, ~w(category_id), ~w(delete))
+    |> set_delete_action
   end
+
+  def set_delete_action(changeset) do
+    if get_change(changeset, :delete) do
+      %{changeset| action: :delete}
+    else
+      changeset
+    end
+  end
+
 end

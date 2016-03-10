@@ -42,6 +42,7 @@ defmodule ExShop.Product do
     |> ExShop.Slug.generate_slug()
     |> cast_assoc(:master, required: true, with: &ExShop.Variant.create_master_changeset/2)
     |> cast_assoc(:product_option_types, required: true, with: &ExShop.ProductOptionType.from_product_changeset/2)
+    |> cast_assoc(:product_categories, with: &ExShop.ProductCategory.from_product_changeset/2)
     |> unique_constraint(:slug)
   end
 
@@ -50,7 +51,7 @@ defmodule ExShop.Product do
     |> cast(params, @required_fields, @optional_fields)
     |> Validations.Date.validate_not_past_date(:available_on)
     |> ExShop.Slug.generate_slug()
-    |> cast_assoc(:product_categories)
+    |> cast_assoc(:product_categories, with: &ExShop.ProductCategory.from_product_changeset/2)
     |> cast_assoc(:master, required: true, with: &ExShop.Variant.update_master_changeset/2)
     |> validate_available_on_lt_discontinue_on
     |> cast_assoc(:product_option_types, required: true, with: &ExShop.ProductOptionType.from_product_changeset/2)

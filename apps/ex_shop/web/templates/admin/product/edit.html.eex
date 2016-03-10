@@ -1,6 +1,6 @@
 <h2>Edit product</h2>
 
 <%= render "form.html", changeset: @changeset, get_option_types: @get_option_types, product: @product,
-                        conn: @conn, action: admin_product_path(@conn, :update, @product) %>
+                        conn: @conn, action: admin_product_path(@conn, :update, @product), categories: @categories %>
 
 <%= link "Back", to: admin_product_path(@conn, :index) %>
