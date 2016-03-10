@@ -1,8 +1,9 @@
 defmodule ExShop.User.CheckoutController do
   use ExShop.Web, :controller
-
   alias ExShop.CheckoutManager
   alias ExShop.Order
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
 
   def checkout(conn, _params) do
     order = conn.assigns.current_order
@@ -26,6 +27,12 @@ defmodule ExShop.User.CheckoutController do
       {:ok, updated_order} ->
         redirect(conn, to: admin_order_checkout_path(conn, :checkout, order))
     end
+  end
+
+  def unauthenticated(conn, _params) do
+    conn
+    |> put_flash(:error, "Please login before continuing checkout")
+    |> redirect(to: session_path(conn, :new))
   end
 
 end
