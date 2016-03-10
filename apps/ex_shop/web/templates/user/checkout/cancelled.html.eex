@@ -1,2 +1,1 @@
 <h1>Order has been cancelled</h1>
-<%= link "click here to view details", to: admin_order_path(@conn, :show, @order) %>
