@@ -3,7 +3,7 @@ defmodule ExShop.Admin.CategoryController do
 
   alias ExShop.Category
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleAdminUnauthenticated, key: :admin
 
   plug :scrub_params, "category" when action in [:create, :update]
 

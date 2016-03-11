@@ -3,11 +3,11 @@
     <li><%= link "Home", to: home_path(@conn, :index) %></li>
     <li><%= link "Products", to: product_path(@conn, :index) %></li>
     <li><%= link "Cart", to: cart_path(@conn, :show) %></li>
-    <li><%= link "SignUp", to: registration_path(@conn, :new) %></li>
-    <li><%= link "Admin Login", to: admin_session_path(@conn, :new) %></li>
     <%= if Guardian.Plug.current_resource(@conn) do %>
+      <li><%= link "Orders", to: order_path(@conn, :index) %></li>
       <li><%= link "Logout", to: session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %></li>
     <% else %>
+      <li><%= link "SignUp", to: registration_path(@conn, :new) %></li>
       <li><%= link "Login", to: session_path(@conn, :new) %></li>
     <% end %>
   </ul>
