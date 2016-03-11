@@ -1,13 +1,13 @@
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><%= link "SignUp", to: registration_path(@conn, :new) %></li>
-            <li><%= link "Home", to: page_path(@conn, :index) %></li>
-            <li><%= link "Admin Login", to: admin_session_path(@conn, :new) %></li>
-            <%= if Guardian.Plug.current_resource(@conn) do %>
-              <li><%= link "Logout", to: session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %></li>
-            <% else %>
-              <li><%= link "Login", to: session_path(@conn, :new) %></li>
-            <% end %>
-          </ul>
-        </nav>
-
+<nav role="navigation">
+  <ul class="nav nav-pills pull-right">
+    <li><%= link "Products", to: product_path(@conn, :index) %></li>
+    <li><%= link "SignUp", to: registration_path(@conn, :new) %></li>
+    <li><%= link "Home", to: page_path(@conn, :index) %></li>
+    <li><%= link "Admin Login", to: admin_session_path(@conn, :new) %></li>
+    <%= if Guardian.Plug.current_resource(@conn) do %>
+      <li><%= link "Logout", to: session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %></li>
+    <% else %>
+      <li><%= link "Login", to: session_path(@conn, :new) %></li>
+    <% end %>
+  </ul>
+</nav>

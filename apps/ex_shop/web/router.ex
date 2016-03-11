@@ -48,6 +48,9 @@ defmodule ExShop.Router do
     get "/checkout",      CheckoutController, :checkout
     put "/checkout/next", CheckoutController, :next
     put "/checkout/back", CheckoutController, :back
+    resources "categories", CategoryController do
+      get "/products", CategoryController, :associated_products, as: :products
+    end
   end
 
   scope "/admin", ExShop.Admin, as: :admin do

@@ -1,3 +1,16 @@
-<%= for product <- @products do %>
-  <%= render "product_card.html", product: product, conn: @conn %>
-<% end %>
+<div class="row">
+<div class="col-md-2">
+  <div class="panel panel-default">
+    <div>
+      <%= for category <- @categories do %>
+        <%= link category.name, to: category_products_path(@conn, :associated_products, category), class: "btn btn-lg" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="col-md-9">
+  <%= for product <- @products do %>
+    <%= render "product_card.html", product: product, conn: @conn %>
+  <% end %>
+</div>
+</div>
