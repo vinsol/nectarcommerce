@@ -18,7 +18,7 @@ defmodule ExShop.RegistrationController do
       {:ok, _registration} ->
         conn
         |> put_flash(:info, "User registered successfully.")
-        |> redirect(to: page_path(conn, :index))
+        |> redirect(to: home_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
