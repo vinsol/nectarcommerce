@@ -33,7 +33,7 @@ defmodule ExShop.CheckoutController do
     order = conn.assigns.current_order
     conn
     |> put_flash(:error, "Please login before continuing checkout")
-    |> put_session(:next_page, checkout_path(conn, :checkout))
+    |> put_session(:next_page, cart_path(conn, :show))
     |> redirect(to: session_path(conn, :new))
   end
 
