@@ -77,7 +77,7 @@ defmodule ExShop.Admin.CheckoutControllerTest do
 
   defp valid_address_params do
     address = Dict.merge(@address_parameters, valid_country_and_state_ids)
-    %{"shipping_address" => address, "billing_address" => address}
+    %{"order_shipping_address" => address, "order_billing_address" => address}
   end
 
   defp valid_country_and_state_ids do
