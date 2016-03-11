@@ -7,6 +7,6 @@ defmodule ExShop.Repo.Migrations.CreateProductCategory do
       add :product_id, references(:products)
       timestamps
     end
-
+    create unique_index(:product_categories, [:category_id, :product_id])
   end
 end
