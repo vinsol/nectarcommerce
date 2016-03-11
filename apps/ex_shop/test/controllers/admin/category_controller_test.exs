@@ -1,9 +1,16 @@
-defmodule ExShop.CategoryControllerTest do
+defmodule ExShop.Admin.CategoryControllerTest do
   use ExShop.ConnCase
 
   alias ExShop.Category
+  alias ExShop.Repo
+  alias ExShop.User
+
   @valid_attrs %{name: "some content"}
   @invalid_attrs %{}
+
+  setup(context) do
+    do_setup(context)
+  end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, admin_category_path(conn, :index)
@@ -63,4 +70,15 @@ defmodule ExShop.CategoryControllerTest do
     assert redirected_to(conn) == admin_category_path(conn, :index)
     refute Repo.get(Category, category.id)
   end
+
+  defp do_setup(%{nologin: _} = _context) do
+    {:ok, %{conn: conn}}
+  end
+
+  defp do_setup(_context) do
+    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
+    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, %{conn: conn}}
+  end
+
 end
