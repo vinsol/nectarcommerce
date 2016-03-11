@@ -1,4 +1,4 @@
-defmodule ExShop.User.CheckoutController do
+defmodule ExShop.CheckoutController do
   use ExShop.Web, :controller
   alias ExShop.CheckoutManager
   alias ExShop.Order

@@ -1,4 +1,4 @@
-defmodule ExShop.User.ProductView do
+defmodule ExShop.ProductView do
   use ExShop.Web, :view
 
   defdelegate only_master_variant?(product), to: ExShop.Admin.CartView

@@ -39,12 +39,12 @@ defmodule ExShop.Router do
   # note: if cart is not present it will create and link a new one.
   scope "/", ExShop do
     pipe_through [:browser, :browser_auth, ExShop.Plugs.Cart]
-    get "/cart", User.CartController, :show
-    resources "/products", User.ProductController, only: [:show, :index]
-    resources "/line_items", User.LineItemController, only: [:create, :delete]
-    get "/checkout",      User.CheckoutController, :checkout
-    put "/checkout/next", User.CheckoutController, :next
-    put "/checkout/back", User.CheckoutController, :back
+    get "/cart", CartController, :show
+    resources "/products", ProductController, only: [:show, :index]
+    resources "/line_items", LineItemController, only: [:create, :delete]
+    get "/checkout",      CheckoutController, :checkout
+    put "/checkout/next", CheckoutController, :next
+    put "/checkout/back", CheckoutController, :back
   end
 
   scope "/admin", ExShop.Admin, as: :admin do

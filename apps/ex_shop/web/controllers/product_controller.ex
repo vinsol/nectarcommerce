@@ -1,4 +1,4 @@
-defmodule ExShop.User.ProductController do
+defmodule ExShop.ProductController do
   use ExShop.Web, :controller
 
   alias ExShop.Product

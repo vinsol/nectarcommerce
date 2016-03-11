@@ -1,4 +1,4 @@
-defmodule ExShop.User.CheckoutView do
+defmodule ExShop.CheckoutView do
   use ExShop.Web, :view
 
   alias ExShop.Repo
