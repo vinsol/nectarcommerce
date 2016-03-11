@@ -1,5 +1,5 @@
 defmodule ExShop.Admin.SessionController do
-  use ExShop.Web, :controller
+  use ExShop.Web, :admin_controller
   alias ExShop.User
   alias ExShop.Repo
   alias ExShop.User.Session

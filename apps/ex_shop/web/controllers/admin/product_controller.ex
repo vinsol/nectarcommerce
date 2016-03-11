@@ -6,7 +6,7 @@ defmodule ExShop.Admin.ProductController do
   alias ExShop.Category
   alias ExShop.SearchProduct
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleAdminUnauthenticated, key: :admin
 
   plug :scrub_params, "product" when action in [:create, :update]
   plug :load_categories_and_option_types when action in [:create, :new, :edit, :update]

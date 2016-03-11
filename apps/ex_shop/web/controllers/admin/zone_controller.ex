@@ -3,7 +3,7 @@ defmodule ExShop.Admin.ZoneController do
 
   alias ExShop.Zone
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated, key: :admin
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleAdminUnauthenticated, key: :admin
 
   plug :scrub_params, "zone" when action in [:create, :update]
 
