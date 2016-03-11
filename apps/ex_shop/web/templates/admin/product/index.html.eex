@@ -1,5 +1,22 @@
 <h2>Listing products</h2>
 
+<div class="col-md-12">
+  <h3>Search</h3>
+  <%= form_for @search_changeset, @search_action, [method: :get], fn f -> %>
+    <div class="col-md-12">
+      <div class="form-group">
+        <%= label f, :name, class: "control-label" %>
+        <%= text_input f, :name, class: "form-control" %>
+        <%= error_tag f, :name %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= submit "Submit", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
+
 <%= link "New product", to: admin_product_path(@conn, :new) %>
 
 <table class="table">
