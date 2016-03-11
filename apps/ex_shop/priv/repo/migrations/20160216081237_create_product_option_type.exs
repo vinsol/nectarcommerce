@@ -11,5 +11,6 @@ defmodule ExShop.Repo.Migrations.CreateProductOptionType do
     create index(:product_option_types, [:product_id])
     create index(:product_option_types, [:option_type_id])
 
+    create unique_index(:product_option_types, [:product_id, :option_type_id], name: :unique_product_option_types_index)
   end
 end
