@@ -37,7 +37,16 @@
         <%= link "Settings", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
         <ul class="dropdown-menu">
           <li role="presentation">
-            <a href="/admin/settings/general/edit">General</a>
+            <li role="presentation" class='<%= active_on_current(@conn, "/admin/settings/general/edit") %>'>
+              <a href="/admin/settings/general/edit">General</a>
+            </li>
+
+            <li role="presentation" class='<%= active_on_current(@conn, admin_setting_path(@conn, :shipping_method_settings)) %>'>
+              <%= link "Shipping", to: admin_setting_path(@conn, :shipping_method_settings)%>
+            </li>
+            <li role="presentation" class='<%= active_on_current(@conn, admin_setting_path(@conn, :payment_method_settings)) %>'>
+              <%= link "Payment", to: admin_setting_path(@conn, :payment_method_settings)%>
+            </li>
           </li>
         </ul>
       </li>

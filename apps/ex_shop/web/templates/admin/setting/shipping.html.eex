@@ -1,0 +1,12 @@
+<%= form_for @conn, admin_setting_path(@conn, :shipping_method_settings), [as: :shipping_methods], fn f ->%>
+  <%= for shipping_method <- @shipping_methods do %>
+    <div class="form-group">
+      <%= inputs_for f, :shipping_method,[as: :shipping_method, id: shipping_method.id], fn pm -> %>
+        <%= label f, :enabled, shipping_method.name, class: "form-label", name: "shipping_methods[#{shipping_method.id}][enabled]" %>
+      <%= hidden_input f, :id,  value: shipping_method.id, name: "shipping_methods[#{shipping_method.id}][id]" %>
+      <%= checkbox f, :enabled, value: shipping_method.enabled, class: "form-control", name: "shipping_methods[#{shipping_method.id}][enabled]" %>
+      <% end %>
+    </div>
+  <% end %>
+  <%= submit "Save" %>
+<% end %>
