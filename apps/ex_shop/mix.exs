@@ -44,7 +44,7 @@ defmodule ExShop.Mixfile do
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.1"},
       {:guardian, "~> 0.9.0"},
-      {:nested_set, "~> 0.0.1"},
+      {:nested_set, "~> 0.0.2"},
       {:worldly, in_umbrella: true}
     ]
   end
