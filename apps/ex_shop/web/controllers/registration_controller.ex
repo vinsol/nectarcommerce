@@ -15,8 +15,9 @@ defmodule ExShop.RegistrationController do
     changeset = Registration.user_changeset(%User{}, registration_params)
 
     case Repo.insert(changeset) do
-      {:ok, _registration} ->
+      {:ok, user} ->
         conn
+        |> Guardian.Plug.sign_in(user)
         |> put_flash(:info, "User registered successfully.")
         |> redirect(to: home_path(conn, :index))
       {:error, changeset} ->

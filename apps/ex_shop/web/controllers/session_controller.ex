@@ -15,7 +15,6 @@ defmodule ExShop.SessionController do
     changeset = User.changeset(%User{}, user_params)
     case Session.user_login(changeset, Repo) do
       {:ok, user} ->
-        IO.inspect user
         conn
         |> Guardian.Plug.sign_in(user)
         |> put_flash(:info, "Signed In Succesfully")

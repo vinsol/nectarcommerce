@@ -1,3 +1,5 @@
+<%= link "Orders", to: order_path(@conn, :index) %>
+
 <div class="panel">
   <div class="panel-body">
     <h5>Status: The order is in <strong style="text-transform: uppercase"><%= @order.state %></strong> state with the total cost of <%= @order.total %></h5>

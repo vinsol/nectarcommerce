@@ -44,7 +44,7 @@ defmodule ExShop.CheckoutController do
     order = conn.assigns.current_order |> Repo.preload([:line_items])
     case order.line_items do
       [] -> redirect(conn, to: cart_path(conn, :show))
-       _ -> conn
+      _ -> conn
     end
   end
 
