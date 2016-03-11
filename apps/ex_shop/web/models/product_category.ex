@@ -27,6 +27,7 @@ defmodule ExShop.ProductCategory do
   def from_product_changeset(model, params \\ :empty) do
     cast(model, params, ~w(category_id), ~w(delete))
     |> set_delete_action
+    |> unique_constraint(:category_id, name: :unique_product_category)
   end
 
   def set_delete_action(changeset) do

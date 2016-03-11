@@ -51,7 +51,7 @@ defmodule ExShop.SessionController do
       delete_session(conn, :next_page)
       next_page
     else
-      page_path(conn, :index)
+      home_path(conn, :index)
     end
   end
 end
