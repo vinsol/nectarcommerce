@@ -39,6 +39,7 @@ defmodule ExShop.Category do
   def with_associated_products do
     from cat in ExShop.Category,
     join: p_cat in assoc(cat, :product_categories),
-    select: cat
+    select: cat,
+    distinct: cat.id
   end
 end
