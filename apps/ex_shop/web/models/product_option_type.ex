@@ -27,6 +27,7 @@ defmodule ExShop.ProductOptionType do
   def from_product_changeset(model, params \\ :empty) do
     cast(model, params, ~w(option_type_id), ~w(delete))
     |> set_delete_action
+    |> unique_constraint(:option_type_id, name: :unique_product_option_types_index)
   end
 
   def set_delete_action(changeset) do
