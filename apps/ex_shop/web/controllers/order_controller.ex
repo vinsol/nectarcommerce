@@ -4,7 +4,7 @@ defmodule ExShop.OrderController do
 
   alias ExShop.Order
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
+  plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleUnauthenticated
 
   def index(conn, _params, current_user, _claims) do
     # Show only confirmed orders
@@ -40,12 +40,5 @@ defmodule ExShop.OrderController do
         |> redirect(to: admin_order_path(conn, :index))
         |> halt()
     end
-  end
-
-  def unauthenticated(conn, _params) do
-    conn
-    |> put_flash(:error, "Please login before checking orders")
-    |> put_session(:next_page, cart_path(conn, :show))
-    |> redirect(to: session_path(conn, :new))
   end
 end

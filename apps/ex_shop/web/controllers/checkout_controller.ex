@@ -32,8 +32,10 @@ defmodule ExShop.CheckoutController do
     end
   end
 
+  # As its doing more than redirection
+  # and handles unathenticated than general
+  # so not using Common AuthModule for handling
   def unauthenticated(conn, _params) do
-    order = conn.assigns.current_order
     conn
     |> put_flash(:error, "Please login before continuing checkout")
     |> put_session(:next_page, cart_path(conn, :show))
