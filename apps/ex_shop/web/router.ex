@@ -32,7 +32,7 @@ defmodule ExShop.Router do
     resources "/sessions", SessionController, only: [:new, :create]
     delete "/logout", SessionController, :logout
 
-    resources "/orders", OrderController, only: [:show]
+    resources "/orders", OrderController, only: [:index, :show]
 
 
     get "/", PageController, :index
