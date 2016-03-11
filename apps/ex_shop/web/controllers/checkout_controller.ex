@@ -4,6 +4,7 @@ defmodule ExShop.CheckoutController do
   alias ExShop.Order
 
   plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
+  plug :go_back_to_cart_if_empty when action in [:checkout, :next, :back]
 
   def checkout(conn, _params) do
     order = conn.assigns.current_order
@@ -37,6 +38,14 @@ defmodule ExShop.CheckoutController do
     |> put_flash(:error, "Please login before continuing checkout")
     |> put_session(:next_page, cart_path(conn, :show))
     |> redirect(to: session_path(conn, :new))
+  end
+
+  def go_back_to_cart_if_empty(conn, _params) do
+    order = conn.assigns.current_order |> Repo.preload([:line_items])
+    case order.line_items do
+      [] -> redirect(conn, to: cart_path(conn, :show))
+      true -> conn
+    end
   end
 
 end
