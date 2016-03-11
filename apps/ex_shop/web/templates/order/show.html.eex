@@ -1,0 +1,89 @@
+<div class="panel">
+  <div class="panel-body">
+    <h5>Status: The order is in <strong style="text-transform: uppercase"><%= @order.state %></strong> state with the total cost of <%= @order.total %></h5>
+  </div>
+</div>
+
+<h4>Line Items</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <td>Product Name</td>
+      <td>Quantity</td>
+      <td>Cost Per Product</td>
+      <td>Total</td>
+      <td>Fullfilled</td>
+    </tr>
+  </thead>
+  <tbody id="line_items">
+    <%= for line_item <- @order.line_items do %>
+      <tr>
+        <td><%= link line_item_display_name(line_item), to: product_path(@conn, :show, line_item.variant.product), target: "_blank" %></td>
+        <td><%= line_item.quantity %></td>
+        <td><%= line_item.variant.cost_price %></td>
+        <td><%= line_item.total %></td>
+        <td>
+          <%= if line_item.fullfilled do %>
+            <strong>fullfilled</strong>
+          <% else %>
+            <strong>cancelled</strong>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= if @order.shipping do %>
+  <h4>Shipping Method</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <td>Name</td>
+        <td>Cost</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%=  @order.shipping.shipping_method.name %></td>
+        <td><%=  @order.shipping.adjustment.amount %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+
+<%= if @order.payment do %>
+  <h4>Payment Method</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <td>Name</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%=  @order.payment.payment_method.name %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>
+
+<h4>Taxes</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <td>Name</td>
+      <td>Amount</td>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for adjustment <- @order.adjustments do %>
+      <%= if adjustment.tax_id do %>
+        <tr>
+          <td><%=  adjustment.tax.name %></td>
+          <td><%=  adjustment.amount %></td>
+        </tr>
+      <% end %>
+    <%= end %>
+  </tbody>
+</table>
