@@ -1,0 +1,10 @@
+<%= inputs_for @f, :product_categories, fn po -> %>
+<div class="product_categories">
+  <div class="form-group">
+    <%= label po, :category_id, class: "control-label" %>
+    <%= select po, :category_id, @categories, class: "form-control" %>
+    <%= error_tag po, :category_id %>
+  </div>
+  <%= link "Remove", to: "#", id: "delete_product_category" %>
+</div>
+<% end %>

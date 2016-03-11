@@ -9,6 +9,7 @@
         <%= link "Products", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
         <ul class="dropdown-menu">
           <li><%= link "Option Types", to: admin_option_type_path(@conn, :index) %></li>
+          <li><%= link "Categories", to: admin_category_path(@conn, :index) %></li>
           <li><%= link "Products", to: admin_product_path(@conn, :index) %></li>
         </ul>
       </li>
