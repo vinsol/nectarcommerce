@@ -5,7 +5,8 @@ defmodule ExShop.ProductController do
 
   def index(conn, _params) do
     products = ExShop.Repo.all(ExShop.Product.products_with_master_variant)
-    render conn, "index.html", products: products
+    categories = ExShop.Repo.all(ExShop.Category.with_associated_products)
+    render conn, "index.html", products: products, categories: categories
   end
 
   def show(conn, %{"id" => id}) do

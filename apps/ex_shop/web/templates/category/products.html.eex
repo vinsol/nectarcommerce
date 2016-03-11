@@ -1,0 +1,1 @@
+<%= ExShop.ProductView.render("index.html", products: @products, categories: @categories, conn: @conn) %>

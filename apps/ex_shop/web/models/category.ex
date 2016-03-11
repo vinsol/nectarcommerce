@@ -7,6 +7,7 @@ defmodule ExShop.Category do
     has_many :children, ExShop.Category, foreign_key: :parent_id
 
     has_many :product_categories, ExShop.ProductCategory
+    has_many :products, through: [:product_categories, :product]
 
     timestamps
   end
@@ -33,5 +34,12 @@ defmodule ExShop.Category do
   def leaf_categories do
     parent_ids = ExShop.Repo.all(from cat in ExShop.Category, where: not is_nil(cat.parent_id), select: cat.parent_id)
     leaf = (from cat in ExShop.Category, where: not cat.id in ^parent_ids)
+  end
+
+  def with_associated_products do
+    from cat in ExShop.Category,
+    join: p_cat in assoc(cat, :product_categories),
+    select: cat,
+    distinct: cat.id
   end
 end

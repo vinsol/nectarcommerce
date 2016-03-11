@@ -27,27 +27,28 @@ defmodule ExShop.Router do
 
     pipe_through [:browser, :browser_auth] # Use the default browser stack
 
-    get "/", PageController, :index
     resources "/registrations", RegistrationController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create]
     delete "/logout", SessionController, :logout
 
     resources "/orders", OrderController, only: [:show]
 
-
-    get "/", PageController, :index
   end
 
   # all actions where the user's cart is required go here.
   # note: if cart is not present it will create and link a new one.
   scope "/", ExShop do
     pipe_through [:browser, :browser_auth, ExShop.Plugs.Cart]
+    get "/", ProductController, :index, as: :home
     get "/cart", CartController, :show
     resources "/products", ProductController, only: [:show, :index]
     resources "/line_items", LineItemController, only: [:create, :delete]
     get "/checkout",      CheckoutController, :checkout
     put "/checkout/next", CheckoutController, :next
     put "/checkout/back", CheckoutController, :back
+    resources "categories", CategoryController do
+      get "/products", CategoryController, :associated_products, as: :products
+    end
   end
 
   scope "/admin", ExShop.Admin, as: :admin do
