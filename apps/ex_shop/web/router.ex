@@ -79,6 +79,12 @@ defmodule ExShop.Router do
     end
 
     resources "/settings", SettingController, only: [:edit, :update]
+    get "/settings/payment", SettingController,  :payment_method_settings
+    get "/settings/shipping", SettingController, :shipping_method_settings
+    post "/settings/payment", SettingController,  :update_payment_method_settings
+    post "/settings/shipping", SettingController, :update_shipping_method_settings
+
+
     resources "/sessions", SessionController, only: [:new, :create]
     delete "/logout", SessionController, :logout
 

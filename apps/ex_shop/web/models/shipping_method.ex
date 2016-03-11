@@ -3,8 +3,9 @@ defmodule ExShop.ShippingMethod do
 
   schema "shipping_methods" do
     field :name
-    has_many :shippings, ExShop.Shipping
+    field :enabled, :boolean, default: false
 
+    has_many :shippings, ExShop.Shipping
     field :shipping_cost, :decimal, virtual: true, default: Decimal.new("0")
 
     timestamps
@@ -18,5 +19,21 @@ defmodule ExShop.ShippingMethod do
     |> cast(params, @required_fields, @optional_fields)
   end
 
+  def enabled_shipping_methods do
+    from shipp in ExShop.ShippingMethod,
+    where: shipp.enabled
+  end
+
+  def enable(shipping_method_ids) do
+    from shipping in ExShop.ShippingMethod,
+    where: shipping.id in ^shipping_method_ids,
+    update: [set: [enabled: true]]
+  end
+
+  def disable_other_than(shipping_method_ids) do
+    from shipping in ExShop.ShippingMethod,
+    where: not shipping.id in ^shipping_method_ids,
+    update: [set: [enabled: false]]
+  end
 
 end
