@@ -15,6 +15,7 @@ defmodule ExShop.SearchProduct do
   def search(params) do
     Product
       |> search_name(params)
+      |> search_description(params)
   end
 
   defp search_name(queryable, %{"name" => name}) when (is_nil(name) or name == "") do
@@ -23,5 +24,19 @@ defmodule ExShop.SearchProduct do
   defp search_name(queryable, %{"name" => name}) do
     from p in queryable,
       where: ilike(p.name, ^("%#{name}%"))
+  end
+  defp search_name(queryable, params) do
+    queryable
+  end
+
+  defp search_description(queryable, %{"description" => description}) when (is_nil(description) or description == "") do
+    queryable
+  end
+  defp search_description(queryable, %{"description" => description}) do
+    from p in queryable,
+      where: ilike(p.description, ^("%#{description}%"))
+  end
+  defp search_description(queryable, params) do
+    queryable
   end
 end

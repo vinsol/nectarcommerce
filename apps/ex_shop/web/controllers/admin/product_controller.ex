@@ -11,11 +11,17 @@ defmodule ExShop.Admin.ProductController do
   plug :scrub_params, "product" when action in [:create, :update]
   plug :load_categories_and_option_types when action in [:create, :new, :edit, :update]
 
-  def index(conn, params) do
-    %{"search_product" => search_params} = params
+  def index(conn, %{"search_product" => search_params} = params) do
     products = Repo.all(SearchProduct.search(search_params))
     render(conn, "index.html", products: products,
       search_changeset: SearchProduct.changeset(%SearchProduct{}, search_params),
+      search_action: admin_product_path(conn, :index)
+    )
+  end
+  def index(conn, _params) do
+    products = Repo.all(Product)
+    render(conn, "index.html", products: products,
+      search_changeset: SearchProduct.changeset(%SearchProduct{}),
       search_action: admin_product_path(conn, :index)
     )
   end
