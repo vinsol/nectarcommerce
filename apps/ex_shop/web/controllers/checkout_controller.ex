@@ -16,6 +16,8 @@ defmodule ExShop.CheckoutController do
     case CheckoutManager.next(order, order_params) do
       {:error, updated_changeset} ->
         render(conn, "checkout.html", order: order, changeset: updated_changeset)
+      {:ok, %ExShop.Order{state: "confirmation"} = updated_order} ->
+        redirect(conn, to: order_path(conn, :show, updated_order))
       {:ok, updated_order} ->
         render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(updated_order))
     end
