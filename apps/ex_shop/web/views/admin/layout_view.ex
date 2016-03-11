@@ -6,6 +6,7 @@ defmodule ExShop.Admin.LayoutView do
 
   def active_product_tab(conn) do
     active_on_current(conn, admin_option_type_path(conn, :index)) ||
+    active_on_current(conn, admin_category_path(conn, :index)) ||
     active_on_current(conn, admin_product_path(conn, :index))
   end
 
