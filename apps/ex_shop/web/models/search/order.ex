@@ -1,6 +1,8 @@
 defmodule ExShop.SearchOrder do
   use ExShop.Web, :model
 
+  import Ecto.Query
+
   alias ExShop.Order
 
   defdelegate order_states, to: ExShop.Order, as: :states
@@ -19,8 +21,7 @@ defmodule ExShop.SearchOrder do
   def search(params) do
     Order
       |> search_state(params)
-      |> search_user_email(params)
-      |> search_user_name(params)
+      |> search_user(params)
   end
 
   defp search_state(queryable, %{"state" => state}) when (is_nil(state) or state == "") do
@@ -38,10 +39,7 @@ defmodule ExShop.SearchOrder do
     queryable
   end
   defp search_user_email(queryable, %{"email" => email}) do
-    from o in queryable,
-      left_join: u in assoc(o, :user),
-      where: ilike(u.email, ^("%#{email}%")),
-      where: o.user_id == u.id
+    queryable |> where([_, u], ilike(u.email, ^("%#{email}%")))
   end
   defp search_user_email(queryable, params) do
     queryable
@@ -51,12 +49,20 @@ defmodule ExShop.SearchOrder do
     queryable
   end
   defp search_user_name(queryable, %{"name" => name}) do
-    from o in queryable,
-      left_join: u in assoc(o, :user),
-      where: ilike(u.name, ^("%#{name}%")),
-      where: o.user_id == u.id
+    queryable |> where([_, u], ilike(u.name, ^("%#{name}%")))
   end
   defp search_user_name(queryable, params) do
     queryable
+  end
+
+  defp search_user(queryable, %{"email" => email, "name" => name}) when (is_nil(email) or email == "") and (is_nil(name) or name == "") do
+    queryable
+  end
+  defp search_user(queryable, params) do
+    q = from o in queryable,
+      left_join: u in assoc(o, :user),
+      where: o.user_id == u.id
+
+    q |> search_user_email(params) |> search_user_name(params)
   end
 end
