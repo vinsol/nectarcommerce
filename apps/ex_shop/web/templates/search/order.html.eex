@@ -1,0 +1,22 @@
+<div class="col-md-12">
+  <h3>Search</h3>
+  <%= form_for @search_changeset, @search_action, [method: :get], fn f -> %>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label f, :state, class: "control-label" %>
+        <%= select f, :state, @order_states, prompt: " ", class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label f, :email, class: "control-label" %>
+        <%= text_input f, :email, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= submit "Submit", class: "btn btn-primary" %>
+    </div>
+  <% end %>
+</div>
