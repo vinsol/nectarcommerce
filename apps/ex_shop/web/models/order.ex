@@ -42,6 +42,10 @@ defmodule ExShop.Order do
 
   @states ~w(cart address shipping tax payment confirmation)
 
+  def states do
+    @states
+  end
+
   def confirmed?(%Order{state: "confirmation"}), do: true
   def confirmed?(%Order{state: _}), do: false
 

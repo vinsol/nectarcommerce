@@ -65,7 +65,7 @@
       <%= link "Profile", to: "#",  class: "dropdown-toggle btn btn-danger", "aria-expanded": "false", "data-toggle": "dropdown" %>
         <ul class="dropdown-menu">
           <li role="presentation">
-            <%= link "Welcome #{Guardian.Plug.current_resource(@conn, :admin).email}", to: "#", method: :delete, class: "btn btn-info" %>
+            <%= link "Welcome #{Guardian.Plug.current_resource(@conn, :admin).email}", to: "#", class: "btn" %>
           </li>
           <li role="presentation">
             <%= link "Admin Logout", to: admin_session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %>

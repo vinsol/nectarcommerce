@@ -13,6 +13,9 @@
       </div>
     </div>
   <% end %>
+
+  <%= render ExShop.SearchView, "product.html", search_changeset: @search_changeset, search_action: @search_action %>
+
   <div class="col-md-12">
     <%= for product <- @products do %>
       <%= render "product_card.html", product: product, conn: @conn %>
