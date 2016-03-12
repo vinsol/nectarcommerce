@@ -8,6 +8,7 @@ defmodule ExShop.SearchOrder do
   schema "abstract table:search_order" do
     field :state, :string, virtual: true
     field :email, :string, virtual: true
+    field :name, :string, virtual: true
   end
 
   def changeset(model, params \\ :empty) do
@@ -19,6 +20,7 @@ defmodule ExShop.SearchOrder do
     Order
       |> search_state(params)
       |> search_user_email(params)
+      |> search_user_name(params)
   end
 
   defp search_state(queryable, %{"state" => state}) when (is_nil(state) or state == "") do
@@ -42,6 +44,19 @@ defmodule ExShop.SearchOrder do
       where: o.user_id == u.id
   end
   defp search_user_email(queryable, params) do
+    queryable
+  end
+
+  defp search_user_name(queryable, %{"name" => name}) when (is_nil(name) or name == "") do
+    queryable
+  end
+  defp search_user_name(queryable, %{"name" => name}) do
+    from o in queryable,
+      left_join: u in assoc(o, :user),
+      where: ilike(u.name, ^("%#{name}%")),
+      where: o.user_id == u.id
+  end
+  defp search_user_name(queryable, params) do
     queryable
   end
 end
