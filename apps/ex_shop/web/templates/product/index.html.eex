@@ -1,3 +1,5 @@
+<%= render ExShop.SearchView, "product.html", search_changeset: @search_changeset, search_action: @search_action %>
+
 <%= for product <- @products do %>
   <%= render "product_card.html", product: product, conn: @conn %>
 <% end %>

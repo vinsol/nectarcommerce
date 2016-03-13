@@ -2,10 +2,21 @@ defmodule ExShop.ProductController do
   use ExShop.Web, :controller
 
   alias ExShop.Product
+  alias ExShop.SearchProduct
 
+  def index(conn, %{"search_product" => search_params} = params) do
+    products = Repo.all(SearchProduct.search(Product.products_with_master_variant, search_params))
+    render(conn, "index.html", products: products,
+      search_changeset: SearchProduct.changeset(%SearchProduct{}, search_params),
+      search_action: product_path(conn, :index)
+    )
+  end
   def index(conn, _params) do
-    products = ExShop.Repo.all(ExShop.Product.products_with_master_variant)
-    render conn, "index.html", products: products
+    products = Repo.all(Product.products_with_master_variant)
+    render(conn, "index.html", products: products,
+      search_changeset: SearchProduct.changeset(%SearchProduct{}),
+      search_action: product_path(conn, :index)
+    )
   end
 
   def show(conn, %{"id" => id}) do
