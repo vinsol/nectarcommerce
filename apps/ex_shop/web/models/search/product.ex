@@ -13,7 +13,10 @@ defmodule ExShop.SearchProduct do
   end
 
   def search(params) do
-    Product
+    search(Product, params)
+  end
+  def search(queryable, params) do
+    queryable
       |> search_name(params)
       |> search_description(params)
   end
