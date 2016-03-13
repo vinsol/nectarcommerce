@@ -25,7 +25,7 @@ defmodule ExShop.Admin.OrderController do
     orders =
       Repo.all(from o in Order, order_by: o.id)
     render(conn, "index.html", orders: orders,
-      search_changeset: SearchOrder.changeset(%SearchOrder{}),
+      search_changeset: SearchOrder.changeset(%SearchOrder{end_date: Ecto.Date.utc}),
       search_action: admin_order_path(conn, :index),
       order_states: SearchOrder.order_states,
       payment_methods: Repo.all(from p in ExShop.PaymentMethod, select: {p.name, p.id}),

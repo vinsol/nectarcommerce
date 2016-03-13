@@ -13,6 +13,8 @@ defmodule ExShop.SearchOrder do
     field :name, :string, virtual: true
     field :payment_method, :string, virtual: true
     field :shipment_method, :string, virtual: true
+    field :start_date, Ecto.Date, virtual: true
+    field :end_date, Ecto.Date, virtual: true
   end
 
   def changeset(model, params \\ :empty) do
@@ -23,6 +25,8 @@ defmodule ExShop.SearchOrder do
   def search(params) do
     Order
       |> search_state(params)
+      |> search_from_start_date(params)
+      |> search_till_end_date(params)
       |> search_user(params)
       |> search_payment_method(params)
       |> search_shipment_method(params)
@@ -36,6 +40,36 @@ defmodule ExShop.SearchOrder do
       where: o.state == ^state
   end
   defp search_state(queryable, params) do
+    queryable
+  end
+
+  defp search_from_start_date(queryable, %{"start_date" => start_date}) when (is_nil(start_date) or start_date == "") do
+    queryable
+  end
+  defp search_from_start_date(queryable, %{"start_date" => start_date}) do
+    start_datetime = Map.merge(start_date, %{"hour" => 0, "min" => 0, "sec" => 0})
+    case Ecto.DateTime.cast(start_datetime) do
+      :error -> queryable
+      _ -> from o in queryable,
+        where: o.inserted_at >= ^start_datetime
+    end
+  end
+  defp search_from_start_date(queryable, params) do
+    queryable
+  end
+
+  defp search_till_end_date(queryable, %{"end_date" => end_date}) when (is_nil(end_date) or end_date == "") do
+    queryable
+  end
+  defp search_till_end_date(queryable, %{"end_date" => end_date}) do
+    end_datetime = Map.merge(end_date, %{"hour" => 23, "min" => 59, "sec" => 59})
+    case Ecto.DateTime.cast(end_datetime) do
+      :error -> queryable
+      _ -> from o in queryable,
+        where: o.inserted_at <= ^end_datetime
+    end
+  end
+  defp search_till_end_date(queryable, params) do
     queryable
   end
 

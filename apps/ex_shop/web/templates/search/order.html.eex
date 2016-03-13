@@ -10,6 +10,22 @@
 
     <div class="col-md-6">
       <div class="form-group">
+        <%= label f, :start_date, class: "control-label" %>
+        <%= date_select f, :start_date, class: "form-control" %>
+        <span class="help-block">For all results, please select a very old date</span>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label f, :end_date, class: "control-label" %>
+        <%= date_select f, :end_date, class: "form-control" %>
+        <span class="help-block">For all results, please select a today or future date</span>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
         <%= label f, :email, class: "control-label" %>
         <%= text_input f, :email, class: "form-control" %>
       </div>
