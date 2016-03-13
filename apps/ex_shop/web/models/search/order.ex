@@ -11,6 +11,8 @@ defmodule ExShop.SearchOrder do
     field :state, :string, virtual: true
     field :email, :string, virtual: true
     field :name, :string, virtual: true
+    field :payment_method, :string, virtual: true
+    field :shipment_method, :string, virtual: true
   end
 
   def changeset(model, params \\ :empty) do
@@ -22,6 +24,8 @@ defmodule ExShop.SearchOrder do
     Order
       |> search_state(params)
       |> search_user(params)
+      |> search_payment_method(params)
+      |> search_shipment_method(params)
   end
 
   defp search_state(queryable, %{"state" => state}) when (is_nil(state) or state == "") do
@@ -60,9 +64,32 @@ defmodule ExShop.SearchOrder do
   end
   defp search_user(queryable, params) do
     q = from o in queryable,
-      left_join: u in assoc(o, :user),
-      where: o.user_id == u.id
+      join: u in assoc(o, :user)
 
     q |> search_user_email(params) |> search_user_name(params)
+  end
+
+  defp search_payment_method(queryable, %{"payment_method" => payment_method}) when (is_nil(payment_method) or payment_method == "") do
+    queryable
+  end
+  defp search_payment_method(queryable, %{"payment_method" => payment_method}) do
+    from o in queryable,
+      join: p in assoc(o, :payment),
+      where: p.payment_method_id == ^payment_method
+  end
+  defp search_payment_method(queryable, params) do
+    queryable
+  end
+
+  defp search_shipment_method(queryable, %{"shipment_method" => shipment_method}) when (is_nil(shipment_method) or shipment_method == "") do
+    queryable
+  end
+  defp search_shipment_method(queryable, %{"shipment_method" => shipment_method}) do
+    from o in queryable,
+      join: p in assoc(o, :shipping),
+      where: p.shipping_method_id == ^shipment_method
+  end
+  defp search_shipment_method(queryable, params) do
+    queryable
   end
 end

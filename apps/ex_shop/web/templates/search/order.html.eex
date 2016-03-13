@@ -22,6 +22,20 @@
       </div>
     </div>
 
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label f, :payment_method, class: "control-label" %>
+        <%= select f, :payment_method, @payment_methods, prompt: " ", class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label f, :shipment_method, class: "control-label" %>
+        <%= select f, :shipment_method, @shipping_methods, prompt: " ", class: "form-control" %>
+      </div>
+    </div>
+
     <div class="form-actions">
       <%= submit "Submit", class: "btn btn-primary" %>
     </div>

@@ -1,6 +1,10 @@
 <%= link "New Order", to: admin_cart_path(@conn, :new) %>
 
-<%= render ExShop.SearchView, "order.html", search_changeset: @search_changeset, search_action: @search_action, order_states: @order_states %>
+<%= render ExShop.SearchView, "order.html",
+  search_changeset: @search_changeset, search_action: @search_action,
+  order_states: @order_states, payment_methods: @payment_methods,
+  shipping_methods: @shipping_methods
+%>
 
 <h2>Listing Orders</h2>
 <table class="table">

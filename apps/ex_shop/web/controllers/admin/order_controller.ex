@@ -16,7 +16,9 @@ defmodule ExShop.Admin.OrderController do
     render(conn, "index.html", orders: orders,
       search_changeset: SearchOrder.changeset(%SearchOrder{}, search_params),
       search_action: admin_order_path(conn, :index),
-      order_states: SearchOrder.order_states
+      order_states: SearchOrder.order_states,
+      payment_methods: Repo.all(from p in ExShop.PaymentMethod, select: {p.name, p.id}),
+      shipping_methods: Repo.all(from p in ExShop.ShippingMethod, select: {p.name, p.id})
     )
   end
   def index(conn, _params) do
@@ -25,7 +27,9 @@ defmodule ExShop.Admin.OrderController do
     render(conn, "index.html", orders: orders,
       search_changeset: SearchOrder.changeset(%SearchOrder{}),
       search_action: admin_order_path(conn, :index),
-      order_states: SearchOrder.order_states
+      order_states: SearchOrder.order_states,
+      payment_methods: Repo.all(from p in ExShop.PaymentMethod, select: {p.name, p.id}),
+      shipping_methods: Repo.all(from p in ExShop.ShippingMethod, select: {p.name, p.id})
     )
   end
 
