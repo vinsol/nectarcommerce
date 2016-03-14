@@ -1,14 +1,37 @@
 <%= if cart_empty?(@order) do %>
   <h4>Your cart seems to be empty. Please visit product catalog to add some products to it <%= link "Products", to: product_path(@conn, :index) %></h4>
 <% else %>
-  <ul>
-    <%= for line_item <- @order.line_items do %>
-      <li><%= line_item.variant.product.name %><%= ExShop.Admin.VariantView.variant_options_text(line_item.variant) %> X <%= line_item.quantity %> = <%= line_item.total %></li>
-      <%= link "Delete", to: line_item_path(@conn, :delete, line_item), method: :delete, data: [confirm: "Are you sure?"] %>
-    <% end %>
-  </ul>
-  <h5>total: <%= ExShop.Order.product_total(@order) %></h5>
-  <%= link "Continue Shopping", to: product_path(@conn, :index) %>
-  <%= link "Goto Checkout", to: checkout_path(@conn, :checkout) %>
+  <table class="table" id="cart">
+    <thead>
+      <tr class="active">
+        <th colspan="2">Item</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="line_items">
+      <%= for line_item <- @order.line_items do %>
+        <tr>
+          <td colspan="2"><%= line_item.variant.product.name %><%= ExShop.Admin.VariantView.variant_options_text(line_item.variant) %></td>
+          <td><%= line_item.variant.cost_price %></td>
+          <td><%= line_item.quantity %></td>
+          <td><%= line_item.total %></td>
+          <td><%= link "Delete", to: line_item_path(@conn, :delete, line_item), method: :delete, data: [confirm: "Are you sure?"] %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td colspan="2"></td>
+        <td></td>
+        <td></td>
+        <td><strong>Total</strong></td>
+        <td><strong><%= ExShop.Order.product_total(@order) %></strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <%= link "Continue Shopping", to: product_path(@conn, :index), class: "btn btn-primary" %>
+  <%= link "Goto Checkout", to: checkout_path(@conn, :checkout), class: "btn btn-primary" %>
 
 <% end %>
