@@ -86,9 +86,9 @@ defmodule ExShop.Order do
   def move_back_to_cart_state(order) do
     ExShop.Repo.transaction(fn ->
       order
-      |> delete_shippings
-      |> delete_tax_adjustments
       |> delete_payments
+      |> delete_tax_adjustments
+      |> delete_shippings
       |> delete_addresses
       |> cast(%{state: "cart"}, ~w(state), ~w())
       |> ExShop.Repo.update!
@@ -98,9 +98,9 @@ defmodule ExShop.Order do
   def move_back_to_address_state(order) do
     ExShop.Repo.transaction(fn ->
       order
-      |> delete_shippings
-      |> delete_tax_adjustments
       |> delete_payments
+      |> delete_tax_adjustments
+      |> delete_shippings
       |> cast(%{state: "address"}, ~w(state), ~w())
       |> ExShop.Repo.update!
     end)
@@ -110,7 +110,6 @@ defmodule ExShop.Order do
     ExShop.Repo.transaction(fn ->
       order
       |> delete_payments
-      |> delete_shippings
       |> cast(%{state: "shipping"}, ~w(state), ~w())
       |> ExShop.Repo.update!
     end)

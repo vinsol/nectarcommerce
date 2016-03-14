@@ -2,10 +2,13 @@
   <div id="payment-form">
     <%= form_for @changeset, @action, fn f -> %>
       <h4>Select your payment method</h4>
+      <%= error_tag f, :payment %>
       <%= for method <- @changeset.model.applicable_payment_methods do %>
-        <div>
-          <h4><%= method.name %></h4>
-          <input name="order[payment][payment_method_id]" type="checkbox" value="<%= method.id %>"/>
+        <div class="well payment-form" data-for="<%= method.name %>">
+          <div class="form-group">
+            <h4><%= method.name %></h4>
+            <input name="order[payment][payment_method_id]" type="checkbox" value="<%= method.id %>"/>
+          </div>
           <%= render_existing @view_module, "payment.#{method.name}.html", f: f, error_in_payment_method: error_in_payment_method?(@changeset, method.id) %>
         </div>
       <% end %>
