@@ -110,7 +110,6 @@ defmodule ExShop.Order do
     ExShop.Repo.transaction(fn ->
       order
       |> delete_payments
-      |> delete_tax_adjustments
       |> cast(%{state: "shipping"}, ~w(state), ~w())
       |> ExShop.Repo.update!
     end)
