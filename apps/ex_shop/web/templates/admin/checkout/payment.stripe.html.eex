@@ -1,4 +1,4 @@
-<div class="credit-cart col-md-6">
+<div class="credit-cart well">
   <%= if @error_in_payment_method do %>
     <%= error_tag @f, :payment %>
   <% end %>
