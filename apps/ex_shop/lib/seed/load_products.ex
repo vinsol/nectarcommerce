@@ -49,10 +49,9 @@ defmodule Seed.LoadProducts do
     variant_3_data = Map.merge(@variant_three_data,
                                %{variant_option_values: [
                                     %{option_type_id: option_type.id,
-                                      option_value_id: List.last(option_type.option_values).id}
+                                      option_value_id: List.first(Enum.drop(option_type.option_values, 1)).id}
                                   ]
                                 })
-
 
     product
     |> Ecto.build_assoc(:variants)
@@ -71,8 +70,9 @@ defmodule Seed.LoadProducts do
   end
 
   @option_value_1 %{name: "Large", presentation: "L"}
-  @option_value_2 %{name: "Small", presentation: "S"}
-  @option_type    %{name: "Size", presentation: "Size", option_values: [@option_value_1, @option_value_2]}
+  @option_value_2 %{name: "Medium", presentation: "M"}
+  @option_value_3 %{name: "Small", presentation: "S"}
+  @option_type    %{name: "Size", presentation: "Size", option_values: [@option_value_1, @option_value_2, @option_value_3]}
   defp seed_option_type_and_values do
     OptionType.changeset(%OptionType{}, @option_type)
     |> Repo.insert!

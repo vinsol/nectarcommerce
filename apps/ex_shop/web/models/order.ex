@@ -244,7 +244,7 @@ defmodule ExShop.Order do
   end
 
   def cart_empty?(%ExShop.Order{} = order) do
-    ExShop.Repo.all(from ln in assoc(order, :line_items), select: count(ln.id)) > 0
+    ExShop.Repo.one(from ln in assoc(order, :line_items), select: count(ln.id)) == 0
   end
 
   def shipping_total(model) do
