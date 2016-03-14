@@ -9,7 +9,7 @@ defmodule ExShop.Gateway.Stripe do
   def authorize(order, card_details) do
     billing_address = get_billing_address(order)
     card =  get_card(card_details)
-    case Billing.authorize(:stripe, order.total,
+    case Billing.authorize(:stripe, String.to_float(Decimal.to_string(order.total)),
                       card,
                       billing_address: billing_address,
                       description: "Order No. #{order.id}") do
