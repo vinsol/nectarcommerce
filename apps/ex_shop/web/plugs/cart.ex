@@ -29,7 +29,14 @@ defmodule ExShop.Plugs.Cart do
 
   # guest logged in, link the cart to the user
   defp assign_cart_to_session_and_user(conn, user, %ExShop.Order{user_id: nil} = order) do
-    updated_order = ExShop.Order.link_to_user_changeset(order, %{user_id: user.id}) |> ExShop.Repo.update!
+    # load previous order only if cart in current session is empty
+    previous_order = if ExShop.Order.cart_empty? order do
+      ExShop.Order.current_order(user)
+    else
+      nil
+    end
+    # Use the previous order only assign the blank cart if it is nil.
+    updated_order = previous_order || ExShop.Order.link_to_user_changeset(order, %{user_id: user.id}) |> ExShop.Repo.update!
     conn
     |> assign(:current_order, updated_order)
   end

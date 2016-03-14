@@ -237,6 +237,10 @@ defmodule ExShop.Order do
     |> Enum.any?
   end
 
+  def cart_empty?(%ExShop.Order{} = order) do
+    ExShop.Repo.all(from ln in assoc(order, :line_items), select: count(ln.id)) > 0
+  end
+
   def shipping_total(model) do
     ExShop.Repo.one(
       from shipping_adj in assoc(model, :adjustments),
