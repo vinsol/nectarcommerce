@@ -62,6 +62,12 @@ defmodule ExShop.Order do
     |> cast(params, ~w(state user_id), ~w())
   end
 
+  def cart_update_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(), ~w())
+    |> cast_assoc(:line_items, with: &ExShop.LineItem.direct_quantity_update_changeset/2)
+  end
+
   def link_to_user_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(user_id), ~w())
@@ -235,6 +241,10 @@ defmodule ExShop.Order do
   def can_be_fullfilled?(%ExShop.Order{} = order) do
     ExShop.Repo.all(from ln in assoc(order, :line_items), select: ln.fullfilled)
     |> Enum.any?
+  end
+
+  def cart_empty?(%ExShop.Order{} = order) do
+    ExShop.Repo.all(from ln in assoc(order, :line_items), select: count(ln.id)) > 0
   end
 
   def shipping_total(model) do
