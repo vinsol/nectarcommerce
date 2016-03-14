@@ -13,6 +13,8 @@ defmodule ExShop.LineItem do
     field :quantity, :integer
     field :total, :decimal
     field :fullfilled, :boolean, default: true
+
+    field :delete, :boolean, virtual: true
     timestamps
   end
 
@@ -56,17 +58,30 @@ defmodule ExShop.LineItem do
     model
     |> cast(params, ~w(), ~w(fullfilled add_quantity))
     |> add_to_existing_quantity
+    |> quantity_update(params)
+  end
+
+  def direct_quantity_update_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(quantity), ~w(delete))
+    |> quantity_update(params)
+    |> set_delete_action
+  end
+
+  defp quantity_update(changeset, params) do
+    changeset
     |> validate_number(:quantity, greater_than: 0)
     |> preload_assoc
     |> validate_product_availability
     |> update_total_changeset(params)
   end
 
+  defp update_total_changeset(model, :empty), do: model
   defp update_total_changeset(model, params) do
     quantity = get_field(model, :quantity)
     variant  = get_field(model, :variant)
     cost = Decimal.mult(Decimal.new(quantity), variant.cost_price)
-    cast(model, Map.merge(params, %{total: cost}), ~w(total), ~w())
+    put_change(model, :total, cost)
   end
 
   defp add_to_existing_quantity(changeset) do
@@ -125,6 +140,11 @@ defmodule ExShop.LineItem do
     sufficient_quantity_available?(line_item, requested_quantity)
   end
 
+  def sufficient_quantity_available?(%ExShop.LineItem{} = line_item, nil) do
+    available_product_quantity = line_item.variant |> Variant.available_quantity
+    {true, available_product_quantity}
+  end
+
   def sufficient_quantity_available?(%ExShop.LineItem{} = line_item, requested_quantity) do
     available_product_quantity = line_item.variant |> Variant.available_quantity
     {requested_quantity <= available_product_quantity, available_product_quantity}
@@ -177,4 +197,11 @@ defmodule ExShop.LineItem do
     end
   end
 
+  defp set_delete_action(changeset) do
+    if get_change(changeset, :delete) do
+      %{changeset| action: :delete}
+    else
+      changeset
+    end
+  end
 end

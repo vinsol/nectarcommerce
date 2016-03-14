@@ -93,8 +93,8 @@ defmodule ExShop.Admin.CheckoutControllerTest do
 
   defp create_shipping_methods do
     shipping_methods = ["regular", "express"]
-    Enum.map(shipping_methods, fn(method_name) ->
-      ExShop.ShippingMethod.changeset(%ExShop.ShippingMethod{}, %{name: method_name})
+    shipping_method_ids = Enum.map(shipping_methods, fn(method_name) ->
+      ExShop.ShippingMethod.changeset(%ExShop.ShippingMethod{}, %{name: method_name, enabled: true})
       |> ExShop.Repo.insert!
     end)
   end
@@ -110,7 +110,7 @@ defmodule ExShop.Admin.CheckoutControllerTest do
   defp create_payment_methods do
     payment_methods = ["cheque", "Call With a card"]
     Enum.map(payment_methods, fn(method_name) ->
-      ExShop.PaymentMethod.changeset(%ExShop.PaymentMethod{}, %{name: method_name})
+      ExShop.PaymentMethod.changeset(%ExShop.PaymentMethod{}, %{name: method_name, enabled: true})
       |> ExShop.Repo.insert!
     end)
   end

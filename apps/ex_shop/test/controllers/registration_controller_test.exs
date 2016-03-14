@@ -13,7 +13,7 @@ defmodule ExShop.RegistrationControllerTest do
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
     conn = post conn, registration_path(conn, :create), registration: @valid_attrs
-    assert redirected_to(conn) == page_path(conn, :index)
+    assert redirected_to(conn) == home_path(conn, :index)
     assert Repo.get_by(User, email: @valid_attrs.email)
   end
 

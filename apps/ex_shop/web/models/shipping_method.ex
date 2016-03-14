@@ -12,7 +12,7 @@ defmodule ExShop.ShippingMethod do
   end
 
   @required_fields ~w(name)
-  @optional_fields ~w()
+  @optional_fields ~w(enabled)
 
   def changeset(model, params \\ :empty) do
     model
