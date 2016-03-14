@@ -40,7 +40,10 @@ defmodule ExShop.Router do
   scope "/", ExShop do
     pipe_through [:browser, :browser_auth, ExShop.Plugs.Cart]
     get "/", ProductController, :index, as: :home
+
     get "/cart", CartController, :show
+    put "/cart", CartController, :update
+
     resources "/products", ProductController, only: [:show, :index]
     resources "/line_items", LineItemController, only: [:create, :delete]
     get "/checkout",      CheckoutController, :checkout

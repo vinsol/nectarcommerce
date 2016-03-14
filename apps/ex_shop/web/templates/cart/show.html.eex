@@ -1,6 +1,7 @@
 <%= if cart_empty?(@order) do %>
   <h4>Your cart seems to be empty. Please visit product catalog to add some products to it <%= link "Products", to: product_path(@conn, :index) %></h4>
 <% else %>
+  <%= form_for @order_changeset, cart_path(@conn, :update), fn f-> %>
   <table class="table" id="cart">
     <thead>
       <tr class="active">
@@ -8,21 +9,21 @@
         <th>Price</th>
         <th>Quantity</th>
         <th>Total</th>
-        <th></th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody id="line_items">
-      <%= for line_item <- @order.line_items do %>
-        <tr>
-          <td colspan="2"><%= line_item.variant.product.name %><%= ExShop.Admin.VariantView.variant_options_text(line_item.variant) %></td>
-          <td><%= line_item.variant.cost_price %></td>
-          <td><%= line_item.quantity %></td>
-          <td><%= line_item.total %></td>
-          <td><%= link "Delete", to: line_item_path(@conn, :delete, line_item), method: :delete, data: [confirm: "Are you sure?"] %></td>
-        </tr>
-      <% end %>
+        <%= inputs_for f, :line_items, fn lf -> %>
+          <tr>
+            <td colspan="2"><%= lf.model.variant.product.name %><%= ExShop.Admin.VariantView.variant_options_text(lf.model.variant) %></td>
+            <td><%= lf.model.variant.cost_price %></td>
+            <td><%= number_input lf, :quantity %><%= error_tag lf, :quantity %></td>
+            <td><%= lf.model.total %></td>
+            <td><%= checkbox lf, :delete %></td>
+          </tr>
+        <% end %>
       <tr>
-        <td colspan="2"></td>
+        <td colspan="2"><%= submit "Update", class: "btn btn-primary" %></td>
         <td></td>
         <td></td>
         <td><strong>Total</strong></td>
@@ -30,6 +31,8 @@
       </tr>
     </tbody>
   </table>
+
+<% end %>
 
   <%= link "Continue Shopping", to: product_path(@conn, :index), class: "btn btn-primary" %>
   <%= link "Goto Checkout", to: checkout_path(@conn, :checkout), class: "btn btn-primary" %>
