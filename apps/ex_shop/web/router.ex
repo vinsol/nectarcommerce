@@ -69,7 +69,7 @@ defmodule ExShop.Router do
 
     resources "/categories", CategoryController
 
-    resources "orders", OrderController, only: [:index, :show] do
+    resources "orders", OrderController, only: [:index, :show, :update, :edit] do
       resources "line_items", LineItemController, only: [:create, :delete] do
         put "/update_fullfillment", LineItemController, :update_fullfillment
       end

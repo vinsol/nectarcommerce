@@ -1,5 +1,5 @@
 defmodule ExShop.Admin.OrderControllerTest do
-	use ExShop.ConnCase
+  use ExShop.ConnCase
 
   alias ExShop.Repo
   alias ExShop.Order

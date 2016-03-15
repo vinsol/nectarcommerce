@@ -71,6 +71,15 @@ defmodule ExShop.Order do
   def link_to_user_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(user_id), ~w())
+    |> validate_order_not_confirmed
+  end
+
+  defp validate_order_not_confirmed(changeset) do
+    if confirmed? changeset.model do
+      add_error(changeset, :order, "Cannot update confirmed order")
+    else
+      changeset
+    end
   end
 
   # cancelling all line items will automatically cancel the order.

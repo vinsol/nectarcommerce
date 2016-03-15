@@ -70,7 +70,7 @@ defmodule ExShop.Admin.UserController do
 
   def all_pending_orders(conn, %{"user_id" => id}) do
     user = Repo.get!(User, id)
-    orders = Repo.all Order.all_abandoned_orders_for(user)
+    orders = Repo.all ExShop.Order.all_abandoned_orders_for(user)
     render(conn, "pending_orders.json",  orders: orders)
   end
 end
