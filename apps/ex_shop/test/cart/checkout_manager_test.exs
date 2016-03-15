@@ -189,6 +189,16 @@ defmodule ExShop.CheckoutManagerTest do
     assert backed_order.state == "tax"
   end
 
+  test "moving back from payment state deletes the payment" do
+    {_, c_addr} = move_cart_to_address_state(setup_cart)
+    {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
+    {_status, c_tax} = move_cart_to_tax_state(c_shipp)
+    {status, c_payment} = move_cart_to_payment_state(c_tax)
+    {:ok, backed_order} = CheckoutManager.back(c_payment)
+    assert backed_order.state == "tax"
+    assert Repo.all(ExShop.Payment.for_order(backed_order)) == []
+  end
+
   test "moving back from tax state goes to shipping state" do
     {_, c_addr} = move_cart_to_address_state(setup_cart)
     {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
@@ -207,6 +217,18 @@ defmodule ExShop.CheckoutManagerTest do
     {:ok, backed_order} = CheckoutManager.back(c_shipp)
     assert backed_order.state == "address"
   end
+
+  test "moving back from shipping state deletes shipping and adjustments" do
+    {_, c_addr} = move_cart_to_address_state(setup_cart)
+    {status, c_shipp} = move_cart_to_shipping_state(c_addr)
+    assert status == :ok
+    assert c_shipp.state == "shipping"
+    {:ok, backed_order} = CheckoutManager.back(c_shipp)
+    assert backed_order.state == "address"
+    assert Repo.all(ExShop.Shipping.for_order(backed_order)) == []
+    assert Repo.all(ExShop.Adjustment.for_order(backed_order)) == []
+  end
+
 
   test "moving back from address state goes to cart state" do
     {status, c_addr} = move_cart_to_address_state(setup_cart)

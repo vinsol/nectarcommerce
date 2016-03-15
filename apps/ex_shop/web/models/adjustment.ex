@@ -18,4 +18,10 @@ defmodule ExShop.Adjustment do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
+
+  def for_order(%ExShop.Order{id: order_id}) do
+    from p in ExShop.Adjustment,
+    where: p.order_id == ^order_id
+  end
+
 end

@@ -64,6 +64,12 @@ defmodule ExShop.LineItemTest do
     assert changeset.errors[:quantity] == "only #{@max_master_quantity} available"
   end
 
+  test "line item with out of stock product" do
+    changeset = create_line_item_with_out_of_stock_product
+    refute changeset.valid?
+    assert changeset.errors[:variant] == "out of stock"
+  end
+
   test "line item with 0 quantity" do
     changeset = create_line_item_with_product_quantity(0)
     refute changeset.valid?
@@ -154,12 +160,20 @@ defmodule ExShop.LineItemTest do
 
   defp create_product_with_variant do
     product = create_product
-    #master_variant = product.master
     product
     |> build_assoc(:variants)
     |> Variant.create_variant_changeset(@valid_variant_attrs)
     |> Repo.insert!
     product
+  end
+
+  defp create_product_with_oos_variant do
+    product = create_product
+    product
+    |> build_assoc(:variants)
+    |> Variant.create_variant_changeset(@valid_variant_attrs)
+    |> Repo.insert!
+    Repo.one(Product.product_with_variants(product.id))
   end
 
   defp create_line_item_with_product(order_id \\ nil) do
@@ -172,6 +186,13 @@ defmodule ExShop.LineItemTest do
     create_product_with_variant.master
     |> Ecto.build_assoc(:line_items)
     |> LineItem.create_changeset(%{order_id: create_order.id})
+  end
+
+  defp create_line_item_with_out_of_stock_product do
+    oos_variant = List.first create_product_with_oos_variant.variants
+    oos_variant
+    |> Ecto.build_assoc(:line_items)
+    |> LineItem.changeset(%{order_id: create_order.id, add_quantity: 3})
   end
 
   defp create_line_item_with_product_quantity(quantity) do
@@ -201,14 +222,6 @@ defmodule ExShop.LineItemTest do
     shipping_methods = ["regular", "express"]
     Enum.map(shipping_methods, fn(method_name) ->
       ExShop.ShippingMethod.changeset(%ExShop.ShippingMethod{}, %{name: method_name})
-      |> ExShop.Repo.insert!
-    end)
-  end
-
-  defp create_taxations do
-    taxes = ["VAT", "GST"]
-    Enum.each(taxes, fn(tax_name) ->
-      ExShop.Tax.changeset(%ExShop.Tax{}, %{name: tax_name})
       |> ExShop.Repo.insert!
     end)
   end

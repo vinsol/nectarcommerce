@@ -1,4 +1,4 @@
-defmodule ExShop.Admin.CheckoutControllerTest do
+defmodule ExShop.CheckoutControllerTest do
   use ExShop.ConnCase
 
   alias ExShop.Repo
@@ -14,32 +14,61 @@ defmodule ExShop.Admin.CheckoutControllerTest do
   end
 
   test "checkout flow", %{conn: conn} do
-    cart = setup_cart
 
-    address_page_conn = get(conn, admin_order_checkout_path(conn, :checkout, cart))
+    cart_page_conn = get(conn, checkout_path(conn, :checkout))
+    cart = setup_cart(cart_page_conn.assigns.current_order) # create cart for user
+
+    address_page_conn = get(conn, checkout_path(cart_page_conn, :checkout))
     assert html_response(address_page_conn, 200) =~ "Address"
 
-
-    shipping_page_conn = put(conn, admin_order_checkout_path(conn, :next, cart), order: valid_address_params)
+    shipping_page_conn = put(conn, checkout_path(conn, :next), order: valid_address_params)
     assert html_response(shipping_page_conn, 200) =~ "Select your shipping method"
 
-    tax_page_conn = put(conn, admin_order_checkout_path(conn, :next, cart), order: valid_shipping_params(cart))
+    tax_page_conn = put(conn, checkout_path(conn, :next), order: valid_shipping_params(cart))
     assert html_response(tax_page_conn, 200) =~ "Confirm"
 
-    payment_page_conn = put(conn, admin_order_checkout_path(conn, :next, cart), order: %{"tax_confirm" => true})
+    payment_page_conn = put(conn, checkout_path(conn, :next), order: %{"tax_confirm" => true})
     assert html_response(payment_page_conn, 200) =~ "Select your payment method"
 
-    confirmation_page_conn = put(conn, admin_order_checkout_path(conn, :next, cart), order: valid_payment_params(cart))
+    confirmation_page_conn = put(conn, checkout_path(conn, :next), order: valid_payment_params(cart))
     assert html_response(confirmation_page_conn, 200) =~ "Confirm"
 
-    order_success_page_conn = put(conn, admin_order_checkout_path(conn, :next, cart), order: %{"confirm" => true})
-    assert html_response(order_success_page_conn, 200) =~ "Order placed successfully"
+    order_success_page_conn = put(conn, checkout_path(conn, :next), order: %{"confirm" => true})
+    assert html_response(order_success_page_conn, 302) =~ "redirected"
   end
+
+  test "checkout flow no payment methods available", %{conn: conn} do
+    cart_page_conn = get(conn, checkout_path(conn, :checkout))
+    cart = setup_cart(cart_page_conn.assigns.current_order, true) # create cart for user
+
+    address_page_conn = get(conn, checkout_path(cart_page_conn, :checkout))
+    assert html_response(address_page_conn, 200) =~ "Address"
+
+    shipping_page_conn = put(conn, checkout_path(conn, :next), order: valid_address_params)
+    assert html_response(shipping_page_conn, 200) =~ "Select your shipping method"
+
+    tax_page_conn = put(conn, checkout_path(conn, :next), order: valid_shipping_params(cart))
+    assert html_response(tax_page_conn, 200) =~ "Confirm"
+
+    payment_page_conn = put(conn, checkout_path(conn, :next), order: %{"tax_confirm" => true})
+    assert html_response(payment_page_conn, 200) =~ "applicable"
+  end
+
+  test "checkout flow no shipping methods available", %{conn: conn} do
+    cart_page_conn = get(conn, checkout_path(conn, :checkout))
+    cart = setup_cart(cart_page_conn.assigns.current_order, true, true) # create cart for user
+
+    address_page_conn = get(conn, checkout_path(cart_page_conn, :checkout))
+    assert html_response(address_page_conn, 200) =~ "Address"
+
+    shipping_page_conn = put(conn, checkout_path(conn, :next), order: valid_address_params)
+    assert html_response(shipping_page_conn, 200) =~ "applicable"
+  end
+
 
   test "checkout flow empty cart", %{conn: conn} do
     cart = setup_cart_without_product
-
-    address_page_conn = get(conn, admin_order_checkout_path(conn, :checkout, cart))
+    address_page_conn = get(conn, checkout_path(conn, :checkout))
     assert address_page_conn.halted
     assert html_response(address_page_conn, 302) =~ "redirected"
   end
@@ -66,8 +95,10 @@ defmodule ExShop.Admin.CheckoutControllerTest do
   }
   @product_attr Map.merge(@product_data, @product_master_variant_data)
 
-  defp setup_cart do
-    cart = setup_cart_without_product
+  defp setup_cart(cart, skip_payments \\ false, skip_shipping_methods \\ false) do
+    unless skip_payments, do: create_payment_methods
+    unless skip_shipping_methods, do: create_shipping_methods
+    create_taxations
     product = create_product
     quantity = 2
     {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => product.id, "quantity" => quantity})
@@ -138,8 +169,8 @@ defmodule ExShop.Admin.CheckoutControllerTest do
   end
 
   defp do_setup(_context) do
-    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
-    conn = guardian_login(admin_user, :token, key: :admin)
+    user = Repo.insert!(%User{name: "NotAdmin", email: "not_admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: false})
+    conn = guardian_login(user)
     {:ok, %{conn: conn}}
   end
 end

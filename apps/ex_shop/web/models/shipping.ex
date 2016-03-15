@@ -23,4 +23,10 @@ defmodule ExShop.Shipping do
     |> cast_assoc(:adjustment)
     |> foreign_key_constraint(:shipping_method_id)
   end
+
+  def for_order(%ExShop.Order{id: order_id}) do
+    from p in ExShop.Shipping,
+    where: p.order_id == ^order_id
+  end
+
 end

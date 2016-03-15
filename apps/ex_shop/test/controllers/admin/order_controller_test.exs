@@ -20,28 +20,6 @@ defmodule ExShop.Admin.OrderControllerTest do
     assert html_response(conn, 200) =~ order.state
   end
 
-  # CART Actions
-  # TODO: implement after integration
-  @tag :pending
-  test "add to cart" do
-    assert false
-  end
-
-  @tag :pending
-  test "remove from cart" do
-    assert false
-  end
-
-  @tag :pending
-  test "update cart quantity" do
-    assert false
-  end
-
-  @tag :pending
-  test "add invalid quantity" do
-    assert false
-  end
-
   defp do_setup(%{nologin: _} = _context) do
     {:ok, %{conn: conn}}
   end

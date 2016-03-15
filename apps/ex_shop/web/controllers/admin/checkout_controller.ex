@@ -37,6 +37,7 @@ defmodule ExShop.Admin.CheckoutController do
       conn
       |> put_flash(:error, "please add some products to cart before continuing")
       |> redirect(to: admin_cart_path(conn, :edit, order))
+      |> halt
     else
       conn
     end
