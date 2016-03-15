@@ -1,0 +1,52 @@
+<h2>Listing variants</h2>
+
+<%= link "All Products", to: admin_product_path(@conn, :index) %>
+|
+<%= link "Product", to: admin_product_path(@conn, :show, @product) %>
+|
+<%= link "New variant", to: admin_product_variant_path(@conn, :new, @product) %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Options</th>
+      <th>Sku</th>
+      <th>Weight</th>
+      <th>Height</th>
+      <th>Width</th>
+      <th>Height</th>
+      <th>Discontinue on</th>
+      <th>Cost price</th>
+      <th>Image</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for variant <- @variants do %>
+    <tr>
+      <td>
+        <%= if variant.is_master do %>
+          <%= "Master Variant" %>
+        <% else %>
+          <%= Enum.map(variant.option_values, fn(x) -> (x.option_type.presentation <>  " - " <> x.presentation) end) |> Enum.join(", ") %>
+        <% end %>
+      </td>
+      <td><%= variant.sku %></td>
+      <td><%= variant.weight %></td>
+      <td><%= variant.height %></td>
+      <td><%= variant.width %></td>
+      <td><%= variant.height %></td>
+      <td><%= variant.discontinue_on %></td>
+      <td><%= variant.cost_price %></td>
+      <td><%= tag(:image, src: Nectar.VariantImage.url({variant.image, variant}, :thumb)) %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: admin_product_variant_path(@conn, :show, @product, variant), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: admin_product_variant_path(@conn, :edit, @product, variant), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: admin_product_variant_path(@conn, :delete, @product, variant), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

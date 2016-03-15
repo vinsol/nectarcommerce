@@ -1,0 +1,41 @@
+<h2>Show product</h2>
+
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-body"><%= @product.name %></div>
+    <div class="panel-body">
+      <%= tag(:image, src: Nectar.VariantImage.url({@product.master.image, @product.master}, :thumb)) %>
+    </div>
+    <div class="panel-footer">
+      <%= @product.description %>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body pull-left">$ <%= @product.master.cost_price %></div>
+    <div class="panel-body pull-left">Total:  <%= @product.master.total_quantity %></div>
+    <div class="panel-body pull-left">Bought: <%= @product.master.bought_quantity %></div>
+    <div class="panel-body pull-left"><%= @product.available_on %></div>
+    <div class="panel-body"><%= @product.discontinue_on %></div>
+  </div>
+  <%= unless Enum.empty? @product.categories do %>
+    <div class="panel panel-default">
+      <div class="panel-heading">Categories</div>
+      <%= for category <- @product.categories do %>
+        <div class="panel-body"><%= category.name %></div>
+      <% end %>
+    </div>
+  <% end %>
+  <%= unless Enum.empty? @product.option_types do %>
+    <div class="panel panel-default">
+      <div class="panel-heading">Option Types</div>
+      <%= for option_type <- @product.option_types do %>
+        <div class="panel-body"><%= option_type.presentation %></div>
+      <% end %>
+    </div>
+    <%= link "Show Variants", to: admin_product_variant_path(@conn, :index, @product) %>
+  <% end %>
+
+</div>
+
+<%= link "Edit", to: admin_product_path(@conn, :edit, @product) %>
+<%= link "Back", to: admin_product_path(@conn, :index) %>

@@ -1,0 +1,35 @@
+<%= link "New product", to: admin_product_path(@conn, :new) %>
+
+<%= render Nectar.SearchView, "product.html", search_changeset: @search_changeset, search_action: @search_action %>
+
+<h2>Listing products</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Available on</th>
+      <th>Discontinue on</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for product <- @products do %>
+    <tr>
+      <td><%= product.name %></td>
+      <td><%= product.description %></td>
+      <td><%= product.available_on %></td>
+      <td><%= product.discontinue_on %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: admin_product_path(@conn, :show, product), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: admin_product_path(@conn, :edit, product), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: admin_product_path(@conn, :delete, product), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Variants", to: admin_product_variant_path(@conn, :index, product), class: "btn btn-default btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

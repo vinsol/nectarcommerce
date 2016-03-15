@@ -1,0 +1,118 @@
+<%= form_for @changeset, @action, [multipart: true], fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+      <%= for {:base,v} <- @changeset.errors do %>
+        <p><%= v %></p>
+      <% end %>
+      <%# Works when changeset has master changes but fails otherwise %>
+      <%# for {:base,v} <- @changeset.changes.master.errors do %>
+        <p><%# v %></p>
+      <%# end %>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :name, class: "control-label" %>
+    <%= text_input f, :name, class: "form-control" %>
+    <%= error_tag f, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :slug, class: "control-label" %>
+    <%= text_input f, :slug, class: "form-control" %>
+    <%= error_tag f, :slug %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :description, class: "control-label" %>
+    <%= textarea f, :description, class: "form-control" %>
+    <%= error_tag f, :description %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :available_on, class: "control-label" %>
+    <%= date_select f, :available_on, class: "form-control" %>
+    <%= error_tag f, :available_on %>
+  </div>
+
+  <%= inputs_for f, :master, [multipart: true], fn m -> %>
+    <div class="form-group">
+      <%= label m, :cost_price, class: "control-label" %>
+      <%= text_input m, :cost_price, class: "form-control" %>
+      <%= error_tag m, :cost_price %>
+    </div>
+
+    <div class="form-group">
+      <%= label m, :add_count,"Add Stock", class: "control-label" %>
+      <%= number_input m, :add_count, class: "form-control" %>
+      <span>Total:  <%= m.data.total_quantity %></span>
+      <span>Bought: <%= m.data.bought_quantity %></span>
+      <%= error_tag m, :add_count %>
+    </div>
+
+    <%= if @changeset.model.id do %>
+      <div class="form-group">
+        <label>Image</label>
+        <%= file_input m, :image, class: "form-control" %>
+        <%= if @product.master.image do %>
+          <%= tag(:image, src: Nectar.VariantImage.url({@product.master.image, @product.master}, :thumb)) %>
+        <% end %>
+        <%= error_tag m, :image %>
+      </div>
+
+      <div class="form-group">
+        <%= label m, :discontinue_on, class: "control-label" %>
+        <%= date_select m, :discontinue_on, class: "form-control" %>
+        <%= error_tag m, :discontinue_on %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= inputs_for f, :product_option_types, fn po -> %>
+    <div class="product_option_type">
+      <div class="form-group">
+        <%= label po, :option_type_id, class: "control-label" %>
+        <%= select po, :option_type_id, @get_option_types, class: "form-control" %>
+        <%= error_tag po, :option_type_id %>
+      </div>
+
+      <%= if po.model.id do %>
+        <div class="form-group">
+            <%= label po, :delete, "Delete?", class: "control-label" %>
+            <%= checkbox po, :delete %>
+        </div>
+      <% else %>
+        <%= link "Remove", to: "#", id: "delete_product_option_type" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div><%= link_to_product_option_types_fields %></div>
+
+  <%= inputs_for f, :product_categories, fn po -> %>
+    <div class="product_categories">
+      <div class="form-group">
+        <%= label po, :category_id, class: "control-label" %>
+        <%= select po, :category_id, @categories, class: "form-control" %>
+        <%= error_tag po, :category_id %>
+      </div>
+
+      <%= if po.model.id do %>
+        <div class="form-group">
+          <%= label po, :delete, "Delete?", class: "control-label" %>
+          <%= checkbox po, :delete %>
+        </div>
+      <% else %>
+        <%= link "Remove", to: "#", id: "delete_product_category" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div><%= link_to_product_category_fields %></div>
+
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>

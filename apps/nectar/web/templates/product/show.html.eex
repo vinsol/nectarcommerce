@@ -1,0 +1,30 @@
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-body"><%= @product.name %></div>
+    <div class="panel-body">
+      <%= tag(:image, src: Nectar.VariantImage.url({@product.master.image, @product.master}, :thumb)) %>
+    </div>
+    <div class="panel-footer">
+      <%= @product.description %>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-body pull-left">$ <%= @product.master.cost_price %></div>
+    <div class="panel-body pull-left">Total:  <%= @product.master.total_quantity %></div>
+    <div class="panel-body pull-left">Bought: <%= @product.master.bought_quantity %></div>
+    <div class="panel-body pull-left"><%= @product.available_on %></div>
+    <div class="panel-body"><%= @product.discontinue_on %></div>
+  </div>
+</div>
+<!-- if no variants use master variant as input -->
+<!-- else use product_variant_options -->
+<%= form_for @conn, line_item_path(@conn, :create), [as: :line_item], fn f -> %>
+  <%= hidden_input f, :product_id, value: @product.id %>
+  <%= number_input f, :quantity, placeholder: "0" %>
+  <%= if only_master_variant?(@product) do %>
+    <%= hidden_input f, :variant_id, value: @product.master.id %>
+  <% else %>
+    <%= select f, :variant_id, product_variant_options(@product), prompt: "Choose your version" %>
+  <% end %>
+  <%= submit "Add to cart" %>
+<% end %>
