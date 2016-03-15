@@ -10,12 +10,10 @@ config :nectar, Nectar.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
-# config :nectar, Nectar.Repo,
-#   adapter: Ecto.Adapters.Postgres,
-#   username: "postgres",
-#   password: "postgres",
-#   database: "nectar_test",
-#   hostname: "localhost",
-#   pool: Ecto.Adapters.SQL.Sandbox
-
-import_config "test.secret.exs"
+ config :nectar, Nectar.Repo,
+   adapter: Ecto.Adapters.Postgres,
+   username: "postgres",
+   password: "",
+   database: "nectar_test",
+   hostname: "localhost",
+   pool: Ecto.Adapters.SQL.Sandbox
