@@ -15,6 +15,7 @@
       <td>State</td>
       <td>Show</td>
       <td>Edit Cart</td>
+      <td>Placed by:</td>
     </tr>
   </thead>
   <tbody>
@@ -29,6 +30,11 @@
         <% else %>
           <td><%= link "Continue", to: admin_order_checkout_path(@conn, :checkout, order), class: "btn btn-default btn-xs" %></td>
           <td><%= link "Goto Cart", to: admin_cart_path(@conn, :edit, order), class: "btn btn-default btn-xs" %></td>
+        <% end %>
+        <%= if order.user_id do %>
+          <td><%= order.user.email  %></td>
+        <% else %>
+          <td><%= link "Associate User", to: admin_order_path(@conn, :edit, order), class: "btn btn-default btn-xs" %></td>
         <% end %>
       </tr>
     <% end %>

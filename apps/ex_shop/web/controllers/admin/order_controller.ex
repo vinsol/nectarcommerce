@@ -4,6 +4,7 @@ defmodule ExShop.Admin.OrderController do
   plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleAdminUnauthenticated, key: :admin
 
   alias ExShop.Order
+  alias ExShop.User
   alias ExShop.Repo
   alias ExShop.LineItem
   alias ExShop.Product
@@ -12,7 +13,7 @@ defmodule ExShop.Admin.OrderController do
   import Ecto.Query
 
   def index(conn, %{"search_order" => search_params} = _params) do
-    orders = Repo.all(SearchOrder.search(search_params))
+    orders = Repo.all(SearchOrder.search(search_params)) |> Repo.preload([:user])
     render(conn, "index.html", orders: orders,
       search_changeset: SearchOrder.changeset(%SearchOrder{}, search_params),
       search_action: admin_order_path(conn, :index),
@@ -22,8 +23,7 @@ defmodule ExShop.Admin.OrderController do
     )
   end
   def index(conn, _params) do
-    orders =
-      Repo.all(from o in Order, order_by: o.id)
+    orders = Repo.all(from o in Order, order_by: o.id) |> Repo.preload([:user])
     render(conn, "index.html", orders: orders,
       search_changeset: SearchOrder.changeset(%SearchOrder{end_date: Ecto.Date.utc}),
       search_action: admin_order_path(conn, :index),
@@ -48,6 +48,26 @@ defmodule ExShop.Admin.OrderController do
         |> put_flash(:info, "Order Not found with id #{id}")
         |> redirect(to: admin_order_path(conn, :index))
         |> halt()
+    end
+  end
+
+  def edit(conn, %{"id" => id}) do
+    order = Repo.get(Order, id)
+    changeset = ExShop.Order.link_to_user_changeset(order)
+    users = Repo.all(from u in User, select: {u.email, u.id})
+    render(conn, "edit.html", users: users, order: order, changeset: changeset)
+  end
+
+  def update(conn, %{"id" => id, "order" => order_params}) do
+    order = Repo.get(Order, id)
+    changeset = ExShop.Order.link_to_user_changeset(order, order_params)
+    case Repo.update changeset do
+      {:ok, _} -> conn |> put_flash(:info, "order updated successfully") |> redirect(to: admin_order_path(conn, :index))
+      {:error, changeset} ->
+        users = Repo.all(from u in User, select: {u.email, u.id})
+        conn
+        |> put_flash(:error, "failed to update the order, please see below for errors")
+        |> render("edit.html", users: users, order: order, changeset: changeset)
     end
   end
 
