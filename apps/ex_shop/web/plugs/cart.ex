@@ -11,7 +11,6 @@ defmodule ExShop.Plugs.Cart do
   end
 
   # conditional clauses for setting the current order
-  defp assign_order_to_session_and_user(conn, user, order)
 
   # guest visiting for for first time
   defp assign_cart_to_session_and_user(conn, nil, nil) do
@@ -50,7 +49,7 @@ defmodule ExShop.Plugs.Cart do
   end
 
   # logged in user continuing with session
-  defp assign_cart_to_session_and_user(conn, user, order) do
+  defp assign_cart_to_session_and_user(conn, _user, order) do
     conn
     |> assign(:current_order, order)
   end

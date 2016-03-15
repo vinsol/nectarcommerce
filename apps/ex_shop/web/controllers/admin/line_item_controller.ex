@@ -30,10 +30,10 @@ defmodule ExShop.Admin.LineItemController do
     |> json(nil)
   end
 
-  def update_fullfillment(conn, %{"order_id" => id, "line_item_id" => line_item_id}) do
+  def update_fullfillment(conn, %{"order_id" => _id, "line_item_id" => line_item_id}) do
     line_item = Repo.get!(LineItem, line_item_id) |> Repo.preload([:variant, :order])
     case LineItem.cancel_fullfillment(line_item) do
-      {:ok, line_item} ->
+      {:ok, _line_item} ->
         conn
         |> put_status(:no_content)
         |> json(nil)

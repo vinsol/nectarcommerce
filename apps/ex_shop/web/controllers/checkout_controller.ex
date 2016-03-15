@@ -1,7 +1,7 @@
 defmodule ExShop.CheckoutController do
   use ExShop.Web, :controller
   alias ExShop.CheckoutManager
-  alias ExShop.Order
+
 
   plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
   plug :go_back_to_cart_if_empty when action in [:checkout, :next, :back]
@@ -27,7 +27,7 @@ defmodule ExShop.CheckoutController do
   def back(conn, _params) do
     order = conn.assigns.current_order
     case CheckoutManager.back(order) do
-      {:ok, updated_order} ->
+      {:ok, _updated_order} ->
         redirect(conn, to: checkout_path(conn, :checkout))
     end
   end

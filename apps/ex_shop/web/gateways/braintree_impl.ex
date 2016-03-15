@@ -3,10 +3,8 @@ defmodule ExShop.Billing.Gateways.BraintreeImpl do
 
   alias Braintree.ClientToken
   alias Braintree.Transaction
-  alias Commerce.Billing.Response
 
-
-  def authorize(amount, nonce, options) do
+  def authorize(amount, nonce, _options) do
     Transaction.sale(%{amount: amount, payment_method_nonce: nonce})
     |> respond
   end

@@ -12,13 +12,13 @@ defmodule ExShop.User.Session do
     login(changeset, repo, false)
   end
 
-  def login(changeset = %{params: %{"email" => email}}, repo, is_admin) when (email == "" or is_nil(email)) do
+  def login(changeset = %{params: %{"email" => email}}, _repo, _is_admin) when (email == "" or is_nil(email)) do
     changeset = changeset
       |> Changeset.add_error(:email, "can't be blank")
 
     {:error, changeset}
   end
-  def login(changeset = %{params: %{"password" => password}}, repo, is_admin) when (password == "" or is_nil(password)) do
+  def login(changeset = %{params: %{"password" => password}}, _repo, _is_admin) when (password == "" or is_nil(password)) do
     changeset = changeset
       |> Changeset.add_error(:password, "can't be blank")
 
@@ -32,7 +32,7 @@ defmodule ExShop.User.Session do
     end
   end
 
-  defp authenticate(changeset, user, password) when user == nil do
+  defp authenticate(changeset, user, _password) when user == nil do
     changeset = changeset
       |> Changeset.add_error(:email, "not found in records or check user/admin login")
     {:error, changeset}

@@ -64,7 +64,7 @@ defmodule ExShop.CheckoutView do
     (!changeset.valid?) && changeset.params["payment"]["payment_method_id"] == to_string(payment_method_id)
   end
 
-  def back_link(conn, %ExShop.Order{state: "cart"} = order) do
+  def back_link(conn, %ExShop.Order{state: "cart"} = _order) do
     link "Back", to: cart_path(conn, :show), class: "btn btn-xs"
   end
 
@@ -72,7 +72,7 @@ defmodule ExShop.CheckoutView do
     ""
   end
 
-  def back_link(conn, %ExShop.Order{} = order) do
+  def back_link(conn, %ExShop.Order{} = _order) do
     link "Back", to: checkout_path(conn, :back), method: "put", class: "btn btn-xs"
   end
 

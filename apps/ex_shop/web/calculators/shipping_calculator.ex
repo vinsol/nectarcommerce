@@ -16,7 +16,7 @@ defmodule ExShop.ShippingCalculator do
     |> Map.drop([:__meta__, :shippings])
   end
 
-  def shipping_cost(method, order) do
+  def shipping_cost(_method, _order) do
     # link this with ETS to allow quick look up once done.
     # will be dispatched to the corresponding worker which either calculates it
     # or returns with a quick lookup

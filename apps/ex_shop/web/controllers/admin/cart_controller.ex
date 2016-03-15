@@ -3,13 +3,9 @@ defmodule ExShop.Admin.CartController do
 
   plug Guardian.Plug.EnsureAuthenticated, handler: ExShop.Auth.HandleAdminUnauthenticated, key: :admin
 
-  alias ExShop.Order
   alias ExShop.Repo
   alias ExShop.LineItem
   alias ExShop.Product
-
-  import Ecto.Query
-
 
   def new(conn, _params) do
     users = ExShop.Repo.all(ExShop.User)

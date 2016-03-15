@@ -28,7 +28,7 @@ defmodule ExShop.SearchProduct do
     from p in queryable,
       where: ilike(p.name, ^("%#{name}%"))
   end
-  defp search_name(queryable, params) do
+  defp search_name(queryable, _params) do
     queryable
   end
 
@@ -39,7 +39,7 @@ defmodule ExShop.SearchProduct do
     from p in queryable,
       where: ilike(p.description, ^("%#{description}%"))
   end
-  defp search_description(queryable, params) do
+  defp search_description(queryable, _params) do
     queryable
   end
 end

@@ -77,7 +77,7 @@ defmodule ExShop.LineItem do
   end
 
   defp update_total_changeset(model, :empty), do: model
-  defp update_total_changeset(model, params) do
+  defp update_total_changeset(model, _params) do
     quantity = get_field(model, :quantity)
     variant  = get_field(model, :variant)
     cost = Decimal.mult(Decimal.new(quantity), variant.cost_price)
@@ -103,7 +103,8 @@ defmodule ExShop.LineItem do
     |> Repo.update!
   end
 
-  def acquire_stock_from_variant(%ExShop.LineItem{variant: variant, quantity: quantity}) do
+  # do not acquire any stock if line item is not fullfilled
+  def acquire_stock_from_variant(%ExShop.LineItem{variant: variant, quantity: _quantity}) do
     variant
   end
 
@@ -113,7 +114,7 @@ defmodule ExShop.LineItem do
     |> Repo.update!
   end
 
-  def restock_variant(%ExShop.LineItem{variant: variant, quantity: quantity}) do
+  def restock_variant(%ExShop.LineItem{variant: variant, quantity: _quantity}) do
     variant
   end
 

@@ -11,7 +11,7 @@ defmodule ExShop.Admin.OrderController do
 
   import Ecto.Query
 
-  def index(conn, %{"search_order" => search_params} = params) do
+  def index(conn, %{"search_order" => search_params} = _params) do
     orders = Repo.all(SearchOrder.search(search_params))
     render(conn, "index.html", orders: orders,
       search_changeset: SearchOrder.changeset(%SearchOrder{}, search_params),

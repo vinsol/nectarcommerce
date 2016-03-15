@@ -4,7 +4,7 @@ defmodule ExShop.ProductController do
   alias ExShop.Product
   alias ExShop.SearchProduct
 
-  def index(conn, %{"search_product" => search_params} = params) do
+  def index(conn, %{"search_product" => search_params} = _params) do
     categories = ExShop.Repo.all(ExShop.Category.with_associated_products)
     products = Repo.all(SearchProduct.search(Product.products_with_master_variant, search_params))
     render(conn, "index.html", products: products, categories: categories,
@@ -12,6 +12,7 @@ defmodule ExShop.ProductController do
       search_action: product_path(conn, :index)
     )
   end
+
   def index(conn, _params) do
     categories = ExShop.Repo.all(ExShop.Category.with_associated_products)
     products = Repo.all(Product.products_with_master_variant)

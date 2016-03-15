@@ -33,7 +33,7 @@ defmodule ExShop.Category do
 
   def leaf_categories do
     parent_ids = ExShop.Repo.all(from cat in ExShop.Category, where: not is_nil(cat.parent_id), select: cat.parent_id)
-    leaf = (from cat in ExShop.Category, where: not cat.id in ^parent_ids)
+    from cat in ExShop.Category, where: not cat.id in ^parent_ids
   end
 
   def with_associated_products do

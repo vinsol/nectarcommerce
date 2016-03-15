@@ -15,11 +15,11 @@ defmodule ExShop.CartController do
       |> Repo.preload([line_items: [variant: [:product, option_values: :option_type]]])
     order_changeset = ExShop.Order.cart_update_changeset(order, order_params)
     case Repo.update order_changeset do
-      {:ok, updated_order} ->
+      {:ok, _updated_order} ->
         conn
         |> put_flash(:success, "updated order succesfully")
         |> redirect(to: cart_path(conn, :show))
-      {:error, changeset} ->
+      {:error, _changeset} ->
         conn
         |> put_flash(:error, "failed to update. Please see the errors below")
         |> render("show.html", order: order, order_changeset: order_changeset)

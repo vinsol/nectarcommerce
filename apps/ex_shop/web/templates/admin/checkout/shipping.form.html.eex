@@ -1,5 +1,5 @@
 <%= if shipping_methods_available? @changeset.model do %>
-  <%= form_for @changeset, @action, fn f -> %>
+  <%= form_for @changeset, @action, fn _ -> %>
     <h4>Select your shipping method</h4>
     <select name="order[shipping][shipping_method_id]">
       <option value="">--Select Shipping Method--</option>

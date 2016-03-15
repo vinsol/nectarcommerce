@@ -2,7 +2,6 @@ defmodule ExShop.CategoryController do
   use ExShop.Web, :controller
 
   alias ExShop.Product
-  alias ExShop.Category
   alias ExShop.SearchProduct
 
   def associated_products(conn, %{"category_id" => id}) do

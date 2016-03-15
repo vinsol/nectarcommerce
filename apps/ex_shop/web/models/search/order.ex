@@ -39,7 +39,7 @@ defmodule ExShop.SearchOrder do
     from o in queryable,
       where: o.state == ^state
   end
-  defp search_state(queryable, params) do
+  defp search_state(queryable, _params) do
     queryable
   end
 
@@ -54,7 +54,7 @@ defmodule ExShop.SearchOrder do
         where: o.inserted_at >= ^start_datetime
     end
   end
-  defp search_from_start_date(queryable, params) do
+  defp search_from_start_date(queryable, _params) do
     queryable
   end
 
@@ -69,7 +69,7 @@ defmodule ExShop.SearchOrder do
         where: o.inserted_at <= ^end_datetime
     end
   end
-  defp search_till_end_date(queryable, params) do
+  defp search_till_end_date(queryable, _params) do
     queryable
   end
 
@@ -79,7 +79,7 @@ defmodule ExShop.SearchOrder do
   defp search_user_email(queryable, %{"email" => email}) do
     queryable |> where([_, u], ilike(u.email, ^("%#{email}%")))
   end
-  defp search_user_email(queryable, params) do
+  defp search_user_email(queryable, _params) do
     queryable
   end
 
@@ -89,7 +89,7 @@ defmodule ExShop.SearchOrder do
   defp search_user_name(queryable, %{"name" => name}) do
     queryable |> where([_, u], ilike(u.name, ^("%#{name}%")))
   end
-  defp search_user_name(queryable, params) do
+  defp search_user_name(queryable, _params) do
     queryable
   end
 
@@ -111,7 +111,7 @@ defmodule ExShop.SearchOrder do
       join: p in assoc(o, :payment),
       where: p.payment_method_id == ^payment_method
   end
-  defp search_payment_method(queryable, params) do
+  defp search_payment_method(queryable, _params) do
     queryable
   end
 
@@ -123,7 +123,7 @@ defmodule ExShop.SearchOrder do
       join: p in assoc(o, :shipping),
       where: p.shipping_method_id == ^shipment_method
   end
-  defp search_shipment_method(queryable, params) do
+  defp search_shipment_method(queryable, _params) do
     queryable
   end
 end

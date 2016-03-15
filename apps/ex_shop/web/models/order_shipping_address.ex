@@ -25,8 +25,8 @@ defmodule ExShop.OrderShippingAddress do
     end
   end
 
-  defp address_id_available?(%{"address_id" => address_id}), do: true
-  defp address_id_available?(params), do: false
+  defp address_id_available?(%{"address_id" => _address_id}), do: true
+  defp address_id_available?(_params), do: false
 
   defp cast_with_address_created_from_params(model, params) do
     case ExShop.Address.changeset(%ExShop.Address{}, params) |> ExShop.Repo.insert do

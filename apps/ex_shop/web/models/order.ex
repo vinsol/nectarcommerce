@@ -308,13 +308,13 @@ defmodule ExShop.Order do
     |> cast_assoc(:shipping, required: true, with: &ExShop.Shipping.applicable_shipping_changeset/2)
   end
 
-  defp shipping_params(order, %{"shipping" => %{"shipping_method_id" => ""}} = params), do: params
+  defp shipping_params(_order, %{"shipping" => %{"shipping_method_id" => ""}} = params), do: params
   defp shipping_params(order, %{"shipping" => shipping_params} = params) do
     shipping_method = ExShop.Repo.get(ExShop.ShippingMethod, shipping_params["shipping_method_id"])
     %{params | "shipping" => %{shipping_method_id: shipping_method.id,
                               adjustment: %{amount: ExShop.ShippingCalculator.shipping_cost(shipping_method, order), order_id: order.id}}}
   end
-  defp shipping_params(order, params), do: params
+  defp shipping_params(_order, params), do: params
 
   # no changes to be made with tax
   def tax_changeset(model, params \\ :empty) do
@@ -363,7 +363,7 @@ defmodule ExShop.Order do
     end
   end
 
-  def current_order(%ExShop.User{id: id} = user) do
+  def current_order(%ExShop.User{} = user) do
     Repo.one(from order in all_abandoned_orders_for(user),
              order_by: [desc: order.updated_at],
              limit: 1)

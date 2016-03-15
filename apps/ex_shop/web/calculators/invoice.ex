@@ -11,7 +11,7 @@ defmodule ExShop.Invoice do
 
   defp create_invoices(%Order{} = _order) do
     payment_methods = Repo.all(ExShop.PaymentMethod.enabled_payment_methods)
-    invoices =  Enum.map(payment_methods, fn(p_method) ->
+    Enum.map(payment_methods, fn(p_method) ->
       p_method
       |> Map.from_struct
       |> Map.drop([:__meta__, :payments])

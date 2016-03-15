@@ -26,7 +26,7 @@ defmodule ExShop.Admin.CheckoutController do
   def back(conn, _params) do
     order = Repo.get!(Order, conn.params["order_id"])
     case CheckoutManager.back(order) do
-      {:ok, updated_order} ->
+      {:ok, _updated_order} ->
         redirect(conn, to: admin_order_checkout_path(conn, :checkout, order))
     end
   end

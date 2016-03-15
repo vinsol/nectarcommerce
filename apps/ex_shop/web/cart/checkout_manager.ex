@@ -66,7 +66,7 @@ defmodule ExShop.CheckoutManager do
   # TODO: move transitions to seperate modules ?
   def before_transition(order, next_state, data)
 
-  def before_transition(order, "address", params) do
+  def before_transition(order, "address", _params) do
     order
     |> Order.confirm_availability
   end
