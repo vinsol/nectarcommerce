@@ -1,7 +1,7 @@
 Nectar E-Commerce [![Build Status](https://travis-ci.org/vinsol/nectarcommerce.svg?branch=master)](https://travis-ci.org/vinsol/nectarcommerce)
 =================
 
-Nectar is an open source e-commerce solution built on Elixir/Phoenix.
+Nectar is an open source e-commerce Elixir/Phoenix project to be _evolved into E-Commerce framework **the elixir way**_
 
 It includes:
 
