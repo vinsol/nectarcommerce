@@ -1,4 +1,4 @@
-Nectar E-Commerce [![Build Status](https://travis-ci.org/vinsol/nectar.svg?branch=integrate/travis_build)](https://travis-ci.org/vinsol/nectar)
+Nectar E-Commerce [![Build Status](https://travis-ci.org/vinsol/nectarcommerce.svg?branch=master)](https://travis-ci.org/vinsol/nectarcommerce)
 =================
 
 Nectar is an open source e-commerce solution built on Elixir/Phoenix.
@@ -112,7 +112,7 @@ Contributing
 
 1. Fork the repo.
 2. Clone your repo.
-3. Check [Getting Started](#getting_started)
+3. Check [Getting Started](#getting-started)
 4. Make your changes.
 5. Ensure tests pass by running `mix test`.
 7. Submit your pull request.
@@ -122,7 +122,7 @@ Running Tests
 
 We use [Travis CI](https://travis-ci.org/) to run the tests for Nectar.
 
-You can see the build statuses at [https://travis-ci.org/vinsol/nectar](https://travis-ci.org/vinsol/nectar).
+You can see the build statuses at [https://travis-ci.org/vinsol/nectarcommerce](https://travis-ci.org/vinsol/nectarcommerce).
 
 RoadMap
 -------
