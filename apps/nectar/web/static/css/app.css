@@ -23,13 +23,16 @@ form.link, form.button {
   border-bottom: 1px solid #e5e5e5;
 }
 .logo {
-  width: 290px;
-  height: 71px;
+  background-image: url("/images/nectarcommerce.png");
+  background-repeat: no-repeat;
+  background-size: 100% auto;
   display: inline-block;
-  margin-bottom: 1em;
-  background-image: url("/images/phoenix.png");
-  background-size: 519px 71px;
+  height: 29px;
+  margin-bottom: 10px;
+  margin-top: 25px;
+  width: 277px;
 }
+
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
