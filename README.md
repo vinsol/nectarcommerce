@@ -89,11 +89,11 @@ Getting Started
     - `mix deps.get`
   - Set-up Application Database
     - Drop Database
-      - `mix ecto.drop -R Nectar.Repo`
+      - `mix ecto.drop -r Nectar.Repo`
     - Create Database
-      - `mix ecto.create -R Nectar.Repo`
+      - `mix ecto.create -r Nectar.Repo`
     - Migrate Database
-      - `mix ecto.migrate -R Nectar.Repo`
+      - `mix ecto.migrate -r Nectar.Repo`
     - Seed Database
       - `mix run apps/nectar/priv/repo/seeds.exs`
   - Build Assets
