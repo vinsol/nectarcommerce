@@ -47,13 +47,18 @@ It includes:
 
 Demo on Heroku
 ==============
-
-- [Browse User Interface](https://nectarcommerce-demo.herokuapp.com/)
+- [Browse User Interface](http://nectarcommerce.vinsol.com/)
   - **Username:** alice@example.com
   - **Password:** foobar
-- [Browse Admin Interface](https://nectarcommerce-demo.herokuapp.com/admin)
+- [Browse Admin Interface](http://nectarcommerce.vinsol.com/admin)
   - **Username:** bob@example.com
   - **Password:** secured
+
+Docker Image
+---------------
+**https://hub.docker.com/r/vinsol/nectarcommerce**
+
+- Simply run `docker run -it -p 4000:4000 vinsol/nectarcommerce:latest` and go to `http://localhost:4000`
 
 Getting Started
 ---------------
@@ -69,6 +74,7 @@ Getting Started
     - `psql postgres`
       - Check `SHOW SERVER_VERSION`
     - jsonb[] type is used and not available on previous versions
+  - [Install ImageMagick](http://www.imagemagick.org/script/binary-releases.php)
 
 
 - Clone Project Locally
@@ -80,8 +86,10 @@ Getting Started
   - Configure Arc for images upload
     - [Local Image Upload for Development](https://github.com/stavro/arc#local-configuration)
       - As uploads would be done on App Root so a symlink is needed
+        - `mkdir -p apps/nectar/priv/static/uploads`
         - `ln -s uploads apps/nectar/priv/static/uploads` # run from project root
-    - [S3 Image Upload for Production](https://github.com/stavro/arc#s3-configuration)
+    - [S3 Image Upload for Production](ht
+    - tps://github.com/stavro/arc#s3-configuration)
   - Configure Payment Methods
     - [Configure Stripe](http://www.larryullman.com/2012/11/07/creating-a-stripe-payments-test-account/) and [Test Stripe](https://stripe.com/docs/testing)
     - [Configure Braintree](https://articles.braintreepayments.com/control-panel/important-gateway-credentials) and [Test Braintree](https://developers.braintreepayments.com/reference/general/testing/ruby)
@@ -99,6 +107,7 @@ Getting Started
   - Build Assets
     - `cd apps/nectar`
     - `npm install`
+    - `npm install babel-preset-es2015 --save`
     - `./node_modules/brunch/bin/brunch build`
     - Optionally might need `bower install`
   - Run Phoenix Server with IEx
