@@ -72,7 +72,7 @@ Getting Started
 
 
 - Clone Project Locally
-  - `git clone https://github.com/vinsol/nectar.git nectar`
+  - `git clone https://github.com/vinsol/nectarcommerce.git`
 - Set up Development Environment
   - Copy apps/nectar/config/dev.secret.exs.example as dev.secret.exs
     - `cp apps/nectar/config/dev.secret.exs.example apps/nectar/config/dev.secret.exs`
