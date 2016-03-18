@@ -47,13 +47,18 @@ It includes:
 
 Demo on Heroku
 ==============
-
 - [Browse User Interface](https://nectarcommerce-demo.herokuapp.com/)
   - **Username:** alice@example.com
   - **Password:** foobar
 - [Browse Admin Interface](https://nectarcommerce-demo.herokuapp.com/admin)
   - **Username:** bob@example.com
   - **Password:** secured
+
+Docker Image
+---------------
+**https://hub.docker.com/r/vinsol/nectarcommerce**
+
+- Simply run `docker run -it -p 4000:4000 vinsol/nectarcommerce:latest` and go to `http://localhost:4000`
 
 Getting Started
 ---------------
