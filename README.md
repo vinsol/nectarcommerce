@@ -47,10 +47,10 @@ It includes:
 
 Demo on Heroku
 ==============
-- [Browse User Interface](https://nectarcommerce-demo.herokuapp.com/)
+- [Browse User Interface](http://nectarcommerce.vinsol.com/)
   - **Username:** alice@example.com
   - **Password:** foobar
-- [Browse Admin Interface](https://nectarcommerce-demo.herokuapp.com/admin)
+- [Browse Admin Interface](http://nectarcommerce.vinsol.com/admin)
   - **Username:** bob@example.com
   - **Password:** secured
 
