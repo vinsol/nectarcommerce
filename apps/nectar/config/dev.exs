@@ -40,3 +40,7 @@ config :arc,
   #secret_access_key: [{:system, "AWS_SECRET_ACCESS_KEY"}, :instance_role]
 
 import_config "dev.secret.exs"
+
+config :nectar, :shipping_calculators,
+  regular: Nectar.ShippingCalculator.Flat,
+  express: Nectar.ShippingCalculator.Fast

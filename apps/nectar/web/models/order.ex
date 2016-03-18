@@ -320,8 +320,9 @@ defmodule Nectar.Order do
   defp shipping_params(_order, %{"shipping" => %{"shipping_method_id" => ""}} = params), do: params
   defp shipping_params(order, %{"shipping" => shipping_params} = params) do
     shipping_method = Nectar.Repo.get(Nectar.ShippingMethod, shipping_params["shipping_method_id"])
+    {:ok, shipping_cost} = Nectar.ShippingCalculator.shipping_cost(shipping_method, order)
     %{params | "shipping" => %{shipping_method_id: shipping_method.id,
-                              adjustment: %{amount: Nectar.ShippingCalculator.shipping_cost(shipping_method, order), order_id: order.id}}}
+                              adjustment: %{amount: shipping_cost, order_id: order.id}}}
   end
   defp shipping_params(_order, params), do: params
 
