@@ -88,7 +88,8 @@ Getting Started
       - As uploads would be done on App Root so a symlink is needed
         - `mkdir -p apps/nectar/priv/static/uploads`
         - `ln -s uploads apps/nectar/priv/static/uploads` # run from project root
-    - [S3 Image Upload for Production](https://github.com/stavro/arc#s3-configuration)
+    - [S3 Image Upload for Production](ht
+    - tps://github.com/stavro/arc#s3-configuration)
   - Configure Payment Methods
     - [Configure Stripe](http://www.larryullman.com/2012/11/07/creating-a-stripe-payments-test-account/) and [Test Stripe](https://stripe.com/docs/testing)
     - [Configure Braintree](https://articles.braintreepayments.com/control-panel/important-gateway-credentials) and [Test Braintree](https://developers.braintreepayments.com/reference/general/testing/ruby)
