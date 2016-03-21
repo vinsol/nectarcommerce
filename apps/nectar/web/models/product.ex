@@ -1,8 +1,7 @@
 defmodule Nectar.Product do
   use Nectar.Web, :model
   use Arc.Ecto.Model
-
-  @before_compile LoadExtensions
+  use Extensions
 
   schema "products" do
     field :name, :string
@@ -19,6 +18,9 @@ defmodule Nectar.Product do
 
     has_many :product_categories, Nectar.ProductCategory
     has_many :categories, through: [:product_categories, :category]
+
+    # loaded via extension
+    extensions
 
     timestamps
   end
