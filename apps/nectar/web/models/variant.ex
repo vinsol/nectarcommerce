@@ -2,6 +2,8 @@ defmodule Nectar.Variant do
   use Nectar.Web, :model
   use Arc.Ecto.Model
 
+  @before_compile LoadExtensions
+
   schema "variants" do
     field :is_master, :boolean, default: false
     field :sku, :string

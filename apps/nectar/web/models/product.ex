@@ -2,6 +2,8 @@ defmodule Nectar.Product do
   use Nectar.Web, :model
   use Arc.Ecto.Model
 
+  @before_compile LoadExtensions
+
   schema "products" do
     field :name, :string
     field :description, :string
