@@ -27,29 +27,26 @@ defmodule Nectar.ShippingCalculator.Runner do
     update_state(state, pid, results)
     |> send_results_if_completed()
   end
-
-  # Failure conditions
-  # Process Timedout
   def handle_info({:timeout}, state) do
+    # Failure conditions
+    # Process Timedout
     send state.caller, {:ok, state.result}
     {:stop, :normal, state}
   end
-
-  # The process crashed
-  # Note: we deregister the monitor on success to avoid multiple calls per process
   def handle_info({:DOWN, _, _, pid, _}, state) do #
+    # The process crashed
+    # Note: we deregister the monitor on success to avoid multiple calls per process
     update_state(state, pid)
     |> send_results_if_completed()
   end
 
-  # The shipping method is not applicable
   def handle_info({:not_applicable, _, pid}, state) do
+    # The shipping method is not applicable
     update_state(state, pid)
     |> send_results_if_completed()
   end
-
-  # Calculator returned an error
   def handle_info({:error, _reason, pid}, state) do
+    # Calculator returned an error
     update_state(state, pid)
     |> send_results_if_completed()
   end
@@ -60,8 +57,6 @@ defmodule Nectar.ShippingCalculator.Runner do
     updated_pending = List.delete state.pending, proc_tuple
     %State{state|pending: updated_pending}
   end
-
-  # call on success with results
   defp update_state(state, pid, result) do
     {pid, monitor} = List.keyfind(state.pending, pid, 0)
     updated_pending = List.delete state.pending, {pid, monitor}

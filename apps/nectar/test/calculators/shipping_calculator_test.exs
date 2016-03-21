@@ -35,7 +35,7 @@ defmodule Nectar.ShippingCalculatorTest do
 
     def shipping_rate(order) do
       :timer.sleep(6000)
-      Decimal.new("0")
+      Decimal.new(0)
     end
   end
 
@@ -50,29 +50,29 @@ defmodule Nectar.ShippingCalculatorTest do
   test "default calculator implementation" do
     order = create_order
     assert Simple.applicable?(order) == true
-    assert Simple.shipping_rate(order) == Decimal.new("0")
-    assert Simple.calculate_shipping(order) == {:ok, Decimal.new("0")}
+    assert Simple.shipping_rate(order) == Decimal.new(0)
+    assert Simple.calculate_shipping(order) == {:ok, Decimal.new(0)}
   end
 
   test "calculator implementation with provided shipping rate" do
     order = create_order
     assert ProvidedShippingRate.applicable?(order) == true
-    assert ProvidedShippingRate.shipping_rate(order) == Decimal.new("12")
-    assert ProvidedShippingRate.calculate_shipping(order) == {:ok, Decimal.new("12")}
+    assert ProvidedShippingRate.shipping_rate(order) == Decimal.new(12)
+    assert ProvidedShippingRate.calculate_shipping(order) == {:ok, Decimal.new(12)}
 
   end
 
   test "calculator implmentation with overriden shipping_rate method" do
     order = create_order
     assert OveriddenShippingRate.applicable?(order) == true
-    assert OveriddenShippingRate.shipping_rate(order) == Decimal.new("100")
-    assert OveriddenShippingRate.calculate_shipping(order) == {:ok, Decimal.new("100")}
+    assert OveriddenShippingRate.shipping_rate(order) == Decimal.new(100)
+    assert OveriddenShippingRate.calculate_shipping(order) == {:ok, Decimal.new(100)}
   end
 
   test "calculator implementation with overriden applicable? method" do
     order = create_order
     assert NotApplicable.applicable?(order) == false
-    assert NotApplicable.calculate_shipping(order) == {:not_applicable, Decimal.new("0")}
+    assert NotApplicable.calculate_shipping(order) == {:not_applicable, Decimal.new(0)}
   end
 
   @using_calculator ["simple", "provided"]
@@ -89,7 +89,7 @@ defmodule Nectar.ShippingCalculatorTest do
     assert Enum.count(calculated_shippings) == 1
     shipping = List.first calculated_shippings
     assert shipping.name == "simple"
-    assert shipping.shipping_cost == Decimal.new("0")
+    assert shipping.shipping_cost == Decimal.new(0)
   end
 
   @using_calculator ["simple", "not_applicable", "throws_exception"]
@@ -99,7 +99,7 @@ defmodule Nectar.ShippingCalculatorTest do
     assert Enum.count(calculated_shippings) == 1
     shipping = List.first calculated_shippings
     assert shipping.name == "simple"
-    assert shipping.shipping_cost == Decimal.new("0")
+    assert shipping.shipping_cost == Decimal.new(0)
   end
 
   @using_calculator ["simple", "times_out"]
@@ -109,7 +109,7 @@ defmodule Nectar.ShippingCalculatorTest do
     assert Enum.count(calculated_shippings) == 1
     shipping = List.first calculated_shippings
     assert shipping.name == "simple"
-    assert shipping.shipping_cost == Decimal.new("0")
+    assert shipping.shipping_cost == Decimal.new(0)
   end
 
   defp create_order do
