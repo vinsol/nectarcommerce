@@ -18,6 +18,12 @@ config :nectar, Nectar.Repo,
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
-config :shipping_calculators,
+config :nectar, :shipping_calculators,
   regular: Nectar.ShippingCalculator.Flat,
-  express: Nectar.ShippingCalculator.Random
+  express: Nectar.ShippingCalculator.Random,
+  simple: Nectar.ShippingCalculatorTest.Simple,
+  provided: Nectar.ShippingCalculatorTest.ProvidedShippingRate,
+  overriden_shipping_rate: Nectar.ShippingCalculatorTest.OverridenShippingRate,
+  throws_exception: Nectar.ShippingCalculatorTest.ThrowsException,
+  times_out: Nectar.ShippingCalculatorTest.TimesOut,
+  not_applicable: Nectar.ShippingCalculatorTest.NotApplicable

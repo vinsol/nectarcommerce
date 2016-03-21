@@ -41,6 +41,6 @@ config :arc,
 
 import_config "dev.secret.exs"
 
-config :shipping_calculators,
+config :nectar, :shipping_calculators,
   regular: Nectar.ShippingCalculator.Flat,
   express: Nectar.ShippingCalculator.Fast

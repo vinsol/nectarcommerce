@@ -8,7 +8,7 @@ defmodule Nectar.ShippingCalculator.Base do
   end
 
   defmacro __using__(_) do
-    add_shipping_methods("0")
+    add_shipping_methods(0)
   end
 
   def add_shipping_methods(shipping) do
@@ -19,7 +19,7 @@ defmodule Nectar.ShippingCalculator.Base do
         if applicable? order do
           {:ok, shipping_rate(order)}
         else
-          {:not_applicable, Decimal.new("0")}
+          {:not_applicable, Decimal.new(0)}
         end
       end
 
