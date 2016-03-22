@@ -1,5 +1,5 @@
 defmodule Nectar.Variant do
-  use Nectar.Web, :model
+  use Nectar.Web, :extended_model
   use Arc.Ecto.Model
 
   schema "variants" do
@@ -28,6 +28,7 @@ defmodule Nectar.Variant do
 
     has_many :line_items, Nectar.LineItem
 
+    extensions
     timestamps
   end
 

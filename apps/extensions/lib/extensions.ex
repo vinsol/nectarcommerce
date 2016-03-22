@@ -3,10 +3,20 @@ defmodule Extensions do
     # determine from env which model we want to extend
     # load all impls for extend#Module here
     # use SayHelloWorldInProduct
-    module_to_extend = __CALLER__.module |>  Module.split |> List.last
-    module_name = String.to_atom("Elixir.Extend" <> module_to_extend)
+    useable_module = infer_module_from_caller(__CALLER__)
+    IO.puts "Importing #{useable_module} in #{__CALLER__.module}"
     quote do
-      use unquote(module_name)
+      use unquote(useable_module)
+    end
+  end
+
+  def infer_module_from_caller(caller) do
+    module_to_extend = caller.module |> Module.split |> List.last
+    module_name = String.to_atom("Elixir.Extend" <> module_to_extend)
+    try do
+      module = apply(module_name, :__info__, [:module])
+    rescue
+      _ -> apply(AllExtend, :__info__, [:module])
     end
   end
 end

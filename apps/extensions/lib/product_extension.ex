@@ -1,7 +1,7 @@
 defmodule Extension do
   defmacro __using__(_opts) do
     quote do
-      Module.register_attribute(__MODULE__, :schema, accumulate: true)
+      Module.register_attribute(__MODULE__, :schema_changes, accumulate: true)
       Module.register_attribute(__MODULE__, :method_block, accumulate: true)
 
       import Extension, only: [add_to_schema: 4, include_method: 1]
@@ -10,6 +10,7 @@ defmodule Extension do
       defmacro __using__(opts) do
         quote do
           import unquote(__MODULE__), only: [extensions: 0, schema_changes: 0, include_methods: 0, method_blocks: 0]
+          IO.puts "imported #{unquote(__MODULE__)} into #{__MODULE__}"
           @before_compile unquote(__MODULE__)
         end
       end
@@ -24,7 +25,7 @@ defmodule Extension do
 
   defmacro add_to_schema(method, name, type, options) do
     quote bind_quoted: [name: name, type: type, options: options, method: method], location: :keep do
-      Module.put_attribute(__MODULE__, :schema, {method, name, type, options})
+      Module.put_attribute(__MODULE__, :schema_changes, {method, name, type, options})
     end
   end
 
@@ -46,7 +47,7 @@ defmodule Extension do
       end
 
       def schema_changes do
-        @schema
+        @schema_changes
       end
 
       defmacro include_methods do
@@ -82,4 +83,9 @@ defmodule ExtendProduct do
     end
   end
 
+end
+
+# use if nothing is available
+defmodule ExtendVariant do
+  use Extension
 end

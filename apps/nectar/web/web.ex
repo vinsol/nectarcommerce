@@ -26,6 +26,17 @@ defmodule Nectar.Web do
     end
   end
 
+  def extended_model do
+    quote do
+      use Ecto.Schema
+
+      import Ecto
+      import Ecto.Changeset
+      import Ecto.Query, only: [from: 1, from: 2]
+      use Extensions
+    end
+  end
+
   def controller do
     quote do
       use Phoenix.Controller
