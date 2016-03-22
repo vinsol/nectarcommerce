@@ -9,7 +9,7 @@ defmodule Extension do
 
       defmacro __using__(opts) do
         quote do
-          import unquote(__MODULE__), only: [extensions: 0, schema_changes: 0, include_methods: 0, method_block: 0]
+          import unquote(__MODULE__), only: [extensions: 0, schema_changes: 0, include_methods: 0, method_blocks: 0]
         end
       end
     end
@@ -43,11 +43,11 @@ defmodule Extension do
 
       defmacro include_methods do
         quote do
-          unquote(method_block)
+          unquote(Enum.map(method_blocks, fn (method_block) -> method_block end))
         end
       end
 
-      def method_block do
+      def method_blocks do
         @method_block
       end
     end
@@ -62,6 +62,12 @@ defmodule ExtendProduct do
   include_method do
     quote do
       def is_real(%{not_real: not_real}), do: not_real
+    end
+  end
+
+  include_method do
+    quote do
+      def is_real_2(%{not_real: not_real}), do: not_real
     end
   end
 
