@@ -1,10 +1,9 @@
 defmodule Extensions do
-  defmacro __using__(opts) do
+  defmacro __using__(_opts) do
     # determine from env which model we want to extend
     # load all impls for extend#Module here
     # use SayHelloWorldInProduct
     useable_module = infer_module_from_caller(__CALLER__)
-    IO.puts "Importing #{useable_module} in #{__CALLER__.module}"
     quote do
       use unquote(useable_module)
     end

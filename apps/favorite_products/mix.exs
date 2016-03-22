@@ -1,8 +1,8 @@
-defmodule Extensions.Mixfile do
+defmodule FavoriteProducts.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :extensions,
+    [app: :favorite_products,
      version: "0.0.1",
      build_path: "../../_build",
      config_path: "../../config/config.exs",
@@ -35,6 +35,6 @@ defmodule Extensions.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:favorite_products, in_umbrella: true}]
+    []
   end
 end
