@@ -23,16 +23,6 @@ defmodule Nectar.Web do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
-    end
-  end
-
-  def extended_model do
-    quote do
-      use Ecto.Schema
-
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query, only: [from: 1, from: 2]
       use Extensions
     end
   end

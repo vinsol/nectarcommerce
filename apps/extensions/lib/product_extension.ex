@@ -86,6 +86,6 @@ defmodule ExtendProduct do
 end
 
 # use if nothing is available
-defmodule ExtendVariant do
+defmodule DefaultExtend do
   use Extension
 end

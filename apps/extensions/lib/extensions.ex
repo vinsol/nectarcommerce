@@ -13,10 +13,10 @@ defmodule Extensions do
   def infer_module_from_caller(caller) do
     module_to_extend = caller.module |> Module.split |> List.last
     module_name = String.to_atom("Elixir.Extend" <> module_to_extend)
-    try do
-      module = apply(module_name, :__info__, [:module])
-    rescue
-      _ -> apply(AllExtend, :__info__, [:module])
+    if Code.ensure_loaded?(module_name) do
+      apply(module_name, :__info__, [:module])
+    else
+      apply(DefaultExtend, :__info__, [:module])
     end
   end
 end
