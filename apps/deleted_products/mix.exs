@@ -1,8 +1,8 @@
-defmodule ExtensionsManager.Mixfile do
+defmodule DeletedProducts.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :extensions_manager,
+    [app: :deleted_products,
      version: "0.0.1",
      build_path: "../../_build",
      config_path: "../../config/config.exs",
@@ -35,8 +35,6 @@ defmodule ExtensionsManager.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:ecto, "~> 1.1.3", only: :test},
-     {:favorite_products, in_umbrella: true},
-     {:deleted_products, in_umbrella: true}]
+    []
   end
 end

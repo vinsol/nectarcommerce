@@ -1,6 +1,7 @@
 defmodule ExtensionsManager.ExtendProduct do
   use ExtensionsManager.ModelExtension
   use FavoriteProducts.NectarExtension, install: "products"
+  use DeletedProducts, install: "products"
 end
 
 defmodule ExtensionsManager.ExtendUser do
