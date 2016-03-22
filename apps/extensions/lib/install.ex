@@ -1,11 +1,13 @@
 defmodule ExtendProduct do
   use Extension
-  require FavoriteProducts
-  FavoriteProducts.install("products")
+  # can be further inferred from __CALLER__ in case we go with
+  # a further set of conventions
+  # essentially reducing it to
+  # use FavoriteProducts
+  use FavoriteProducts, install: "products"
 end
 
 defmodule ExtendUser do
   use Extension
-  require FavoriteProducts
-  FavoriteProducts.install("users")
+  use FavoriteProducts, install: "users"
 end

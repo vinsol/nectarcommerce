@@ -1,6 +1,7 @@
 defmodule FavoriteProducts do
-  defmacro install(model) do
-    do_install(model)
+
+  defmacro __using__([install: install_type]) do
+    do_install(install_type)
   end
 
   defp do_install("products") do
