@@ -9,9 +9,3 @@ defmodule ExtendUser do
   require FavoriteProducts
   FavoriteProducts.install("users")
 end
-
-defmodule ExtensionModelsHelper do
-  use ExtensionModels
-  require FavoriteProducts
-  FavoriteProducts.install("models")
-end
