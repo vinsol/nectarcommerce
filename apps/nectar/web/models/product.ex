@@ -3,8 +3,6 @@ defmodule Nectar.Product do
   use Arc.Ecto.Model
   use Extensions
 
-  include_methods
-
   schema "products" do
     field :name, :string
     field :description, :string
