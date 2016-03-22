@@ -33,7 +33,8 @@ defmodule Extension do
     end
   end
 
-  defmacro include_method([do: block]) do
+  defmacro include_method(methd) do
+    block = Macro.escape(methd)
     quote bind_quoted: [block: block] do
       Module.put_attribute(__MODULE__, :method_block, block)
     end

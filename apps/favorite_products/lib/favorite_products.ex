@@ -8,17 +8,16 @@ defmodule FavoriteProducts do
       add_to_schema(:has_many, :liked_by, through: [:likes, :user])
       add_to_schema(:has_many, :likes, FavoriteProducts.UserLike, [])
       include_method do
-        quote do
-          def like_changeset(model, params \\ :empty) do
-            model
-            |> cast(params, ~w(), ~w())
-            |> cast_assoc(:likes) # will be passed the user id here.
-          end
 
-          def liked_by(model) do
-            from like in assoc(model, :likes),
-            preload: [:liked_by]
-          end
+        def like_changeset(model, params \\ :empty) do
+          model
+          |> cast(params, ~w(), ~w())
+          |> cast_assoc(:likes) # will be passed the user id here.
+        end
+
+        def liked_by(model) do
+          from like in assoc(model, :likes),
+          preload: [:liked_by]
         end
       end
     end
@@ -29,12 +28,12 @@ defmodule FavoriteProducts do
       add_to_schema(:has_many, :liked_products, through: [:likes, :product])
       add_to_schema(:has_many, :likes, FavoriteProducts.UserLike, [])
       include_method do
-        quote do
-          def liked_products(model) do
-            from like in assoc(model, :likes),
-            preload: [:liked_products]
-          end
+
+        def liked_products(model) do
+          from like in assoc(model, :likes),
+          preload: [:liked_products]
         end
+
       end
     end
   end
