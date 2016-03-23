@@ -54,6 +54,10 @@ defmodule Nectar.Router do
     end
   end
 
+  scope "/" do
+    resources "/likes", FavoriteProducts.FavoriteController, only: [:index]
+  end
+
   scope "/admin", Nectar.Admin, as: :admin do
     pipe_through [:browser, :admin_browser_auth]
 
