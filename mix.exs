@@ -3,6 +3,7 @@ defmodule ElixirShop.Mixfile do
 
   def project do
     [apps_path: "apps",
+     aliases: aliases,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps]
@@ -22,5 +23,9 @@ defmodule ElixirShop.Mixfile do
   # and cannot be accessed from applications inside the apps folder
   defp deps do
     []
+  end
+
+  defp aliases do
+    ["compile.clean": ["clean", "compile"]]
   end
 end
