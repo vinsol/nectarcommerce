@@ -54,10 +54,6 @@ defmodule Nectar.Router do
     end
   end
 
-  scope "/" do
-    mount
-  end
-
   scope "/admin", Nectar.Admin, as: :admin do
     pipe_through [:browser, :admin_browser_auth]
 

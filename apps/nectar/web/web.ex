@@ -74,7 +74,6 @@ defmodule Nectar.Web do
   def router do
     quote do
       use Phoenix.Router
-      use FavoriteProducts.Router
     end
   end
 

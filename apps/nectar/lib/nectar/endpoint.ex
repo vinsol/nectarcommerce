@@ -36,4 +36,5 @@ defmodule Nectar.Endpoint do
     signing_salt: "8dI5dqCI"
 
   plug Nectar.Router
+  plug Extensions.Router
 end
