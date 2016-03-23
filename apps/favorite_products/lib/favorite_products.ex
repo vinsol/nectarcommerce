@@ -4,6 +4,16 @@ defmodule FavoriteProducts do
     do_install(install_type)
   end
 
+  defp do_install("router") do
+    quote do
+      define_route do
+        scope "/", FavoriteProducts do
+          resources "/likes", FavoriteController, only: [:index]
+        end
+      end
+    end
+  end
+
   defp do_install("products") do
     quote do
       add_to_schema(:has_many, :liked_by, through: [:likes, :user])

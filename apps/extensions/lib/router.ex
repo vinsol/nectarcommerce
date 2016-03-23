@@ -1,21 +1,31 @@
+defmodule RouterExtension do
+  defmacro __using__(_opts) do
+    quote do
+      Module.register_attribute(__MODULE__, :defined_routes, accumulate: true)
+
+      import RouterExtension, only: [define_route: 1]
+      @before_compile RouterExtension
+    end
+  end
+
+  defmacro define_route([do: rt]) do
+    block = Macro.escape(rt)
+    quote bind_quoted: [block: block] do
+      Module.put_attribute(__MODULE__, :defined_routes, block)
+    end
+  end
+
+  defmacro __before_compile__(_env) do
+    quote do
+      defmacro mount do
+        @defined_routes
+      end
+    end
+  end
+end
+
 defmodule Extensions.Router do
-  use Phoenix.Router
+  use RouterExtension
 
-  pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
-  end
-
-  pipeline :browser_auth do
-    plug Guardian.Plug.VerifySession
-    plug Guardian.Plug.LoadResource
-  end
-
-  scope "/" do
-    pipe_through [:browser, :browser_auth] # Use the default browser stack
-    resources "/likes", FavoriteProducts.FavoriteController, only: [:index]
-  end
+  use FavoriteProducts, install: "router"
 end
