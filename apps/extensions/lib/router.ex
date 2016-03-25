@@ -27,5 +27,5 @@ end
 defmodule Extensions.Router do
   use RouterExtension
 
-  use FavoriteProducts, install: "router"
+  use FavoriteProductsPhoenix.Install, install: "router"
 end

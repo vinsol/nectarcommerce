@@ -54,7 +54,6 @@ defmodule Nectar.Router do
     end
   end
 
-  Extensions.Router.mount
 
   scope "/admin", Nectar.Admin, as: :admin do
     pipe_through [:browser, :admin_browser_auth]
@@ -101,6 +100,8 @@ defmodule Nectar.Router do
     end
     resources "/users", UserController
   end
+
+  Extensions.Router.mount
 
   # Other scopes may use custom stacks.
   # scope "/api", Nectar do

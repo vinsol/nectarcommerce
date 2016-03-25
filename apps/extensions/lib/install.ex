@@ -4,10 +4,10 @@ defmodule ExtendProduct do
   # a further set of conventions
   # essentially reducing it to
   # use FavoriteProducts
-  use FavoriteProducts, install: "products"
+  use FavoriteProductsPhoenix.Install, install: "products"
 end
 
 defmodule ExtendUser do
   use Extension
-  use FavoriteProducts, install: "users"
+  use FavoriteProductsPhoenix.Install, install: "users"
 end
