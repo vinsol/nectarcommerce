@@ -7,7 +7,7 @@ defmodule FavoriteProducts.Router do
 
   defmacro mount do
     quote do
-      resources "/likes", FavoriteProducts.FavoriteController, only: [:index]
+      resources "/", FavoriteProducts.FavoriteController, only: [:index]
     end
   end
 end

@@ -1,17 +1,8 @@
 defmodule FavoriteProducts do
-
+  # only use this for modifying nectar code, routing to be done
+  # in the store application
   defmacro __using__([install: install_type]) do
     do_install(install_type)
-  end
-
-  defp do_install("router") do
-    quote do
-      define_route do
-        scope "/", FavoriteProducts do
-          resources "/likes", FavoriteController, only: [:index]
-        end
-      end
-    end
   end
 
   defp do_install("products") do

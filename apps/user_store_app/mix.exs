@@ -1,8 +1,8 @@
-defmodule FavoriteProductsPhoenix.Mixfile do
+defmodule UserStoreApp.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :favorite_products_phoenix,
+    [app: :user_store_app,
      version: "0.0.1",
      deps_path: "../../deps",
      lockfile: "../../mix.lock",
@@ -19,9 +19,9 @@ defmodule FavoriteProductsPhoenix.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {FavoriteProductsPhoenix, []},
+    [mod: {UserStoreApp, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :nectar, :favorite_products_phoenix]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,7 +38,8 @@ defmodule FavoriteProductsPhoenix.Mixfile do
      {:phoenix_html, "~> 2.4"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:cowboy, "~> 1.0"},
-     {:nectar, in_umbrella: true}
+     {:nectar, in_umbrella: true},
+     {:favorite_products_phoenix, in_umbrella: true}
     ]
   end
 

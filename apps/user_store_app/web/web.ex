@@ -1,12 +1,12 @@
-defmodule Nectar.Web do
+defmodule UserStoreApp.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use Nectar.Web, :controller
-      use Nectar.Web, :view
+      use UserStoreApp.Web, :controller
+      use UserStoreApp.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -18,12 +18,10 @@ defmodule Nectar.Web do
 
   def model do
     quote do
-      use Ecto.Schema
+      use Ecto.Model
 
-      import Ecto
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
-      use Extensions
     end
   end
 
@@ -31,28 +29,13 @@ defmodule Nectar.Web do
     quote do
       use Phoenix.Controller
 
-      alias Nectar.Repo
-      import Ecto
+      alias UserStoreApp.Repo
+      import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
 
-      import Nectar.Router.Helpers
-      import Nectar.Gettext
+      import UserStoreApp.Router.Helpers
     end
   end
-
-  def admin_controller do
-    quote do
-      use Phoenix.Controller, namespace: Nectar.Admin
-
-      alias Nectar.Repo
-      import Ecto
-      import Ecto.Query, only: [from: 1, from: 2]
-
-      import Nectar.Router.Helpers
-      import Nectar.Gettext
-    end
-  end
-
 
   def view do
     quote do
@@ -64,10 +47,7 @@ defmodule Nectar.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import Nectar.Router.Helpers
-      import Nectar.ErrorHelpers
-      import Nectar.Gettext
-      import Nectar.Auth.ViewHelper
+      import UserStoreApp.Router.Helpers
     end
   end
 
@@ -81,10 +61,9 @@ defmodule Nectar.Web do
     quote do
       use Phoenix.Channel
 
-      alias Nectar.Repo
-      import Ecto
+      alias UserStoreApp.Repo
+      import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
-      import Nectar.Gettext
     end
   end
 

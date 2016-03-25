@@ -3,10 +3,3 @@
 /deps
 erl_crash.dump
 *.ez
-
-# Vim Swap Files
-*.swp
-/**/*.swp
-/**/**/*.swp
-/**/**/**/*.swp
-/**/**/**/**/*.swp

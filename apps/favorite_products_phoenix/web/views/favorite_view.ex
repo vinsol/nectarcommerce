@@ -1,3 +1,3 @@
 defmodule FavoriteProductsPhoenix.FavoriteView do
-  use FavoriteProductsPhoenix.Web, :view
+  use Nectar.Web, :view
 end

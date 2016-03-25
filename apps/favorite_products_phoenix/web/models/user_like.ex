@@ -1,5 +1,5 @@
 defmodule FavoriteProductsPhoenix.UserLike do
-  use FavoriteProductsPhoenix.Web, :model
+  use Nectar.Web, :model
 
   schema "user_likes" do
     belongs_to :user, Nectar.User

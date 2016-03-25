@@ -1,5 +1,5 @@
-defmodule FavoriteProductsPhoenix.Router do
-  use FavoriteProductsPhoenix.Web, :router
+defmodule UserStoreApp.Router do
+  use UserStoreApp.Web, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,13 +13,16 @@ defmodule FavoriteProductsPhoenix.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", FavoriteProductsPhoenix do
+  scope "/", UserStoreApp do
     pipe_through :browser # Use the default browser stack
-    get "/", FavoriteController, :index
+    get "/", PageController, :index
   end
+  forward "/likes", FavoriteProductsPhoenix.Router
+  # act as final catch all
+  forward "/", Nectar.Router
 
   # Other scopes may use custom stacks.
-  # scope "/api", FavoriteProductsPhoenix do
+  # scope "/api", UserStoreApp do
   #   pipe_through :api
   # end
 end
