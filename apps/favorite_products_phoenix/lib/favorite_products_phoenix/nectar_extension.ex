@@ -39,8 +39,13 @@ defmodule FavoriteProductsPhoenix.NectarExtension do
     quote do
       define_route do
         scope "/favorites", FavoriteProductsPhoenix do
+          # awareness about all pipelines declared in nectar required.
           pipe_through [:browser, :browser_auth] # Use the default browser stack
           resources "/", FavoriteController, only: [:index, :update]
+        end
+        scope "/admin", FavoriteProductsPhoenix.Admin do
+          pipe_through [:browser, :admin_browser_auth]
+          resources "/favorites", FavoriteController, only: [:index]
         end
       end
     end

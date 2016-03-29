@@ -18,7 +18,7 @@ defmodule FavoriteProductsPhoenix.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", FavoriteProductsPhoenix do
+  scope "/favorites", FavoriteProductsPhoenix do
     pipe_through [:browser, :browser_auth] # Use the default browser stack
     resources "/", FavoriteController, only: [:index, :update]
   end
