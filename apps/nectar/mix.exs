@@ -54,7 +54,6 @@ defmodule Nectar.Mixfile do
       {:commerce_billing, github: "nimish-mehta/commerce_billing",  override: true},
       {:braintree, "~> 0.3.2"},
       {:worldly, in_umbrella: true},
-      {:extensions, in_umbrella: true}
     ]
   end
 

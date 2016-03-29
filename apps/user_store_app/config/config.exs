@@ -29,3 +29,12 @@ config :phoenix, :generators,
   binary_id: false
 
 import_config "../apps/*/config/config.exs"
+
+config :guardian, Guardian,
+  allowed_algos: ["HS512"],
+  verify_module: Guardian.JWT,
+  issuer: "Nectar.#{Mix.env}",
+  ttl: {30, :days},
+  verify_issuer: true,
+  serializer: Nectar.GuardianSerializer,
+  secret_key: to_string(Mix.env)

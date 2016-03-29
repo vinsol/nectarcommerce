@@ -18,9 +18,7 @@ defmodule Nectar.Product do
     has_many :product_categories, Nectar.ProductCategory
     has_many :categories, through: [:product_categories, :category]
 
-    # loaded via extension
     extensions
-
     timestamps
   end
 

@@ -4,12 +4,12 @@ defmodule ExtendProduct do
   # a further set of conventions
   # essentially reducing it to
   # use FavoriteProducts
-  use FavoriteProducts, install: "products"
+  use FavoriteProductsPhoenix.NectarExtension, install: "products"
 end
 
 defmodule ExtendUser do
   use Extension
-  use FavoriteProducts, install: "users"
+  use FavoriteProductsPhoenix.NectarExtension, install: "users"
 end
 
 

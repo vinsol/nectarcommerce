@@ -28,7 +28,6 @@ defmodule Nectar.Variant do
 
     has_many :line_items, Nectar.LineItem
 
-    extensions
     timestamps
   end
 

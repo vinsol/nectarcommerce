@@ -4,14 +4,16 @@ defmodule UserStoreApp.Mixfile do
   def project do
     [app: :user_store_app,
      version: "0.0.1",
-     deps_path: "../../deps",
-     lockfile: "../../mix.lock",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: aliases,
+     build_path: "../../_build",
+     config_path: "../../config/config.exs",
+     deps_path: "../../deps",
+     lockfile: "../../mix.lock",
      deps: deps]
   end
 
@@ -37,9 +39,9 @@ defmodule UserStoreApp.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.4"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:cowboy, "~> 1.0"},
+     {:extensions, in_umbrella: true},
      {:nectar, in_umbrella: true},
-     {:favorite_products_phoenix, in_umbrella: true}
+     {:cowboy, "~> 1.0"},
     ]
   end
 

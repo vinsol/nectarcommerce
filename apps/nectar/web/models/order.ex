@@ -34,7 +34,6 @@ defmodule Nectar.Order do
 
     belongs_to :user, Nectar.User
 
-    extensions
     timestamps
   end
 

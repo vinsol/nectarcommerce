@@ -1,6 +1,4 @@
-defmodule FavoriteProducts do
-  # only use this for modifying nectar code, routing to be done
-  # in the store application
+defmodule FavoriteProductsPhoenix.NectarExtension do
   defmacro __using__([install: install_type]) do
     do_install(install_type)
   end
@@ -30,12 +28,10 @@ defmodule FavoriteProducts do
       add_to_schema(:has_many, :liked_products, through: [:likes, :product])
       add_to_schema(:has_many, :likes, FavoriteProducts.UserLike, [])
       include_method do
-
         def liked_products(model) do
           from like in assoc(model, :likes),
           preload: [:liked_products]
         end
-
       end
     end
   end
