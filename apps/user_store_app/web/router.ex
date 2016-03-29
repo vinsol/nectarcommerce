@@ -14,12 +14,14 @@ defmodule UserStoreApp.Router do
   end
 
   scope "/", UserStoreApp do
-    pipe_through :browser # Use the default browser stack
-    get "/", PageController, :index
+    pipe_through :browser
+    # pipe_through :browser # Use the default browser stack
+    # get "/", PageController, :index
   end
-  forward "/likes", FavoriteProductsPhoenix.Router
+
   # act as final catch all
   forward "/", Nectar.Router
+
 
   # Other scopes may use custom stacks.
   # scope "/api", UserStoreApp do

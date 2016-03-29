@@ -1,6 +1,6 @@
 defmodule FavoriteProductsPhoenix.FavoriteController do
   use Nectar.Web, :controller
-  import FavoriteProductsPhoenix.Router.Helpers
+  plug Guardian.Plug.EnsureAuthenticated, handler: __MODULE__
 
   def index(conn, _params) do
     products = Repo.all(Nectar.Product) |> Repo.preload([:liked_by])
@@ -8,8 +8,9 @@ defmodule FavoriteProductsPhoenix.FavoriteController do
   end
 
   def update(conn, %{"id" => product_id}) do
+    current_user = Guardian.Plug.current_resource(conn)
     product   = Repo.get(Nectar.Product, product_id) |> Repo.preload([:likes])
-    like_update_params = %{"likes" => [%{"user_id" => 1}]}
+    like_update_params = %{"likes" => [%{"user_id" => current_user.id}]}
     changeset = Nectar.Product.like_changeset(product, like_update_params)
 
     case Repo.update(changeset) do
@@ -20,5 +21,12 @@ defmodule FavoriteProductsPhoenix.FavoriteController do
         |> put_flash(:error, "unable to like the product")
         |> redirect(to: favorite_path(conn, :index))
     end
+  end
+
+  def unauthenticated(conn, _params) do
+    conn
+    |> put_flash(:error, "Please login to like a product")
+    |> redirect(to: "/sessions/new")
+    |> halt
   end
 end

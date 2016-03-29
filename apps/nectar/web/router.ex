@@ -101,8 +101,7 @@ defmodule Nectar.Router do
     resources "/users", UserController
   end
 
-  # Extensions.Router.mount
-
+  use Nectar.RouteExtender
   # Other scopes may use custom stacks.
   # scope "/api", Nectar do
   #   pipe_through :api

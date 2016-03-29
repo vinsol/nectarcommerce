@@ -23,9 +23,3 @@ defmodule RouterExtension do
     end
   end
 end
-
-# defmodule Extensions.Router do
-#   use RouterExtension
-
-#   use FavoriteProductsPhoenix.Install, install: "router"
-# end

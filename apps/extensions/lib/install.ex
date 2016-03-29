@@ -21,3 +21,9 @@ defmodule ExtendUserLike do
     end
   end
 end
+
+defmodule ExtensionsRouter do
+  use RouterExtension
+
+  use FavoriteProductsPhoenix.NectarExtension, install: "router"
+end

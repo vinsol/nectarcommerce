@@ -34,4 +34,15 @@ defmodule FavoriteProductsPhoenix.NectarExtension do
       end
     end
   end
+
+  defp do_install("router") do
+    quote do
+      define_route do
+        scope "/favorites", FavoriteProductsPhoenix do
+          pipe_through [:browser, :browser_auth] # Use the default browser stack
+          resources "/", FavoriteController, only: [:index, :update]
+        end
+      end
+    end
+  end
 end

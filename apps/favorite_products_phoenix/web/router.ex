@@ -9,15 +9,19 @@ defmodule FavoriteProductsPhoenix.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :browser_auth do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
   scope "/", FavoriteProductsPhoenix do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :browser_auth] # Use the default browser stack
     resources "/", FavoriteController, only: [:index, :update]
   end
-
   # Other scopes may use custom stacks.
   # scope "/api", FavoriteProductsPhoenix do
   #   pipe_through :api
