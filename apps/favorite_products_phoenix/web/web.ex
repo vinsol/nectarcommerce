@@ -29,7 +29,7 @@ defmodule FavoriteProductsPhoenix.Web do
     quote do
       use Phoenix.Controller
 
-      alias FavoriteProductsPhoenix.Repo
+      alias Nectar.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
 
@@ -61,7 +61,7 @@ defmodule FavoriteProductsPhoenix.Web do
     quote do
       use Phoenix.Channel
 
-      alias FavoriteProductsPhoenix.Repo
+      alias Nectar.Repo
       import Ecto.Model
       import Ecto.Query, only: [from: 1, from: 2]
     end

@@ -35,8 +35,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :favorite_products_phoenix, FavoriteProductsPhoenix.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "favorite_products_phoenix_dev",
+  username: "nimish",
+  password: "root",
+  database: "nectar_dev",
   hostname: "localhost",
   pool_size: 10

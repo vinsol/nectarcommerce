@@ -28,7 +28,8 @@ config :phoenix, :generators,
   migration: true,
   binary_id: false
 
-import_config "../apps/*/config/config.exs"
+import_config "../../nectar/config/config.exs"
+import_config "../../favorite_products_phoenix/config/config.exs"
 
 config :guardian, Guardian,
   allowed_algos: ["HS512"],

@@ -6,13 +6,12 @@ defmodule FavoriteProductsPhoenix.NectarExtension do
   defp do_install("products") do
     quote do
       add_to_schema(:has_many, :liked_by, through: [:likes, :user])
-      add_to_schema(:has_many, :likes, FavoriteProducts.UserLike, [])
+      add_to_schema(:has_many, :likes, FavoriteProductsPhoenix.UserLike, [])
       include_method do
-
         def like_changeset(model, params \\ :empty) do
           model
-          |> cast(params, ~w(), ~w())
-          |> cast_assoc(:likes) # will be passed the user id here.
+          |> cast(params, ~w(), ~w(id))
+          |> cast_assoc(:likes, required: true, with: &FavoriteProductsPhoenix.UserLike.changeset/2)
         end
 
         def liked_by(model) do
@@ -26,7 +25,7 @@ defmodule FavoriteProductsPhoenix.NectarExtension do
   defp do_install("users") do
     quote do
       add_to_schema(:has_many, :liked_products, through: [:likes, :product])
-      add_to_schema(:has_many, :likes, FavoriteProducts.UserLike, [])
+      add_to_schema(:has_many, :likes, FavoriteProductsPhoenix.UserLike, [])
       include_method do
         def liked_products(model) do
           from like in assoc(model, :likes),

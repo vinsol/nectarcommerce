@@ -1,21 +1,15 @@
 defmodule Nectar.Extender do
   defmacro __using__(opts) do
     case extension_module(__CALLER__) do
-      {:found, module} -> use_found_module(module)
-      {:not_found} -> provide_no_op
+      {:module, module} -> use_found_module(module)
+      {:error, _reason} -> provide_no_op
     end
   end
 
   def extension_module(caller) do
     module_to_extend = caller.module |> Module.split |> List.last
     module_name = String.to_atom("Elixir.Extend" <> module_to_extend)
-    IO.inspect "searching for #{module_name}"
-    IO.inspect  Code.ensure_loaded(module_name)
-    if Code.ensure_loaded?(module_name) do
-      {:found, module_name}
-    else
-      {:not_found}
-    end
+    Code.ensure_loaded(module_name)
   end
 
   def use_found_module(module) do

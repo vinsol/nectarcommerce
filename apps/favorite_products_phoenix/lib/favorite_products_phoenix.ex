@@ -10,7 +10,7 @@ defmodule FavoriteProductsPhoenix do
       # Start the endpoint when the application starts
       supervisor(FavoriteProductsPhoenix.Endpoint, []),
       # Start the Ecto repository
-      worker(FavoriteProductsPhoenix.Repo, []),
+      # worker(FavoriteProductsPhoenix.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(FavoriteProductsPhoenix.Worker, [arg1, arg2, arg3]),
     ]

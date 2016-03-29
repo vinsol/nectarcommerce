@@ -1,4 +1,5 @@
 defmodule Extensions do
+  # not in use
   defmacro __using__(_opts) do
     # determine from env which model we want to extend
     # load all impls for extend#Module here

@@ -1,4 +1,4 @@
-defmodule Nectar.Repo.Migrations.AddUserLikesExtension do
+defmodule FavoriteProductsPhoenix.Repo.Migrations.AddUserLike do
   use Ecto.Migration
 
   def change do

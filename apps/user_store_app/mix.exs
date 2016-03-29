@@ -23,7 +23,7 @@ defmodule UserStoreApp.Mixfile do
   def application do
     [mod: {UserStoreApp, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex, :nectar, :favorite_products_phoenix]]
+                    :phoenix_ecto, :postgrex, :nectar]]
   end
 
   # Specifies which paths to compile per environment.
@@ -39,8 +39,9 @@ defmodule UserStoreApp.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.4"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:extensions, in_umbrella: true},
+     # {:extensions, in_umbrella: true},
      {:nectar, in_umbrella: true},
+     {:favorite_products_phoenix, in_umbrella: true},
      {:cowboy, "~> 1.0"},
     ]
   end

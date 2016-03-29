@@ -1,1 +1,11 @@
-<h4>My Favorite Products</h4>
+<%= for product <- @products do %>
+  <h4><%=  product.name %></h4>
+  <h6>Liked by:</h6>
+  <ul>
+    <%= for liked_by <- product.liked_by do %>
+      <li><%= liked_by.name %></li>
+    <% end %>
+  </ul>
+  <%= link "Like", to: favorite_path(@conn, :update, product), method: "put", class: "btn btn-xs" %>
+
+<% end %>

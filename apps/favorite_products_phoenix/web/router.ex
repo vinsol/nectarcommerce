@@ -15,7 +15,7 @@ defmodule FavoriteProductsPhoenix.Router do
 
   scope "/", FavoriteProductsPhoenix do
     pipe_through :browser # Use the default browser stack
-    get "/", FavoriteController, :index
+    resources "/", FavoriteController, only: [:index, :update]
   end
 
   # Other scopes may use custom stacks.
