@@ -22,8 +22,8 @@ defmodule UserApp.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {UserApp, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :nectar]]
+     applications: [:phoenix, :phoenix_html, :cowboy, :logger,
+                    :phoenix_ecto, :postgrex, :nectar, :nectar_wallet]]
   end
 
   # Specifies which paths to compile per environment.
@@ -41,7 +41,6 @@ defmodule UserApp.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:nectar, in_umbrella: true},
-     {:favorite_products_phoenix, in_umbrella: true},
      {:nectar_wallet, in_umbrella: true},
      {:cowboy, "~> 1.0"},
      {:nectar, in_umbrella: true},

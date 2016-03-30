@@ -1,9 +1,11 @@
 defmodule NectarWallet.Wallet do
   use NectarWallet.Web, :model
 
+  @zero_amount Decimal.new(0)
   schema "wallets" do
-    field :amount, :decimal, default: Decimal.new(0)
-    field :add_amount, :decimal, virtual: true, default: Decimal.new(0)
+    field :amount, :decimal, default: @zero_amount
+    field :add_amount, :decimal, virtual: true, default: @zero_amount
+    field :deduct_amount, :decimal, virtual: true, default: @zero_amount
     belongs_to :user, NectarWallet.User
 
     timestamps
@@ -23,12 +25,19 @@ defmodule NectarWallet.Wallet do
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  @zero_amount Decimal.new(0)
   def add_points_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(add_amount), ~w())
     |> validate_number(:add_amount, greater_than: @zero_amount)
     |> add_amount_change
+  end
+
+  def deduction_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(deduct_amount), ~w())
+    |> validate_number(:deduct_amount, greater_than_or_equal_to: @zero_amount)
+    |> validate_number(:deduct_amount, less_than: model.amount)
+    |> deduct_amount_change
   end
 
   defp add_amount_change(%Ecto.Changeset{valid?: true} = changeset) do
@@ -41,4 +50,16 @@ defmodule NectarWallet.Wallet do
     end
   end
   defp add_amount_change(%Ecto.Changeset{} = changeset), do: changeset
+
+  defp deduct_amount_change(%Ecto.Changeset{valid?: true} = changeset) do
+    amount_to_deduct = changeset.changes[:deduct_amount]
+    if amount_to_deduct do
+      existing_amount = changeset.model.amount
+      put_change(changeset, :amount, Decimal.sub(existing_amount, amount_to_deduct))
+    else
+      changeset
+    end
+  end
+  defp deduct_amount_change(%Ecto.Changeset{} = changeset), do: changeset
+
 end
