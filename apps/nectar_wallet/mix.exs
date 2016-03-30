@@ -1,19 +1,17 @@
-defmodule UserStoreApp.Mixfile do
+defmodule NectarWallet.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :user_store_app,
+    [app: :nectar_wallet,
      version: "0.0.1",
+     deps_path: "../../deps",
+     lockfile: "../../mix.lock",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: aliases,
-     build_path: "../../_build",
-     config_path: "../../config/config.exs",
-     deps_path: "../../deps",
-     lockfile: "../../mix.lock",
      deps: deps]
   end
 
@@ -21,9 +19,9 @@ defmodule UserStoreApp.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {UserStoreApp, []},
+    [mod: {NectarWallet, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex, :nectar]]
+                    :phoenix_ecto, :postgrex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -39,12 +37,8 @@ defmodule UserStoreApp.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.4"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     # {:extensions, in_umbrella: true},
-     {:nectar, in_umbrella: true},
-     {:favorite_products_phoenix, in_umbrella: true},
-     {:nectar_wallet, in_umbrella: true},
      {:cowboy, "~> 1.0"},
-    ]
+     {:nectar, in_umbrella: true}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

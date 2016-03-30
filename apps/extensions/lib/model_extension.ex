@@ -47,6 +47,7 @@ defmodule Extensions.ModelExtension do
           Enum.map(schema_changes, fn
             ({:field, name, type, options}) -> field name, type, options
             ({:has_one, name, type, options}) -> has_one name, type, options
+            ({:has_one, name, type}) -> has_one name, type
             ({:has_many, name, type, options}) -> has_many name, type, options
             ({:has_many, name, through}) -> has_many name, through
           end)

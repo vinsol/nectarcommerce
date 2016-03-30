@@ -10,6 +10,7 @@ end
 defmodule ExtendUser do
   use Extensions.ModelExtension
   use FavoriteProductsPhoenix.NectarExtension, install: "users"
+  use NectarWallet.NectarExtension, install: "users"
 end
 
 
@@ -26,4 +27,5 @@ defmodule ExtensionsRouter do
   use Extensions.RouterExtension
 
   use FavoriteProductsPhoenix.NectarExtension, install: "router"
+  use NectarWallet.NectarExtension, install: "router"
 end

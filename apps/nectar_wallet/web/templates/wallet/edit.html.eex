@@ -1,0 +1,9 @@
+<h4>Add money to my wallet(Current Balance: <%= @wallet.amount %>)</h4>
+<%= form_for @changeset, @action, fn f -> %>
+  <div class="form-group">
+    <%= label f, :add_amount, class: "control-label" %>
+    <%= text_input f, :add_amount, class: "form-control" %>
+    <%= error_tag f, :add_amount %>
+    <%= submit "Add", class: "btn btn-primary" %>
+  </div>
+<%= end %>

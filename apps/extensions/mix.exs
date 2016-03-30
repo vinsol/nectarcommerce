@@ -35,6 +35,7 @@ defmodule Extensions.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:favorite_products_phoenix, in_umbrella: true}]
+    [{:favorite_products_phoenix, in_umbrella: true},
+     {:nectar_wallet, in_umbrella: true}]
   end
 end
