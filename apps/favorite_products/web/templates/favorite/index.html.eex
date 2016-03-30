@@ -14,7 +14,7 @@
           <td><%= product.name %></td>
 
           <td class="text-right">
-            <%= link "Delete", to: favorite_path(@conn, :delete, product), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+            <%= link "Delete", to: NectarRoutes.favorite_path(@conn, :delete, product), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
           </td>
         </tr>
     <% end %>
@@ -37,7 +37,7 @@
           <td><%= product.name %></td>
 
           <td class="text-right">
-            <%= link "Mark", to: favorite_path(@conn, :create, %{"product_id" => product.id}), method: :post, class: "btn" %>
+            <%= link "Mark", to: NectarRoutes.favorite_path(@conn, :create, %{"product_id" => product.id}), method: :post, class: "btn" %>
           </td>
         </tr>
     <% end %>
