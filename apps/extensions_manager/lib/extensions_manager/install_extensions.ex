@@ -7,9 +7,11 @@ end
 defmodule ExtensionsManager.ExtendUser do
   use ExtensionsManager.ModelExtension
   use FavoriteProducts.NectarExtension, install: "users"
+  use NectarWallet.NectarExtension, install: "users"
 end
 
 defmodule ExtensionsManager.Router do
   use ExtensionsManager.RouterExtension
   use FavoriteProducts.NectarExtension, install: "router"
+  use NectarWallet.NectarExtension, install: "router"
 end
