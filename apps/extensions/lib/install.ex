@@ -29,3 +29,10 @@ defmodule ExtensionsRouter do
   use FavoriteProductsPhoenix.NectarExtension, install: "router"
   use NectarWallet.NectarExtension, install: "router"
 end
+
+
+defmodule ExtendCheckoutView do
+  use Extensions.ViewExtension
+  use NectarWallet.NectarExtension, install: "checkout_view"
+
+end

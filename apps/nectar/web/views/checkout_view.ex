@@ -1,6 +1,5 @@
 defmodule Nectar.CheckoutView do
   use Nectar.Web, :view
-
   alias Nectar.Repo
   alias Nectar.CheckoutManager
 
