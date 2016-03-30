@@ -23,6 +23,7 @@ defmodule Nectar.Web do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
+      use ExtensionsManager.NectarExtender
     end
   end
 
@@ -73,6 +74,7 @@ defmodule Nectar.Web do
   def router do
     quote do
       use Phoenix.Router
+      require ExtensionsManager.Router
     end
   end
 
