@@ -74,7 +74,7 @@ defmodule Nectar.Web do
   def router do
     quote do
       use Phoenix.Router
-      require ExtensionsManager.Router
+      require  ExtensionsManager.Router
     end
   end
 
