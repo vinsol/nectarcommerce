@@ -8,11 +8,12 @@ defmodule NectarWallet do
 
     children = [
       # Start the endpoint when the application starts
-      supervisor(NectarWallet.Endpoint, []),
+      # supervisor(NectarWallet.Endpoint, []),
       # Start the Ecto repository
-      worker(NectarWallet.Repo, []),
+      # worker(NectarWallet.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(NectarWallet.Worker, [arg1, arg2, arg3]),
+      worker(Commerce.Billing.Worker, nectar_wallet_config, id: :nectar_wallet)
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
@@ -26,5 +27,10 @@ defmodule NectarWallet do
   def config_change(changed, _new, removed) do
     NectarWallet.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp nectar_wallet_config do
+    gateway_type = Nectar.Billing.Gateways.NectarWalletGateway
+    [gateway_type, %{}, [name: :nectar_wallet]]
   end
 end

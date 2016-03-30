@@ -23,7 +23,7 @@ defmodule UserStoreApp.Mixfile do
   def application do
     [mod: {UserStoreApp, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger,
-                    :phoenix_ecto, :postgrex, :nectar]]
+                    :phoenix_ecto, :postgrex, :nectar, :nectar_wallet]]
   end
 
   # Specifies which paths to compile per environment.
