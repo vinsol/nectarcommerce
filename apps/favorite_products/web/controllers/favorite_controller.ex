@@ -7,6 +7,7 @@ defmodule FavoriteProducts.FavoriteController do
   alias Nectar.Product
 
   alias FavoriteProducts.UserLike
+  alias Nectar.Router.Helpers, as: NectarRoutes
 
   plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleUnauthenticated
 
@@ -22,11 +23,11 @@ defmodule FavoriteProducts.FavoriteController do
       {:ok, _product} ->
         conn
         |> put_flash(:info, "Product favorited successfully.")
-        |> redirect(to: favorite_path(conn, :index))
+        |> redirect(to: NectarRoutes.favorite_path(conn, :index))
       {:error, changeset} ->
         conn
         |> put_flash(:info, "Product favorited failed #{changeset.errors[:product_id]}")
-        |> redirect(to: favorite_path(conn, :show))
+        |> redirect(to: NectarRoutes.favorite_path(conn, :index))
     end
   end
 
@@ -39,6 +40,6 @@ defmodule FavoriteProducts.FavoriteController do
 
     conn
     |> put_flash(:info, "Product removed from favorites successfully.")
-    |> redirect(to: favorite_path(conn, :index))
+    |> redirect(to: NectarRoutes.favorite_path(conn, :index))
   end
 end
