@@ -1,5 +1,5 @@
 defmodule ExtendProduct do
-  use Extension
+  use Extensions.ModelExtension
   # can be further inferred from __CALLER__ in case we go with
   # a further set of conventions
   # essentially reducing it to
@@ -8,13 +8,13 @@ defmodule ExtendProduct do
 end
 
 defmodule ExtendUser do
-  use Extension
+  use Extensions.ModelExtension
   use FavoriteProductsPhoenix.NectarExtension, install: "users"
 end
 
 
 defmodule ExtendUserLike do
-  use Extension
+  use Extensions.ModelExtension
   include_method do
     def can_extend_an_extension? do
       true
@@ -23,7 +23,7 @@ defmodule ExtendUserLike do
 end
 
 defmodule ExtensionsRouter do
-  use RouterExtension
+  use Extensions.RouterExtension
 
   use FavoriteProductsPhoenix.NectarExtension, install: "router"
 end

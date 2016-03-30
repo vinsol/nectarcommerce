@@ -1,11 +1,11 @@
-defmodule Extension do
+defmodule Extensions.ModelExtension do
   defmacro __using__(_opts) do
     quote do
       Module.register_attribute(__MODULE__, :schema_changes, accumulate: true)
       Module.register_attribute(__MODULE__, :method_block, accumulate: true)
 
-      import Extension, only: [add_to_schema: 4, add_to_schema: 3, include_method: 1]
-      @before_compile Extension
+      import Extensions.ModelExtension, only: [add_to_schema: 4, add_to_schema: 3, include_method: 1]
+      @before_compile Extensions.ModelExtension
 
       defmacro __using__(_opts) do
         quote do
@@ -68,8 +68,4 @@ defmodule Extension do
       end
     end
   end
-end
-
-defmodule DefaultExtend do
-  use Extension
 end

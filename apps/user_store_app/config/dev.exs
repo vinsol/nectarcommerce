@@ -40,21 +40,3 @@ config :user_store_app, UserStoreApp.Repo,
   database: "nectar_dev",
   hostname: "localhost",
   pool_size: 10
-
-# need to require their databases
-# maybe import config from nectar and fav products
-config :nectar, Nectar.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "nimish",
-  password: "root",
-  database: "nectar_dev",
-  hostname: "localhost",
-  pool_size: 10
-
-config :favorite_products_phoenix, FavoriteProductsPhoenix.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "nimish",
-  password: "root",
-  database: "nectar_dev",
-  hostname: "localhost",
-  pool_size: 10

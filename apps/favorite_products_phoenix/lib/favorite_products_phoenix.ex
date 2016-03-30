@@ -8,7 +8,7 @@ defmodule FavoriteProductsPhoenix do
 
     children = [
       # Start the endpoint when the application starts
-      supervisor(FavoriteProductsPhoenix.Endpoint, []),
+      # supervisor(FavoriteProductsPhoenix.Endpoint, []),
       # Start the Ecto repository
       # worker(FavoriteProductsPhoenix.Repo, []),
       # Here you could define other workers and supervisors as children

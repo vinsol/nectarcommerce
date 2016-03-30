@@ -1,10 +1,10 @@
-defmodule RouterExtension do
+defmodule Extensions.RouterExtension do
   defmacro __using__(_opts) do
     quote do
       Module.register_attribute(__MODULE__, :defined_routes, accumulate: true)
 
-      import RouterExtension, only: [define_route: 1]
-      @before_compile RouterExtension
+      import Extensions.RouterExtension, only: [define_route: 1]
+      @before_compile Extensions.RouterExtension
     end
   end
 
