@@ -13,6 +13,7 @@ defmodule Nectar.User do
     has_many :user_addresses, Nectar.UserAddress
     has_many :addresses, through: [:user_addresses, :address]
 
+    extensions
     timestamps
   end
 

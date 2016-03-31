@@ -1,12 +1,12 @@
-defmodule Nectar.Web do
+defmodule FavoriteProducts.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use Nectar.Web, :controller
-      use Nectar.Web, :view
+      use FavoriteProducts.Web, :controller
+      use FavoriteProducts.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -23,7 +23,6 @@ defmodule Nectar.Web do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query, only: [from: 1, from: 2]
-      use Nectar.Extender
     end
   end
 
@@ -31,28 +30,14 @@ defmodule Nectar.Web do
     quote do
       use Phoenix.Controller
 
-      alias Nectar.Repo
+      alias FavoriteProducts.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
-      import Nectar.Router.Helpers
-      import Nectar.Gettext
+      import FavoriteProducts.Router.Helpers
+      import FavoriteProducts.Gettext
     end
   end
-
-  def admin_controller do
-    quote do
-      use Phoenix.Controller, namespace: Nectar.Admin
-
-      alias Nectar.Repo
-      import Ecto
-      import Ecto.Query, only: [from: 1, from: 2]
-
-      import Nectar.Router.Helpers
-      import Nectar.Gettext
-    end
-  end
-
 
   def view do
     quote do
@@ -64,10 +49,9 @@ defmodule Nectar.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import Nectar.Router.Helpers
-      import Nectar.ErrorHelpers
-      import Nectar.Gettext
-      import Nectar.Auth.ViewHelper
+      import FavoriteProducts.Router.Helpers
+      import FavoriteProducts.ErrorHelpers
+      import FavoriteProducts.Gettext
     end
   end
 
@@ -81,10 +65,10 @@ defmodule Nectar.Web do
     quote do
       use Phoenix.Channel
 
-      alias Nectar.Repo
+      alias FavoriteProducts.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
-      import Nectar.Gettext
+      import FavoriteProducts.Gettext
     end
   end
 

@@ -8,7 +8,8 @@ defmodule Nectar do
 
     children = [
       # Start the endpoint when the application starts
-      supervisor(Nectar.Endpoint, []),
+      # Commented to Avoid - repo Nectar.Repo is not started, please ensure it is part of your supervision tree
+      # supervisor(Nectar.Endpoint, []),
       # Start the Ecto repository
       supervisor(Nectar.Repo, []),
       # Here you could define other workers and supervisors as children
