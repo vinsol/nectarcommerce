@@ -41,7 +41,8 @@ defmodule UserApp.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
-     {:nectar, in_umbrella: true}
+     {:nectar, in_umbrella: true},
+     {:favorite_products, in_umbrella: true}
    ]
   end
 

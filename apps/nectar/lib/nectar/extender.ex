@@ -8,7 +8,7 @@ defmodule Nectar.Extender do
 
   def extension_module(caller) do
     module_to_extend = caller.module |> Module.split |> List.last
-    module_name = String.to_atom("Elixir.Extend" <> module_to_extend)
+    module_name = String.to_atom("Elixir.ExtensionsManager.Extend" <> module_to_extend)
     Code.ensure_loaded(module_name)
   end
 
