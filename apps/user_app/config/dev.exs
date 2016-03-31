@@ -37,6 +37,6 @@ config :user_app, UserApp.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "user_app_dev",
+  database: "user_app_dev_1",
   hostname: "localhost",
   pool_size: 10

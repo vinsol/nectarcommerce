@@ -1,6 +1,10 @@
 defmodule Nectar.RouteExtender do
   defmacro __using__(opts) do
+<<<<<<< HEAD
     case Code.ensure_loaded(ExtensionsManager.Router) do
+=======
+    case Code.ensure_loaded(ExtensionsManager.ExtensionsRouter) do
+>>>>>>> 4bafcf2... Updated Nectar.Extender and Nectar.RouteExtender to use namespaced ExtensionsManager name
       {:module, module} -> mount_router(module)
       {:error, _reason} -> do_nothing
     end

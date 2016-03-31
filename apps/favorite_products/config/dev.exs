@@ -37,6 +37,6 @@ config :favorite_products, FavoriteProducts.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "favorite_products_dev",
+  database: "user_app_dev",
   hostname: "localhost",
   pool_size: 10
