@@ -1,6 +1,6 @@
 defmodule Nectar.RouteExtender do
   defmacro __using__(opts) do
-    case Code.ensure_loaded(ExtensionsManager.ExtensionsRouter) do
+    case Code.ensure_loaded(ExtensionsManager.Router) do
       {:module, module} -> mount_router(module)
       {:error, _reason} -> do_nothing
     end

@@ -10,4 +10,5 @@ end
 
 defmodule ExtensionsManager.Router do
   use ExtensionsManager.RouterExtension
+  use FavoriteProducts.NectarExtension, install: "router"
 end
