@@ -3,6 +3,18 @@ defmodule FavoriteProducts.NectarExtension do
     do_install(install_type)
   end
 
+  defp do_install("router") do
+    quote do
+      define_route do
+        scope "/", FavoriteProducts do
+          ## Do not forget to add the pipelines request should go through
+          pipe_through [:browser, :browser_auth]
+          resources "/favorites", FavoriteController, only: [:index, :create, :delete]
+        end
+      end
+    end
+  end
+
   defp do_install("products") do
     quote do
       ## In Phoenix App Model Schema definition, join association is defined first and then through association
