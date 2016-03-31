@@ -12,21 +12,22 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html";
-import ajax from "web/static/js/lib/ajax_setup";
-import zone from "web/static/js/zone";
-import state from "web/static/js/state";
-import order from "web/static/js/order";
-import order_show from "web/static/js/order_show";
-import payment from "web/static/js/payment";
-import cart_creator from "web/static/js/cart_creator";
+import ajax from "./lib/ajax_setup";
+import zone from "./zone";
+import state from "./state";
+import order from "./order";
+import order_show from "./order_show";
+import payment from "./payment";
+import cart_creator from "./cart_creator";
 
-ajax.setup();
-window.zone = zone;
-window.state = state;
-window.order = order;
-window.payment = payment;
-window.order_show = order_show;
-window.cart_creator = cart_creator;
+let nectar = {};
+nectar.ajax_setup = ajax.setup;
+nectar.zone = zone;
+nectar.state = state;
+nectar.order = order;
+nectar.payment = payment;
+nectar.order_show = order_show;
+nectar.cart_creator = cart_creator;
 // Import local files
 //
 // Local files can be imported directly using relative
@@ -50,3 +51,11 @@ $(document).ready(function() {
     $(this).parent().remove();
   });
 });
+
+nectar.setup = function() {
+    for (var prop in this) {
+        window[prop] = nectar[prop];
+    }
+};
+
+export default nectar;
