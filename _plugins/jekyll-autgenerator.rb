@@ -1,7 +1,7 @@
 module Jekyll
 
   class AuthorsGenerator < Generator
-  
+
     safe true
 
     def generate(site)
@@ -19,14 +19,16 @@ module Jekyll
       pages = Jekyll::Paginate::Pager.calculate_pages(posts[1], site.config['paginate'].to_i)
       (1..pages).each do |num_page|
         pager = Jekyll::Paginate::Pager.new(site, num_page, posts[1], pages)
-        path = "/author/#{posts[0]}"
+        author = posts[1][0].author rescue nil
+        author = author || site.author
+        author_downcased = author.downcase
+        path = "/author/#{author_downcased}"
         if num_page > 1
           path = path + "/page#{num_page}"
         end
-        newpage = GroupSubPageAuthor.new(site, site.source, path, type, posts[0])
+        newpage = GroupSubPageAuthor.new(site, site.source, path, type, author_downcased)
         newpage.pager = pager
-        site.pages << newpage 
-
+        site.pages << newpage
       end
     end
   end

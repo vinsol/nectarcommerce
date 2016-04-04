@@ -4,7 +4,8 @@ cover: 'assets/images/general-cover-3.jpg'
 title: Getting Started
 tags: docs
 subclass: 'post tag-docs'
-categories: 'pikender'
+categories: 'elixir'
+author: 'Pikender'
 navigation: true
 logo: 'assets/images/nectar-cart.png'
 ---
