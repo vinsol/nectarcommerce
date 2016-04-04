@@ -1,0 +1,78 @@
+# Jykell configuration
+#markdown: redcarpet
+#highlighter: pygments
+markdown: kramdown
+highlighter: rouge
+paginate: 5
+language: 'en-uk'
+
+# Website info
+name: 'NectarCommerce'
+description: "Quest for customizable E-commerce - the Elixir way"
+
+# Author's info
+author: 'Pikender Sharma'
+# edit 'categories' in the front matter of every post to match this username
+nickname: piks
+bio: 'In search of salvation through technology'
+location: 'New Delhi, India'
+url: 'http://vinsol.github.io/nectarcommerce/'
+author_image: 'assets/images/author.png'
+general_image: 'assets/images/general-cover.png'
+facebook_image: 'assets/images/general-cover.png'
+twitter_image: 'assets/images/general-cover-1.png'
+
+short_url: 'vinsol.github.io/nectarcommerce/'
+google_analytics: UA-69281367-1
+disqus: username
+# edit baseurl to simply '/' if using as your personal page (instead of a project page)
+baseurl: /nectarcommerce/
+
+# Permalinks
+permalink: /:title
+# permalink: /author/:username
+# permalink: /tag/:tag
+
+
+# gems and other configs
+gems: [jekyll-paginate]
+exclude: [vendor]
+
+# Additional settings available on the front-matter
+# Site logo in the index.html (as in demo.ghost.io)
+# Author's page cover in _layouts/author.html
+# The same for page.html and tag.html layouts
+# Post's page cover as a per-post basis _posts/...
+# Disqus comments as a per-post basis
+# ...
+
+
+# Settings for builing master branch with travis-ci
+# with jekyll-travis
+
+# Settings for deploy rake task
+# Username and repo of Github repo, e.g.
+# https://github.com/USERNAME/REPO.git
+# username defaults to ENV['GIT_NAME'] used by Travis
+# repo defaults to USERNAME.github.io
+# Branch defaults to "source" for USERNAME.github.io
+# or "master" otherwise
+safe: false
+lsi: false
+username: pikender
+repo: nectarcommerce
+branch: master
+relative_source: ../nectarcommerce/
+destination: ../nectarcommerce-pages/
+production_url:  https://vinsol.github.io/nectarcommerce/
+source_url:      https://github.com/vinsol/nectarcommerce/
+
+exclude:
+  - README.md
+  - Rakefile
+  - Gemfile
+  - Gemfile.lock
+  - changelog.md
+  - "*.Rmd"
+  - vendor
+  - .travis.yml
