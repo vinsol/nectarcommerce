@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Nectarcommerce : Quest for customizable E-commerce - the Elixir way">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Nectarcommerce</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/vinsol/nectarcommerce">View on GitHub</a>
+
+          <h1 id="project_title">Nectarcommerce</h1>
+          <h2 id="project_tagline">Quest for customizable E-commerce - the Elixir way</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/vinsol/nectarcommerce/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/vinsol/nectarcommerce/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="nectar-e-commerce-" class="anchor" href="#nectar-e-commerce-" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Nectar E-Commerce <a href="https://travis-ci.org/vinsol/nectarcommerce"><img src="https://travis-ci.org/vinsol/nectarcommerce.svg?branch=master" alt="Build Status"></a>
+</h1>
+
+<p>Nectar is an open source e-commerce Elixir/Phoenix project to be <em>evolved into E-Commerce framework <strong>the elixir way</strong></em>
+Please share your ideas <a href="https://github.com/vinsol/nectarcommerce/issues/44">here</a></p>
+
+<p>It includes:</p>
+
+<p><em>Admin</em></p>
+
+<ul>
+<li>
+<p>Product Management</p>
+
+<ul>
+<li>Manage OptionTypes/OptionValues</li>
+<li>Manage Categories</li>
+<li>Product with / without variants</li>
+<li>Search</li>
+</ul>
+</li>
+<li>
+<p>Configuration Management</p>
+
+<ul>
+<li>General Settings</li>
+<li>Shipping Methods</li>
+<li>Payment Methods
+
+<ul>
+<li>Stripe and Braintree supported</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Cart Management</p>
+
+<ul>
+<li>Add / Remove Variant</li>
+<li>Add Shipping / Billing Address</li>
+<li>Choose Shipping Method</li>
+<li>Choose Payment Method</li>
+</ul>
+</li>
+<li>
+<p>Order Management</p>
+
+<ul>
+<li>Cancel LineItem</li>
+<li>Fulfill Order</li>
+<li>Create New Order</li>
+<li>Search</li>
+</ul>
+</li>
+<li>
+<p>User Management</p>
+
+<ul>
+<li>Create Users</li>
+<li>Promote / Demote as Admin</li>
+</ul>
+</li>
+</ul>
+
+<p><em>User</em></p>
+
+<ul>
+<li>User Registration / Login</li>
+<li>Product Browsing
+
+<ul>
+<li>List and Search</li>
+<li>on available categories</li>
+</ul>
+</li>
+<li>Cart Management</li>
+<li>Check Order Details</li>
+</ul>
+
+<h1>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Demo</h1>
+
+<ul>
+<li>
+<a href="http://nectarcommerce.vinsol.com/">Browse User Interface</a>
+
+<ul>
+<li>
+<strong>Username:</strong> <a href="mailto:alice@example.com">alice@example.com</a>
+</li>
+<li>
+<strong>Password:</strong> foobar</li>
+</ul>
+</li>
+<li>
+<a href="http://nectarcommerce.vinsol.com/admin">Browse Admin Interface</a>
+
+<ul>
+<li>
+<strong>Username:</strong> <a href="mailto:bob@example.com">bob@example.com</a>
+</li>
+<li>
+<strong>Password:</strong> secured</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="docker-image" class="anchor" href="#docker-image" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Docker Image</h2>
+
+<p><strong><a href="https://hub.docker.com/r/vinsol/nectarcommerce">https://hub.docker.com/r/vinsol/nectarcommerce</a></strong></p>
+
+<ul>
+<li>Simply run <code>docker run -it -p 4000:4000 vinsol/nectarcommerce:latest</code> and go to <code>http://localhost:4000</code>
+</li>
+</ul>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<ul>
+<li>
+<p>Pre-requisites</p>
+
+<ul>
+<li>
+<a href="http://elixir-lang.org/install.html">Install Elixir</a>
+
+<ul>
+<li>Check <code>elixir -v</code>, better to have 1.2.2 or higher</li>
+</ul>
+</li>
+<li>
+<a href="https://hex.pm/docs/usage">Install Hex Package Manager</a>
+
+<ul>
+<li><code>mix local.hex</code></li>
+<li>Check <code>mix hex.info</code>
+</li>
+</ul>
+</li>
+<li><a href="https://nodejs.org/en/download/package-manager/">Install Nodejs 5</a></li>
+<li>
+<a href="https://wiki.postgresql.org/wiki/Detailed_installation_guides">Install Postgres 9.4 or higher</a>
+
+<ul>
+<li>
+<code>psql postgres</code>
+
+<ul>
+<li>Check <code>SHOW SERVER_VERSION</code>
+</li>
+</ul>
+</li>
+<li>jsonb[] type is used and not available on previous versions</li>
+</ul>
+</li>
+<li><a href="http://www.imagemagick.org/script/binary-releases.php">Install ImageMagick</a></li>
+</ul>
+</li>
+<li>
+<p>Clone Project Locally</p>
+
+<ul>
+<li><code>git clone https://github.com/vinsol/nectarcommerce.git</code></li>
+</ul>
+</li>
+<li>Set up Development Environment
+
+<ul>
+<li>Copy apps/nectar/config/dev.secret.exs.example as dev.secret.exs
+
+<ul>
+<li><code>cp apps/nectar/config/dev.secret.exs.example apps/nectar/config/dev.secret.exs</code></li>
+</ul>
+</li>
+<li>Configure Postgres Database</li>
+<li>Configure Arc for images upload
+
+<ul>
+<li>
+<a href="https://github.com/stavro/arc#local-configuration">Local Image Upload for Development</a>
+
+<ul>
+<li>As uploads would be done on App Root so a symlink is needed
+
+<ul>
+<li><code>mkdir -p apps/nectar/priv/static/uploads</code></li>
+<li>
+<code>ln -s uploads apps/nectar/priv/static/uploads</code> # run from project root</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://github.com/stavro/arc#s3-configuration">S3 Image Upload for Production</a></li>
+</ul>
+</li>
+<li>Configure Payment Methods
+
+<ul>
+<li>
+<a href="http://www.larryullman.com/2012/11/07/creating-a-stripe-payments-test-account/">Configure Stripe</a> and <a href="https://stripe.com/docs/testing">Test Stripe</a>
+</li>
+<li>
+<a href="https://articles.braintreepayments.com/control-panel/important-gateway-credentials">Configure Braintree</a> and <a href="https://developers.braintreepayments.com/reference/general/testing/ruby">Test Braintree</a>
+</li>
+</ul>
+</li>
+<li>Get Application Dependencies
+
+<ul>
+<li><code>mix deps.get</code></li>
+</ul>
+</li>
+<li>Set-up Application Database
+
+<ul>
+<li>Drop Database
+
+<ul>
+<li><code>mix ecto.drop -r Nectar.Repo</code></li>
+</ul>
+</li>
+<li>Create Database
+
+<ul>
+<li><code>mix ecto.create -r Nectar.Repo</code></li>
+</ul>
+</li>
+<li>Migrate Database
+
+<ul>
+<li><code>mix ecto.migrate -r Nectar.Repo</code></li>
+</ul>
+</li>
+<li>Seed Database
+
+<ul>
+<li><code>mix run apps/nectar/priv/repo/seeds.exs</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Build Assets
+
+<ul>
+<li><code>cd apps/nectar</code></li>
+<li><code>npm install</code></li>
+<li><code>npm install babel-preset-es2015 --save</code></li>
+<li><code>./node_modules/brunch/bin/brunch build</code></li>
+<li>Optionally might need <code>bower install</code>
+</li>
+</ul>
+</li>
+<li>Run Phoenix Server with IEx
+
+<ul>
+<li>iex -S mix phoenix.server</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Browse User Interface
+
+<ul>
+<li>http://localhost:4000</li>
+</ul>
+</li>
+<li>Browse Admin Interface
+
+<ul>
+<li>http://localhost:4000/admin</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2>
+
+<ol>
+<li>Fork the repo.</li>
+<li>Clone your repo.</li>
+<li>Check <a href="#getting-started">Getting Started</a>
+</li>
+<li>Make your changes.</li>
+<li>Ensure tests pass by running <code>mix test</code>.</li>
+<li>Submit your pull request.</li>
+</ol>
+
+<h2>
+<a id="running-tests" class="anchor" href="#running-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running Tests</h2>
+
+<p>We use <a href="https://travis-ci.org/">Travis CI</a> to run the tests for Nectar.</p>
+
+<p>You can see the build statuses at <a href="https://travis-ci.org/vinsol/nectarcommerce">https://travis-ci.org/vinsol/nectarcommerce</a>.</p>
+
+<h2>
+<a id="roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>RoadMap</h2>
+
+<ul>
+<li>
+<strong>Evolve into a Phoenix E-commerce Framework</strong>
+
+<ul>
+<li>Better and More Shipping Methods Customization</li>
+<li>Better and More Payment Methods Customization</li>
+<li>Customize Tax Rate Calculations</li>
+<li>Customize Package Management
+
+<ul>
+<li>Add Order Splitters</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>RealTime Updates using Channels</li>
+<li>Upgrade to ecto-2</li>
+<li>Customisable and decoupled Frontend and Backend
+
+<ul>
+<li>React Frontend</li>
+<li>Phoenix Api Backend</li>
+</ul>
+</li>
+<li>Improved Stock Management</li>
+<li>Returns / Refunds Management</li>
+<li>Payments
+
+<ul>
+<li>Add support for capture and refunds</li>
+</ul>
+</li>
+<li>Marketing
+
+<ul>
+<li>Promotions</li>
+<li>Email Campaigns</li>
+</ul>
+</li>
+<li>More features as per contributions and use :)</li>
+</ul>
+
+<h2>
+<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Credits</h2>
+
+<p><a href="http://vinsol.com"><img src="http://vinsol.com/vin_logo.png" alt="vinsol.com: Ruby on Rails, iOS and Android developers" title="Ruby on Rails, iOS and Android developers"></a></p>
+
+<p>Copyright (c) 2016 <a href="http://vinsol.com" title="Ruby on Rails, iOS and Android developers">vinsol.com</a>, released under the New MIT License</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Nectarcommerce maintained by <a href="https://github.com/vinsol">vinsol</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
