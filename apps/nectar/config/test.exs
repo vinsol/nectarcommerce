@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :nectar, Nectar.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "nimish",
-  password: "root",
+  username: "postgres",
+  password: "postgres",
   database: "nectar_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

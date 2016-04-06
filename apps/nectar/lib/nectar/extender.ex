@@ -15,16 +15,19 @@ defmodule Nectar.Extender do
   def use_found_module(module) do
     quote do
       use unquote(module)
+      def __nectar_recompile__?, do: true
     end
   end
 
   def provide_no_op do
     quote do
       import Nectar.Extender, only: [extensions: 0]
+      def __nectar_recompile__?, do: true
     end
   end
 
   def extensions do
     # does nothing, just to pass the compilation
   end
+
 end

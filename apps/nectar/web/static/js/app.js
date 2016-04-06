@@ -53,9 +53,12 @@ $(document).ready(function() {
 });
 
 nectar.setup = function() {
-    for (var prop in this) {
+  for (var prop in this) {
         window[prop] = nectar[prop];
-    }
+  }
+  ajax_setup();
 };
+
+nectar.setup();
 
 export default nectar;
