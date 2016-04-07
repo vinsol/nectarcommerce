@@ -316,8 +316,24 @@ __index.html.eex__
 </table>
 ```
 
-In both of the files we refer to routes via NectarRoutes alias instead of favorite products.
-To add the route from nectar, update nectar_extension.ex with the following code:
+In both of the files we refer to routes via NectarRoutes alias instead of favorite products. To get the assets from nectar add nectar/web/static to the brunch config's watched folders:
+
+```js
+paths: {
+  watched: [".../nectar/web/static"]
+}
+```
+
+
+and in __app.js__, initialize the nectar code:
+
+```js
+import nectar from "../../../nectar/web/static/js/app";
+nectar.setup();
+window.ajax_setup();
+```
+
+Finally for adding the route to nectar, update nectar_extension.ex with the following code:
 
 ```elixir
 defp do_install("router") do
