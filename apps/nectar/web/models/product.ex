@@ -1,6 +1,10 @@
 defmodule Nectar.ExtendProduct do
-  def fn_from_outside do
-    "support function"
+  defmacro __before_compile__(_env) do
+    quote do
+      def fn_from_outside do
+        "support function"
+      end
+    end
   end
 end
 
@@ -8,11 +12,7 @@ defmodule Nectar.Product do
   use Nectar.Web, :model
   use Arc.Ecto.Model
 
-  import Nectar.ExtendProduct, only: [fn_from_outside: 0]
-
-  # Works inside the module
-  # cann not reference from outside
-  IO.inspect fn_from_outside
+  @before_compile Nectar.ExtendProduct
 
   schema "products" do
     field :name, :string
