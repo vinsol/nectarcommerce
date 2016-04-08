@@ -2,6 +2,10 @@ defmodule Nectar.Product do
   use Nectar.Web, :model
   use Arc.Ecto.Model
 
+  def fn_from_outside do
+    "support function"
+  end
+
   schema "products" do
     field :name, :string
     field :description, :string
