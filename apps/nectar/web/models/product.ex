@@ -1,8 +1,9 @@
 defmodule Nectar.ExtendProduct do
+  Module.register_attribute(__MODULE__, :schema_changes, accumulate: true)
+  Module.put_attribute(__MODULE__, :schema_changes, quote do: (field :special, :boolean, virtual: true))
+
   defmacro extensions do
-    quote do
-      field :special, :boolean, virtual: true
-    end
+    @schema_changes
   end
 end
 
