@@ -27,6 +27,7 @@ defmodule Nectar.ExtendProduct do
   use Nectar.ModelExtension
 
   add_to_schema do: (field :special, :boolean, virtual: true)
+  add_to_schema do: (field :type, :string, virtual: true)
 end
 
 defmodule Nectar.Product do
