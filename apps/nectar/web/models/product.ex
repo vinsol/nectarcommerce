@@ -1,6 +1,8 @@
 defmodule Nectar.ExtendProduct do
   Module.register_attribute(__MODULE__, :method_block, accumulate: true)
-  Module.put_attribute(__MODULE__, :method_block, quote do: (def fn_from_outside, do: "support function"))
+  include_method = fn(support_fn) -> Module.put_attribute(__MODULE__, :method_block, support_fn) end
+
+  include_method.(quote do: (def fn_from_outside, do: "support function"))
 
   defmacro __before_compile__(_env) do
     @method_block
