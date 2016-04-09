@@ -1,8 +1,17 @@
+defmodule Nectar.ModelExtension do
+  defmacro add_to_schema([do: block]) do
+    schema_change = Macro.escape(block)
+    quote bind_quoted: [schema_change: schema_change] do
+      Module.put_attribute(__MODULE__, :schema_changes, schema_change)
+    end
+  end
+end
+
 defmodule Nectar.ExtendProduct do
   Module.register_attribute(__MODULE__, :schema_changes, accumulate: true)
-  add_to_schema = fn(schema_change) -> Module.put_attribute(__MODULE__, :schema_changes, schema_change) end
+  import Nectar.ModelExtension, only: [add_to_schema: 1]
 
-  add_to_schema.(quote do: (field :special, :boolean, virtual: true))
+  add_to_schema do: (field :special, :boolean, virtual: true)
 
   defmacro extensions do
     @schema_changes
