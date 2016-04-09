@@ -41,6 +41,7 @@ defmodule Nectar.ExtendProduct do
   end
 
   include_method do: (def fn_from_outside, do: "support function")
+  include_method do: (def get_name(product), do: product.name)
 end
 
 defmodule Nectar.Product do
