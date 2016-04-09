@@ -3,6 +3,7 @@ defmodule Nectar.ModelExtension do
     quote do
       Module.register_attribute(__MODULE__, :method_block, accumulate: true)
       import Nectar.ModelExtension, only: [include_method: 1]
+      @before_compile Nectar.ModelExtension
     end
   end
 
@@ -12,6 +13,21 @@ defmodule Nectar.ModelExtension do
       Module.put_attribute(__MODULE__, :method_block, support_fn)
     end
   end
+
+  defmacro __before_compile__(_env) do
+    quote do
+      defmacro include_methods do
+        @method_block
+      end
+
+      ## before_compile hook as needed in ExtendProduct for Product
+      defmacro __before_compile__(_env) do
+        quote do
+          include_methods
+        end
+      end
+    end
+  end
 end
 
 defmodule Nectar.ExtendProduct do
@@ -19,15 +35,12 @@ defmodule Nectar.ExtendProduct do
 
   defmacro __using__(_opts) do
     quote do
+      import Nectar.ExtendProduct, only: [include_methods: 0]
       @before_compile Nectar.ExtendProduct
     end
   end
 
   include_method do: (def fn_from_outside, do: "support function")
-
-  defmacro __before_compile__(_env) do
-    @method_block
-  end
 end
 
 defmodule Nectar.Product do
