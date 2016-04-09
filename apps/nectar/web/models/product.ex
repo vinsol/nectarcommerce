@@ -1,6 +1,8 @@
 defmodule Nectar.ExtendProduct do
   Module.register_attribute(__MODULE__, :schema_changes, accumulate: true)
-  Module.put_attribute(__MODULE__, :schema_changes, quote do: (field :special, :boolean, virtual: true))
+  add_to_schema = fn(schema_change) -> Module.put_attribute(__MODULE__, :schema_changes, schema_change) end
+
+  add_to_schema.(quote do: (field :special, :boolean, virtual: true))
 
   defmacro extensions do
     @schema_changes
@@ -34,7 +36,7 @@ defmodule Nectar.Product do
   end
 
   @required_fields ~w(name description available_on)
-  @optional_fields ~w(slug)
+  @optional_fields ~w(slug special)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
