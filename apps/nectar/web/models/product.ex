@@ -1,4 +1,11 @@
 defmodule Nectar.ModelExtension do
+  defmacro __using__(_opts) do
+    quote do
+      Module.register_attribute(__MODULE__, :method_block, accumulate: true)
+      import Nectar.ModelExtension, only: [include_method: 1]
+    end
+  end
+
   defmacro include_method([do: block]) do
     support_fn = Macro.escape(block)
     quote bind_quoted: [support_fn: support_fn] do
@@ -8,8 +15,7 @@ defmodule Nectar.ModelExtension do
 end
 
 defmodule Nectar.ExtendProduct do
-  Module.register_attribute(__MODULE__, :method_block, accumulate: true)
-  import Nectar.ModelExtension
+  use Nectar.ModelExtension
 
   defmacro __using__(_opts) do
     quote do
