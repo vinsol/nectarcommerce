@@ -1,4 +1,14 @@
+defmodule Nectar.ExtendProduct do
+  defmacro extensions do
+    quote do
+      field :special, :boolean, virtual: true
+    end
+  end
+end
+
 defmodule Nectar.Product do
+  import Nectar.ExtendProduct
+
   use Nectar.Web, :model
   use Arc.Ecto.Model
 
@@ -18,7 +28,7 @@ defmodule Nectar.Product do
     has_many :product_categories, Nectar.ProductCategory
     has_many :categories, through: [:product_categories, :category]
 
-    field :special, :boolean, virtual: true
+    extensions
     timestamps
   end
 
