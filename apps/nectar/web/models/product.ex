@@ -3,6 +3,7 @@ defmodule Nectar.ModelExtension do
     quote do
       Module.register_attribute(__MODULE__, :schema_changes, accumulate: true)
       import Nectar.ModelExtension, only: [add_to_schema: 1]
+      @before_compile Nectar.ModelExtension
     end
   end
 
@@ -12,16 +13,20 @@ defmodule Nectar.ModelExtension do
       Module.put_attribute(__MODULE__, :schema_changes, schema_change)
     end
   end
+
+  defmacro __before_compile__(_env) do
+    quote do
+      defmacro extensions do
+        @schema_changes
+      end
+    end
+  end
 end
 
 defmodule Nectar.ExtendProduct do
   use Nectar.ModelExtension
 
   add_to_schema do: (field :special, :boolean, virtual: true)
-
-  defmacro extensions do
-    @schema_changes
-  end
 end
 
 defmodule Nectar.Product do
