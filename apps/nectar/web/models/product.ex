@@ -11,6 +11,12 @@ defmodule Nectar.ExtendProduct do
   Module.register_attribute(__MODULE__, :method_block, accumulate: true)
   import Nectar.ModelExtension
 
+  defmacro __using__(_opts) do
+    quote do
+      @before_compile Nectar.ExtendProduct
+    end
+  end
+
   include_method do: (def fn_from_outside, do: "support function")
 
   defmacro __before_compile__(_env) do
@@ -22,7 +28,7 @@ defmodule Nectar.Product do
   use Nectar.Web, :model
   use Arc.Ecto.Model
 
-  @before_compile Nectar.ExtendProduct
+  use Nectar.ExtendProduct
 
   schema "products" do
     field :name, :string
