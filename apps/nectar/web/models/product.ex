@@ -1,8 +1,17 @@
+defmodule Nectar.ModelExtension do
+  defmacro include_method([do: block]) do
+    support_fn = Macro.escape(block)
+    quote bind_quoted: [support_fn: support_fn] do
+      Module.put_attribute(__MODULE__, :method_block, support_fn)
+    end
+  end
+end
+
 defmodule Nectar.ExtendProduct do
   Module.register_attribute(__MODULE__, :method_block, accumulate: true)
-  include_method = fn(support_fn) -> Module.put_attribute(__MODULE__, :method_block, support_fn) end
+  import Nectar.ModelExtension
 
-  include_method.(quote do: (def fn_from_outside, do: "support function"))
+  include_method do: (def fn_from_outside, do: "support function")
 
   defmacro __before_compile__(_env) do
     @method_block
