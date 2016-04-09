@@ -18,6 +18,7 @@ defmodule Nectar.Product do
     has_many :product_categories, Nectar.ProductCategory
     has_many :categories, through: [:product_categories, :category]
 
+    field :special, :boolean, virtual: true
     timestamps
   end
 
