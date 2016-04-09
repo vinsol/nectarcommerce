@@ -1,4 +1,11 @@
 defmodule Nectar.ModelExtension do
+  defmacro __using__(_opts) do
+    quote do
+      Module.register_attribute(__MODULE__, :schema_changes, accumulate: true)
+      import Nectar.ModelExtension, only: [add_to_schema: 1]
+    end
+  end
+
   defmacro add_to_schema([do: block]) do
     schema_change = Macro.escape(block)
     quote bind_quoted: [schema_change: schema_change] do
@@ -8,8 +15,7 @@ defmodule Nectar.ModelExtension do
 end
 
 defmodule Nectar.ExtendProduct do
-  Module.register_attribute(__MODULE__, :schema_changes, accumulate: true)
-  import Nectar.ModelExtension, only: [add_to_schema: 1]
+  use Nectar.ModelExtension
 
   add_to_schema do: (field :special, :boolean, virtual: true)
 
