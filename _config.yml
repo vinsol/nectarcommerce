@@ -5,6 +5,8 @@ markdown: kramdown
 highlighter: rouge
 paginate: 5
 language: 'en-uk'
+kramdown:
+  input: GFM
 
 # Website info
 name: 'NectarCommerce'
