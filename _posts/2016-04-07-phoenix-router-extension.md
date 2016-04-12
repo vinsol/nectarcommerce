@@ -13,11 +13,12 @@ logo: 'assets/images/nectar-cart.png'
 >
 The post belongs to NectarCommerce and Extension Framework Awareness
 >
-1. NectarCommerce Vision
-1. Extension Framework Game Plan
-1. Introduction to Writing Macros
+1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_
+1. _[Extension Framework Game Plan](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/)_
+1. Introduction to Metaprogramming
 1. Running Multiple Phoenix Apps Together
-1. Ecto Model Extension
+1. Ecto Model Schema Extension
+1. Ecto Model Support Functions Extension
 1. **Phoenix Router Extension**
 1. Phoenix View Extension
 1. Extension Approach Explained
@@ -46,292 +47,75 @@ We want to allow Extensions to add routes into Nectar Router without modifying t
 
 ### How
 
-Here is the walkthrough of incremental code changes, we made to develop RouterExtension Module and Macros to facilitate Route Additions in Nectar without modifying NectarRouter.
+There are three parts needed at minimium to create & use an extension effectively:
+
+- Library Code
+- Service Code
+- Consumer Code
+
+An extension and its use with Nectar can be viewed as Producer / Consumer relationship bound by a communication protocol.
+
+**Extension** which want to add a route, say list of favorites, is a **Producer (Service Code)**.
+
+**Nectar Router** is a **Consumer (Consumer Code)** allowing the route additions through a **communication protocol (Library Code)**
+
+Let's begin the journey of incremental changes to bring consumer, service and library code into existence starting from a simple use-case of adding a route for showing favorites.
 
 >
-Note: Please refer [Introduction to Writing Macros]() for more information on Metaprogramming in Elixir
+Note: Please refer [Introduction to Metaprogramming]() for more information on Metaprogramming in Elixir
 
-1.  Straightforward way to add favorites route in Nectar.Router would be to add it directly in Nectar.Router, see  diff [here](https://github.com/vinsol/nectarcommerce/compare/aa204e2f83cc68d6683222613f6eb1dea984a88e...475e0ae3136fae055605d1c1277c48c4bff611b1), but it requires change in Nectar source. Let's move to next step for the workaround to avoid modification to Nectar.Router
+1.  Straightforward way to add favorites route in Nectar.Router would be to add it directly in Nectar.Router, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/a4cda70666cb5132ecaf1c91a98710c09872a444), but it requires change in Nectar source. Let's move to next step for the workaround to avoid modification to Nectar.Router
 
-    ```elixir
-    defmodule Nectar.Router do
-      get "/favorites", FavoriteProducts.FavoriteController, :index
-    end
-    ```
+    <script src="https://gist.github.com/pikender/607493614533860699d835111feb11cd/7020bb2f62d6224fb3cda074257a507ab01d5106.js"></script>
 
-    ```bash
-    nectarcommerce ~/elixir$ mix phoenix.routes Nectar.Router | grep Favorite
-       favorite_path  GET  /favorites  FavoriteProducts.FavoriteController :index
-    ```
+    <script src="https://gist.github.com/pikender/e2fccd747620b9e67f4b201fb124ebbe.js"></script>
 
-1.  We can add a function to Nectar to which other extensions can delegate the responsibility of route additions, see diff [here](https://github.com/vinsol/nectarcommerce/compare/475e0ae3136fae055605d1c1277c48c4bff611b1...c16ecea1960a5d6a01770079b01837fa67be32f9). See Nectar.ExtendRouter example below on how to use it
+1.  We can add a function to Nectar to which other extensions can delegate the responsibility of route additions, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/155a427b80b5dc11d201adcea0262e7ccd342bb1). See Nectar.ExtendRouter example below on how to use it
 
-    ```elixir
-    defmodule Nectar.ExtendRouter do
-      defmacro mount do
-        quote do
-          get "/favorites", FavoriteProducts.FavoriteController, :index
-        end
-      end
-    end
-    ```
+    <script src="https://gist.github.com/pikender/607493614533860699d835111feb11cd/1c0ffd904c0cdf75be54efd70f126e42ec9a3828.js"></script>
 
-    ```elixir
-    defmodule Nectar.Router do
-      # get "/favorites", FavoriteProducts.FavoriteController, :index
-      require Nectar.ExtendRouter
-      Nectar.ExtendRouter.mount
-    end
-    ```
+    <script src="https://gist.github.com/pikender/e2fccd747620b9e67f4b201fb124ebbe.js"></script>
 
-    ```bash
-    nectarcommerce ~/elixir$ mix phoenix.routes Nectar.Router | grep Favorite
-       favorite_path  GET  /favorites  FavoriteProducts.FavoriteController :index
-    ```
+1.  Now, with delegation function `mount` in place, we can work towards providing a way to register the routes to be added, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/346f1d8423f8c36d43f9a18d83317bd7a3152304). Please check the usage of Module attributes for same below.
 
-1.  Now, with delegation function `mount` in place, we can work towards providing a way to register the routes to be added, see diff [here](https://github.com/vinsol/nectarcommerce/compare/c16ecea1960a5d6a01770079b01837fa67be32f9...f0f3b4e0600ca8d5b965c65005250fc8bb3b9a62). Please check the usage of Module attributes for same below.
+    <script src="https://gist.github.com/pikender/607493614533860699d835111feb11cd/44fa6030ac35d78033468e6f7aadb1a5ce2d3479.js"></script>
 
-    ```elixir
-    defmodule Nectar.ExtendRouter do
-      Module.register_attribute(__MODULE__, :defined_routes, accumulate: true)
-      Module.put_attribute(__MODULE__, :defined_routes, quote do: (get "/favorites", FavoriteProducts.FavoriteController, :index))
+    <script src="https://gist.github.com/pikender/e2fccd747620b9e67f4b201fb124ebbe.js"></script>
 
-      defmacro mount do
-        @defined_routes
-      end
-    end
-    ```
+1.  Earlier, Module.put_attribute need to be used multiple times to define multiple routes instead we wrapped it in an anonymous function to encapsulate the collection of routes through a simple and consistent interface, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/948e680ec11599955695b9db5e09d297b9df4de4). There can be multiple extensions used for different functionality and hence multiple routes need to be registered and defined
 
-    ```elixir
-    defmodule Nectar.Router do
-      # get "/favorites", FavoriteProducts.FavoriteController, :index
-      require Nectar.ExtendRouter
-      Nectar.ExtendRouter.mount
-    end
-    ```
+    <script src="https://gist.github.com/pikender/607493614533860699d835111feb11cd/0f5c4176ef1573c412c692afe7ab3e335f2a3de2.js"></script>
 
-    ```bash
-    nectarcommerce ~/elixir$ mix phoenix.routes Nectar.Router | grep Favorite
-       favorite_path  GET  /favorites  FavoriteProducts.FavoriteController :index
-    ```
-
-1.  Earlier, Module.put_attribute need to be used multiple times to define multiple routes instead we wrapped it in an anonymous function to encapsulate the collection of routes through a simple and consistent interface, see diff [here](https://github.com/vinsol/nectarcommerce/compare/f0f3b4e0600ca8d5b965c65005250fc8bb3b9a62...e694be7f9614c8da61834f5276214fa3302a21a7). There can be multiple extensions used for different functionality and hence multiple routes need to be registered and defined
-
-    ```elixir
-    defmodule Nectar.ExtendRouter do
-      Module.register_attribute(__MODULE__, :defined_routes, accumulate: true)
-      define_route = fn (route) -> Module.put_attribute(__MODULE__, :defined_routes, route) end
-
-      define_route.(quote do: get "/favorites", FavoriteProducts.FavoriteController, :index)
-
-      defmacro mount do
-        @defined_routes
-      end
-    end
-    ```
-
-    ```elixir
-    defmodule Nectar.Router do
-      # get "/favorites", FavoriteProducts.FavoriteController, :index
-      require Nectar.ExtendRouter
-      Nectar.ExtendRouter.mount
-    end
-    ```
-
-    ```bash
-    nectarcommerce ~/elixir$ mix phoenix.routes Nectar.Router | grep Favorite
-       favorite_path  GET  /favorites  FavoriteProducts.FavoriteController :index
-    ```
+    <script src="https://gist.github.com/pikender/e2fccd747620b9e67f4b201fb124ebbe.js"></script>
 
 
-1.  Now, Nectar.ExtendRouter is getting cluttered with ancillary method definitions, lets move it out to another module and use it, see diff [here](https://github.com/vinsol/nectarcommerce/compare/e694be7f9614c8da61834f5276214fa3302a21a7...8e28323a2f22a58238179dac1ff6ec6078181bbf)
+1.  Now, Nectar.ExtendRouter is getting cluttered with ancillary method definitions, lets move it out to another module and use it, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/9708b3aace1c094e71172d97501d57a47253bcaa)
 
-    ```elixir
-    defmodule Nectar.RouterExtension do
-      defmacro define_route([do: block]) do
-        route = Macro.escape(block)
-        quote bind_quoted: [route: route] do
-          Module.put_attribute(__MODULE__, :defined_routes, route)
-        end
-      end
-    end
-    ```
+    <script src="https://gist.github.com/pikender/607493614533860699d835111feb11cd/c41cfdede0618d4b78f93362d6767b8fcaa5745a.js"></script>
 
-    ```elixir
-    defmodule Nectar.ExtendRouter do
-      Module.register_attribute(__MODULE__, :defined_routes, accumulate: true)
+    <script src="https://gist.github.com/pikender/e2fccd747620b9e67f4b201fb124ebbe.js"></script>
 
-      import Nectar.RouterExtension, only: [define_route: 1]
+1.  Let's further reduce the boilerplate of registering defined_routes module attribute and importing define_route method definition with __using__ callback, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/b6016f1f29cc95ebad8b2b2a9546a434275cea3f)
 
-      define_route do: get "/favorites", FavoriteProducts.FavoriteController, :index
+    <script src="https://gist.github.com/pikender/607493614533860699d835111feb11cd/c84f28c0fec71209b1d0a0cfe19312f18f69479c.js"></script>
 
-      defmacro mount do
-        @defined_routes
-      end
-    end
-    ```
+    <script src="https://gist.github.com/pikender/e2fccd747620b9e67f4b201fb124ebbe.js"></script>
 
-    ```elixir
-    defmodule Nectar.Router do
-      # get "/favorites", FavoriteProducts.FavoriteController, :index
-      require Nectar.ExtendRouter
-      Nectar.ExtendRouter.mount
-    end
-    ```
+1.  Reference of defined_routes Module attribute is scattered across Nectar.RouterExtender and Nectar.RouterExtension so lets move it out to Nectar.RouterExtension to consolidate the usage via `__before_compile__` and definition together, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/4f33d8935a8aaeebe92a33812fbb4252a576f4aa)
 
-    ```bash
-    nectarcommerce ~/elixir$ mix phoenix.routes Nectar.Router | grep Favorite
-       favorite_path  GET  /favorites  FavoriteProducts.FavoriteController :index
-    ```
+    <script src="https://gist.github.com/pikender/607493614533860699d835111feb11cd/4de0ec9ad28b27d0c6cd52bf61c8d9003b4fa393.js"></script>
 
-1.  Let's further reduce the boilerplate of registering defined_routes module attribute and importing define_route method definition with __using__ callback, see diff [here](https://github.com/vinsol/nectarcommerce/compare/8e28323a2f22a58238179dac1ff6ec6078181bbf...de4c555dcc8a76fcdd11825f8a38ede60d2e3276)
+    <script src="https://gist.github.com/pikender/e2fccd747620b9e67f4b201fb124ebbe.js"></script>
 
-    ```elixir
-    defmodule Nectar.RouterExtension do
-      defmacro __using__(_opts) do
-        quote do
-          Module.register_attribute(__MODULE__, :defined_routes, accumulate: true)
+1.  With above changes, it's now possible to define routes any number of times needed, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/c495577952eea865f100092c314898fc9ed35d03). Also, routes can now be added using `define_route` in Nectar.ExtendRouter without making any changes to Nectar.Router.
 
-          import Nectar.RouterExtension, only: [define_route: 1]
-        end
-      end
+    <script src="https://gist.github.com/pikender/607493614533860699d835111feb11cd/453d78e87cdd2b65323d6499c81b30f5f836c2f8.js"></script>
 
-      defmacro define_route([do: block]) do
-        route = Macro.escape(block)
-        quote bind_quoted: [route: route] do
-          Module.put_attribute(__MODULE__, :defined_routes, route)
-        end
-      end
-    end
-    ```
+    <script src="https://gist.github.com/pikender/e2fccd747620b9e67f4b201fb124ebbe.js"></script>
 
-    ```elixir
-    defmodule Nectar.ExtendRouter do
-      use Nectar.RouterExtension
+Now, in the [last version](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46), you can easily find the three components, _consumer, service and library code_, as desired in extensible system
 
-      define_route do: get "/favorites", FavoriteProducts.FavoriteController, :index
-
-      defmacro mount do
-        @defined_routes
-      end
-    end
-    ```
-
-    ```elixir
-    defmodule Nectar.Router do
-      # get "/favorites", FavoriteProducts.FavoriteController, :index
-      require Nectar.ExtendRouter
-      Nectar.ExtendRouter.mount
-    end
-    ```
-
-    ```bash
-    nectarcommerce ~/elixir$ mix phoenix.routes Nectar.Router | grep Favorite
-       favorite_path  GET  /favorites  FavoriteProducts.FavoriteController :index
-    ```
-
-1.  Reference of defined_routes Module attribute is scattered across Nectar.RouterExtender and Nectar.RouterExtension so lets move it out to Nectar.RouterExtension to consolidate the usage via `__before_compile__` and definition together, see diff [here](https://github.com/vinsol/nectarcommerce/compare/de4c555dcc8a76fcdd11825f8a38ede60d2e3276...27f7444a83819d22ab0655d3fa2b0501d98da90f)
-
-    ```elixir
-    defmodule Nectar.RouterExtension do
-      defmacro __using__(_opts) do
-        quote do
-          Module.register_attribute(__MODULE__, :defined_routes, accumulate: true)
-
-          import Nectar.RouterExtension, only: [define_route: 1]
-          @before_compile Nectar.RouterExtension
-        end
-      end
-
-      defmacro define_route([do: block]) do
-        route = Macro.escape(block)
-        quote bind_quoted: [route: route] do
-          Module.put_attribute(__MODULE__, :defined_routes, route)
-        end
-      end
-
-      defmacro __before_compile__(_env) do
-        quote do
-          defmacro mount do
-            @defined_routes
-          end
-        end
-      end
-    end
-    ```
-
-    ```elixir
-    defmodule Nectar.ExtendRouter do
-      use Nectar.RouterExtension
-
-      define_route do: get "/favorites", FavoriteProducts.FavoriteController, :index
-    end
-    ```
-
-    ```elixir
-    defmodule Nectar.Router do
-      # get "/favorites", FavoriteProducts.FavoriteController, :index
-      require Nectar.ExtendRouter
-      Nectar.ExtendRouter.mount
-    end
-    ```
-
-    ```bash
-    nectarcommerce ~/elixir$ mix phoenix.routes Nectar.Router | grep Favorite
-       favorite_path  GET  /favorites  FavoriteProducts.FavoriteController :index
-    ```
-
-1.  With above changes, it's now possible to define routes any number of times needed, see diff [here](https://github.com/vinsol/nectarcommerce/compare/27f7444a83819d22ab0655d3fa2b0501d98da90f...07384f21052282ac706d091aead260e906afc19c). Also, routes can now be added using `define_route` in Nectar.ExtendRouter without making any changes to Nectar.Router. Mission accomplished !!
-
-    ```elixir
-    defmodule Nectar.RouterExtension do
-      defmacro __using__(_opts) do
-        quote do
-          Module.register_attribute(__MODULE__, :defined_routes, accumulate: true)
-
-          import Nectar.RouterExtension, only: [define_route: 1]
-          @before_compile Nectar.RouterExtension
-        end
-      end
-
-      defmacro define_route([do: block]) do
-        route = Macro.escape(block)
-        quote bind_quoted: [route: route] do
-          Module.put_attribute(__MODULE__, :defined_routes, route)
-        end
-      end
-
-      defmacro __before_compile__(_env) do
-        quote do
-          defmacro mount do
-            @defined_routes
-          end
-        end
-      end
-    end
-    ```
-
-    ```elixir
-    defmodule Nectar.ExtendRouter do
-      use Nectar.RouterExtension
-
-      define_route do: get "/favorites", FavoriteProducts.FavoriteController, :index
-      define_route do: post "/favorites", FavoriteProducts.FavoriteController, :create
-    end
-    ```
-
-    ```elixir
-    defmodule Nectar.Router do
-      # get "/favorites", FavoriteProducts.FavoriteController, :index
-      require Nectar.ExtendRouter
-      Nectar.ExtendRouter.mount
-    end
-    ```
-
-    ```bash
-    nectarcommerce ~/elixir$ mix phoenix.routes Nectar.Router | grep Favorite
-       favorite_path  GET  /favorites  FavoriteProducts.FavoriteController :index
-       favorite_path  POST  /favorites  FavoriteProducts.FavoriteController :create
-    ```
+>
+_Our aim with these posts is to start a dialog with the Elixir community on validity and technical soundness of our approach. We would really appreciate your feedback and reviews, and any ideas/suggestions/pull requests for improvements to our current implementation or entirely different and better way to do things to achieve the goals we have set out for NectarCommerce._
 
 _Enjoy the Elixir potion !!_
