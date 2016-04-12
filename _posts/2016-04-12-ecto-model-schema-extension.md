@@ -18,7 +18,7 @@ The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 1. Introduction to Writing Macros
 1. Running Multiple Phoenix Apps Together
 1. **Ecto Model Schema Extension**
-1. Ecto Model Functions Extension
+1. Ecto Model Support Functions Extension
 1. Phoenix Router Extension
 1. Phoenix View Extension
 1. Extension Approach Explained
