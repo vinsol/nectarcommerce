@@ -4,6 +4,13 @@ defmodule Nectar.ModelExtension do
       Module.register_attribute(__MODULE__, :method_block, accumulate: true)
       import Nectar.ModelExtension, only: [include_method: 1]
       @before_compile Nectar.ModelExtension
+
+      defmacro __using__(_opts) do
+        quote do
+          import Nectar.ExtendProduct, only: [include_methods: 0]
+          @before_compile Nectar.ExtendProduct
+        end
+      end
     end
   end
 
@@ -32,13 +39,6 @@ end
 
 defmodule Nectar.ExtendProduct do
   use Nectar.ModelExtension
-
-  defmacro __using__(_opts) do
-    quote do
-      import Nectar.ExtendProduct, only: [include_methods: 0]
-      @before_compile Nectar.ExtendProduct
-    end
-  end
 
   include_method do: (def fn_from_outside, do: "support function")
   include_method do: (def get_name(product), do: product.name)
