@@ -29,15 +29,13 @@ The post belongs to NectarCommerce and Extension Framework Awareness
 ## What will be NectarCommerce
 
 >
-Off-the-shelf Opensource E-commerce application for building online store.
+Off-the-shelf Opensource E-commerce application for building an online store.
 >
 Provides an Extension Framework to support features not included in core as extensions.
 >
-Strives for un-obstrusive parallel development of NectarCommerce and Extensions
+Strives for unobtrusive parallel development of NectarCommerce and Extensions
 
-NectarCommerce is committed to provide a ready-to-use e-commerce solution but definition of 100% is different under different business domains.
-
-NectarCommerce aims to solve common use-cases as part of the project and relying on extension framework to tap the rest.
+NectarCommerce is committed to providing a ready-to-use e-commerce solution but the definition of 100% is different under different business domains.It aims to solve common use-cases as part of the project and relying on extension framework to tap the rest.
 
 # Phoenix Router Extension
 
@@ -47,7 +45,7 @@ We want to allow Extensions to add routes into Nectar Router without modifying t
 
 ### How
 
-There are three parts needed at minimium to create & use an extension effectively:
+There are three parts needed at minimum to create & use an extension effectively:
 
 - Library Code
 - Service Code
@@ -55,7 +53,7 @@ There are three parts needed at minimium to create & use an extension effectivel
 
 An extension and its use with Nectar can be viewed as Producer / Consumer relationship bound by a communication protocol.
 
-**Extension** which want to add a route, say list of favorites, is a **Producer (Service Code)**.
+**Extension** which want to add a route, say a list of favorites, is a **Producer (Service Code)**.
 
 **Nectar Router** is a **Consumer (Consumer Code)** allowing the route additions through a **communication protocol (Library Code)**
 
@@ -64,7 +62,7 @@ Let's begin the journey of incremental changes to bring consumer, service and li
 >
 Note: Please refer [Introduction to Metaprogramming]() for more information on Metaprogramming in Elixir
 
-1.  Straightforward way to add favorites route in Nectar.Router would be to add it directly in Nectar.Router, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/a4cda70666cb5132ecaf1c91a98710c09872a444), but it requires change in Nectar source. Let's move to next step for the workaround to avoid modification to Nectar.Router
+1.  A straightforward way to add favorites route in Nectar.Router would be to add it directly in Nectar.Router, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/a4cda70666cb5132ecaf1c91a98710c09872a444), but it requires change in Nectar source. Let's move to next step for the workaround to avoid modification to Nectar.Router
 
     <script src="https://gist.github.com/pikender/607493614533860699d835111feb11cd/7020bb2f62d6224fb3cda074257a507ab01d5106.js"></script>
 
@@ -89,7 +87,7 @@ Note: Please refer [Introduction to Metaprogramming]() for more information on M
     <script src="https://gist.github.com/pikender/e2fccd747620b9e67f4b201fb124ebbe.js"></script>
 
 
-1.  Now, Nectar.ExtendRouter is getting cluttered with ancillary method definitions, lets move it out to another module and use it, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/9708b3aace1c094e71172d97501d57a47253bcaa)
+1.  Now, Nectar.ExtendRouter is getting cluttered with ancillary method definitions, let's move it out to another module and use it, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/9708b3aace1c094e71172d97501d57a47253bcaa)
 
     <script src="https://gist.github.com/pikender/607493614533860699d835111feb11cd/c41cfdede0618d4b78f93362d6767b8fcaa5745a.js"></script>
 
@@ -101,7 +99,7 @@ Note: Please refer [Introduction to Metaprogramming]() for more information on M
 
     <script src="https://gist.github.com/pikender/e2fccd747620b9e67f4b201fb124ebbe.js"></script>
 
-1.  Reference of defined_routes Module attribute is scattered across Nectar.RouterExtender and Nectar.RouterExtension so lets move it out to Nectar.RouterExtension to consolidate the usage via `__before_compile__` and definition together, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/4f33d8935a8aaeebe92a33812fbb4252a576f4aa)
+1.  Reference of defined_routes Module attribute is scattered across Nectar.RouterExtender and Nectar.RouterExtension so let's move it out to Nectar.RouterExtension to consolidate the usage via `__before_compile__` and definition together, see full version [here](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46/4f33d8935a8aaeebe92a33812fbb4252a576f4aa)
 
     <script src="https://gist.github.com/pikender/607493614533860699d835111feb11cd/4de0ec9ad28b27d0c6cd52bf61c8d9003b4fa393.js"></script>
 
@@ -113,7 +111,9 @@ Note: Please refer [Introduction to Metaprogramming]() for more information on M
 
     <script src="https://gist.github.com/pikender/e2fccd747620b9e67f4b201fb124ebbe.js"></script>
 
-Now, in the [last version](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46), you can easily find the three components, _consumer, service and library code_, as desired in extensible system
+Now, in the [final version](https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46), you can easily find the three components, _consumer, service and library code_, as desired in extensible system
+
+<script src="https://gist.github.com/pikender/52c5f30c74f1a2bbff886e6ffcc6be46.js"></script>
 
 >
 _Our aim with these posts is to start a dialog with the Elixir community on validity and technical soundness of our approach. We would really appreciate your feedback and reviews, and any ideas/suggestions/pull requests for improvements to our current implementation or entirely different and better way to do things to achieve the goals we have set out for NectarCommerce._
