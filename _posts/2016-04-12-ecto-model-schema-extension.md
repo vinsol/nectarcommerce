@@ -94,7 +94,7 @@ Note: Please refer [Intro to Metaprogramming]() for more information on Metaprog
 
     <script src="https://gist.github.com/pikender/bf89a77d2ed7c684dd0258d88e777cc0.js"></script>
 
-1.  Let's further reduce the boilerplate of registering schema_changes module attribute and importing include_method method definition with __using__ callback, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/3e16ffe09593e53a8ca598df821dd260f92c4856)
+1.  Let's further reduce the boilerplate of registering schema_changes module attribute and importing add_to_schema method definition with __using__ callback, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/3e16ffe09593e53a8ca598df821dd260f92c4856)
 
     <script src="https://gist.github.com/pikender/cb43c04937fbb95b289bfa43d8dfab08/bce26efc97a14745007ed06a2bf29c52e95965af.js"></script>
 
