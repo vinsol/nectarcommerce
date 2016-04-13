@@ -82,7 +82,7 @@ Note: Please refer [Intro to Metaprogramming]() for more information on Metaprog
 
     <script src="https://gist.github.com/pikender/bf89a77d2ed7c684dd0258d88e777cc0.js"></script>
 
-1.  Earlier, Module.put_attribute need to be used multiple times to define multiple routes instead we wrapped it in an anonymous function to encapsulate the collection of schema changes through a simple and consistent interface, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/3312acebeb9edec66e61da2ad447f7b18d5a9c8e). There can be multiple extensions used for different functionality and hence multiple schema changes need to be registered and defined
+1.  Earlier, Module.put_attribute need to be used multiple times to define multiple schema changes instead we wrapped it in an anonymous function to encapsulate the collection of schema changes through a simple and consistent interface, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/3312acebeb9edec66e61da2ad447f7b18d5a9c8e). There can be multiple extensions used for different functionality and hence multiple schema changes need to be registered and defined
 
     <script src="https://gist.github.com/pikender/cb43c04937fbb95b289bfa43d8dfab08/a1390db765a519334926834da392db90b70a2e84.js"></script>
 
