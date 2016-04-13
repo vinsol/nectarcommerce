@@ -114,8 +114,11 @@ Note: Please refer [Intro to Metaprogramming]() for more information on Metaprog
 
 To check all the revisions at once, please check [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/revisions)
 
-Now, in the [last version](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1), you can easily find the three components, _consumer, service and library code_, as desired in extensible system
+Now, in the [final version](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1), you can easily find the three components, _consumer, service and library code_, as desired in extensible system
 
+<script src="https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1.js"></script>
+
+>
 _Our aim with these posts is to start a dialog with the Elixir community on validity and technical soundness of our approach. We would really appreciate your feedback and reviews, and any ideas/suggestions/pull requests for improvements to our current implementation or entirely different and better way to do things to achieve the goals we have set out for NectarCommerce._
 
 _Enjoy the Elixir potion !!_
