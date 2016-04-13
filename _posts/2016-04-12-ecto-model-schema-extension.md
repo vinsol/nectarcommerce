@@ -29,11 +29,11 @@ The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 ## What will be NectarCommerce
 
 >
-Off-the-shelf Opensource E-commerce application for building online store.
+Off-the-shelf Opensource E-commerce application for building an online store.
 >
 Provides an Extension Framework to support features not included in core as extensions.
 >
-Strives for un-obstrusive parallel development of NectarCommerce and Extensions
+Strives for unobtrusive parallel development of NectarCommerce and Extensions
 
 NectarCommerce is committed to providing a ready-to-use e-commerce solution but the definition of 100% is different under different business domains. It aims to solve common use-cases as part of the project and relying on extension framework to tap the rest.
 
@@ -41,13 +41,13 @@ NectarCommerce is committed to providing a ready-to-use e-commerce solution but 
 
 ### Why
 
-We want to allow Extensions to modify schema of existing Nectar Models without changing the Nectar Models.
+We want to allow Extensions to modify the schema of existing Nectar Models without changing the Nectar Models.
 
 Extensions should be able to add new fields and associations to existing models as needed for the cause.
 
 ### How
 
-There are three parts needed at minimium to create & use an extension effectively:
+There are three parts needed at minimum to create & use an extension effectively:
 
 - Library Code
 - Service Code
@@ -64,13 +64,13 @@ Let's begin the journey of incremental changes to bring consumer, service and li
 >
 Note: Please refer [Intro to Metaprogramming]() for more information on Metaprogramming in Elixir
 
-1.  Straightforward way to add virtual field, say special, to Nectar Product would be to add it directly in Nectar.Product Schema definition, but it requires change in Nectar source. Let's move to next step for the workaround to avoid modification to Nectar.Product
+1.  A straightforward way to add a virtual field, say special, to Nectar Product would be to add it directly in Nectar.Product Schema definition, but it requires change in Nectar source. Let's move to next step for the workaround to avoid modification to Nectar.Product
 
     <script src="https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/2faba2e7a14bb77cceec769ef676fd439244878d.js"></script>
 
     <script src="https://gist.github.com/pikender/bf89a77d2ed7c684dd0258d88e777cc0.js"></script>
 
-1.  We can add a function to Nectar Model Schema to which other extensions can delegate the reponsibility of schema changes, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/5f4ada57be942f8dce713cf4c6c0d6761a7632a0). See Nectar.ExtendProduct example below on how to use it.
+1.  We can add a function to Nectar Model Schema to which other extensions can delegate the responsibility of schema changes, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/5f4ada57be942f8dce713cf4c6c0d6761a7632a0). See Nectar.ExtendProduct example below on how to use it.
 
     <script src="https://gist.github.com/pikender/cb43c04937fbb95b289bfa43d8dfab08/867502fb2218c41b6495bf318fab527a8a185193.js"></script>
 
@@ -88,7 +88,7 @@ Note: Please refer [Intro to Metaprogramming]() for more information on Metaprog
 
     <script src="https://gist.github.com/pikender/bf89a77d2ed7c684dd0258d88e777cc0.js"></script>
 
-1.  Now, Nectar.ExtendProduct is getting cluttered with ancillary method definitions, lets move it out to another module and use it, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/4d3d831a6541e1e0c8ffeca4bbf44fbff579da35)
+1.  Now, Nectar.ExtendProduct is getting cluttered with ancillary method definitions, let's move it out to another module and use it, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/4d3d831a6541e1e0c8ffeca4bbf44fbff579da35)
 
     <script src="https://gist.github.com/pikender/cb43c04937fbb95b289bfa43d8dfab08/3323216f040a457e2a23dab6715be545dfa001e6.js"></script>
 
@@ -100,7 +100,7 @@ Note: Please refer [Intro to Metaprogramming]() for more information on Metaprog
 
     <script src="https://gist.github.com/pikender/bf89a77d2ed7c684dd0258d88e777cc0.js"></script>
 
-1.  Reference of schema_changes Module attribute is scattered across Nectar.ExtendProduct and Nectar.ModelExtension so lets move it out to Nectar.ModelExtension to consolidate the usage via `__before_compile__` and definition together, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/3f09764e15098234e8b8d43361d403a4e8d370a2)
+1.  Reference of schema_changes Module attribute is scattered across Nectar.ExtendProduct and Nectar.ModelExtension so let's move it out to Nectar.ModelExtension to consolidate the usage via `__before_compile__` and definition together, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/3f09764e15098234e8b8d43361d403a4e8d370a2)
 
     <script src="https://gist.github.com/pikender/cb43c04937fbb95b289bfa43d8dfab08/abd73fd87467c23c6d8a9ab262cc50306356f3d7.js"></script>
 
