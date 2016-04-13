@@ -13,14 +13,14 @@ logo: 'assets/images/nectar-cart.png'
 >
 The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 >
-1. [NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)
-1. Extension Framework Game Plan
-1. Introduction to Writing Macros
-1. Running Multiple Phoenix Apps Together
+1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_
+1. _[Extension Framework Game Plan](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/)_
+1. Intro to Metaprogramming
 1. **Ecto Model Schema Extension**
 1. Ecto Model Support Functions Extension
 1. Phoenix Router Extension
 1. Phoenix View Extension
+1. Running Multiple Elixir Apps Together
 1. Extension Approach Explained
 1. Developer Experience and Workflow developing Favorite Product Extension
 1. Developer Experience and Workflow testing Favorite Product Extension
@@ -35,7 +35,7 @@ Provides an Extension Framework to support features not included in core as exte
 >
 Strives for un-obstrusive parallel development of NectarCommerce and Extensions
 
-NectarCommerce is committed to provide a ready-to-use e-commerce solution but definition of 100% is different under different business domains. It aims to solve common use-cases as part of the project and relying on extension framework to tap the rest.
+NectarCommerce is committed to providing a ready-to-use e-commerce solution but the definition of 100% is different under different business domains. It aims to solve common use-cases as part of the project and relying on extension framework to tap the rest.
 
 # Ecto Model Schema Extension
 
@@ -62,7 +62,7 @@ An extension and its use with Nectar can be viewed as Producer / Consumer relati
 Let's begin the journey of incremental changes to bring consumer, service and library code into existence starting from a simple use-case of adding a virtual boolean field, say special to Nectar Product.
 
 >
-Note: Please refer [Introduction to Writing Macros]() for more information on Metaprogramming in Elixir
+Note: Please refer [Intro to Metaprogramming]() for more information on Metaprogramming in Elixir
 
 1.  Straightforward way to add virtual field, say special, to Nectar Product would be to add it directly in Nectar.Product Schema definition, but it requires change in Nectar source. Let's move to next step for the workaround to avoid modification to Nectar.Product
 
