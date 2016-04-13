@@ -1,7 +1,7 @@
 ---
 layout: post
 cover: 'assets/images/general-cover-3.jpg'
-title: Intro to Macros
+title: Intro to Metaprogramming
 tags: docs
 subclass: 'post tag-docs'
 categories: 'elixir'
@@ -13,13 +13,14 @@ logo: 'assets/images/nectar-cart.png'
 >
 _The post belongs to NectarCommerce and Extension Framework Awareness_
 >
-1. NectarCommerce Vision
-1. Extension Framework Game Plan
-1. **Introduction to Writing Macros**
-1. Running Multiple Phoenix Apps Together
-1. Ecto Model Extension
+1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_
+1. _[Extension Framework Game Plan](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/)_
+1. **Introduction to Metaprogramming**
+1. Ecto Model Schema Extension
+1. Ecto Model Support Functions Extension
 1. Phoenix Router Extension
 1. Phoenix View Extension
+1. Running Multiple Elixir Apps Together
 1. Extension Approach Explained
 1. Developer Experience and Workflow developing Favorite Product Extension
 1. Developer Experience and Workflow testing Favorite Product Extension
@@ -34,11 +35,12 @@ Provides an Extension Framework to support features not included in core as exte
 >
 Strives for un-obstrusive parallel development of NectarCommerce and Extensions
 
-NectarCommerce is committed to provide a ready-to-use e-commerce solution but definition of 100% is different under different business domains.
-
-NectarCommerce aims to solve trivial use-cases as part of the project and relying on extension framework to tap the rest.
+NectarCommerce is committed to providing a ready-to-use e-commerce solution but the definition of 100% is different under different business domains. It aims to solve common use-cases as part of the project and relying on extension framework to tap the rest.
 
 # Metaprogramming in Elixir
+
+_Note:_ If you are already familiar and experienced with Elixir Metaprogramming, you can jump to [last section](#last-section) as it lists the Metaprogramming resources
+and constructs used in upcoming blog when creating different extension DSL's.
 
 **Elixir _docs_** are excellent resources to get familair with Metaprogramming:
 
@@ -71,7 +73,7 @@ Extension DSLs will be using below constructs to get the job done :)
 - [@before_compile](http://elixir-lang.org/docs/stable/elixir/Module.html)
   - A hook `__before_compile__/1` that will be invoked before the module is compiled
   - allows us to inject code into the module when its definition is complete
-- [\_\_using__ hook](http://elixir-lang.org/docs/stable/elixir/Kernel.html#use/2)
+- [\_\_using\_\_ hook](http://elixir-lang.org/docs/stable/elixir/Kernel.html#use/2)
   - check the examples for the usage, context and best practises
   - `use ModuleName` looks and invokes `__using__` macro defined in `ModuleName` module
 - [bind_quoted](http://elixir-lang.org/docs/stable/elixir/Kernel.SpecialForms.html#quote/2)
@@ -84,9 +86,26 @@ Extension DSLs will be using below constructs to get the job done :)
 - [Macro.escape/1](http://elixir-lang.org/docs/stable/elixir/Macro.html#escape/2)
   - Recursively escapes a value so it can be inserted into a syntax tree
 
-## Metaprogramming pattern as used across extensions
+#### <a name="last-section">Metaprogramming pattern as used across extensions</a>
 
-- Define a macro providing a DSL, say `define_route`
-- Collect all definitions provided using DSL in Module attribute, say `defined_routes`
-- Define a `before_compile` hook to add a macro extracting all collected definitions from module attribute, as module attributes are cleaned up as compilation completes
-- Inject generated code into targeting module through `__using__` hook as invoked by `use ModuleWithDSLImplementation`, say `use ExtensionsManager.RouterExtension`
+There are three parts needed at minimium to create & use an extension effectively:
+
+- Library Code
+- Service Code
+- Consumer Code
+
+An extension and its use with Nectar can be viewed as Producer / Consumer relationship bound by a communication protocol.
+
+**Extension** which want to add a route, say list of favorites, is a **Producer (Service Code)**.
+
+**Nectar Router** is a **Consumer (Consumer Code)** allowing the route additions through a **communication protocol (Library Code)**
+
+- **Library code** defines a macro providing a DSL, say `define_route`
+- Collect all definitions provided using DSL from **Service code** in Module attribute, say `defined_routes`
+- **Library code** defines a `before_compile` hook to add a macro extracting all collected definitions from module attribute, as module attributes are cleaned up as compilation completes
+- Inject generated code into targeting module **Consumer code** through `__using__` hook as invoked by `use ModuleWithDSLImplementation`, say `use ExtensionsManager.RouterExtension`
+
+>
+_Our aim with these posts is to start a dialog with the Elixir community on validity and technical soundness of our approach. We would really appreciate your feedback and reviews, and any ideas/suggestions/pull requests for improvements to our current implementation or entirely different and better way to do things to achieve the goals we have set out for NectarCommerce._
+
+_Enjoy the Elixir potion !!_
