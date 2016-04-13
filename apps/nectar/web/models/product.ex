@@ -1,3 +1,6 @@
+## Library Code
+## Defines DSL to be used by Service Code
+## in order to get properly consumed by Consumer
 defmodule Nectar.ModelExtension do
   defmacro __using__(_opts) do
     quote do
@@ -7,6 +10,7 @@ defmodule Nectar.ModelExtension do
     end
   end
 
+  # Part of Schema Addition DSL
   defmacro add_to_schema([do: block]) do
     schema_change = Macro.escape(block)
     quote bind_quoted: [schema_change: schema_change] do
@@ -23,7 +27,9 @@ defmodule Nectar.ModelExtension do
   end
 end
 
+## Service Code
 defmodule Nectar.ExtendProduct do
+  ## Make DSL available defined in library code
   use Nectar.ModelExtension
 
   add_to_schema do: (field :special, :boolean, virtual: true)
@@ -31,6 +37,8 @@ defmodule Nectar.ExtendProduct do
 end
 
 defmodule Nectar.Product do
+  ## Make Service Code available to be consumed
+  ## through Library Code
   import Nectar.ExtendProduct
 
   use Nectar.Web, :model
@@ -52,6 +60,7 @@ defmodule Nectar.Product do
     has_many :product_categories, Nectar.ProductCategory
     has_many :categories, through: [:product_categories, :category]
 
+    ## Service Consumer Code
     extensions
     timestamps
   end
