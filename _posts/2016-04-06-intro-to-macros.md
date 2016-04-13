@@ -74,7 +74,7 @@ Extension DSLs will be using below constructs to get the job done :)
   - A hook `__before_compile__/1` that will be invoked before the module is compiled
   - It allows us to inject code into the module when its definition is complete
 - [\_\_using\_\_ hook](http://elixir-lang.org/docs/stable/elixir/Kernel.html#use/2)
-  - Find the documentation under the `examples for the usage, context and best practises` in link above
+  - Find the documentation under the `examples for the usage, context and best practices` in link above
   - `use ModuleName` looks and invokes `__using__` macro defined in `ModuleName` module
 - [bind_quoted](http://elixir-lang.org/docs/stable/elixir/Kernel.SpecialForms.html#quote/2)
   - Find the documentation under the `bind_quoted option` in the link above
