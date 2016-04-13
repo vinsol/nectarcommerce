@@ -57,10 +57,10 @@ Check out **Understanding Elixir Macros _blog_ series** by [@sasajuric](https://
 - [Understanding Elixir Macros, Part 5 - Reshaping the AST](http://theerlangelist.com/article/macros_5)
 - [Understanding Elixir Macros, Part 6 - In-place Code Generation](http://theerlangelist.com/article/macros_6)
 
-[**_Book_** Metaprogramming Elixir](https://pragprog.com/book/cmelixir/metaprogramming-elixir) by [@chris_mccord](https://twitter.com/chris_mccord) is next step for deep dive into metaprogramming.
+[**_Book_** Metaprogramming Elixir](https://pragprog.com/book/cmelixir/metaprogramming-elixir) by [@chris_mccord](https://twitter.com/chris_mccord) is next step for diving deeper into metaprogramming.
 
 >
-Why another tutorial on already well-documented metaprogramming topic ?
+Why another tutorial on an already well-documented metaprogramming topic ?
 >
 **To revise and refresh something that we would refer time and again when reviewing Model, Router, View extension DSLs**
 
@@ -74,10 +74,10 @@ Extension DSLs will be using below constructs to get the job done :)
   - A hook `__before_compile__/1` that will be invoked before the module is compiled
   - It allows us to inject code into the module when its definition is complete
 - [\_\_using\_\_ hook](http://elixir-lang.org/docs/stable/elixir/Kernel.html#use/2)
-  - Find the documentation under the `examples for the usage, context and best practices` in link above
+  - Checkout the title `Examples` for the usage & context and `Best practices` in link above
   - `use ModuleName` looks and invokes `__using__` macro defined in `ModuleName` module
 - [bind_quoted](http://elixir-lang.org/docs/stable/elixir/Kernel.SpecialForms.html#quote/2)
-  - Find the documentation under the `bind_quoted option` in the link above
+  - Find the documentation under title `Options` for `bind_quoted option` in the link above
   - By using `bind_quoted`, we can automatically disable unquoting while still injecting the desired variables into the tree
 - [Code.ensure_loaded?/1](http://elixir-lang.org/docs/stable/elixir/Code.html#ensure_loaded?/1)
   - Ensures the given module is loaded
@@ -88,7 +88,7 @@ Extension DSLs will be using below constructs to get the job done :)
 
 #### <a name="last-section">Metaprogramming pattern as used across extensions</a>
 
-There are three parts needed at minimum to create & use an extension effectively:
+Minimum three parts are needed to create & use an extension effectively:
 
 - Library Code
 - Service Code
@@ -96,7 +96,7 @@ There are three parts needed at minimum to create & use an extension effectively
 
 An extension and its use with Nectar can be viewed as Producer / Consumer relationship bound by a communication protocol.
 
-**Extension** which want to add a route, say a list of favorites, is a **Producer (Service Code)**.
+**Extension** which wants to add a route, say a list of favorites, is a **Producer (Service Code)**.
 
 **Nectar Router** is a **Consumer (Consumer Code)** allowing the route additions through a **communication protocol (Library Code)**
 
