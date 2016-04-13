@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- [[! Document Settings ]] -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [[! Page Meta ]] -->
+    <title>Ecto Model Support Functions Extension</title>
+    <meta name="description" content="NectarCommerce - Quest for customizable E-commerce - the Elixir way" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/nectarcommerce/assets/images/favicon.ico" >
+
+    <!-- [[! Styles'n'Scripts ]] -->
+    <link rel="stylesheet" type="text/css" href="/nectarcommerce/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/nectarcommerce/assets/css/syntax.css" />
+    
+    <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="/nectarcommerce/" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/nectarcommerce/page2/" />
+
+    <meta property="og:site_name" content="NectarCommerce" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="NectarCommerce" />
+    <meta property="og:description" content="Quest for customizable E-commerce - the Elixir way" />
+    <meta property="og:url" content="/nectarcommerce/" />
+    <meta property="og:image" content="/nectarcommerce/assets/images/general-cover.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NectarCommerce" />
+    <meta name="twitter:description" content="Quest for customizable E-commerce - the Elixir way" />
+    <meta name="twitter:url" content="/nectarcommerce/" />
+    <meta name="twitter:image:src" content="/nectarcommerce/assets/images/general-cover-1.png" />
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "NectarCommerce",
+    "url": "/nectarcommerce/",
+    "image": "/nectarcommerce/assets/images/general-cover.png",
+    "description": "Quest for customizable E-commerce - the Elixir way"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="NectarCommerce" href="/nectarcommerce/rss.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        <li class="nav-home " role="presentation"><a href="/nectarcommerce/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/nectarcommerce/about">About</a></li>
+        <li class="nav-author " role="presentation"><a href="/nectarcommerce/author/pikender">Author</a></li>
+    </ul>
+    <!-- <a class="subscribe-button icon-feed" href="/nectarcommerce/rss.xml">Subscribe</a> -->
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- [[! Everything else gets inserted here ]] -->
+        <!-- < default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/nectarcommerce/assets/images/general-cover-3.jpg) ">
+    <a id="forkme_banner" href="https://github.com/vinsol/nectarcommerce"></a>
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/nectarcommerce/"><img src="/nectarcommerce/assets/images/nectar-cart.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post tag-docs">
+
+        <header class="post-header">
+            <h1 class="post-title">Ecto Model Support Functions Extension</h1>
+            <section class="post-meta">
+            <!-- <a href='/nectarcommerce/'>Pikender Sharma</a> -->
+            <time class="post-date" datetime="2016-04-13">13 Apr 2016</time>
+                <!-- [[tags prefix=" on "]] -->
+                 
+                on 
+                
+                    
+                       <a href='/nectarcommerce/tag/docs'>Docs</a>
+                       
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+
+            <blockquote>
+
+  <p>The post belongs to <em>NectarCommerce and Extension Framework Awareness</em> Series</p>
+
+  <ol>
+    <li><em><a href="http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/">NectarCommerce Vision</a></em></li>
+    <li><em><a href="http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/">Extension Framework Game Plan</a></em></li>
+    <li>Intro to Metaprogramming</li>
+    <li>Ecto Model Schema Extension</li>
+    <li><strong>Ecto Model Support Functions Extension</strong></li>
+    <li>Phoenix Router Extension</li>
+    <li>Phoenix View Extension</li>
+    <li>Running Multiple Elixir Apps Together</li>
+    <li>Extension Approach Explained</li>
+    <li>Developer Experience and Workflow developing Favorite Product Extension</li>
+    <li>Developer Experience and Workflow testing Favorite Product Extension</li>
+  </ol>
+</blockquote>
+
+<h2 id="what-will-be-nectarcommerce">What will be NectarCommerce</h2>
+
+<blockquote>
+
+  <p>Off-the-shelf Opensource E-commerce application for building online store.</p>
+
+  <p>Provides an Extension Framework to support features not included in core as extensions.</p>
+
+  <p>Strives for un-obstrusive parallel development of NectarCommerce and Extensions</p>
+</blockquote>
+
+<p>NectarCommerce is committed to providing a ready-to-use e-commerce solution but the definition of 100% is different under different business domains. It aims to solve common use-cases as part of the project and relying on extension framework to tap the rest.</p>
+
+<h1 id="ecto-model-schema-extension">Ecto Model Schema Extension</h1>
+
+<h3 id="why">Why</h3>
+
+<p>We want to allow Extensions to modify schema of existing Nectar Models without changing the Nectar Models.</p>
+
+<p>Extensions should be able to add new fields and associations to existing models as needed for the cause.</p>
+
+<h3 id="how">How</h3>
+
+<p>There are three parts needed at minimium to create &amp; use an extension effectively:</p>
+
+<ul>
+  <li>Library Code</li>
+  <li>Service Code</li>
+  <li>Consumer Code</li>
+</ul>
+
+<p>An extension and its use with Nectar can be viewed as Producer / Consumer relationship bound by a communication protocol.</p>
+
+<p><strong>Extension</strong> which want to add a function, say fn_from_outside, to Nectar Product Model is a <strong>Producer (Service Code)</strong>.</p>
+
+<p><strong>Nectar Model</strong> is a <strong>Consumer (Consumer Code)</strong> allowing the new function additions through a <strong>communication protocol (Library Code)</strong></p>
+
+<p>Let’s begin the journey of incremental changes to bring consumer, service and library code into existence starting from a simple use-case of adding a function, say <code class="highlighter-rouge">fn_from_outside</code>.</p>
+
+<blockquote>
+
+  <p>Note: Please refer <a href="">Intro to Metaprogramming</a> for more information on Metaprogramming in Elixir</p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>Straightforward way to add a function, say fn_from_outside, to Nectar Product would be to add it directly in Nectar.Product, but it requires change in Nectar source. Let’s move to next step for the workaround to avoid modification to Nectar.Product</p>
+
+    <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/a0608017b19c05337e71bd79231e3562bf190131.js"></script>
+
+    <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e/2cbcedac70352d0f83c358669381084b946bcb8b.js"></script>
+  </li>
+  <li>
+    <p>Like, other extensions, adding a function to Nectar Model and importing it would not solve our purpose of calling function as <code class="highlighter-rouge">Nectar.Product.fn_from_outside</code>.
+<code class="highlighter-rouge">import &lt;Module&gt;</code> makes the <code class="highlighter-rouge">&lt;Module&gt;</code> functions available inside the module and can only be called inside Module and not from outside like <code class="highlighter-rouge">Nectar.Product.fn_from_outside</code>
+As always, Elixir is well-aware of the use-case and provides <code class="highlighter-rouge">@before_compile &lt;Module&gt;</code> hook to inject function in Modules as if their own and can be called as  <code class="highlighter-rouge">Nectar.Product.fn_from_outside</code>, see full version <a href="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/de73b334b169009ec247ae15d0e10707c9e1ee55">here</a>. See Nectar.ExtendProduct example below on how to use it.</p>
+
+    <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/c0d7f9f2aedaacffb8ca26fb778839e05d0ad868.js"></script>
+
+    <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/0f3a8d81e636a5e2a1b138e2a0eb0ddf545bfa0d.js"></script>
+
+    <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e/2cbcedac70352d0f83c358669381084b946bcb8b.js"></script>
+  </li>
+  <li>
+    <p>Now, with <code class="highlighter-rouge">@before_compile Nectar.ExtendProduct</code> in place, we can work towards providing a way to register the new functions, see full version <a href="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/2e7b4ee7ce7b76a70440ca256c612307e786c52c">here</a>. Please check the usage of Module attributes for same below.</p>
+
+    <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/8a9cc9d0f3f9b33fd3516ec3b0bd625946b7fe1d.js"></script>
+
+    <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e/2cbcedac70352d0f83c358669381084b946bcb8b.js"></script>
+  </li>
+  <li>
+    <p>Earlier, Module.put_attribute need to be used multiple times to define many functions instead we wrapped it in an anonymous function to encapsulate the collection of schema changes through a simple and consistent interface, see full version <a href="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/0f75aef16bf12000068d331d5a4147c0a6f819d0">here</a>. There can be multiple extensions used for different functionality and hence multiple schema changes need to be registered and defined</p>
+
+    <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/020dd42284c391e64bac9b4a14c3a3bb97a0f621.js"></script>
+
+    <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e/2cbcedac70352d0f83c358669381084b946bcb8b.js"></script>
+  </li>
+  <li>
+    <p>Now, Nectar.ExtendProduct is getting cluttered with ancillary method definitions, lets move it out to another module and use it, see full version <a href="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/d9883af5365109c349363ffa38e2a13ad30bc9d2">here</a></p>
+
+    <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/447cdad10471f9ab7c47c0352070ae00dde12f03.js"></script>
+
+    <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e/2cbcedac70352d0f83c358669381084b946bcb8b.js"></script>
+  </li>
+  <li>
+    <p>Let’s further reduce the boilerplate of registering method_block module attribute and importing include_method method definition with <strong>using</strong> callback, see full version <a href="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/1ba90f0e6e86e87c1e116d62d8e9eaf4ee42b37c">here</a></p>
+
+    <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/2125c83a64300b108c21048a35b8436d3f281764.js"></script>
+
+    <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/ad4a872557c8906389198e0ba3aafde3dd69fac4.js"></script>
+
+    <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e/2cbcedac70352d0f83c358669381084b946bcb8b.js"></script>
+  </li>
+  <li>
+    <p>Reference of method_block Module attribute is scattered across Nectar.ExtendProduct and Nectar.ModelExtension so lets move it out to Nectar.ModelExtension to consolidate the usage via <code class="highlighter-rouge">__before_compile__</code> and definition together, see full version <a href="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/8b21ccb99dbdb507c25b5e9d3f3fdfe72fc8bec1">here</a></p>
+
+    <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/71a8f9cce9f4d3607ac2e0ee35123404bbd8b6dc.js"></script>
+
+    <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e/2cbcedac70352d0f83c358669381084b946bcb8b.js"></script>
+  </li>
+  <li>
+    <p>Now, <code class="highlighter-rouge">Nectar.ExtendProduct</code> is having <code class="highlighter-rouge">__using__</code> macro definition, which can also be moved to <code class="highlighter-rouge">Nectar.ModelExtension</code> to just have new method defintions in <code class="highlighter-rouge">Nectar.ExtendProduct</code>, see full version <a href="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/b985b7af90e558773d974bcb34658eae222ea2b7">here</a></p>
+
+    <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/e2dc2266dfecd0e35bfebdd5c39a88df1b291fc9.js"></script>
+
+    <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e/2cbcedac70352d0f83c358669381084b946bcb8b.js"></script>
+  </li>
+  <li>
+    <p>With above changes, it’s now possible to define schema changes any number of times needed, see full version <a href="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/56e57c15324c99c7355e6d418cf7286a0d1afbeb">here</a>. Also, schema changes can now be added using <code class="highlighter-rouge">include_method</code> in Nectar.ExtendProduct without making any changes to Nectar.Product.</p>
+
+    <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/fcb09e32bb34d11d78833895fe321228c40eb6e7.js"></script>
+
+    <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e.js"></script>
+  </li>
+</ol>
+
+<p>To check all the revisions at once, please check <a href="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/revisions">here</a></p>
+
+<p>Now, in the <a href="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba">final version</a>, you can easily find the three components, <em>consumer, service and library code</em>, as desired in extensible system</p>
+
+<script src="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba.js"></script>
+
+<blockquote>
+
+  <p><em>Our aim with these posts is to start a dialog with the Elixir community on validity and technical soundness of our approach. We would really appreciate your feedback and reviews, and any ideas/suggestions/pull requests for improvements to our current implementation or entirely different and better way to do things to achieve the goals we have set out for NectarCommerce.</em></p>
+</blockquote>
+
+<p><em>Enjoy the Elixir potion !!</em></p>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+
+            
+
+            <section class="author">
+                <h4><a href="/nectarcommerce/author/pikender">Pikender Sharma</a></h4>
+
+                
+                    <p> In search of salvation through technology</p>
+                
+                <div class="author-meta">
+                    <span class="author-location icon-location"> New Delhi, India</span> 
+                    <span class="author-link icon-link"><a href="http://vinsol.github.io/nectarcommerce/"> vinsol.github.io/nectarcommerce/</a></span> 
+                </div>
+            </section>
+
+            <!-- /author  -->
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="http://twitter.com/share?text=Ecto Model Support Functions Extension&amp;url=http://vinsol.github.io/nectarcommerce/model-function-extension"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://vinsol.github.io/nectarcommerce/model-function-extension"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://vinsol.github.io/nectarcommerce/model-function-extension"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+            
+            <!-- Add Disqus Comments -->
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/nectarcommerce/assets/images/general-cover-3.jpg)" href="/nectarcommerce/extension-framework-game-plan">
+            <section class="post">
+                <h2>Extension Framework Game Plan</h2>
+                <p>The post belongs to NectarCommerce and Extension Framework Awareness Series NectarCommerce Vision Extension Framework Game...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="/nectarcommerce/">NectarCommerce</a> &copy; 2016</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/biomadeira/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- [[! Ghost outputs important scripts and data with this tag ]] -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- [[! The main JavaScript file for Casper ]] -->
+    <script type="text/javascript" src="/nectarcommerce/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/nectarcommerce/assets/js/index.js"></script>
+
+    <!-- Add Google Analytics  -->
+    
+</body>
+</html>
