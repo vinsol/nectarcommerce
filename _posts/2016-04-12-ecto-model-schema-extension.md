@@ -15,7 +15,7 @@ The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 >
 1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_
 1. _[Extension Framework Game Plan](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/)_
-1. Intro to Metaprogramming
+1. _[Introduction to Metaprogramming](http://vinsol.com/blog/2016/04/14/introduction-to-metaprogramming/)_
 1. **Ecto Model Schema Extension**
 1. Ecto Model Support Functions Extension
 1. Phoenix Router Extension
@@ -43,11 +43,11 @@ NectarCommerce is committed to providing a ready-to-use e-commerce solution but 
 
 We want to allow Extensions to modify the schema of existing Nectar Models without changing the Nectar Models.
 
-Extensions should be able to add new fields and associations to existing models as needed for the cause.
+Extensions should be able to add new fields and associations to existing models as and when needed.
 
 ### How
 
-There are three parts needed at minimum to create & use an extension effectively:
+Minimum three parts are needed to create & use an extension effectively:
 
 - Library Code
 - Service Code
@@ -55,16 +55,16 @@ There are three parts needed at minimum to create & use an extension effectively
 
 An extension and its use with Nectar can be viewed as Producer / Consumer relationship bound by a communication protocol.
 
-**Extension** which want to add a virtual field, say special, to Nectar Product Model Schema is a **Producer (Service Code)**.
+**Extension** which wants to add a virtual field, say special, to Nectar Product Model Schema is a **Producer (Service Code)**.
 
 **Nectar Model** is a **Consumer (Consumer Code)** allowing the schema changes through a **communication protocol (Library Code)**
 
-Let's begin the journey of incremental changes to bring consumer, service and library code into existence starting from a simple use-case of adding a virtual boolean field, say special to Nectar Product.
+Let's begin the journey of incremental changes to bring consumer, service and library code into existence starting from a simple use-case of adding a virtual boolean field, say special, to Nectar Product.
 
 >
-Note: Please refer [Intro to Metaprogramming]() for more information on Metaprogramming in Elixir
+Note: Please refer [Introduction to Metaprogramming](http://vinsol.com/blog/2016/04/14/introduction-to-metaprogramming/) for more information on Metaprogramming in Elixir
 
-1.  A straightforward way to add a virtual field, say special, to Nectar Product would be to add it directly in Nectar.Product Schema definition, but it requires change in Nectar source. Let's move to next step for the workaround to avoid modification to Nectar.Product
+1.  A straightforward way to add a virtual field, say special, to Nectar Product would be adding it directly in Nectar.Product Schema definition, but it requires change in Nectar source. Let's move to the next step for avoiding any modification to Nectar.Product
 
     <script src="https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/2faba2e7a14bb77cceec769ef676fd439244878d.js"></script>
 
@@ -82,13 +82,13 @@ Note: Please refer [Intro to Metaprogramming]() for more information on Metaprog
 
     <script src="https://gist.github.com/pikender/bf89a77d2ed7c684dd0258d88e777cc0.js"></script>
 
-1.  Earlier, Module.put_attribute need to be used multiple times to define multiple schema changes instead we wrapped it in an anonymous function to encapsulate the collection of schema changes through a simple and consistent interface, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/3312acebeb9edec66e61da2ad447f7b18d5a9c8e). There can be multiple extensions used for different functionality and hence multiple schema changes need to be registered and defined
+1.  Earlier, Module.put_attribute was used multiple times to define multiple schema changes whereas now we wrapped it in an anonymous function to encapsulate the collection of schema changes through a simple and consistent interface, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/3312acebeb9edec66e61da2ad447f7b18d5a9c8e). There can be multiple extensions used for different functionality and hence multiple schema changes need to be registered and defined
 
     <script src="https://gist.github.com/pikender/cb43c04937fbb95b289bfa43d8dfab08/a1390db765a519334926834da392db90b70a2e84.js"></script>
 
     <script src="https://gist.github.com/pikender/bf89a77d2ed7c684dd0258d88e777cc0.js"></script>
 
-1.  Now, Nectar.ExtendProduct is getting cluttered with ancillary method definitions, let's move it out to another module and use it, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/4d3d831a6541e1e0c8ffeca4bbf44fbff579da35)
+1.  Now, Nectar.ExtendProduct is getting cluttered with ancillary method definitions. Let's move it out to another module and use it, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/4d3d831a6541e1e0c8ffeca4bbf44fbff579da35)
 
     <script src="https://gist.github.com/pikender/cb43c04937fbb95b289bfa43d8dfab08/3323216f040a457e2a23dab6715be545dfa001e6.js"></script>
 
@@ -106,17 +106,19 @@ Note: Please refer [Intro to Metaprogramming]() for more information on Metaprog
 
     <script src="https://gist.github.com/pikender/bf89a77d2ed7c684dd0258d88e777cc0.js"></script>
 
-1.  With above changes, it's now possible to define schema changes any number of times needed, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1). Also, schema changes can now be added using `include_method` in Nectar.ExtendProduct without making any changes to Nectar.Product.
+1.  With above changes, it's now possible to define schema changes any number of times, see full version [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1). Also, schema changes can now be added using `include_method` in Nectar.ExtendProduct without making any changes to Nectar.Product.
 
     <script src="https://gist.github.com/pikender/cb43c04937fbb95b289bfa43d8dfab08/518fae3a31366e82b12270cf8d60139dff86b3a4.js"></script>
 
     <script src="https://gist.github.com/pikender/bf89a77d2ed7c684dd0258d88e777cc0.js"></script>
 
-To check all the revisions at once, please check [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/revisions)
+Check all the revisions at once, [here](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1/revisions)
 
 Now, in the [final version](https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1), you can easily find the three components, _consumer, service and library code_, as desired in extensible system
 
 <script src="https://gist.github.com/pikender/f58b2208ae8951c7b13214bf320e8ec1.js"></script>
+
+Please refer the demonstration approach for [library code](https://github.com/vinsol/nectarcommerce/pull/47/files#diff-74d3196217ad3f55a684e7695a212bc0R1), [service code](https://github.com/vinsol/nectarcommerce/pull/47/files#diff-1d4fe030d5ab0511fa7e328d362f6e40R1) and [consumer code](https://github.com/vinsol/nectarcommerce/pull/47/files#diff-0510341225f9ecf3aef12f6c9181f0d8R21) as used with _[favorite products extension](https://github.com/vinsol/nectarcommerce/pull/47/files#diff-3d8e34555d30c9e6493acb096f42207cR1)_
 
 >
 _Our aim with these posts is to start a dialog with the Elixir community on validity and technical soundness of our approach. We would really appreciate your feedback and reviews, and any ideas/suggestions/pull requests for improvements to our current implementation or entirely different and better way to do things to achieve the goals we have set out for NectarCommerce._
