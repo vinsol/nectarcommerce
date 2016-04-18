@@ -30,7 +30,7 @@ defmodule NectarCore.Web do
     quote do
       use Phoenix.Controller
 
-      alias  NectarCore.Repo
+      alias  Nectar.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
@@ -44,7 +44,7 @@ defmodule NectarCore.Web do
     quote do
       use Phoenix.Controller
 
-      alias  NectarCore.Repo
+      alias  Nectar.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
@@ -81,7 +81,7 @@ defmodule NectarCore.Web do
     quote do
       use Phoenix.Channel
 
-      alias NectarCore.Repo
+      alias Nectar.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
       import NectarCore.Gettext
