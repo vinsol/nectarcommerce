@@ -1,5 +1,5 @@
 defmodule Nectar.RegistrationController do
-  use Nectar.Web, :controller
+  use NectarCore.Web, :controller
 
   alias Nectar.User.Registration
   alias Nectar.User
@@ -19,7 +19,7 @@ defmodule Nectar.RegistrationController do
         conn
         |> Guardian.Plug.sign_in(user)
         |> put_flash(:info, "User registered successfully.")
-        |> redirect(to: home_path(conn, :index))
+        |> redirect(to: NectarRoutes.home_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

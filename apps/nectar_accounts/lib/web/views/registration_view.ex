@@ -1,3 +1,3 @@
 defmodule Nectar.RegistrationView do
-  use Nectar.Web, :view
+  use NectarCore.Web, :view
 end

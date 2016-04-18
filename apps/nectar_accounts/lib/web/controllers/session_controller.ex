@@ -1,5 +1,6 @@
 defmodule Nectar.SessionController do
-  use Nectar.Web, :controller
+
+  use NectarCore.Web, :controller
   alias Nectar.User
   alias Nectar.Repo
   alias Nectar.User.Session
@@ -30,7 +31,7 @@ defmodule Nectar.SessionController do
       nil ->
         conn
         |> put_flash(:info, "Not logged in")
-        |> redirect(to: session_path(conn, :new))
+        |> redirect(to: NectarRoutes.session_path(conn, :new))
       _ ->
         conn
         # This clears the whole session.
@@ -39,7 +40,7 @@ defmodule Nectar.SessionController do
         # use tokens in two locations - :default and :admin - we need to load it (see above)
         |> Guardian.Plug.sign_out
         |> put_flash(:info, "Signed out")
-        |> redirect(to: session_path(conn, :new))
+        |> redirect(to: NectarRoutes.session_path(conn, :new))
     end
   end
 
@@ -50,7 +51,7 @@ defmodule Nectar.SessionController do
       delete_session(conn, :next_page)
       next_page
     else
-      home_path(conn, :index)
+      NectarRoutes.home_path(conn, :index)
     end
   end
 end

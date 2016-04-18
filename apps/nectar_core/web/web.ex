@@ -30,18 +30,33 @@ defmodule NectarCore.Web do
     quote do
       use Phoenix.Controller
 
-      alias NectarCore.Repo
+      alias  NectarCore.Repo
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
       import NectarCore.Router.Helpers
       import NectarCore.Gettext
+      alias  Nectar.Router.Helpers, as: NectarRoutes
+    end
+  end
+
+  def admin_controller do
+    quote do
+      use Phoenix.Controller
+
+      alias  NectarCore.Repo
+      import Ecto
+      import Ecto.Query, only: [from: 1, from: 2]
+
+      import NectarCore.Router.Helpers
+      import NectarCore.Gettext
+      alias  Nectar.Router.Helpers, as: NectarRoutes
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "web/templates"
+      use Phoenix.View, root: "lib/web/templates"
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
@@ -52,6 +67,7 @@ defmodule NectarCore.Web do
       import NectarCore.Router.Helpers
       import NectarCore.ErrorHelpers
       import NectarCore.Gettext
+      alias  Nectar.Router.Helpers, as: NectarRoutes
     end
   end
 

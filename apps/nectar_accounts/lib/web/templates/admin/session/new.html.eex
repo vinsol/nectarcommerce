@@ -1,6 +1,6 @@
-<h1>Login</h1>
+<h1>Admin Login</h1>
 
-<%= form_for @changeset, session_path(@conn, :create), fn f -> %>
+<%= form_for @changeset, NectarRoutes.admin_session_path(@conn, :create), fn f -> %>
   <%= if f.errors != [] do %>
     <div class="alert alert-danger">
       <p>Oops, something went wrong! Please check the errors below:</p>
@@ -28,5 +28,3 @@
     <%= submit "Login", class: "btn btn-primary" %>
   </div>
 <% end %>
-
-<%= link "SignUp", to: registration_path(@conn, :new) %>

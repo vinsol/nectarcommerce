@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.UserController do
-  use Nectar.Web, :admin_controller
+  use NectarCore.Web, :admin_controller
 
   alias Nectar.User
   alias Nectar.User.Registration
@@ -25,7 +25,7 @@ defmodule Nectar.Admin.UserController do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "User created successfully.")
-        |> redirect(to: admin_user_path(conn, :index))
+        |> redirect(to: NectarRoutes.admin_user_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -50,7 +50,7 @@ defmodule Nectar.Admin.UserController do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: admin_user_path(conn, :show, user))
+        |> redirect(to: NectarRoutes.admin_user_path(conn, :show, user))
       {:error, changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
     end
@@ -65,7 +65,7 @@ defmodule Nectar.Admin.UserController do
 
     conn
     |> put_flash(:info, "User deleted successfully.")
-    |> redirect(to: admin_user_path(conn, :index))
+    |> redirect(to: NectarRoutes.admin_user_path(conn, :index))
   end
 
   def all_pending_orders(conn, %{"user_id" => id}) do

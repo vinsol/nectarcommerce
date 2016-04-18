@@ -1,5 +1,6 @@
 defmodule Nectar.User do
-  use Nectar.Web, :model
+
+  use NectarCore.Web, :model
 
   schema "users" do
     field :name, :string

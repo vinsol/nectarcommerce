@@ -1,0 +1,6 @@
+<h2>New registration</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: NectarRoutes.registration_path(@conn, :create) %>
+
+<%= link "Login", to: NectarRoutes.session_path(@conn, :new) %>
