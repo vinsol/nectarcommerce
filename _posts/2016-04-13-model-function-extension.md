@@ -15,8 +15,8 @@ The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 >
 1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_
 1. _[Extension Framework Game Plan](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/)_
-1. Intro to Metaprogramming
-1. Ecto Model Schema Extension
+1. _[Introduction to Metaprogramming](http://vinsol.com/blog/2016/04/14/introduction-to-metaprogramming/)_
+1. _[Ecto Model Schema Extension](http://vinsol.com/blog/2016/04/15/ecto-model-schema-extension/)_
 1. **Ecto Model Support Functions Extension**
 1. Phoenix Router Extension
 1. Phoenix View Extension
@@ -39,13 +39,17 @@ NectarCommerce is committed to providing a ready-to-use e-commerce solution but 
 
 ## Ecto Model Support Functions Extension
 
+>
+**Note:** This blog post is very similar to [Ecto Model Schema Extension](http://vinsol.com/blog/2016/04/15/ecto-model-schema-extension/),
+you can wish to jump straight to [final version](#final_version)
+
 ### Why
 
 We want to allow Extensions to add functions to existing Nectar Models without changing the Nectar Models.
 
 ### How
 
-There are three parts needed at minimum to create & use an extension effectively:
+Minimum three parts are needed to create & use an extension effectively:
 
 - Library Code
 - Service Code
@@ -53,16 +57,16 @@ There are three parts needed at minimum to create & use an extension effectively
 
 An extension and its use with Nectar can be viewed as Producer / Consumer relationship bound by a communication protocol.
 
-**Extension** which want to add a function, say fn\_from\_outside to Nectar Product Model, is a **Producer (Service Code)**.
+**Extension** which wants to add a function, say fn\_from\_outside to Nectar Product Model, is a **Producer (Service Code)**.
 
 **Nectar Model** is a **Consumer (Consumer Code)** allowing the new function additions through a **communication protocol (Library Code)**
 
-Let's begin the journey of incremental changes to bring consumer, service and library code into existence starting from a simple use-case of adding a function, say `fn_from_outside`.
+Let's begin the journey of incremental changes to bring consumer, service and library code into existence starting from a simple use-case of adding a function, say `fn_from_outside`, to Nectar Product.
 
 >
-Note: Please refer [Intro to Metaprogramming]() for more information on Metaprogramming in Elixir
+Note: Please refer [Introduction to Metaprogramming](http://vinsol.com/blog/2016/04/14/introduction-to-metaprogramming/) for more information on Metaprogramming in Elixir
 
-1.  A straightforward way to add a function, say fn\_from\_outside, to Nectar Product would be to add it directly in Nectar.Product, but it requires change in Nectar source. Let's move to next step for the workaround to avoid modification to Nectar.Product
+1.  A straightforward way to add a function, say fn\_from\_outside, to Nectar Product would be adding it directly in Nectar.Product, but it requires change in Nectar source. Let's move to the next step for avoiding any modification to Nectar.Product
 
     <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/a0608017b19c05337e71bd79231e3562bf190131.js"></script>
 
@@ -70,7 +74,8 @@ Note: Please refer [Intro to Metaprogramming]() for more information on Metaprog
 
 1.  Like, other extensions, adding a function to Nectar Model and importing it would not solve our purpose of calling function as `Nectar.Product.fn_from_outside`.
     `import <Module>` makes the `<Module>` functions available inside the module and can only be called inside Module and not from outside like `Nectar.Product.fn_from_outside`
-    As always, Elixir is well-aware of the use-case and provides `@before_compile <Module>` hook to inject function in Modules as if their own and can be called as  `Nectar.Product.fn_from_outside`, see full version [here](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/de73b334b169009ec247ae15d0e10707c9e1ee55). See Nectar.ExtendProduct example below on how to use it.
+
+    As expected, Elixir is well-aware of the use-case and provides `@before_compile <Module>` hook to inject functions in Modules as if their own and can be called as  `Nectar.Product.fn_from_outside`, see full version [here](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/de73b334b169009ec247ae15d0e10707c9e1ee55). See Nectar.ExtendProduct example below on how to use it.
 
     <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/c0d7f9f2aedaacffb8ca26fb778839e05d0ad868.js"></script>
     <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/0f3a8d81e636a5e2a1b138e2a0eb0ddf545bfa0d.js"></script>
@@ -83,13 +88,13 @@ Note: Please refer [Intro to Metaprogramming]() for more information on Metaprog
 
     <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e/2cbcedac70352d0f83c358669381084b946bcb8b.js"></script>
 
-1.  Earlier, Module.put_attribute need to be used multiple times to define many functions instead we wrapped it in an anonymous function to encapsulate the collection of schema changes through a simple and consistent interface, see full version [here](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/0f75aef16bf12000068d331d5a4147c0a6f819d0). There can be multiple extensions used for different functionality and hence multiple schema changes need to be registered and defined
+1.  Earlier, Module.put_attribute was used multiple times to define many functions whereas now we wrapped it in an anonymous function to encapsulate the collection of function additions through a simple and consistent interface, see full version [here](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/0f75aef16bf12000068d331d5a4147c0a6f819d0). There can be multiple extensions used for different functionality and hence many functions need to be registered and defined
 
     <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/020dd42284c391e64bac9b4a14c3a3bb97a0f621.js"></script>
 
     <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e/2cbcedac70352d0f83c358669381084b946bcb8b.js"></script>
 
-1.  Now, Nectar.ExtendProduct is getting cluttered with ancillary method definitions, let's move it out to another module and use it, see full version [here](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/d9883af5365109c349363ffa38e2a13ad30bc9d2)
+1.  Now, Nectar.ExtendProduct is getting cluttered with ancillary method definitions. Let's move it out to another module and use it, see full version [here](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/d9883af5365109c349363ffa38e2a13ad30bc9d2)
 
     <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/447cdad10471f9ab7c47c0352070ae00dde12f03.js"></script>
 
@@ -114,15 +119,15 @@ Note: Please refer [Intro to Metaprogramming]() for more information on Metaprog
 
     <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e/2cbcedac70352d0f83c358669381084b946bcb8b.js"></script>
 
-1.  With above changes, it's now possible to define schema changes any number of times needed, see full version [here](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/56e57c15324c99c7355e6d418cf7286a0d1afbeb). Also, schema changes can now be added using `include_method` in Nectar.ExtendProduct without making any changes to Nectar.Product.
+1.  With above changes, it's now possible to define any number of functions, see full version [here](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/56e57c15324c99c7355e6d418cf7286a0d1afbeb). Also, any number of functions can now be added using `include_method` in Nectar.ExtendProduct without making any changes to Nectar.Product.
 
     <script src="https://gist.github.com/pikender/a60a3c193f3077f648daa6f81f2c5f17/fcb09e32bb34d11d78833895fe321228c40eb6e7.js"></script>
 
     <script src="https://gist.github.com/pikender/c5aa7869610b006653bdae9e00cf360e.js"></script>
 
-To check all the revisions at once, please check [here](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/revisions)
+Check all the revisions at once, [here](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba/revisions)
 
-Now, in the [final version](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba), you can easily find the three components, _consumer, service and library code_, as desired in extensible system
+<a name="final_version">&nbsp;</a> Now, in the [final version](https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba), you can easily find the three components, _consumer, service and library code_, as desired in extensible system
 
 <script src="https://gist.github.com/pikender/892fd3707043bacecc73ad24ba45cdba.js"></script>
 
