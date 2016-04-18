@@ -36,3 +36,7 @@ config :guardian, Guardian,
   verify_issuer: true,
   serializer: Nectar.GuardianSerializer,
   secret_key: to_string(Mix.env)
+
+config :nectar_core,
+  repo: Nectar.Repo,
+  router: Nectar.Router

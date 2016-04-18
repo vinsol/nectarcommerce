@@ -30,13 +30,13 @@ defmodule NectarCore.Web do
     quote do
       use Phoenix.Controller
 
-      alias  Nectar.Repo
+      alias  unquote(repo_to_alias)
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
       import NectarCore.Router.Helpers
       import NectarCore.Gettext
-      alias  Nectar.Router.Helpers, as: NectarRoutes
+      alias  unquote(router_to_alias).Helpers, as: NectarRoutes
     end
   end
 
@@ -44,13 +44,13 @@ defmodule NectarCore.Web do
     quote do
       use Phoenix.Controller
 
-      alias  Nectar.Repo
+      alias  unquote(repo_to_alias)
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
 
       import NectarCore.Router.Helpers
       import NectarCore.Gettext
-      alias  Nectar.Router.Helpers, as: NectarRoutes
+      alias  unquote(router_to_alias).Helpers, as: NectarRoutes
     end
   end
 
@@ -67,7 +67,7 @@ defmodule NectarCore.Web do
       import NectarCore.Router.Helpers
       import NectarCore.ErrorHelpers
       import NectarCore.Gettext
-      alias  Nectar.Router.Helpers, as: NectarRoutes
+      alias  unquote(router_to_alias).Helpers, as: NectarRoutes
     end
   end
 
@@ -81,11 +81,21 @@ defmodule NectarCore.Web do
     quote do
       use Phoenix.Channel
 
-      alias Nectar.Repo
+      alias unquote(repo_to_alias)
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]
       import NectarCore.Gettext
     end
+  end
+
+  # will look for the configured router and repo, if none found will
+  # assume Nectar is the main project to use
+  def repo_to_alias do
+    Application.get_env(:nectar_core, :repo, Nectar.Repo)
+  end
+
+  def router_to_alias do
+    Application.get_env(:nectar_core, :router, Nectar.Router)
   end
 
   @doc """
