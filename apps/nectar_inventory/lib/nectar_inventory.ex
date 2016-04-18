@@ -1,0 +1,2 @@
+defmodule NectarInventory do
+end
