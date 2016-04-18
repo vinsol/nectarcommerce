@@ -1,0 +1,2 @@
+defmodule NectarAccounts do
+end
