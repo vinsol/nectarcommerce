@@ -1,5 +1,5 @@
 defmodule Nectar.ProductView do
-  use Nectar.Web, :view
+  use NectarCore.Web, :view
 
   defdelegate only_master_variant?(product), to: Nectar.Admin.CartView
 

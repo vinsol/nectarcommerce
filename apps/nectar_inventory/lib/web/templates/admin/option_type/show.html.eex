@@ -35,5 +35,5 @@
 
 </ul>
 
-<%= link "Edit", to: admin_option_type_path(@conn, :edit, @option_type) %>
-<%= link "Back", to: admin_option_type_path(@conn, :index) %>
+<%= link "Edit", to: NectarRoutes.admin_option_type_path(@conn, :edit, @option_type) %>
+<%= link "Back", to: NectarRoutes.admin_option_type_path(@conn, :index) %>

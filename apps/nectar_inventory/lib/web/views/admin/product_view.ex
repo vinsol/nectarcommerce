@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.ProductView do
-  use Nectar.Web, :view
+  use NectarCore.Web, :view
 
   import Ecto.Query
   alias Nectar.Repo

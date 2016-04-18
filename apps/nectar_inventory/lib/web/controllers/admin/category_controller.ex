@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.CategoryController do
-  use Nectar.Web, :admin_controller
+  use NectarCore.Web, :admin_controller
 
   alias Nectar.Category
 
@@ -26,7 +26,7 @@ defmodule Nectar.Admin.CategoryController do
       {:ok, _category} ->
         conn
         |> put_flash(:info, "Category created successfully.")
-        |> redirect(to: admin_category_path(conn, :index))
+        |> redirect(to: NectarRoutes.admin_category_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset, categories: categories)
     end
@@ -53,7 +53,7 @@ defmodule Nectar.Admin.CategoryController do
       {:ok, category} ->
         conn
         |> put_flash(:info, "Category updated successfully.")
-        |> redirect(to: admin_category_path(conn, :show, category))
+        |> redirect(to: NectarRoutes.admin_category_path(conn, :show, category))
       {:error, changeset} ->
         render(conn, "edit.html", category: category, changeset: changeset, categories: categories)
     end
@@ -68,6 +68,6 @@ defmodule Nectar.Admin.CategoryController do
 
     conn
     |> put_flash(:info, "Category deleted successfully.")
-    |> redirect(to: admin_category_path(conn, :index))
+    |> redirect(to: NectarRoutes.admin_category_path(conn, :index))
   end
 end

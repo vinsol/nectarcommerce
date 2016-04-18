@@ -1,5 +1,5 @@
 defmodule Nectar.VariantOptionValue do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "variant_option_values" do
     field :option_type_id, :integer

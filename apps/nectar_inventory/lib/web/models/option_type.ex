@@ -1,5 +1,5 @@
 defmodule Nectar.OptionType do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "option_types" do
     field :name, :string

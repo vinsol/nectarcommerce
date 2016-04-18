@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.ProductController do
-  use Nectar.Web, :admin_controller
+  use NectarCore.Web, :admin_controller
 
   alias Nectar.Product
   alias Nectar.OptionType
@@ -15,14 +15,14 @@ defmodule Nectar.Admin.ProductController do
     products = Repo.all(SearchProduct.search(search_params))
     render(conn, "index.html", products: products,
       search_changeset: SearchProduct.changeset(%SearchProduct{}, search_params),
-      search_action: admin_product_path(conn, :index)
+      search_action: NectarRoutes.admin_product_path(conn, :index)
     )
   end
   def index(conn, _params) do
     products = Repo.all(Product)
     render(conn, "index.html", products: products,
       search_changeset: SearchProduct.changeset(%SearchProduct{}),
-      search_action: admin_product_path(conn, :index)
+      search_action: NectarRoutes.admin_product_path(conn, :index)
     )
   end
 
@@ -37,7 +37,7 @@ defmodule Nectar.Admin.ProductController do
       {:ok, _product} ->
         conn
         |> put_flash(:info, "Product created successfully.")
-        |> redirect(to: admin_product_path(conn, :index))
+        |> redirect(to: NectarRoutes.admin_product_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -62,7 +62,7 @@ defmodule Nectar.Admin.ProductController do
       {:ok, product} ->
         conn
         |> put_flash(:info, "Product updated successfully.")
-        |> redirect(to: admin_product_path(conn, :show, product))
+        |> redirect(to: NectarRoutes.admin_product_path(conn, :show, product))
       {:error, changeset} ->
         render(conn, "edit.html", product: product, changeset: changeset)
     end
@@ -77,7 +77,7 @@ defmodule Nectar.Admin.ProductController do
 
     conn
     |> put_flash(:info, "Product deleted successfully.")
-    |> redirect(to: admin_product_path(conn, :index))
+    |> redirect(to: NectarRoutes.admin_product_path(conn, :index))
   end
 
   defp load_categories_and_option_types(conn, _params) do

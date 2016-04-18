@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.VariantView do
-  use Nectar.Web, :view
+  use NectarCore.Web, :view
   import Ecto.Query
 
   def option_name([h]), do: option_name(h)

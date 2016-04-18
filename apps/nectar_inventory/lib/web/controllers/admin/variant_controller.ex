@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.VariantController do
-  use Nectar.Web, :admin_controller
+  use NectarCore.Web, :admin_controller
 
   alias Nectar.Product
   alias Nectar.Variant
@@ -36,7 +36,7 @@ defmodule Nectar.Admin.VariantController do
       {:ok, _variant} ->
         conn
         |> put_flash(:info, "Variant created successfully.")
-        |> redirect(to: admin_product_variant_path(conn, :index, product))
+        |> redirect(to: NectarRoutes.admin_product_variant_path(conn, :index, product))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -63,7 +63,7 @@ defmodule Nectar.Admin.VariantController do
       {:ok, variant} ->
         conn
         |> put_flash(:info, "Variant updated successfully.")
-        |> redirect(to: admin_product_variant_path(conn, :show, product, variant))
+        |> redirect(to: NectarRoutes.admin_product_variant_path(conn, :show, product, variant))
       {:error, changeset} ->
         render(conn, "edit.html", changeset: changeset)
     end
@@ -79,7 +79,7 @@ defmodule Nectar.Admin.VariantController do
 
     conn
     |> put_flash(:info, "Variant deleted successfully.")
-    |> redirect(to: admin_product_variant_path(conn, :index, product))
+    |> redirect(to: NectarRoutes.admin_product_variant_path(conn, :index, product))
   end
 
   defp find_product(conn, _) do
@@ -89,7 +89,7 @@ defmodule Nectar.Admin.VariantController do
       nil ->
         conn
         |> put_flash(:info, "Product Not Found")
-        |> redirect(to: admin_product_path(conn, :index))
+        |> redirect(to: NectarRoutes.admin_product_path(conn, :index))
         |> halt()
       _ ->
         conn
@@ -104,7 +104,7 @@ defmodule Nectar.Admin.VariantController do
       nil ->
         conn
         |> put_flash(:info, "Variant Not Found")
-        |> redirect(to: admin_product_variant_path(conn, :index, product))
+        |> redirect(to: NectarRoutes.admin_product_variant_path(conn, :index, product))
         |> halt()
       _ ->
         # Preload here as when variant is nil
@@ -122,7 +122,7 @@ defmodule Nectar.Admin.VariantController do
       nil ->
         conn
         |> put_flash(:info, "Variant Not Found or is Master Variant")
-        |> redirect(to: admin_product_variant_path(conn, :index, product))
+        |> redirect(to: NectarRoutes.admin_product_variant_path(conn, :index, product))
         |> halt()
       _ ->
         # Preload here as when variant is nil
@@ -139,7 +139,7 @@ defmodule Nectar.Admin.VariantController do
       [] ->
         conn
         |> put_flash(:info, "No Variants Allowed as Product Optin Type Not Present")
-        |> redirect(to: admin_product_variant_path(conn, :index, product))
+        |> redirect(to: NectarRoutes.admin_product_variant_path(conn, :index, product))
         |> halt()
       _ ->
         conn

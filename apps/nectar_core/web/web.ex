@@ -19,6 +19,7 @@ defmodule NectarCore.Web do
   def model do
     quote do
       use Ecto.Schema
+      alias  unquote(repo_to_alias)
 
       import Ecto
       import Ecto.Changeset
@@ -29,7 +30,6 @@ defmodule NectarCore.Web do
   def controller do
     quote do
       use Phoenix.Controller
-
       alias  unquote(repo_to_alias)
       import Ecto
       import Ecto.Query, only: [from: 1, from: 2]

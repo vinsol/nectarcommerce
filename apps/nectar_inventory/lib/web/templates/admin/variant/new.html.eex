@@ -1,6 +1,6 @@
 <h2>New variant</h2>
 
 <%= render "form.html", changeset: @changeset, product: @product,
-                        action: admin_product_variant_path(@conn, :create, @product) %>
+                        action: NectarRoutes.admin_product_variant_path(@conn, :create, @product) %>
 
-<%= link "Back", to: admin_product_variant_path(@conn, :index, @product) %>
+<%= link "Back", to: NectarRoutes.admin_product_variant_path(@conn, :index, @product) %>

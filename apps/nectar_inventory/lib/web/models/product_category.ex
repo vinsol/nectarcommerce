@@ -1,5 +1,5 @@
 defmodule Nectar.ProductCategory do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "product_categories" do
     belongs_to :product, Nectar.Product

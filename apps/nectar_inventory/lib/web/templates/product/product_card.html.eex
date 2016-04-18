@@ -2,7 +2,7 @@
   <div class="panel panel-default">
     <div class="panel-body"><%= @product.name %></div>
     <div class="panel-body">
-      <%= link tag(:image, src: Nectar.VariantImage.url({@product.master.image, @product.master}, :thumb)), to: product_path(@conn, :show, @product) %>
+      <%= link tag(:image, src: Nectar.VariantImage.url({@product.master.image, @product.master}, :thumb)), to: NectarRoutes.product_path(@conn, :show, @product) %>
     </div>
     <div class="panel-footer">
       $ <%= @product.master.cost_price %>

@@ -14,13 +14,13 @@
       <td><%= category.name %></td>
 
       <td class="text-right">
-        <%= link "Show", to: admin_category_path(@conn, :show, category), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: admin_category_path(@conn, :edit, category), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: admin_category_path(@conn, :delete, category), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Show",   to: NectarRoutes.admin_category_path(@conn, :show, category), class: "btn btn-default btn-xs" %>
+        <%= link "Edit",   to: NectarRoutes.admin_category_path(@conn, :edit, category), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: NectarRoutes.admin_category_path(@conn, :delete, category), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<%= link "New category", to: admin_category_path(@conn, :new) %>
+<%= link "New category", to: NectarRoutes.admin_category_path(@conn, :new) %>

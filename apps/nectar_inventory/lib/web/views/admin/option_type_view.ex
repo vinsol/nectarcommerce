@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.OptionTypeView do
-  use Nectar.Web, :view
+  use NectarCore.Web, :view
 
   alias Nectar.OptionType
   alias Nectar.OptionValue

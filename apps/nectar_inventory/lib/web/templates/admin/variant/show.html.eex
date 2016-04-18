@@ -25,5 +25,5 @@
   <% end %>
 </div>
 
-<%= link "Edit", to: admin_product_variant_path(@conn, :edit, @product, @variant) %>
-<%= link "Back", to: admin_product_variant_path(@conn, :index, @product) %>
+<%= link "Edit", to: NectarRoutes.admin_product_variant_path(@conn, :edit, @product, @variant) %>
+<%= link "Back", to: NectarRoutes.admin_product_variant_path(@conn, :index, @product) %>

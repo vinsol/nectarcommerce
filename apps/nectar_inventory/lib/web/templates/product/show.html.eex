@@ -18,7 +18,7 @@
 </div>
 <!-- if no variants use master variant as input -->
 <!-- else use product_variant_options -->
-<%= form_for @conn, line_item_path(@conn, :create), [as: :line_item], fn f -> %>
+<%= form_for @conn, NectarRoutes.line_item_path(@conn, :create), [as: :line_item], fn f -> %>
   <%= hidden_input f, :product_id, value: @product.id %>
   <%= number_input f, :quantity, placeholder: "0" %>
   <%= if only_master_variant?(@product) do %>

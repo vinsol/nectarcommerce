@@ -1,10 +1,10 @@
 <h2>Listing variants</h2>
 
-<%= link "All Products", to: admin_product_path(@conn, :index) %>
+<%= link "All Products", to: NectarRoutes.admin_product_path(@conn, :index) %>
 |
-<%= link "Product", to: admin_product_path(@conn, :show, @product) %>
+<%= link "Product", to: NectarRoutes.admin_product_path(@conn, :show, @product) %>
 |
-<%= link "New variant", to: admin_product_variant_path(@conn, :new, @product) %>
+<%= link "New variant", to: NectarRoutes.admin_product_variant_path(@conn, :new, @product) %>
 
 <table class="table">
   <thead>
@@ -42,9 +42,9 @@
       <td><%= tag(:image, src: Nectar.VariantImage.url({variant.image, variant}, :thumb)) %></td>
 
       <td class="text-right">
-        <%= link "Show", to: admin_product_variant_path(@conn, :show, @product, variant), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: admin_product_variant_path(@conn, :edit, @product, variant), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: admin_product_variant_path(@conn, :delete, @product, variant), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Show", to: NectarRoutes.admin_product_variant_path(@conn, :show, @product, variant), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: NectarRoutes.admin_product_variant_path(@conn, :edit, @product, variant), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: NectarRoutes.admin_product_variant_path(@conn, :delete, @product, variant), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
 <% end %>

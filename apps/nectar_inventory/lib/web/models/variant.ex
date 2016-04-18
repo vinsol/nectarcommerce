@@ -1,5 +1,5 @@
 defmodule Nectar.Variant do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
   use Arc.Ecto.Model
 
   schema "variants" do

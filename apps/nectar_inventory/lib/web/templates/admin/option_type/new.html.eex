@@ -1,6 +1,6 @@
 <h2>New option type</h2>
 
 <%= render "form.html", changeset: @changeset,
-                        action: admin_option_type_path(@conn, :create) %>
+                        action: NectarRoutes.admin_option_type_path(@conn, :create) %>
 
-<%= link "Back", to: admin_option_type_path(@conn, :index) %>
+<%= link "Back", to: NectarRoutes.admin_option_type_path(@conn, :index) %>

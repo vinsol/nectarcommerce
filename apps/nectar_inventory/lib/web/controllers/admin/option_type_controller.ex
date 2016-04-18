@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.OptionTypeController do
-  use Nectar.Web, :admin_controller
+  use NectarCore.Web, :admin_controller
 
   alias Nectar.OptionType
 
@@ -24,7 +24,7 @@ defmodule Nectar.Admin.OptionTypeController do
       {:ok, _option_type} ->
         conn
         |> put_flash(:info, "Option type created successfully.")
-        |> redirect(to: admin_option_type_path(conn, :index))
+        |> redirect(to: NectarRoutes.admin_option_type_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -49,7 +49,7 @@ defmodule Nectar.Admin.OptionTypeController do
       {:ok, option_type} ->
         conn
         |> put_flash(:info, "Option type updated successfully.")
-        |> redirect(to: admin_option_type_path(conn, :show, option_type))
+        |> redirect(to: NectarRoutes.admin_option_type_path(conn, :show, option_type))
       {:error, changeset} ->
         render(conn, "edit.html", option_type: option_type, changeset: changeset)
     end
@@ -64,6 +64,6 @@ defmodule Nectar.Admin.OptionTypeController do
 
     conn
     |> put_flash(:info, "Option type deleted successfully.")
-    |> redirect(to: admin_option_type_path(conn, :index))
+    |> redirect(to: NectarRoutes.admin_option_type_path(conn, :index))
   end
 end

@@ -32,10 +32,10 @@
         <div class="panel-body"><%= option_type.presentation %></div>
       <% end %>
     </div>
-    <%= link "Show Variants", to: admin_product_variant_path(@conn, :index, @product) %>
+    <%= link "Show Variants", to: NectarRoutes.admin_product_variant_path(@conn, :index, @product) %>
   <% end %>
 
 </div>
 
-<%= link "Edit", to: admin_product_path(@conn, :edit, @product) %>
-<%= link "Back", to: admin_product_path(@conn, :index) %>
+<%= link "Edit", to: NectarRoutes.admin_product_path(@conn, :edit, @product) %>
+<%= link "Back", to: NectarRoutes.admin_product_path(@conn, :index) %>

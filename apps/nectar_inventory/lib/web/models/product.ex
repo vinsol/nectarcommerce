@@ -1,5 +1,5 @@
 defmodule Nectar.Product do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
   use Arc.Ecto.Model
 
   schema "products" do

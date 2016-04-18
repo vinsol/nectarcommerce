@@ -1,4 +1,4 @@
-<%= link "New product", to: admin_product_path(@conn, :new) %>
+<%= link "New product", to: NectarRoutes.admin_product_path(@conn, :new) %>
 
 <%= render Nectar.SearchView, "product.html", search_changeset: @search_changeset, search_action: @search_action %>
 
@@ -24,10 +24,10 @@
       <td><%= product.discontinue_on %></td>
 
       <td class="text-right">
-        <%= link "Show", to: admin_product_path(@conn, :show, product), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: admin_product_path(@conn, :edit, product), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: admin_product_path(@conn, :delete, product), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-        <%= link "Variants", to: admin_product_variant_path(@conn, :index, product), class: "btn btn-default btn-xs" %>
+        <%= link "Show", to: NectarRoutes.admin_product_path(@conn, :show, product), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: NectarRoutes.admin_product_path(@conn, :edit, product), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: NectarRoutes.admin_product_path(@conn, :delete, product), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Variants", to: NectarRoutes.admin_product_variant_path(@conn, :index, product), class: "btn btn-default btn-xs" %>
       </td>
     </tr>
 <% end %>

@@ -1,5 +1,5 @@
 defmodule Nectar.Category do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "categories" do
     field :name, :string
@@ -32,7 +32,7 @@ defmodule Nectar.Category do
   end
 
   def leaf_categories do
-    parent_ids = Nectar.Repo.all(from cat in Nectar.Category, where: not is_nil(cat.parent_id), select: cat.parent_id)
+    parent_ids = Repo.all(from cat in Nectar.Category, where: not is_nil(cat.parent_id), select: cat.parent_id)
     from cat in Nectar.Category, where: not cat.id in ^parent_ids
   end
 

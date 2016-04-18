@@ -1,5 +1,5 @@
 defmodule Nectar.ProductOptionType do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "product_option_types" do
     field :delete, :boolean, virtual: true
