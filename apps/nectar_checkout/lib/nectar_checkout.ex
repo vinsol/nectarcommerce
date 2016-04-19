@@ -1,0 +1,2 @@
+defmodule NectarCheckout do
+end
