@@ -3,7 +3,7 @@ defmodule Nectar.Admin.OrderController do
 
   plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
 
-  alias Nectar.Order
+  alias Nectar.ProcessedOrder, as: Order
   alias Nectar.User
   alias Nectar.LineItem
   alias Nectar.Product
@@ -15,7 +15,7 @@ defmodule Nectar.Admin.OrderController do
     orders = Repo.all(SearchOrder.search(search_params)) |> Repo.preload([:user])
     render(conn, "index.html", orders: orders,
       search_changeset: SearchOrder.changeset(%SearchOrder{}, search_params),
-      search_action: admin_order_path(conn, :index),
+      search_action: NectarRoutes.admin_order_path(conn, :index),
       order_states: SearchOrder.order_states,
       payment_methods: Repo.all(from p in Nectar.PaymentMethod, select: {p.name, p.id}),
       shipping_methods: Repo.all(from p in Nectar.ShippingMethod, select: {p.name, p.id})
@@ -25,7 +25,7 @@ defmodule Nectar.Admin.OrderController do
     orders = Repo.all(from o in Order, order_by: o.id) |> Repo.preload([:user])
     render(conn, "index.html", orders: orders,
       search_changeset: SearchOrder.changeset(%SearchOrder{end_date: Ecto.Date.utc}),
-      search_action: admin_order_path(conn, :index),
+      search_action: NectarRoutes.admin_order_path(conn, :index),
       order_states: SearchOrder.order_states,
       payment_methods: Repo.all(from p in Nectar.PaymentMethod, select: {p.name, p.id}),
       shipping_methods: Repo.all(from p in Nectar.ShippingMethod, select: {p.name, p.id})

@@ -1,5 +1,5 @@
 defmodule Nectar.SearchProduct do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   alias Nectar.Product
 

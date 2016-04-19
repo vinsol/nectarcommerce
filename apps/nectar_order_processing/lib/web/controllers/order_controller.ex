@@ -2,7 +2,7 @@ defmodule Nectar.OrderController do
   use NectarCore.Web, :controller
   use Guardian.Phoenix.Controller
 
-  alias Nectar.Order
+  alias Nectar.ProcessedOrder, as: Order
 
   plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleUnauthenticated
 

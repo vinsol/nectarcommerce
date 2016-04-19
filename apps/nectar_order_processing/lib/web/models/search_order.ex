@@ -3,9 +3,9 @@ defmodule Nectar.SearchOrder do
 
   import Ecto.Query
 
-  alias Nectar.Order
+  alias Nectar.ProcessedOrder, as: Order
 
-  defdelegate order_states, to: Nectar.Order, as: :states
+  defdelegate order_states, to: Nectar.ProcessedOrder, as: :states
 
   schema "abstract table:search_order" do
     field :state, :string, virtual: true
