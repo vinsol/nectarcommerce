@@ -1,0 +1,2 @@
+defmodule NectarConfig do
+end
