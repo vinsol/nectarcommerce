@@ -1,0 +1,79 @@
+<nav role="navigation">
+  <ul class="nav nav-pills pull-right">
+    <li><%= link "Home", to: admin_home_path(@conn, :index) %></li>
+    <%= if Guardian.Plug.current_resource(@conn, :admin) do %>
+      <li role="presentation" class="dropdown <%= active_on_current(@conn, admin_user_path(@conn, :index)) %>">
+        <%= link "Users", to: admin_user_path(@conn, :index) %>
+      </li>
+      <li role="presentation" class="dropdown <%= active_product_tab(@conn) %>">
+        <%= link "Products", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
+        <ul class="dropdown-menu">
+          <li role="presentation" class='<%= active_on_current(@conn, admin_option_type_path(@conn, :index)) %>'>
+            <%= link "Option Types", to: admin_option_type_path(@conn, :index) %>
+          </li>
+          <li role="presentation" class='<%= active_on_current(@conn, admin_category_path(@conn, :index)) %>'>
+            <%= link "Categories", to: admin_category_path(@conn, :index) %>
+          </li>
+          <li role="presentation" class='<%= active_on_current(@conn, admin_product_path(@conn, :index)) %>'>
+            <%= link "Products", to: admin_product_path(@conn, :index) %>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown <%= active_country_tab(@conn) %>" role="presentation">
+        <%= link "Countries", to: admin_country_path(@conn, :index) %>
+      </li>
+      <li class="dropdown <%= active_zone_tab(@conn) %>" role="presentation">
+        <%= link "Zones", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
+        <ul class="dropdown-menu">
+          <li role="presentation" class='<%= active_on_current(@conn, admin_zone_path(@conn, :index)) %>'>
+            <%= link "Zone", to: admin_zone_path(@conn, :index) %>
+          </li>
+          <li role="presentation" class='<%= active_on_current(@conn, admin_zone_path(@conn, :new)) %>'>
+            <%= link "New Zone", to: admin_zone_path(@conn, :new) %>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown <%= active_settings_tab(@conn) %>" role="presentation">
+        <%= link "Settings", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
+        <ul class="dropdown-menu">
+          <li role="presentation">
+            <li role="presentation" class='<%= active_on_current(@conn, "/admin/settings/general/edit") %>'>
+              <a href="/admin/settings/general/edit">General</a>
+            </li>
+
+            <li role="presentation" class='<%= active_on_current(@conn, admin_setting_path(@conn, :shipping_method_settings)) %>'>
+              <%= link "Shipping", to: admin_setting_path(@conn, :shipping_method_settings)%>
+            </li>
+            <li role="presentation" class='<%= active_on_current(@conn, admin_setting_path(@conn, :payment_method_settings)) %>'>
+              <%= link "Payment", to: admin_setting_path(@conn, :payment_method_settings)%>
+            </li>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown <%= active_orders_tab(@conn) %>" role="presentation">
+        <%= link "Orders", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
+        <ul class="dropdown-menu">
+          <li role="presentation" class='<%= active_on_current(@conn, admin_order_path(@conn, :index)) %>'>
+            <%= link "All Orders", to: admin_order_path(@conn, :index) %>
+          </li>
+          <li role="presentation" class='<%= active_on_current(@conn, admin_cart_path(@conn, :new)) %>'>
+            <%= link "Cart", to: admin_cart_path(@conn, :new) %>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown" role="presentation">
+      <%= link "Profile", to: "#",  class: "dropdown-toggle btn btn-danger", "aria-expanded": "false", "data-toggle": "dropdown" %>
+        <ul class="dropdown-menu">
+          <li role="presentation">
+            <%= link "Welcome #{Guardian.Plug.current_resource(@conn, :admin).email}", to: "#", class: "btn" %>
+          </li>
+          <li role="presentation">
+            <%= link "Admin Logout", to: admin_session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %>
+          </li>
+        </ul>
+      </li>
+    <% else %>
+      <li><%= link "Admin Login", to: admin_session_path(@conn, :new) %></li>
+    <% end %>
+  </ul>
+</nav>

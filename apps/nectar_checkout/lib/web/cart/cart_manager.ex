@@ -1,6 +1,6 @@
 defmodule Nectar.CartManager do
   alias Nectar.Order
-  alias Nectar.Variant
+  alias Nectar.VariantForCheckout, as: Variant
   alias Nectar.LineItem
   alias Nectar.Repo
 

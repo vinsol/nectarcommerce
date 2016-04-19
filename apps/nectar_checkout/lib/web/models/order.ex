@@ -2,6 +2,7 @@ defmodule Nectar.Order do
   use NectarCore.Web, :model
 
   alias __MODULE__
+  alias Nectar.UserForCheckout, as: User
 
   schema "orders" do
     # concrete fields
@@ -373,18 +374,18 @@ defmodule Nectar.Order do
     end
   end
 
-  def current_order(%Nectar.User{} = user) do
+  def current_order(%User{} = user) do
     Repo.one(from order in all_abandoned_orders_for(user),
              order_by: [desc: order.updated_at],
              limit: 1)
   end
 
-  def all_abandoned_orders_for(%Nectar.User{} = user) do
+  def all_abandoned_orders_for(%User{} = user) do
     (from order in all_orders_for(user),
      where: not(order.state == "confirmation"))
   end
 
-  def all_orders_for(%Nectar.User{id: id}) do
+  def all_orders_for(%User{id: id}) do
     (from o in Nectar.Order, where: o.user_id == ^id)
   end
 

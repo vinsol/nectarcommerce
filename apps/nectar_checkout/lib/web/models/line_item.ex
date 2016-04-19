@@ -2,7 +2,7 @@ defmodule Nectar.LineItem do
   use NectarCore.Web, :model
 
   alias Nectar.Order
-  alias Nectar.Variant
+  alias Nectar.VariantForCheckout, as: Variant
   alias Nectar.Product
   alias Nectar.Repo
 
