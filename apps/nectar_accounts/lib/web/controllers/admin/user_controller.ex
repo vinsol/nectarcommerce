@@ -71,6 +71,6 @@ defmodule Nectar.Admin.UserController do
   def all_pending_orders(conn, %{"user_id" => id}) do
     user = Repo.get!(User, id)
     orders = Repo.all Nectar.Order.all_abandoned_orders_for(user)
-    render(conn, "pending_orders.json",  orders: orders)
+    render(conn, "pending_orders.json",  orders: orders, conn: conn)
   end
 end

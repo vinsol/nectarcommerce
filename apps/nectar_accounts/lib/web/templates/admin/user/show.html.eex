@@ -18,5 +18,5 @@
   </li>
 </ul>
 
-<%= link "Edit", to: admin_user_path(@conn, :edit, @user) %>
-<%= link "Back", to: admin_user_path(@conn, :index) %>
+<%= link "Edit", to: NectarRoutes.admin_user_path(@conn, :edit, @user) %>
+<%= link "Back", to: NectarRoutes.admin_user_path(@conn, :index) %>
