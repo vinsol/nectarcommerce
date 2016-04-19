@@ -30,8 +30,8 @@
     </div>
 
     <div class="pull-right" class="col-sm-3">
-      <%= link "Edit", to: admin_country_path(@conn, :edit, @country), class: "btn btn-primary" %>
-      <%= link "Back", to: admin_country_path(@conn, :index), class: "btn btn-primary" %>
+      <%= link "Edit", to: NectarRoutes.admin_country_path(@conn, :edit, @country), class: "btn btn-primary" %>
+      <%= link "Back", to: NectarRoutes.admin_country_path(@conn, :index), class: "btn btn-primary" %>
     </div>
     </div>
   </div>

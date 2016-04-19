@@ -1,4 +1,4 @@
-<%= form_for @conn, admin_setting_path(@conn, :shipping_method_settings), [as: :shipping_methods], fn f ->%>
+<%= form_for @conn, NectarRoutes.admin_setting_path(@conn, :shipping_method_settings), [as: :shipping_methods], fn f ->%>
   <%= for shipping_method <- @shipping_methods do %>
     <div class="form-group">
       <%= inputs_for f, :shipping_method,[as: :shipping_method, id: shipping_method.id], fn _sm -> %>

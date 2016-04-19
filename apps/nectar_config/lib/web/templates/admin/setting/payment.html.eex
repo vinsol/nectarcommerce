@@ -1,8 +1,8 @@
-<%= form_for @conn, admin_setting_path(@conn, :payment_method_settings), [as: :payment_methods], fn f ->%>
+<%= form_for @conn, NectarRoutes.admin_setting_path(@conn, :payment_method_settings), [as: :payment_methods], fn f ->%>
   <%= for payment_method <- @payment_methods do %>
     <div class="form-group">
       <%= inputs_for f, :payment_method,[as: :payment_method, id: payment_method.id], fn _pm -> %>
-        <%= label f, :enabled, payment_method.name, class: "form-label", name: "payment_methods[#{payment_method.id}][enabled]" %>
+      <%= label f, :enabled, payment_method.name, class: "form-label", name: "payment_methods[#{payment_method.id}][enabled]" %>
       <%= hidden_input f, :id,  value: payment_method.id, name: "payment_methods[#{payment_method.id}][id]" %>
       <%= checkbox f, :enabled, value: payment_method.enabled, class: "form-control", name: "payment_methods[#{payment_method.id}][enabled]" %>
       <% end %>

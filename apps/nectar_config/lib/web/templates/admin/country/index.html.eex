@@ -17,13 +17,13 @@
       <td><%= country.iso3 %></td>
       <td><%= country.has_states %></td>
       <td class="text-right">
-        <%= link "Show", to: admin_country_path(@conn, :show, country), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: admin_country_path(@conn, :edit, country), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: admin_country_path(@conn, :delete, country), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+        <%= link "Show",  to: NectarRoutes.admin_country_path(@conn, :show, country), class: "btn btn-default btn-xs" %>
+        <%= link "Edit",  to: NectarRoutes.admin_country_path(@conn, :edit, country), class: "btn btn-default btn-xs" %>
+        <%= link "Delete",to: NectarRoutes.admin_country_path(@conn, :delete, country), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>
 <% end %>
   </tbody>
 </table>
 
-<%= link "New country", to: admin_country_path(@conn, :new) %>
+<%= link "New country", to: NectarRoutes.admin_country_path(@conn, :new) %>

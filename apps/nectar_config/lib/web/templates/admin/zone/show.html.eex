@@ -20,8 +20,8 @@
     </select>
     <button id="add" name="Add" class="btn btn-primary">Add</button>
     <div class="pull-right">
-      <%= link "Edit", to: admin_zone_path(@conn, :edit, @zone), class: "btn btn-primary" %>
-      <%= link "Back", to: admin_zone_path(@conn, :index), class: "btn btn-primary" %>
+      <%= link "Edit", to: NectarRoutes.admin_zone_path(@conn, :edit, @zone), class: "btn btn-primary" %>
+      <%= link "Back", to: NectarRoutes.admin_zone_path(@conn, :index), class: "btn btn-primary" %>
     </div>
   </div>
 </div>

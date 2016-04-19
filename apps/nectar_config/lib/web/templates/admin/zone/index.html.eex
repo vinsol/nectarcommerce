@@ -1,4 +1,4 @@
-<%= link "New Zone", to: admin_zone_path(@conn, :new) %>
+<%= link "New Zone", to: NectarRoutes.admin_zone_path(@conn, :new) %>
 
 <h2>Listing Zones</h2>
 
@@ -15,7 +15,7 @@
       <td><%= zone.name %></td>
       <td><%= zone.description %></td>
       <td class="text-right">
-        <%= link "Show", to: admin_zone_path(@conn, :show, zone), class: "btn btn-default btn-xs" %>
+        <%= link "Show", to: NectarRoutes.admin_zone_path(@conn, :show, zone), class: "btn btn-default btn-xs" %>
       </td>
     </tr>
     <% end %>

@@ -23,7 +23,7 @@ defmodule Nectar.Admin.CountryController do
       {:ok, _country} ->
         conn
         |> put_flash(:info, "Country created successfully.")
-        |> redirect(to: admin_country_path(conn, :index))
+        |> redirect(to: NectarRoutes.admin_country_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -48,7 +48,7 @@ defmodule Nectar.Admin.CountryController do
       {:ok, country} ->
         conn
         |> put_flash(:info, "Country updated successfully.")
-        |> redirect(to: admin_country_path(conn, :show, country))
+        |> redirect(to: NectarRoutes.admin_country_path(conn, :show, country))
       {:error, changeset} ->
         render(conn, "edit.html", country: country, changeset: changeset)
     end
@@ -63,7 +63,7 @@ defmodule Nectar.Admin.CountryController do
 
     conn
     |> put_flash(:info, "Country deleted successfully.")
-    |> redirect(to: admin_country_path(conn, :index))
+    |> redirect(to: NectarRoutes.admin_country_path(conn, :index))
   end
 
 end

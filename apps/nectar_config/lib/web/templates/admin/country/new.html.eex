@@ -1,6 +1,6 @@
 <h2>New country</h2>
 
 <%= render "form.html", changeset: @changeset,
-                        action: admin_country_path(@conn, :create) %>
+                        action: NectarRoutes.admin_country_path(@conn, :create) %>
 
-<%= link "Back", to: admin_country_path(@conn, :index) %>
+<%= link "Back", to: NectarRoutes.admin_country_path(@conn, :index) %>

@@ -24,7 +24,7 @@ defmodule Nectar.Admin.ZoneController do
       {:ok, _zone} ->
         conn
         |> put_flash(:info, "Zone created successfully.")
-        |> redirect(to: admin_zone_path(conn, :index))
+        |> redirect(to: NectarRoutes.admin_zone_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -50,7 +50,7 @@ defmodule Nectar.Admin.ZoneController do
       {:ok, zone} ->
         conn
         |> put_flash(:info, "Zone updated successfully.")
-        |> redirect(to: admin_zone_path(conn, :show, zone))
+        |> redirect(to: NectarRoutes.admin_zone_path(conn, :show, zone))
       {:error, changeset} ->
         render(conn, "edit.html", zone: zone, changeset: changeset)
     end
@@ -65,7 +65,7 @@ defmodule Nectar.Admin.ZoneController do
 
     conn
     |> put_flash(:info, "Zone deleted successfully.")
-    |> redirect(to: admin_zone_path(conn, :index))
+    |> redirect(to: NectarRoutes.admin_zone_path(conn, :index))
   end
 
 

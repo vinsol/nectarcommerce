@@ -41,7 +41,7 @@ defmodule Nectar.Admin.SettingController do
     Repo.update_all(Nectar.ShippingMethod.disable_other_than(enabled_shipping_method_ids), [])
     conn
     |> put_flash(:info, "Updated Shipping methods succesfully")
-    |> redirect(to: admin_setting_path(conn, :shipping_method_settings))
+    |> redirect(to: NectarRoutes.admin_setting_path(conn, :shipping_method_settings))
   end
 
   def payment_method_settings(conn, _params) do
@@ -59,7 +59,7 @@ defmodule Nectar.Admin.SettingController do
     Repo.update_all(Nectar.PaymentMethod.disable_other_than(enabled_payment_method_ids), [])
     conn
     |> put_flash(:info, "Updated Payment methods succesfully")
-    |> redirect(to: admin_setting_path(conn, :payment_method_settings))
+    |> redirect(to: NectarRoutes.admin_setting_path(conn, :payment_method_settings))
   end
 
 end
