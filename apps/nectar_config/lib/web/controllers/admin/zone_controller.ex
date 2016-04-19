@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.ZoneController do
-  use Nectar.Web, :admin_controller
+  use NectarCore.Web, :admin_controller
 
   alias Nectar.Zone
 

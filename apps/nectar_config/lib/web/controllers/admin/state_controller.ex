@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.StateController do
-  use Nectar.Web, :admin_controller
+  use NectarCore.Web, :admin_controller
 
   alias Nectar.Country
   alias Nectar.State

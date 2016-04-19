@@ -1,3 +1,3 @@
 defmodule Nectar.Admin.CountryView do
-  use Nectar.Web, :view
+  use NectarCore.Web, :view
 end

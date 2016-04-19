@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.StateView do
-  use Nectar.Web, :view
+  use NectarCore.Web, :view
 
   def render("state.json", %{state: state}) do
     %{id: state.id, name: state.name, abbr: state.abbr}

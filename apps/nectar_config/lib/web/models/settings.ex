@@ -1,5 +1,5 @@
 defmodule Nectar.Setting do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "settings" do
     field :name, :string

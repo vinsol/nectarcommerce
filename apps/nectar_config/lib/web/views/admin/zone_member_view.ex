@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.ZoneMemberView do
-  use Nectar.Web, :view
+  use NectarCore.Web, :view
 
   def render("zone_member.json", %{zone_member: zone_member, zoneable: zoneable}) do
     %{id: zone_member.id, name: zoneable.name, zoneable_id: zoneable.id}

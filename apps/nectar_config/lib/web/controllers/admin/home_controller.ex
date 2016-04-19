@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.HomeController do
-  use Nectar.Web, :admin_controller
+  use NectarCore.Web, :admin_controller
 
   plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
 

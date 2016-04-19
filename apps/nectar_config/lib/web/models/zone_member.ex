@@ -1,5 +1,5 @@
 defmodule Nectar.ZoneMember do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "abstract table:zone_members" do
     field :zoneable_id, :integer

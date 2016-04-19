@@ -1,5 +1,5 @@
 defmodule Nectar.Zone do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "zones" do
     field :name, :string
