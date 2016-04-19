@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.CartController do
-  use Nectar.Web, :admin_controller
+  use NectarCore.Web, :admin_controller
 
   plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
 
@@ -17,13 +17,13 @@ defmodule Nectar.Admin.CartController do
   def create(conn, %{"order" => %{"user_id" => ""}}) do
     order = Nectar.Order.cart_changeset(%Nectar.Order{}, %{}) |> Repo.insert!
     conn
-    |> redirect(to: admin_cart_path(conn, :edit, order))
+    |> redirect(to: NectarRoutes.admin_cart_path(conn, :edit, order))
   end
 
   def create(conn, %{"order" => %{"user_id" => user_id}}) do
     order = Nectar.Order.user_cart_changeset(%Nectar.Order{}, %{user_id: user_id}) |> Repo.insert!
     conn
-    |> redirect(to: admin_cart_path(conn, :edit, order))
+    |> redirect(to: NectarRoutes.admin_cart_path(conn, :edit, order))
   end
 
 

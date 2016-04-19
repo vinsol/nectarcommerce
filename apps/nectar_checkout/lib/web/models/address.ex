@@ -1,5 +1,5 @@
 defmodule Nectar.Address do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "addresses" do
     field :address_line_1, :string

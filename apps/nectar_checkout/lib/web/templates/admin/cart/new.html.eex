@@ -7,7 +7,7 @@
         <option value="<%= user.id %>"><%= user.email %></option>
       <% end %>
     </select>
-    <%= form_for @cart_changeset, admin_cart_path(@conn, :create), fn f -> %>
+    <%= form_for @cart_changeset, NectarRoutes.admin_cart_path(@conn, :create), fn f -> %>
       <%=  hidden_input f, :user_id %>
       <button id="create-order">create order for Guest</button>
     <% end %>

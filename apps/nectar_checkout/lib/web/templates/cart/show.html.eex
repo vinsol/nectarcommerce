@@ -1,7 +1,7 @@
 <%= if cart_empty?(@order) do %>
-  <h4>Your cart seems to be empty. Please visit product catalog to add some products to it <%= link "Products", to: product_path(@conn, :index) %></h4>
+  <h4>Your cart seems to be empty. Please visit product catalog to add some products to it <%= link "Products", to: NectarRoutes.product_path(@conn, :index) %></h4>
 <% else %>
-  <%= form_for @order_changeset, cart_path(@conn, :update), fn f-> %>
+  <%= form_for @order_changeset, NectarRoutes.cart_path(@conn, :update), fn f-> %>
   <table class="table" id="cart">
     <thead>
       <tr class="active">
@@ -34,7 +34,7 @@
 
 <% end %>
 
-  <%= link "Continue Shopping", to: product_path(@conn, :index), class: "btn btn-primary" %>
-  <%= link "Goto Checkout", to: checkout_path(@conn, :checkout), class: "btn btn-primary" %>
+  <%= link "Continue Shopping", to: NectarRoutes.product_path(@conn, :index), class: "btn btn-primary" %>
+  <%= link "Goto Checkout", to: NectarRoutes.checkout_path(@conn, :checkout), class: "btn btn-primary" %>
 
 <% end %>

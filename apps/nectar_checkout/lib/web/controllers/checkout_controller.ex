@@ -1,5 +1,5 @@
 defmodule Nectar.CheckoutController do
-  use Nectar.Web, :controller
+  use NectarCore.Web, :controller
   alias Nectar.CheckoutManager
 
 
@@ -18,7 +18,7 @@ defmodule Nectar.CheckoutController do
       {:error, updated_changeset} ->
         render(conn, "checkout.html", order: order, changeset: updated_changeset)
       {:ok, %Nectar.Order{state: "confirmation"} = updated_order} ->
-        redirect(conn, to: order_path(conn, :show, updated_order))
+        redirect(conn, to: NectarRoutes.order_path(conn, :show, updated_order))
       {:ok, updated_order} ->
         render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(updated_order))
     end
@@ -28,7 +28,7 @@ defmodule Nectar.CheckoutController do
     order = conn.assigns.current_order
     case CheckoutManager.back(order) do
       {:ok, _updated_order} ->
-        redirect(conn, to: checkout_path(conn, :checkout))
+        redirect(conn, to: NectarRoutes.checkout_path(conn, :checkout))
     end
   end
 
@@ -38,15 +38,15 @@ defmodule Nectar.CheckoutController do
   def unauthenticated(conn, _params) do
     conn
     |> put_flash(:error, "Please login before continuing checkout")
-    |> put_session(:next_page, cart_path(conn, :show))
-    |> redirect(to: session_path(conn, :new))
+    |> put_session(:next_page, NectarRoutes.cart_path(conn, :show))
+    |> redirect(to: NectarRoutes.session_path(conn, :new))
     |> halt
   end
 
   def go_back_to_cart_if_empty(conn, _params) do
     order = conn.assigns.current_order |> Repo.preload([:line_items])
     case order.line_items do
-      [] -> conn |> redirect(to: cart_path(conn, :show)) |> halt
+      [] -> conn |> redirect(to: NectarRoutes.cart_path(conn, :show)) |> halt
       _ -> conn
     end
   end

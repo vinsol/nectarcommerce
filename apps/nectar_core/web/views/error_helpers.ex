@@ -32,4 +32,27 @@ defmodule NectarCore.ErrorHelpers do
   def translate_error(msg) do
     Gettext.dgettext(NectarCore.Gettext, "errors", msg)
   end
+
+  # generic code for creating error json out of changesets
+  # see: https://github.com/elixir-lang/ecto/pull/921
+  def render_changeset_error_json(changeset) do
+    errors = Enum.map(changeset.errors, fn {field, details} ->
+      %{
+        field: field,
+        detail: render_detail(details)
+       }
+    end)
+    %{errors: errors}
+  end
+
+  def render_detail({message, values}) do
+    Enum.reduce values, message, fn {k, v}, acc ->
+      String.replace(acc, "%{#{k}}", to_string(v))
+    end
+  end
+
+  def render_detail(message) do
+    message
+  end
+
 end

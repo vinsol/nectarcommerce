@@ -1,6 +1,6 @@
 defmodule Nectar.PaymentMethod do
 
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "payment_methods" do
     field :name, :string

@@ -1,5 +1,5 @@
 defmodule Nectar.Payment do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "payments" do
     belongs_to :order, Nectar.Order

@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.CartView do
-  use Nectar.Web, :view
+  use NectarCore.Web, :view
 
   # This will depend on preload ??
   # We should actually look at whether product has product option types

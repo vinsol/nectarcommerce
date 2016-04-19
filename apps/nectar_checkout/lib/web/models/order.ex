@@ -1,5 +1,5 @@
 defmodule Nectar.Order do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   alias __MODULE__
 

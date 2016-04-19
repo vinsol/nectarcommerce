@@ -1,5 +1,5 @@
 defmodule Nectar.LineItem do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   alias Nectar.Order
   alias Nectar.Variant

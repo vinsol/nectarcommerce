@@ -1,5 +1,5 @@
 defmodule Nectar.ShippingMethod do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "shipping_methods" do
     field :name

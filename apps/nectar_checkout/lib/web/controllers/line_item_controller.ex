@@ -1,5 +1,5 @@
 defmodule Nectar.LineItemController do
-  use Nectar.Web, :controller
+  use NectarCore.Web, :controller
 
   alias Nectar.CartManager
 
@@ -16,11 +16,11 @@ defmodule Nectar.LineItemController do
       {:ok, _line_item} ->
         conn
         |> put_flash(:success, "Added product succcesfully")
-        |> redirect(to: cart_path(conn, :show))
+        |> redirect(to: NectarRoutes.cart_path(conn, :show))
       {:error, changeset} ->
         conn
         |> put_flash(:error, extract_error_message(changeset))
-        |> redirect(to: product_path(conn, :show, product))
+        |> redirect(to: NectarRoutes.product_path(conn, :show, product))
     end
   end
 
@@ -29,7 +29,7 @@ defmodule Nectar.LineItemController do
     Nectar.Repo.delete!(line_item)
     conn
     |> put_flash(:success, "Removed product succesfully")
-    |> redirect(to: cart_path(conn, :show))
+    |> redirect(to: NectarRoutes.cart_path(conn, :show))
   end
 
   defp extract_error_message(%Ecto.Changeset{errors: errors}) do

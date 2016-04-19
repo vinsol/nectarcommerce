@@ -1,2 +1,2 @@
 <%= back_link(@conn, @order) %>
-<%= render next_step(@order), Map.merge(%{action: checkout_path(@conn, :next)}, assigns) %>
+<%= render next_step(@order), Map.merge(%{action: NectarRoutes.checkout_path(@conn, :next)}, assigns) %>

@@ -1,5 +1,5 @@
 defmodule Nectar.CartController do
-  use Nectar.Web, :controller
+  use NectarCore.Web, :controller
 
   def show(conn, _) do
     order =
@@ -18,7 +18,7 @@ defmodule Nectar.CartController do
       {:ok, _updated_order} ->
         conn
         |> put_flash(:success, "updated order succesfully")
-        |> redirect(to: cart_path(conn, :show))
+        |> redirect(to: NectarRoutes.cart_path(conn, :show))
       {:error, _changeset} ->
         conn
         |> put_flash(:error, "failed to update. Please see the errors below")

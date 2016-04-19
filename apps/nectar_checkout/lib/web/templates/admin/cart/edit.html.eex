@@ -38,6 +38,6 @@
     </ul>
   </div>
   <div class="panel-footer">
-    <%= link "checkout", to: admin_order_checkout_path(@conn, :checkout, @order), class: "btn btn-primary" %>
+    <%= link "checkout", to: NectarRoutes.admin_order_checkout_path(@conn, :checkout, @order), class: "btn btn-primary" %>
   </div>
 </div>

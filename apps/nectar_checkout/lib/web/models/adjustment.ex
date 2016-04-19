@@ -1,5 +1,5 @@
 defmodule Nectar.Adjustment do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "adjustments" do
     belongs_to :shipping, Nectar.Shipping

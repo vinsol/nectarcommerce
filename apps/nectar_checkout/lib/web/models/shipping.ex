@@ -1,5 +1,5 @@
 defmodule Nectar.Shipping do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "shippings" do
     belongs_to :order, Nectar.Order

@@ -1,5 +1,5 @@
 defmodule Nectar.Admin.CheckoutController do
-  use Nectar.Web, :admin_controller
+  use NectarCore.Web, :admin_controller
 
   plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
   plug :go_back_to_cart_if_empty when action in [:checkout, :next, :back]
@@ -27,7 +27,7 @@ defmodule Nectar.Admin.CheckoutController do
     order = Repo.get!(Order, conn.params["order_id"])
     case CheckoutManager.back(order) do
       {:ok, _updated_order} ->
-        redirect(conn, to: admin_order_checkout_path(conn, :checkout, order))
+        redirect(conn, to: NectarRoutes.admin_order_checkout_path(conn, :checkout, order))
     end
   end
 
@@ -36,7 +36,7 @@ defmodule Nectar.Admin.CheckoutController do
     if Nectar.Order.cart_empty? order do
       conn
       |> put_flash(:error, "please add some products to cart before continuing")
-      |> redirect(to: admin_cart_path(conn, :edit, order))
+      |> redirect(to: NectarRoutes.admin_cart_path(conn, :edit, order))
       |> halt
     else
       conn

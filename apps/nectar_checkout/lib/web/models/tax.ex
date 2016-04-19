@@ -1,5 +1,5 @@
 defmodule Nectar.Tax do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "taxes" do
     field :name

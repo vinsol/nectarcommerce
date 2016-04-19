@@ -1,5 +1,5 @@
 defmodule Nectar.State do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "states" do
     field :abbr, :string

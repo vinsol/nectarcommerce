@@ -1,5 +1,5 @@
 defmodule Nectar.OrderBillingAddress do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "order_billing_addresses" do
     belongs_to :order, Nectar.Order

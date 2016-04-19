@@ -1,5 +1,5 @@
 defmodule Nectar.UserAddress do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "user_addresses" do
     belongs_to :user, Nectar.User

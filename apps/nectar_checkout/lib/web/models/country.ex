@@ -1,5 +1,5 @@
 defmodule Nectar.Country do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   schema "countries" do
     field :name,       :string

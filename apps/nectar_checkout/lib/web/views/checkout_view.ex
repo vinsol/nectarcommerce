@@ -1,5 +1,5 @@
 defmodule Nectar.CheckoutView do
-  use Nectar.Web, :view
+  use NectarCore.Web, :view
 
   alias Nectar.Repo
   alias Nectar.CheckoutManager
@@ -65,7 +65,7 @@ defmodule Nectar.CheckoutView do
   end
 
   def back_link(conn, %Nectar.Order{state: "cart"} = _order) do
-    link "Back", to: cart_path(conn, :show), class: "btn btn-xs"
+    link "Back", to: NectarRoutes.cart_path(conn, :show), class: "btn btn-xs"
   end
 
   def back_link(_conn, %Nectar.Order{state: "confirmation"} = _order) do
@@ -73,7 +73,7 @@ defmodule Nectar.CheckoutView do
   end
 
   def back_link(conn, %Nectar.Order{} = _order) do
-    link "Back", to: checkout_path(conn, :back), method: "put", class: "btn btn-xs"
+    link "Back", to: NectarRoutes.checkout_path(conn, :back), method: "put", class: "btn btn-xs"
   end
 
 end
