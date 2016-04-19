@@ -1,5 +1,5 @@
 defmodule Nectar.OrderController do
-  use Nectar.Web, :controller
+  use NectarCore.Web, :controller
   use Guardian.Phoenix.Controller
 
   alias Nectar.Order
@@ -37,7 +37,7 @@ defmodule Nectar.OrderController do
     else
       conn
         |> put_flash(:info, "Order Not found with id #{id}")
-        |> redirect(to: admin_order_path(conn, :index))
+        |> redirect(to: NectarRoutes.admin_order_path(conn, :index))
         |> halt()
     end
   end

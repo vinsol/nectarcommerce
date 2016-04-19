@@ -1,5 +1,5 @@
 defmodule Nectar.SearchOrder do
-  use Nectar.Web, :model
+  use NectarCore.Web, :model
 
   import Ecto.Query
 

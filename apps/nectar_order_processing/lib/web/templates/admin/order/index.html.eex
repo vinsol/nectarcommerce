@@ -1,4 +1,4 @@
-<%= link "New Order", to: admin_cart_path(@conn, :new) %>
+<%= link "New Order", to: NectarRoutes.admin_cart_path(@conn, :new) %>
 
 <%= render Nectar.SearchView, "order.html",
   search_changeset: @search_changeset, search_action: @search_action,
@@ -25,16 +25,16 @@
         <td><%= order.updated_at %></td>
         <td><%= order.state %></td>
         <%= if Nectar.Order.confirmed? (order) do %>
-          <td><%= link "Show", to: admin_order_path(@conn, :show, order), class: "btn btn-default btn-xs" %></td>
+          <td><%= link "Show", to: NectarRoutes.admin_order_path(@conn, :show, order), class: "btn btn-default btn-xs" %></td>
           <td>-</td>
         <% else %>
-          <td><%= link "Continue", to: admin_order_checkout_path(@conn, :checkout, order), class: "btn btn-default btn-xs" %></td>
-          <td><%= link "Goto Cart", to: admin_cart_path(@conn, :edit, order), class: "btn btn-default btn-xs" %></td>
+          <td><%= link "Continue",  to: NectarRoutes.admin_order_checkout_path(@conn, :checkout, order), class: "btn btn-default btn-xs" %></td>
+          <td><%= link "Goto Cart", to: NectarRoutes.admin_cart_path(@conn, :edit, order), class: "btn btn-default btn-xs" %></td>
         <% end %>
         <%= if order.user_id do %>
           <td><%= order.user.email  %></td>
         <% else %>
-          <td><%= link "Associate User", to: admin_order_path(@conn, :edit, order), class: "btn btn-default btn-xs" %></td>
+          <td><%= link "Associate User", to: NectarRoutes.admin_order_path(@conn, :edit, order), class: "btn btn-default btn-xs" %></td>
         <% end %>
       </tr>
     <% end %>

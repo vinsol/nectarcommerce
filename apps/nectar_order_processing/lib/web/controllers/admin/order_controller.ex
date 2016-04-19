@@ -1,11 +1,10 @@
 defmodule Nectar.Admin.OrderController do
-  use Nectar.Web, :admin_controller
+  use NectarCore.Web, :admin_controller
 
   plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
 
   alias Nectar.Order
   alias Nectar.User
-  alias Nectar.Repo
   alias Nectar.LineItem
   alias Nectar.Product
   alias Nectar.SearchOrder
@@ -46,7 +45,7 @@ defmodule Nectar.Admin.OrderController do
     else
       conn
         |> put_flash(:info, "Order Not found with id #{id}")
-        |> redirect(to: admin_order_path(conn, :index))
+        |> redirect(to: NectarRoutes.admin_order_path(conn, :index))
         |> halt()
     end
   end
@@ -62,7 +61,7 @@ defmodule Nectar.Admin.OrderController do
     order = Repo.get(Order, id)
     changeset = Nectar.Order.link_to_user_changeset(order, order_params)
     case Repo.update changeset do
-      {:ok, _} -> conn |> put_flash(:info, "order updated successfully") |> redirect(to: admin_order_path(conn, :index))
+      {:ok, _} -> conn |> put_flash(:info, "order updated successfully") |> redirect(to: NectarRoutes.admin_order_path(conn, :index))
       {:error, changeset} ->
         users = Repo.all(from u in User, select: {u.email, u.id})
         conn

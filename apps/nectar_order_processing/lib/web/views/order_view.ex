@@ -1,5 +1,5 @@
 defmodule Nectar.OrderView do
-  use Nectar.Web, :view
+  use NectarCore.Web, :view
 
   alias Nectar.Admin.VariantView
 

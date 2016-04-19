@@ -1,5 +1,4 @@
-<%= link "Orders", to: order_path(@conn, :index) %>
-
+<%= link "All orders", to: NectarRoutes.admin_order_path(@conn, :index) %>
 <div class="panel">
   <div class="panel-body">
     <h5>Status: The order is in <strong style="text-transform: uppercase"><%= @order.state %></strong> state with the total cost of <%= @order.total %></h5>
@@ -20,13 +19,13 @@
   <tbody id="line_items">
     <%= for line_item <- @order.line_items do %>
       <tr>
-        <td><%= link line_item_display_name(line_item), to: product_path(@conn, :show, line_item.variant.product), target: "_blank" %></td>
+        <td><%= link line_item_display_name(line_item), to: NectarRoutes.admin_product_path(@conn, :show, line_item.variant.product), target: "_blank" %></td>
         <td><%= line_item.quantity %></td>
         <td><%= line_item.variant.cost_price %></td>
         <td><%= line_item.total %></td>
         <td>
           <%= if line_item.fullfilled do %>
-            <strong>fullfilled</strong>
+            <input name="" type="checkbox" checked="<%= line_item.fullfilled %>" class="fullfillment" data-line-item-id="<%= line_item.id %>"/>
           <% else %>
             <strong>cancelled</strong>
           <% end %>
@@ -55,19 +54,19 @@
 <% end %>
 
 <%= if @order.payment do %>
-  <h4>Payment Method</h4>
-  <table class="table">
-    <thead>
-      <tr>
-        <td>Name</td>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><%=  @order.payment.payment_method.name %></td>
-      </tr>
-    </tbody>
-  </table>
+<h4>Payment Method</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <td>Name</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%=  @order.payment.payment_method.name %></td>
+    </tr>
+  </tbody>
+</table>
 <% end %>
 
 <h4>Taxes</h4>
