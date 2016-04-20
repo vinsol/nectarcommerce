@@ -56,7 +56,8 @@ defmodule NectarCore.Web do
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/web/templates"
+      import unquote(__MODULE__), only: [template_root_folder: 1]
+      use Phoenix.View, root: template_root_folder(__MODULE__)
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
@@ -92,6 +93,25 @@ defmodule NectarCore.Web do
   # assume Nectar is the main project to use
   def repo_to_alias do
     Application.get_env(:nectar_core, :repo, Nectar.Repo)
+  end
+
+  @priority_root "../templates/"
+  @default_root "lib/web/templates"
+  def template_root_folder(module) do
+    namespace =
+      module
+      |> Module.split
+      |> Enum.take(1)
+      |> Module.concat
+
+    priority_path =
+      Path.join(@priority_root, Phoenix.Template.module_to_template_root(module, namespace, "View"))
+
+    if File.exists? priority_path do
+      @priority_root
+    else
+      @default_root
+    end
   end
 
   def router_to_alias do
