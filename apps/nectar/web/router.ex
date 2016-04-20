@@ -79,7 +79,7 @@ defmodule Nectar.Router do
     end
 
     resources "/users", UserController do
-      get "all_pending_orders", UserController, :all_pending_orders
+      get "all_pending_orders", UserOrderController, :all_pending_orders
     end
 
     resources "/settings", SettingController, only: [:edit, :update]
