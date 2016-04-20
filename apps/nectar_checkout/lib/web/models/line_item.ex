@@ -7,7 +7,7 @@ defmodule Nectar.LineItem do
   alias Nectar.Repo
 
   schema "line_items" do
-    belongs_to :variant, Nectar.Variant
+    belongs_to :variant, Nectar.VariantForCheckout, foreign_key: :variant_id
     belongs_to :order, Nectar.Order
     field :add_quantity, :integer, virtual: true, default: 0
     field :quantity, :integer

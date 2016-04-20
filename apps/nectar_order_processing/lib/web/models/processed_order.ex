@@ -22,16 +22,16 @@ defmodule Nectar.ProcessedOrder do
     field :applicable_payment_methods,  {:array, :map}, virtual: true
 
     # relationships
-    has_many :line_items, Nectar.LineItem
-    has_many :adjustments, Nectar.Adjustment
-    has_one  :shipping, Nectar.Shipping
-    has_many :variants, through: [:line_items, :variant]
-    has_one  :payment, Nectar.Payment
+    has_many :line_items, Nectar.LineItem, foreign_key: :order_id
+    has_many :adjustments, Nectar.Adjustment, foreign_key: :order_id
+    has_one  :shipping, Nectar.Shipping, foreign_key: :order_id
+    has_many :variants, through: [:line_items, :variant], foreign_key: :order_id
+    has_one  :payment, Nectar.Payment, foreign_key: :order_id
 
-    has_one  :order_billing_address, Nectar.OrderBillingAddress
+    has_one  :order_billing_address, Nectar.OrderBillingAddress, foreign_key: :order_id
     has_one  :billing_address, through: [:order_billing_address, :address]
 
-    has_one  :order_shipping_address, Nectar.OrderShippingAddress
+    has_one  :order_shipping_address, Nectar.OrderShippingAddress, foreign_key: :order_id
     has_one  :shipping_address, through: [:order_shipping_address, :address]
 
     belongs_to :user, Nectar.User

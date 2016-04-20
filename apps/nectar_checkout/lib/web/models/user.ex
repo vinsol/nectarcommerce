@@ -10,7 +10,7 @@ defmodule Nectar.UserForCheckout do
     field :password_confirmation, :string, virtual: true
     field :is_admin, :boolean
 
-    has_many :orders, Nectar.Order
+    has_many :orders, Nectar.Order, foreign_key: :user_id
     has_many :user_addresses, Nectar.UserAddress
     has_many :addresses, through: [:user_addresses, :address]
 

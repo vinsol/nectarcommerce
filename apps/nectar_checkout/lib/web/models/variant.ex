@@ -23,11 +23,11 @@ defmodule Nectar.VariantForCheckout do
 
     field :restock_count, :integer, virtual: true
 
-    belongs_to :product, Nectar.Product
+    belongs_to :product, Nectar.ProductForCheckout
     has_many :variant_option_values, Nectar.VariantOptionValue, on_delete: :delete_all, on_replace: :delete
     has_many :option_values, through: [:variant_option_values, :option_value]
 
-    has_many :line_items, Nectar.LineItem
+    has_many :line_items, Nectar.LineItem, foreign_key: :variant_id
 
     timestamps
   end

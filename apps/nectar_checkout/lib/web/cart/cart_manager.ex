@@ -8,7 +8,7 @@ defmodule Nectar.CartManager do
     {:error, %Ecto.Changeset{errors: [variant: "can't be blank"]}}
   end
 
-  def add_to_cart(%Nectar.Order{} = order, %{"variant_id" => variant_id, "quantity" => quantity}) do
+  def add_to_cart(%Order{} = order, %{"variant_id" => variant_id, "quantity" => quantity}) do
     variant = Repo.get!(Variant, variant_id) |> Repo.preload([:product])
     do_add_to_cart(order, variant, quantity)
   end

@@ -99,7 +99,7 @@ defmodule Nectar.LineItemTest do
   test "query with product" do
     line_item = create_line_item_with_product_quantity(2)
     |> Repo.insert!
-    variant = Repo.get Variant, line_item.variant_id
+    variant = Repo.get Nectar.VariantForCheckout, line_item.variant_id
     assert line_item.id in Repo.all(from ln in LineItem.with_variant(LineItem, variant), select: ln.id)
   end
 

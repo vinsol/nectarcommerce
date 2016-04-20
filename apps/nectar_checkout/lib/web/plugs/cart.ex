@@ -1,11 +1,17 @@
 defmodule Nectar.Plugs.Cart do
   import Plug.Conn
 
+  alias Nectar.Repo
+  alias Nectar.UserForCheckout, as: User
+  alias Nectar.Order
+
   def init(_opts) do
   end
 
   def call(conn, _) do
     current_user  = Guardian.Plug.current_resource(conn)
+    # Hack: Guardian returns User but we need UserForCheckout
+    current_user  = %User{id: current_user.id}
     current_order = fetch_current_order_from_session(conn)
     assign_cart_to_session_and_user(conn, current_user, current_order)
   end
@@ -29,8 +35,8 @@ defmodule Nectar.Plugs.Cart do
   # guest logged in, link the cart to the user
   defp assign_cart_to_session_and_user(conn, user, %Nectar.Order{user_id: nil} = order) do
     # load previous order only if cart in current session is empty
-    previous_order = if Nectar.Order.cart_empty? order do
-      Nectar.Order.current_order(user)
+    previous_order = if Order.cart_empty? order do
+      Order.current_order(user)
     else
       nil
     end
@@ -55,19 +61,19 @@ defmodule Nectar.Plugs.Cart do
   end
 
   defp load_or_create_order_for_user(current_user) do
-    Nectar.Order.current_order(current_user) || (Nectar.Order.user_cart_changeset(%Nectar.Order{}, %{user_id: current_user.id}) |> Nectar.Repo.insert!)
+    Order.current_order(current_user) || (Order.user_cart_changeset(%Order{}, %{user_id: current_user.id}) |> Repo.insert!)
   end
 
   defp create_guest_order do
-    Nectar.Order.cart_changeset(%Nectar.Order{}, %{}) |> Nectar.Repo.insert!
+    Order.cart_changeset(%Order{}, %{}) |> Repo.insert!
   end
 
   # if the order in session has been confirmed, we need to create an empty cart for
   # checkout so return nil.
   defp fetch_current_order_from_session(conn) do
-    case Nectar.Repo.get(Nectar.Order, get_session(conn, :current_order) || 0) do
+    case Repo.get(Order, get_session(conn, :current_order) || 0) do
       nil -> nil
-      %Nectar.Order{state: "confirmation"} -> nil
+      %Order{state: "confirmation"} -> nil
       order -> order
     end
   end

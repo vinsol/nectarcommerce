@@ -10,13 +10,14 @@ defmodule Nectar.ProductForCheckout do
     field :discontinue_on, Ecto.Date
     field :slug, :string
 
-    has_one :master, Nectar.Variant, on_delete: :nilify_all # As this and below association same, how to handle on_delete
-    has_many :variants, Nectar.Variant, on_delete: :nilify_all
+    # As this and below association same, how to handle on_delete
+    has_one :master, Nectar.VariantForCheckout, on_delete: :nilify_all, foreign_key: :product_id
+    has_many :variants, Nectar.VariantForCheckout, on_delete: :nilify_all, foreign_key: :product_id
 
-    has_many :product_option_types, Nectar.ProductOptionType
+    has_many :product_option_types, Nectar.ProductOptionType, foreign_key: :product_id
     has_many :option_types, through: [:product_option_types, :option_type]
 
-    has_many :product_categories, Nectar.ProductCategory
+    has_many :product_categories, Nectar.ProductCategory, foreign_key: :product_id
     has_many :categories, through: [:product_categories, :category]
 
     timestamps
@@ -71,11 +72,11 @@ defmodule Nectar.ProductForCheckout do
   end
 
   def has_variants_excluding_master?(product) do
-    Nectar.Repo.one(from variant in all_variants(product), select: count(variant.id)) > 0
+    Repo.one(from variant in all_variants(product), select: count(variant.id)) > 0
   end
 
   def variant_count(product) do
-    Nectar.Repo.one(from variant in all_variants_including_master(product), select: count(variant.id))
+    Repo.one(from variant in all_variants_including_master(product), select: count(variant.id))
   end
 
   def master_variant(model) do

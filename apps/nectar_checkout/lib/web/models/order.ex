@@ -33,7 +33,7 @@ defmodule Nectar.Order do
     has_one  :order_shipping_address, Nectar.OrderShippingAddress
     has_one  :shipping_address, through: [:order_shipping_address, :address]
 
-    belongs_to :user, Nectar.User
+    belongs_to :user, Nectar.UserForCheckout, foreign_key: :user_id
 
     timestamps
   end
