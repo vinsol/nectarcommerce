@@ -154,12 +154,7 @@ But things don't seem right do they, our Nectar layout has been replaced with th
 
 Update layout_view.ex as:
 
-```elixir
-defmodule FavoriteProducts.LayoutView do
-  use FavoriteProducts.Web, :view
-  defdelegate render(template, assigns), to: Nectar.LayoutView
-end
-```
+<script src="https://gist.github.com/nimish-mehta/ceb97b1c0539f94d2a4bbf95b202a861.js"></script>
 
 and recompile and restart the server
 
@@ -173,7 +168,7 @@ On our next visit:
 
 Much better.
 
-> __Note__: When we need to change the extension code while running the server we will have to recompile by stopping the server. We don't have anything in Nectar right now for monitor all extensions file and do an auto code reload.
+> __Note__: When we need to change the extension code while running the server we will have to recompile and reload. We don't have anything in Nectar right now for monitor all extensions file and do an automatic compilation and code reload.
 
 
 #Testing#
@@ -181,22 +176,15 @@ We are almost done now. To ensure that we know when things break we should add a
 
 For the former we could update the test_helper.ex with:
 
-```elixir
-ExUnit.start
-
-Mix.Task.run "ecto.create", ~w(-r FavoriteProducts.Repo --quiet)
-Mix.Task.run "ecto.migrate", ~w(-r Nectar.Repo --quiet)
-Mix.Task.run "ecto.migrate", ~w(-r FavoriteProducts.Repo --quiet)
-Ecto.Adapters.SQL.begin_test_transaction(FavoriteProducts.Repo)
-```
+<script src="https://gist.github.com/nimish-mehta/795a1eacd54f876f774d3d91abcc8fb3.js"></script>
 
 But things are not so smooth this time. Which brings us to what we think is the ultimate downfall of this approach:
 
 ### An Untestable soution ###
 
-Ideally, running ```mix test``` should work and we should see our test running green, unfortunately this requires nectar to be compiled before running the tests, which is impossible since nectar depends upon the extension_manager to be compiled which depends upon all the extensions to be compiled. Also we used nectar's repo for all database work. That works because we were running our server through nectar and the repo was started in Nectar's Supervision tree. Which again add an implicit requirement Nectar is available and ready to be started during test time or that we can replace it with FavoriteProducts.Repo if MIX_ENV=test, which is a can of worms we would rather avoid right now.
+Ideally, running ```mix test``` should work and we should see our test running green, unfortunately this requires nectar to be compiled before running the tests, which is impossible since nectar depends upon the extension_manager to be compiled which depends upon all the extensions to be compiled, resulting in a cyclic dependency. Also we used nectar's repo for all database work. That works because we were running our server through nectar and the repo was started in Nectar's Supervision tree. Which again adds an implicit requirement Nectar application is available and ready to be started during test time or we could replace ```Nectar.Repo``` with ```FavoriteProducts.Repo``` if MIX_ENV=test, which is a can of worms we would rather avoid right now.
 
-This seems like the end of the road for this approach. Where we are failing right now is making nectar available to extensions as a dependency at compile time and in turn test time. So that they can run independently. Let's try that in our second approach and reverse the dependency order [link to second approach]().
+This seems like the end of the road for this approach. Where we are failing right now is making nectar available to extensions as a dependency at compile time and in turn test time. So that they can run independently. Let's try that in our second approach and reverse the dependency order.
 
 
 >
