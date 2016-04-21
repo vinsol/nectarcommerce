@@ -10,6 +10,24 @@ navigation: true
 logo: 'assets/images/nectar-cart.png'
 ---
 
+>
+The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
+>
+1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_
+1. _[Extension Framework Game Plan](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/)_
+1. _[Introduction to Metaprogramming](http://vinsol.com/blog/2016/04/14/introduction-to-metaprogramming/)_
+1. _[Ecto Model Schema Extension](http://vinsol.com/blog/2016/04/15/ecto-model-schema-extension/)_
+1. Ecto Model Support Functions Extension
+1. Phoenix Router Extension
+1. Phoenix View Extension
+1. Running Multiple Elixir Apps Together
+1. Extension Approach Explained
+1. **Developer Experience and Workflow developing Favorite Product Extension**
+1. Developer Experience and Workflow testing Favorite Product Extension
+
+Developing Nectar Extensions Part 2
+=============
+
 ### Where we left off ###
 
 In our [previous approach](), we tried to compile extensions and then based on it compile a version of nectar, which had the serious limitation of Nectar was unavailable for testing.
@@ -641,11 +659,10 @@ You can always run ``` mix release.clean -- implode ``` to clean up your workspa
 
 ## Suggested Workflow ##
 
-Basically Start with your store and extract out the functionality into self contained modules and load them back as extension.
+We can now see developing extensions is not very different from building our store with custom functionality based on nectar. You Start with your store and extract out the functionality into self contained applications and load them back as extensions into nectar.
 
-Credits
--------
 
-[![vinsol.com: Ruby on Rails, iOS and Android developers](http://vinsol.com/vin_logo.png "Ruby on Rails, iOS and Android developers")](http://vinsol.com)
+>
+_Our aim with these posts is to start a dialog with the Elixir community on validity and technical soundness of our approach. We would really appreciate your feedback and reviews, and any ideas/suggestions/pull requests for improvements to our current implementation or entirely different and better way to do things to achieve the goals we have set out for NectarCommerce._
 
-Copyright (c) 2016 [vinsol.com](http://vinsol.com "Ruby on Rails, iOS and Android developers"), released under the New MIT License
+_Enjoy the Elixir potion !!_
