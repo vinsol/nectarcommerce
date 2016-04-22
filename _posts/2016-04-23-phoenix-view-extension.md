@@ -15,10 +15,10 @@ The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 >
 1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_
 1. _[Extension Framework Game Plan](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/)_
-1. Intro to Metaprogramming
-1. Ecto Model Schema Extension
-1. Ecto Model Support Functions Extension
-1. Phoenix Router Extension
+1. _[Introduction to Metaprogramming](http://vinsol.com/blog/2016/04/14/introduction-to-metaprogramming/)_
+1. _[Ecto Model Schema Extension](http://vinsol.com/blog/2016/04/15/ecto-model-schema-extension/)_
+1. _[Ecto Model Support Functions Extension](http://vinsol.com/blog/2016/04/18/ecto-model-support-functions-extension/)_
+1. _[Phoenix Router Extension](http://vinsol.com/blog/2016/04/21/phoenix-router-extension/)_
 1. **Phoenix View Extension**
 1. Running Multiple Elixir Apps Together
 1. Extension Approach Explained
@@ -44,6 +44,9 @@ NectarCommerce is committed to providing a ready-to-use e-commerce solution but 
 We want to allow Extensions to provide alternate view for an existing view in Nectar or provide an alternate template path for all views without changing the Nectar Views.
 
 ### How
+
+>
+Note: Please refer [Introduction to Metaprogramming](http://vinsol.com/blog/2016/04/14/introduction-to-metaprogramming/) for more information on Metaprogramming in Elixir
 
 ## Alternate View Templates Path than Default for all templates override
 
