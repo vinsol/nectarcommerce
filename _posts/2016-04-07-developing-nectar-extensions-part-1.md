@@ -42,11 +42,7 @@ In the past few blogs we have learned how to write code that extends existing mo
 
 __Setup__: Create a new phoenix application to hold the favorite products application, in your shell run inside the umbrella/apps folder:
 
-
-```bash
-mix phoenix.new favorite_products
-```
-
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=new_phoenix_application.bash"></script>
 
 We could have gone with a regular mix application, but Phoenix/Ecto will come in handy in this case, since we want to have views to display stuff and a model to store data.
 
@@ -65,28 +61,21 @@ That should be enough to get us going.
 
 __MODEL LAYER__: We want a nectar user to have some products to like and a way to remember them in short a join table and with two associations let's generate them:
 
-```bash
-cd favorite_products
-mix phoenix.gen.model UserLike user_like user_id:references:users product_id:references:products
-```
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=model_gen.bash"></script>
 
 Now to point to correct nectar models. Open up the source and change the associations from favorite products model to nectar models. In the end we have a schema like:
 
 <script src="https://gist.github.com/nimish-mehta/c6977aee042c259dc756846b20f0f476.js"></script>
 
-Of, course this is only the extension view of this relationship, We want the nectar user to be aware of this relationship and most important of all, we should be able to do something like
+Of, course this is only the extension view of this relationship, We want the nectar user to be aware of this relationship and most important of all, we should be able to do something like ```Nectar.User.liked_products(user)``` to fetch the products liked by user.
 
-```elixir
-Nectar.User.liked_products(user) # fetches the products liked by the user
-```
+Time to call our handy macros written earlier to perform the compile time code injection. Let's create the nectar\_extension.ex file in favorite_products/lib/ directory and place this code there:
 
-Time to call our handy macros written earlier to perform the black magic of compile time code injection. Let's create the nectar\_extension.ex file in favorite_products/lib/ directory and place this code there:
-
-<script src="https://gist.github.com/nimish-mehta/ebea7046010ce5061ed74ed57a9112bb.js"></script>
+<script src="https://gist.github.com/nimish-mehta/c723dd21b0251d19b34c8e2f646e2398.js"></script>
 
 Don't forget to update the install file in extensions_manager.
 
-<script src="https://gist.github.com/nimish-mehta/47e36315bb8818f54dc7519d9e3f7ed7.js"></script>
+<script src="https://gist.github.com/nimish-mehta/116e7e7d0d3b03593e5184dff50c2a74.js"></script>
 
 Now we have a user that can like products and product from which we can query which users liked it.
 
@@ -96,13 +85,11 @@ Time to play with what we have built so far, start a shell in nectar folder ```i
 
 Oops, forgot the migration, remember we shared the db config earlier let's put that to use and run:
 
-```bash
-mix ecto.migrate -r FavoriteProducts.Repo
-```
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=migrate.bash"></script>
 
 Which will migrate the user_likes table onto the original nectar database.
 
-now back to our shell
+back to our shell
 
 <script src="https://gist.github.com/nimish-mehta/d9f0fcf0b868b9a5869766dcd756b934.js"></script>
 
@@ -124,26 +111,19 @@ __the view file: index.html.eex__
 In both of the files we refer to routes via NectarRoutes alias instead of favorite products.
 To add the route from nectar, update nectar_extension.ex with the following code:
 
-<script src="https://gist.github.com/nimish-mehta/ebea7046010ce5061ed74ed57a9112bb.js"></script>
+<script src="https://gist.github.com/nimish-mehta/b58e21723a335263e9efcd82b104d100.js"></script>
 
 And add to install.ex the call:
 
-<script src="https://gist.github.com/nimish-mehta/47e36315bb8818f54dc7519d9e3f7ed7.js"></script>
+<script src="https://gist.github.com/nimish-mehta/db7883f628837e7ebca5a1945c4d1bfe.js"></script>
 
 Now we can see the added routes from nectar
 
-```bash
-mix phoenix.routes | grep 'favorites'
-favorite_path  GET     /favorites        FavoriteProducts.FavoriteController :index
-favorite_path  POST    /favorites        FavoriteProducts.FavoriteController :create
-favorite_path  DELETE  /favorites/:id    FavoriteProducts.FavoriteController :delete
-```
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=route.bash"></script>
 
 So far so good, we have modified and added routes and controller to nectar's router. Time to see our handiwork in action, start the server from nectar application with:
 
-```bash
-mix phoenix.server
-```
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=server.bash"></script>
 
 and visit 127.0.0.1:4000/favorite and click on mark to like a product.
 
@@ -158,9 +138,7 @@ Update layout_view.ex as:
 
 and recompile and restart the server
 
-```bash
-mix clean && mix compile && mix phoenix.server
-```
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=compile.bash"></script>
 
 On our next visit:
 
