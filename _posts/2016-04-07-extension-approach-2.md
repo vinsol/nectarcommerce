@@ -37,7 +37,7 @@ NectarCommerce is committed to providing a ready-to-use e-commerce solution but 
 
 ## NectarCommerce Extension Approach 2 ##
 
-This post aims at documenting how extensions approach 2 is structured. And the order of dependencies amongst the various nuts and bolts of NectarCommerce and its extensions as implemented.
+This post aims at documenting how extensions approach 2 is structured, the order of dependencies amongst the various nuts and bolts of NectarCommerce and its extensions as implemented.
 
 NectarCommerce can be divided in two components, both of which reside in the same umbrella application.
 
@@ -57,15 +57,15 @@ Nectar while being a run of the mill phoenix application, with models, controlle
 
 2. __Nectar.RouteExtender__, Similar to ```Nectar.Extender``` except it is specialized for extending routes.
 
-So any extension that needs to modify Nectar, needs to utilize the DSL provided by extension manager, we will go through this in detail when we flesh out how to go about building an extension.
+So any extension that needs to modify Nectar, needs to utilize the DSL provided by extension manager, we will go through this in detail when we expand on how to build an extension.
 
 ### Extension Manager ###
 
-This is a regular mix application that will be used to fetch the extensions and provides a thin DSL(for more details on this see our posts on [Model Extension](http://vinsol.com/blog/2016/04/15/ecto-model-schema-extension), [View Extension]() and [Router Extension]()) which can be used to express how changes are to made to Nectar. Also any extension that we need to install will be added here as a dependency and properly hooked into the correct modules (Please see the example implementation for one way of doing this). This module provides 3 Components for building and compiling Nectar Extensions
+This is a regular mix application that will be used to fetch the extensions and provides a thin DSL(for more details on this see our posts on [Model Extension](http://vinsol.com/blog/2016/04/15/ecto-model-schema-extension), [View Extension](http://vinsol.com/blog/2016/04/25/phoenix-view-extension/) and [Router Extension](http://vinsol.com/blog/2016/04/21/phoenix-router-extension/) which can be used to express how changes are to made to Nectar. Also any extension that we need to install will be added here as a dependency and properly hooked into the correct modules (Please see the example implementation for one way of doing this). This module provides 3 Components for building and compiling Nectar Extensions
 
 1. __DSL__ : A simple DSL for declaring components that need to be injected into models/router. See our previous posts for how the DSL looks and behaves.
 
-2. __Extension Compiler__, it is a basic compile time step that marks files which are using Nectar.Extender(i.e. ```use Nectar.Extender```) for recompilation so that they pick up any changes made to the extensions. It is currently based on how [phoenix compiler](https://github.com/phoenixframework/phoenix/blob/master/lib/mix/tasks/compile.phoenix.ex) works.
+2. __Extension Compiler__: It is a basic compile time step that marks files which are using Nectar.Extender(i.e. ```use Nectar.Extender```) for recompilation so that they pick up any changes made to the extensions. It is currently based on how [phoenix compiler](https://github.com/phoenixframework/phoenix/blob/master/lib/mix/tasks/compile.phoenix.ex) works.
 
 3. __Install__: Extensions can document how they are to be installed by declaring the code using DSL inside method calls and describing how and which modules to call these methods in.
 These instructions are then followed to compile the injection payload. If this seems cryptic/vague, please refer to the [example implementation](https://github.com/vinsol/nectarcommerce/pull/47) of favorite products extensions on how the [install](https://github.com/vinsol/nectarcommerce/blob/extension/approach-2/apps/extensions_manager/lib/extensions_manager/install_extensions.ex) file is structured.
@@ -75,7 +75,7 @@ These instructions are then followed to compile the injection payload. If this s
 
 __Extensions Manager & Nectar__ : Extension Manager does not depend upon Nectar directly(it may be a transitive dependency via the extensions) neither does Nectar Depend upon it. Nectar searches for modules in the umbrella via ```Code.ensure_loaded``` to find if extensions exists. While not ideal and as explicit as want it to be, we feel it is a pragmatic solution for what it allows us to achieve which is basically a form of mutual dependency.
 
-__Extensions & Nectar__: Extensions should depend upon nectar. Again, This may seem counterintuitive since nectar will be enhanced via extensions, But ultimately we will need the Nectar dependency for running tests, pattern matching on Nectar Struct and models and for building exrm releases. After we are done we can always recompile nectar to use the extensions.
+__Extensions & Nectar__: Extensions should depend upon nectar. Again, This may seem counterintuitive since Nectar will be enhanced via extensions, but ultimately we will need the Nectar dependency for running tests, pattern matching on Nectar Struct and models and for building exrm releases(more on this later). After we are done we can always recompile nectar to use the extensions.
 
 This concludes our high level description of how the different parts of NectarCommerce interact with each other. Lets continue and see how we can utilize the above infrastructure for building our extensions in our next post.
 
