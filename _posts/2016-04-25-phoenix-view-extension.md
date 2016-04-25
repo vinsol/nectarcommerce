@@ -52,7 +52,7 @@ Note: Please refer [Introduction to Metaprogramming](http://vinsol.com/blog/2016
 
 To fully understand the changes below, please refer [Phoenix View Implementation](https://github.com/phoenixframework/phoenix/blob/master/lib/phoenix/view.ex#L136)
 
-It simply defines the function which adds the function which would check in custom path for templates and if not found will fallback to default view paths :)
+As per the reference above, we simply defined a function which adds the function which would check in custom path for templates and if not found will fallback to default view paths :)
 
 <script src="https://gist.github.com/pikender/c84672d42558ac731eddd77e338ec1da.js"></script>
 
