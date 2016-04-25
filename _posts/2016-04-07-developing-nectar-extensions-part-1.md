@@ -53,7 +53,7 @@ __DB_SETTINGS__:
 <script src="https://gist.github.com/nimish-mehta/49dcc6c0bcf6123f536ccc13220bf7ea.js"></script>
 
 We need to let the extension manager know that this application is an extension for nectar.
-Update the dependencies in extension\_manager/mix.exs with the favorite_products depenedency.
+Update the dependencies in extension\_manager/mix.exs with the favorite_products dependency.
 
 <script src="https://gist.github.com/nimish-mehta/418685331be5beb327c2890bc2257b0f.js"></script>
 
