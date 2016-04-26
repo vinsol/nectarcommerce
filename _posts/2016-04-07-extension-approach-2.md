@@ -41,16 +41,16 @@ This post aims at documenting how the approach we took to make NectarCommerce ex
 
 NectarCommerce can be divided in two components, both of which reside in the same umbrella application.
 
-1. Nectar: The phoenix project, which acts as the backbone of your E-Commerce application.
-2. Extension Manager: A plugin manager/DSL provider for Nectar. It also owns the compile time step for Nectar. We intend to make the DSL/Compiler as a separate package and make Extension Manager solely responsible for downloading and installing extensions.
+1. __Nectar__: The phoenix project, which acts as the backbone of your E-Commerce application.
+2. __Extension Manager__: A plugin manager/DSL provider for Nectar. It also owns the compile time step for Nectar. We intend to make the DSL/Compiler as a separate package and make Extension Manager solely responsible for downloading and installing extensions.
 
 ## Application Overview ##
 
 ### Nectar ###
 
-Nectar is a run of the mill phoenix application, with models, controllers and some conveniences built into it which makes it amenable to extension. It has no dependencies on other application in the umbrella besides worldly which once done should also be a separate package.
+Nectar is a run of the mill phoenix application, with models, controllers and some conveniences built into it which makes it amenable to extension. It has no dependencies on other application in the umbrella besides `worldly` which once done should also be a separate package.
 
-1. __Nectar.Extender__, if any module is using this during compile time, Nectar.Extender searches for whether the _module_ which can act as an extension to the using module has been compiled and loads the extension into it. There is a basic naming convention followed right now for doing this. If ```Nectar.Product``` uses ```Nectar.Extender``` then it will search for module ```ExtensionsManager.ExtendProduct```. This is a very basic and a proof of concept implementation and we can flesh it out later to support fully name-spaced extension modules.
+1. __Nectar.Extender__, if any module is using this during compile time, Nectar.Extender searches for whether the _module_ which can act as an extension to the using module has been compiled and loads the extension into it. There is a basic naming convention being followed for doing this: if ```Nectar.Product``` uses ```Nectar.Extender``` then it will search for module ```ExtensionsManager.ExtendProduct``` as the module to use for extension. This is a proof of concept implementation, which we can flesh out later to support fully name-spaced extension modules. 
 [source](https://github.com/vinsol/nectarcommerce/blob/extension/approach-2/apps/nectar/lib/nectar/extender.ex).
 
 	> **Note**: This currently limits the point of extension per module to a single module. It is by design to keep things in one place.
@@ -73,7 +73,7 @@ These instructions are then followed to compile the injection payload. If this s
 
 ## Dependencies and Code loading ##
 
-__Extensions Manager & Nectar__ : Extension Manager does not depend upon Nectar directly(it may be a transitive dependency via the extensions) neither does Nectar depend upon Extension Manager. Nectar searches for modules in the umbrella via ```Code.ensure_loaded``` to find if extensions exist. While it's not ideal and as explicit as want it to be, it is a pragmatic solution for what it allows us to achieve which is basically a form of mutual dependency.
+__Extensions Manager & Nectar__ : Extension Manager does not depend upon Nectar directly(it may be a transitive dependency via the extensions) neither does Nectar depend upon Extension Manager. Nectar searches for modules in the umbrella via ```Code.ensure_loaded``` to find if extensions exist. While it's not ideal and as explicit as we want it to be, it is a pragmatic solution for what it allows us to achieve which is basically a form of mutual dependency.
 
 __Extensions & Nectar__: Extensions should depend upon nectar. Again this may seem counterintuitive since Nectar will be enhanced via extensions, but ultimately we will need the Nectar dependency for running tests, pattern matching on Nectar structs and models and for building exrm releases(more on this later). After we are done we can always recompile nectar to use the extensions.
 
