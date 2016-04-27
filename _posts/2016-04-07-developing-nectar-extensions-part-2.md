@@ -1,7 +1,7 @@
 ---
 layout: post
 cover: 'assets/images/general-cover-3.jpg'
-title: Developing Nectar Extensions Part 2
+title: Developing Nectar Extensions
 tags: docs
 subclass: 'post tag-docs'
 categories: 'elixir'
@@ -25,54 +25,68 @@ The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 1. **Developer Experience and Workflow developing Favorite Product Extension**
 1. Developer Experience and Workflow testing Favorite Product Extension
 
-Developing Nectar Extensions Part 2
+Developing NectarCommerce Extensions
 =============
 
 ### Where we left off ###
 
-In our [previous approach](), we tried to compile extensions and then based on it compile a version of nectar, which had the serious limitation of Nectar was unavailable for testing.
 
-What we need is that Nectar is available and compiled while developing extensions and if an extension is added it should recompile itself to include the new extensions.
+In the past few posts we have learned how to write code that extends existing models, routers, added methods to override view rendering and run multiple phoenix application together in the same umbrella project. Let's Continue to build upon that and write our first extension for NectarCommerce [favorite products](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/) and ultimately our store based on NectarCommerce.
+
+For our curious readers, we tried [another extension approach]() which had linear dependency (nectar => extensions_manager => extensions) helpful in development but turned out to had the serious limitation of Nectar being unavailable for testing. To overcome the barrier of testing and pleasant developer workflow, What we need is that Nectar is available and compiled while developing extensions and if an extension is added it should recompile itself to include the new extensions.
 We have modified Nectar for this approach to seek for extensions and used a custom compiler step(A story for another time) to mark files for recompilation. Let's get started and see if we can scale the testing barrier.
 
-Note: Most(read all) of the code for the extension is same. You can probably skim through it if you have gone through the previous post. Copied, pasted and modified with changes highlighted here for posterity.
+# A layered guide to NectarCommerce extensions #
 
-### A layered guide to nectar extensions ###
+## Index
+1. [Setup](#setup)
+2. [Model Layer](#model-layer)
+3. [View Layer](#view-layer)
+4. [Starting the server](#starting-the-server-to-preview-the-code)
+5. [Testing](#testing)
+6. [Creating your store with NectarCommerce](#bonus-guide-creating-your-store-based-on-nectarcommerce)
+7. [Suggested Workflow](#suggested-workflow)
 
-__Setup__: Create a new phoenix application to hold the favorite products application.
-in your shell run inside the umbrella/apps folder:
+## Setup ##
+
+Create a new phoenix application to hold the favorite products application.
+In your shell run inside the umbrella/apps folder:
 
 <script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=new_phoenix_application.bash"></script>
 
 
 We could have gone with a regular mix application, but phoenix/ecto will come in handy in this case, since we want to have views to display stuff and a model to store data.
 
-While we are at it let's configure our dev.exs to use the same db as nectar, we could write some code and share the db settings between nectar and our extensions see: link to running multiple phoenix application together for more details. But now for simplicity's sake we are  just copying the settings from nectar to get started.
+While we are at it let's configure our dev.exs to use the same db as Nectar, we could write some code and share the db settings between Nectar and our extensions see: [running multiple phoenix application together](http://vinsol.com/blog/2016/04/26/running-multiple-elixir-apps-in-umbrella-project/) for more details. But now for simplicity's sake we are  just copying the settings from Nectar to get started.
+
+__DB_SETTINGS__:
 
 <script src="https://gist.github.com/nimish-mehta/49dcc6c0bcf6123f536ccc13220bf7ea.js"></script>
 
-We need to let the extension manager know that this application is an extension for nectar.
+We need to let the extension manager know that this application is an extension for Nectar.
 Update the dependencies in extension\_manager/mix.exs with the favorite_products dependency.
 
 <script src="https://gist.github.com/nimish-mehta/418685331be5beb327c2890bc2257b0f.js"></script>
 
-And now for the big differentiator, we will add nectar as dependency of the favorite_products extension, effectively ensuring it is compiled before the extension.
+And now for the big differentiator, we will add Nectar as dependency of the favorite_products extension, effectively ensuring it is compiled before the extension.
 
 <script src="https://gist.github.com/nimish-mehta/44fba8f62bec2d95df2c5e911d3ec081.js"></script>
 
-__MODEL LAYER__: We want a nectar user to have some products to like and a way to remember them in short a join table and with two associations let's generate them:
+## Model Layer ##
+
+We want a NectarCommerce user to have some products to like and a way to remember them in short a join table and with two associations let's generate them:
 
 <script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=model_gen.bash"></script>
 
 
-Now to point to correct nectar models. Open up the source and change the associations to from favorite products model to nectar models. In the end we have a schema like:
+Now to point to correct Nectar models. Open up the source and change the associations to from favorite products model to Nectar models. In the end we have a schema like:
 
 <script src="https://gist.github.com/nimish-mehta/c6977aee042c259dc756846b20f0f476.js"></script>
 
 
 >__Fun Fact__: Since we are depending upon Nectar now we can use ```Nectar.Web, :model``` instead of ```FavoriteProducts.Web, :model``` in user_like.ex and make our extensions available for extension.
 
-Of, course this is only the extension view of this relationship, We want the nectar user to be aware of this relationship and most important of all, we should be able to do something like ```Nectar.User.liked_products(user)``` to fetch the liked products of the user.
+Of, course this is only the extension view of this relationship, We want the Nectar user to be aware of this relationship and most important of all, we should be able to do something like ```Nectar.User.liked_products(user)``` to fetch the liked products of the user.
 
 Calling our handy macros to perform the dark art of compile time code injection. Let's create the nectar\_extension.ex file in favorite_products/lib/ directory and place this code there:
 
@@ -88,15 +102,17 @@ From the root of umbrella, run the following to start the shell:
 
 <script src="https://gist.github.com/nimish-mehta/f307d5a6c328e317e93460959bec0a3f.js"></script>
 
-This should trigger another round of compilation. Ultimately loading the extension code into nectar. Lets see if we were successful. But before doing that we should migrate the database.
+This should trigger another round of compilation. Ultimately loading the extension code into Nectar. Lets see if we were successful. But before doing that we should migrate the database.
 
 <script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=migrate.bash"></script>
 
 <script src="https://gist.github.com/nimish-mehta/0906cc2cf4929508e3ee75bb6cf1c8e1.js"></script>
 
-Voila, we can now save and retrieve records to a relation we defined outside nectar from nectar models.
+Voila, we can now save and retrieve records to a relation we defined outside Nectar from Nectar models.
 
-__VIEW LAYER__: Now that we can save the user likes, we should probably add an interface for the user to like them as well. Which leads us to the first shortcoming in our current approach, we can replace existing views but right now we don't have anything for adding to an existing view(Please leave us a note here if you know of a clean performant approach to do this). Meanwhile we expect most people will end up overriding the existing views to something more custom then updating it piecemeal but i digress. For now let's have a page where we list all the products and user can mark them as liked or unlike the previously liked ones.
+## VIEW LAYER ##
+
+Now that we can save the user likes, we should probably add an interface for the user to like them as well. Which leads us to the first shortcoming in our current approach, we can replace existing views but right now we don't have anything for adding to an existing view(Please leave us a note here if you know of a clean performant approach to do this). Meanwhile we expect most people will end up overriding the existing views to something more custom then updating it piecemeal but i digress. For now let's have a page where we list all the products and user can mark them as liked or unlike the previously liked ones.
 
 __controller__
 
@@ -104,11 +120,11 @@ __controller__
 
 Notice how we use the Nectar.Repo itself instead of using the FavoriteProducts.Repo, infact beside migration, we won't be utilizing or starting the FavoriteProducts.Repo, which will help us keep the number of connections open to database limited via only the Nectar.Repo
 
-__index.html.eex__
+__the view file: index.html.eex__
 
 <script src="https://gist.github.com/nimish-mehta/6721beb8eaa06859dbffcef48e99231a.js"></script>
 
-In both of the files we refer to routes via NectarRoutes alias instead of favorite products. To get the assets from nectar add nectar/web/static to the brunch config's watched folders:
+In both of the files we refer to routes via NectarRoutes alias instead of favorite products. To get the assets from Nectar add nectar/web/static to the brunch config's watched folders:
 
 <script src="https://gist.github.com/nimish-mehta/38bbd3ee540f680aa5d0e55dc27f0c98.js?file=brunch_config.js"></script>
 
@@ -116,7 +132,7 @@ and in __app.js__, initialize the nectar code:
 
 <script src="https://gist.github.com/nimish-mehta/38bbd3ee540f680aa5d0e55dc27f0c98.js?file=app.js"></script>
 
-Finally for adding the route to nectar, update nectar_extension.ex with the following code:
+Finally for adding the route to Nectar, update nectar_extension.ex with the following code:
 
 <script src="https://gist.github.com/nimish-mehta/b58e21723a335263e9efcd82b104d100.js"></script>
 
@@ -133,9 +149,9 @@ let's update the layout as well:
 <script src="https://gist.github.com/nimish-mehta/ceb97b1c0539f94d2a4bbf95b202a861.js"></script>
 
 
-##Starting the server to preview the code##
+## Starting the server to preview the code ##
 
-In the previous version we were directly running the nectar server, However since we are essentially working from ground up. Let us make another change and add a forward from favorite_products to nectar.
+In the previous attempt we were directly running the Nectar server, However since we are essentially working from ground up, let us make another change and add a forward from favorite_products to nectar.
 
 In favorite_products/web/router.ex:
 
@@ -147,18 +163,18 @@ All the usual caveats for forwards apply here. Before doing so please ensure tha
 
 Now we can run our ```mix phoenix.server``` and go about marking our favorites with nectar layout and all.
 
-![Layout Present](assets/images/after_layout.png){: .center-image }
+![Layout Present](http://vinsol.com/blog/wp-content/uploads/2016/04/after-layout.jpg){: .center-image }
 
-##Testing##
+## Testing ##
 We are almost done now. To ensure that we know when things break we should add a few tests
-of-course, we need to make sure that nectar migrations are run before running the migrations for favorite products and we need the nectar repo running as well.
+of-course, we need to make sure that Nectar migrations are run before running the migrations for favorite products and we need the Nectar repo running as well.
 
 for the former let's update the test_helper.ex with:
 
 <script src="https://gist.github.com/nimish-mehta/795a1eacd54f876f774d3d91abcc8fb3.js"></script>
 
 
-__And now to write the tests, this one doesn't end like the previous one.__
+__And now to write the tests__
 
 The tests for code injection:
 
@@ -172,13 +188,13 @@ Running Them:
 
 <script src="https://gist.github.com/nimish-mehta/1cac0db66c6140e7b72474198b99e193.js?file=result.bash"></script>
 
-## Bonus Guide: Creating our user store application ##
+## Bonus Guide: Creating your store based on NectarCommerce ##
 
-We already did this, when we were creating favorite_products extension. A forward to nectar is all it takes. You can create your phoenix application and add a forward to Nectar.Router to run your user application. Some extensions might require to be added in the application list their processes to start in such cases we need to add a dependency here as well. You might want to do that anyway to support **exrm** release properly(See the next section for more details).
+We already did this, when we were creating favorite_products extension. A forward to Nectar is all it takes. You can create your Phoenix application and add a forward to Nectar.Router to run your user application. Some extensions might require to be added in the application list for their processes to start, in such cases we need to add a dependency here as well. You might want to do that anyway to support **exrm** release properly(We will be covering this in our next post).
 
 ## Suggested Workflow ##
 
-We can now see developing extensions is not very different from building our store with custom functionality based on nectar. You Start with your store and extract out the functionality into self contained applications and load them back as extensions into nectar.
+We can now see developing extensions is not very different from building our store with custom functionality based on NectarCommerce. You start with your store and extract out the functionality into self contained applications and load them back as extensions into Nectar.
 
 
 >
