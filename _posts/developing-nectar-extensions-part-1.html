@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- [[! Document Settings ]] -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- [[! Page Meta ]] -->
+    <title>Developing Nectar Extensions Part 1</title>
+    <meta name="description" content="NectarCommerce - Quest for customizable E-commerce - the Elixir way" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/nectarcommerce/assets/images/favicon.ico" >
+
+    <!-- [[! Styles'n'Scripts ]] -->
+    <link rel="stylesheet" type="text/css" href="/nectarcommerce/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <link rel="stylesheet" type="text/css" href="/nectarcommerce/assets/css/syntax.css" />
+    
+    <!-- [[! Ghost outputs important style and meta data with this tag ]] -->
+        <link rel="canonical" href="/nectarcommerce/" />
+    <meta name="referrer" content="origin" />
+    <link rel="next" href="/nectarcommerce/page2/" />
+
+    <meta property="og:site_name" content="NectarCommerce" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="NectarCommerce" />
+    <meta property="og:description" content="Quest for customizable E-commerce - the Elixir way" />
+    <meta property="og:url" content="/nectarcommerce/" />
+    <meta property="og:image" content="/nectarcommerce/assets/images/general-cover.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NectarCommerce" />
+    <meta name="twitter:description" content="Quest for customizable E-commerce - the Elixir way" />
+    <meta name="twitter:url" content="/nectarcommerce/" />
+    <meta name="twitter:image:src" content="/nectarcommerce/assets/images/general-cover-1.png" />
+
+    <script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "Website",
+    "publisher": "NectarCommerce",
+    "url": "/nectarcommerce/",
+    "image": "/nectarcommerce/assets/images/general-cover.png",
+    "description": "Quest for customizable E-commerce - the Elixir way"
+}
+    </script>
+
+    <meta name="generator" content="Jekyll 3.0.0" />
+    <link rel="alternate" type="application/rss+xml" title="NectarCommerce" href="/nectarcommerce/rss.xml" />
+
+
+</head>
+<body class="home-template nav-closed">
+
+    <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        <li class="nav-home " role="presentation"><a href="/nectarcommerce/">Home</a></li>
+        <li class="nav-about " role="presentation"><a href="/nectarcommerce/about">About</a></li>
+        <li class="nav-author " role="presentation"><a href="/nectarcommerce/author/pikender">Author</a></li>
+    </ul>
+    <!-- <a class="subscribe-button icon-feed" href="/nectarcommerce/rss.xml">Subscribe</a> -->
+</div>
+<span class="nav-cover"></span>
+
+
+    <div class="site-wrapper">
+
+        <!-- [[! Everything else gets inserted here ]] -->
+        <!-- < default -->
+
+<!-- The comment above "< default" means - insert everything in this file into -->
+    <!-- the [body] of the default.hbs template, which contains our header/footer. -->
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<header class="main-header post-head " style="background-image: url(/nectarcommerce/assets/images/general-cover-3.jpg) ">
+    <a id="forkme_banner" href="https://github.com/vinsol/nectarcommerce"></a>
+    <nav class="main-nav  overlay  clearfix">
+        <a class="blog-logo" href="/nectarcommerce/"><img src="/nectarcommerce/assets/images/nectar-cart.png" alt="Blog Logo" /></a>
+        
+            <a class="menu-button icon-menu" href="#"><span class="word">Menu</span></a>
+        
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post tag-docs">
+
+        <header class="post-header">
+            <h1 class="post-title">Developing Nectar Extensions Part 1</h1>
+            <section class="post-meta">
+            <!-- <a href='/nectarcommerce/'>Pikender Sharma</a> -->
+            <time class="post-date" datetime="2016-04-07">07 Apr 2016</time>
+                <!-- [[tags prefix=" on "]] -->
+                 
+                on 
+                
+                    
+                       <a href='/nectarcommerce/tag/docs'>Docs</a>
+                       
+                
+                
+            </section>
+        </header>
+
+        <section class="post-content">
+
+            <blockquote>
+
+  <p>The post belongs to <em>NectarCommerce and Extension Framework Awareness</em> Series</p>
+
+  <ol>
+    <li><em><a href="http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/">NectarCommerce Vision</a></em></li>
+    <li><em><a href="http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/">Extension Framework Game Plan</a></em></li>
+    <li><em><a href="http://vinsol.com/blog/2016/04/14/introduction-to-metaprogramming/">Introduction to Metaprogramming</a></em></li>
+    <li><em><a href="http://vinsol.com/blog/2016/04/15/ecto-model-schema-extension/">Ecto Model Schema Extension</a></em></li>
+    <li>Ecto Model Support Functions Extension</li>
+    <li>Phoenix Router Extension</li>
+    <li>Phoenix View Extension</li>
+    <li>Running Multiple Elixir Apps Together</li>
+    <li>Extension Approach Explained</li>
+    <li><strong>Developer Experience and Workflow developing Favorite Product Extension</strong></li>
+    <li>Developer Experience and Workflow testing Favorite Product Extension</li>
+  </ol>
+</blockquote>
+
+<h1 id="developing-nectarcommerce-extensions-part-1">Developing NectarCommerce Extensions Part 1</h1>
+
+<h3 id="where-we-left-off">Where we left off</h3>
+
+<p>In the past few blogs we have learned how to write code that extends existing models, routers, added methods to override view rendering and run multiple phoenix application together in the same umbrella project. Let’s Continue to build upon that and write our first extension for NectarCommerce <a href="http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/">favorite products</a> and ultimately our store based on NectarCommerce.</p>
+
+<h3 id="a-layered-guide-to-nectarcommerce-extensions">A layered guide to NectarCommerce extensions</h3>
+
+<p><strong>Setup</strong>: Create a new phoenix application to hold the favorite products application, in your shell run inside the umbrella/apps folder:</p>
+
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=new_phoenix_application.bash"></script>
+
+<p>We could have gone with a regular mix application, but Phoenix/Ecto will come in handy in this case, since we want to have views to display stuff and a model to store data.</p>
+
+<p>While we are at it let’s configure our dev.exs and test.exs to use the same db as Nectar, we could write some code and share the db settings between Nectar and our extensions, see: <a href="http://vinsol.com/blog/2016/04/26/running-multiple-elixir-apps-in-umbrella-project/">running multiple elixir applications together</a> for more details. But now for simplicity’s sake we are just copying the settings from Nectar to get started.</p>
+
+<p><strong>DB_SETTINGS</strong>:</p>
+
+<script src="https://gist.github.com/nimish-mehta/49dcc6c0bcf6123f536ccc13220bf7ea.js"></script>
+
+<p>We need to let the extension manager know that this application is an extension for Nectar.<br />
+Update the dependencies in extension_manager/mix.exs with the favorite_products dependency.</p>
+
+<script src="https://gist.github.com/nimish-mehta/418685331be5beb327c2890bc2257b0f.js"></script>
+
+<p>That should be enough to get us going.</p>
+
+<p><strong>MODEL LAYER</strong>: We want a Nectar user to have some products to like and a way to remember them in short a join table and with two associations let’s generate them:</p>
+
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=model_gen.bash"></script>
+
+<p>Now to point to correct Nectar models. Open up the source and change the associations from favorite products model to Nectar models. In the end we have a schema like:</p>
+
+<script src="https://gist.github.com/nimish-mehta/c6977aee042c259dc756846b20f0f476.js"></script>
+
+<p>Of, course this is only the extension view of this relationship, We want the Nectar user to be aware of this relationship and most important of all, we should be able to do something like <code class="highlighter-rouge">Nectar.User.liked_products(user)</code> to fetch the products liked by user.</p>
+
+<p>Time to call our handy macros written earlier to perform the compile time code injection. Let’s create the Nectar_extension.ex file in favorite_products/lib/ directory and place this code there:</p>
+
+<script src="https://gist.github.com/nimish-mehta/c723dd21b0251d19b34c8e2f646e2398.js"></script>
+
+<p>Don’t forget to update the install file in extensions_manager.</p>
+
+<script src="https://gist.github.com/nimish-mehta/116e7e7d0d3b03593e5184dff50c2a74.js"></script>
+
+<p>Now we have a user that can like products and product from which we can query which users liked it.</p>
+
+<p>Time to play with what we have built so far, start a shell in Nectar folder <code class="highlighter-rouge">iex -S mix</code></p>
+
+<script src="https://gist.github.com/nimish-mehta/2d8a3855496749e488c021f685e4115f.js"></script>
+
+<p>Oops!, forgot the migration, remember we shared the db config earlier let’s put that to use and run:</p>
+
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=migrate.bash"></script>
+
+<p>Which will migrate the user_likes table onto the original Nectar database. Back to our shell</p>
+
+<script src="https://gist.github.com/nimish-mehta/d9f0fcf0b868b9a5869766dcd756b934.js"></script>
+
+<p>Voila! we can now save and retrieve records to a relation we defined outside Nectar from Nectar models without actually modifying Nectar code.</p>
+
+<p><strong>VIEW LAYER</strong>: Now that we can save the user likes, we should probably add an interface for the user to like them as well. Which leads us to the first shortcoming, in our current approach, we can replace existing views but right now we don’t have anything for adding to an existing view(Please leave us a note <a href="https://github.com/vinsol/nectarcommerce/pull/48">here</a> if you know of a clean &amp; performant method to do this). I also suspect most of us will end up overriding the existing views to something more custom then updating it piecemeal via extensions but I digress. For now let’s have a page where we list all the products and user can mark them as liked or unlike the previously liked ones.</p>
+
+<p><strong>controller</strong></p>
+
+<script src="https://gist.github.com/nimish-mehta/529ae0c19711ddc6cdd43ae3232a1a4d.js"></script>
+
+<p>Notice how we use the Nectar.Repo itself instead of using the FavoriteProducts.Repo, in-fact besides migration, we won’t be utilizing or starting the FavoriteProducts.Repo, which will help us keep the number of connections open to database limited via only the Nectar.Repo</p>
+
+<p><strong>the view file: index.html.eex</strong></p>
+
+<script src="https://gist.github.com/nimish-mehta/6721beb8eaa06859dbffcef48e99231a.js"></script>
+
+<p>In both of the files we refer to routes via NectarRoutes alias instead of favorite products.<br />
+To add the route from Nectar, update nectar_extension.ex with the following code:</p>
+
+<script src="https://gist.github.com/nimish-mehta/b58e21723a335263e9efcd82b104d100.js"></script>
+
+<p>And add to install.ex the calls:</p>
+
+<script src="https://gist.github.com/nimish-mehta/db7883f628837e7ebca5a1945c4d1bfe.js"></script>
+
+<p>Now we can see the added routes from Nectar:</p>
+
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=route.bash"></script>
+
+<p>So far so good, we have modified and added routes and controller to Nectar’s router. Time to see our handiwork in action, start the server from Nectar application with:</p>
+
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=server.bash"></script>
+
+<p>And, visit 127.0.0.1:4000/favorite and click on mark to like a product.</p>
+
+<p><img src="assets/images/before_layout.png" alt="Missing Layout" class="center-image" /></p>
+
+<p>But things don’t seem right do they, our Nectar layout has been replaced with the default one used by phoenix. Let’s rectify that.</p>
+
+<p>Update layout_view.ex as:</p>
+
+<script src="https://gist.github.com/nimish-mehta/ceb97b1c0539f94d2a4bbf95b202a861.js"></script>
+
+<p>and recompile and restart the server</p>
+
+<script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=compile.bash"></script>
+
+<p>On our next visit:</p>
+
+<p><img src="assets/images/after_layout.png" alt="Layout Present" class="center-image" /></p>
+
+<p>Much better.</p>
+
+<blockquote>
+  <p><strong>Note</strong>: When we need to change the extension code while running the server we will have to recompile and reload. We don’t have anything in Nectar right now to monitor all extensions file and do an automatic compilation and code reload.</p>
+</blockquote>
+
+<p>#Testing#<br />
+We are almost done now. To ensure that we know when things break we should consider adding a few test cases. For that we need to make sure that Nectar migrations are run before running the migrations for favorite products and we need the Nectar repo running as well.</p>
+
+<p>For the former we could update the test_helper.ex with:</p>
+
+<script src="https://gist.github.com/nimish-mehta/795a1eacd54f876f774d3d91abcc8fb3.js"></script>
+
+<p>But things are not so smooth for accessing the Nectar Repo. Which brings us to what we think is the ultimate downfall of this approach:</p>
+
+<h3 id="an-untestable-soution">An Untestable soution</h3>
+
+<p>Ideally, running <code class="highlighter-rouge">mix test</code> should work and we should see our test running green, unfortunately this requires Nectar to be compiled before running the tests, which is impossible since Nectar depends upon the extension_manager to be compiled which depends upon all the extensions to be compiled, resulting in a cyclic dependency. Also we used Nectar’s repo for all database work. That works because we were running our server through Nectar and the repo was started in Nectar’s Supervision tree. Which again adds an implicit requirement Nectar application is available and ready to be started during test time. We could replace <code class="highlighter-rouge">Nectar.Repo</code> with <code class="highlighter-rouge">FavoriteProducts.Repo</code> using compile time conditionals i.e. when <code class="highlighter-rouge">MIX_ENV==test</code>, but it is a can of worms we would rather avoid right now.</p>
+
+<p>This seems like the end of the road for this approach. Where we are failing right now is making Nectar available to extensions as a dependency at compile time and in turn test time. So that they can run independently. Let’s try that in our second approach and reverse the dependency order.</p>
+
+<blockquote>
+
+  <p><em>Our aim with these posts is to start a dialog with the Elixir community on validity and technical soundness of our approach. We would really appreciate your feedback and reviews, and any ideas/suggestions/pull requests for improvements to our current implementation or entirely different and better way to do things to achieve the goals we have set out for NectarCommerce.</em></p>
+</blockquote>
+
+<p><em>Enjoy the Elixir potion !!</em></p>
+
+
+        </section>
+
+        <footer class="post-footer">
+
+            <!-- Everything inside the #author tags pulls data from the author -->
+            <!-- #author-->
+
+            
+
+            <section class="author">
+                <h4><a href="/nectarcommerce/author/pikender">Pikender Sharma</a></h4>
+
+                
+                    <p> In search of salvation through technology</p>
+                
+                <div class="author-meta">
+                    <span class="author-location icon-location"> New Delhi, India</span> 
+                    <span class="author-link icon-link"><a href="http://vinsol.github.io/nectarcommerce/"> vinsol.github.io/nectarcommerce/</a></span> 
+                </div>
+            </section>
+
+            <!-- /author  -->
+
+            <section class="share">
+                <h4>Share this post</h4>
+                <a class="icon-twitter" href="http://twitter.com/share?text=Developing Nectar Extensions Part 1&amp;url=http://vinsol.github.io/nectarcommerce/developing-nectar-extensions-part-1"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://vinsol.github.io/nectarcommerce/developing-nectar-extensions-part-1"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url=http://vinsol.github.io/nectarcommerce/developing-nectar-extensions-part-1"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+            </section>
+            
+            <!-- Add Disqus Comments -->
+            
+            
+        </footer>
+
+    </article>
+
+</main>
+
+<aside class="read-next">
+
+    <!-- [[! next_post ]] -->
+    
+        <a class="read-next-story " style="background-image: url(/nectarcommerce/assets/images/general-cover-3.jpg)" href="/nectarcommerce/developing-nectar-extensions-part-2">
+            <section class="post">
+                <h2>Developing Nectar Extensions Part 2</h2>
+                <p>> The post belongs to _NectarCommerce and Extension Framework Awareness_ Series > 1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /next_post ]] -->
+    <!-- [[! prev_post ]] -->
+    
+        <a class="read-next-story prev " style="background-image: url(/nectarcommerce/assets/images/general-cover-3.jpg)" href="/nectarcommerce/getting-started">
+            <section class="post">
+                <h2>Getting Started</h2>
+                <p>Nectar E-Commerce Nectar is an open source e-commerce Elixir/Phoenix project to be evolved into E-Commerce...</p>
+            </section>
+        </a>
+    
+    <!-- [[! /prev_post ]] -->
+</aside>
+
+<!-- /post -->
+
+
+        <footer class="site-footer clearfix">
+          <section class="copyright"><a href="/nectarcommerce/">NectarCommerce</a> &copy; 2016</section>
+          <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> using <a href="https://github.com/biomadeira/jasper">Jasper</a></section>
+        </footer>
+    </div>
+    <!-- [[! Ghost outputs important scripts and data with this tag ]] -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- [[! The main JavaScript file for Casper ]] -->
+    <script type="text/javascript" src="/nectarcommerce/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/nectarcommerce/assets/js/index.js"></script>
+
+    <!-- Add Google Analytics  -->
+    
+</body>
+</html>

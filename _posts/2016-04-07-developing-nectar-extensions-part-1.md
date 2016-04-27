@@ -46,7 +46,7 @@ __Setup__: Create a new phoenix application to hold the favorite products applic
 
 We could have gone with a regular mix application, but Phoenix/Ecto will come in handy in this case, since we want to have views to display stuff and a model to store data.
 
-While we are at it let's configure our dev.exs and test.exs to use the same db as Nectar, we could write some code and share the db settings between Nectar and our extensions see: [running multiple phoenix application together]() for more details. But now for simplicity's sake we are  just copying the settings from Nectar to get started.
+While we are at it let's configure our dev.exs and test.exs to use the same db as Nectar, we could write some code and share the db settings between Nectar and our extensions, see: [running multiple elixir applications together](http://vinsol.com/blog/2016/04/26/running-multiple-elixir-apps-in-umbrella-project/) for more details. But now for simplicity's sake we are just copying the settings from Nectar to get started.
 
 __DB_SETTINGS__:
 
@@ -83,13 +83,11 @@ Time to play with what we have built so far, start a shell in Nectar folder ```i
 
 <script src="https://gist.github.com/nimish-mehta/2d8a3855496749e488c021f685e4115f.js"></script>
 
-Oops, forgot the migration, remember we shared the db config earlier let's put that to use and run:
+Oops!, forgot the migration, remember we shared the db config earlier let's put that to use and run:
 
 <script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=migrate.bash"></script>
 
-Which will migrate the user_likes table onto the original Nectar database.
-
-back to our shell
+Which will migrate the user_likes table onto the original Nectar database. Back to our shell
 
 <script src="https://gist.github.com/nimish-mehta/d9f0fcf0b868b9a5869766dcd756b934.js"></script>
 
