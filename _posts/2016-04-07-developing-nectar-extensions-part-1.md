@@ -34,7 +34,7 @@ Developing NectarCommerce Extensions Part 1
 ### Where we left off ###
 
 
-In the past few blogs we have learned how to write code that extends existing models, routers, added methods to override view rendering and run multiple phoenix application together in the same umbrella project. Let's Continue to build upon that and write our first extension for NectarCommerce [favorite products](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/) and ultimately our store based on NectarCommerce.
+In the past few posts we have learned how to write code that extends existing models, routers, added methods to override view rendering and run multiple phoenix application together in the same umbrella project. Let's Continue to build upon that and write our first extension for NectarCommerce [favorite products](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/) and ultimately our store based on NectarCommerce.
 
 
 ### A layered guide to NectarCommerce extensions ###
@@ -44,9 +44,9 @@ __Setup__: Create a new phoenix application to hold the favorite products applic
 
 <script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=new_phoenix_application.bash"></script>
 
-We could have gone with a regular mix application, but Phoenix/Ecto will come in handy in this case, since we want to have views to display stuff and a model to store data.
+We could have gone with a regular mix application, but Phoenix/Ecto will be handy in this case, since we want to have views to display stuff and a model to store data.
 
-While we are at it let's configure our dev.exs and test.exs to use the same db as Nectar, we could write some code and share the db settings between Nectar and our extensions, see: [running multiple elixir applications together](http://vinsol.com/blog/2016/04/26/running-multiple-elixir-apps-in-umbrella-project/) for more details. But now for simplicity's sake we are just copying the settings from Nectar to get started.
+While we are at it let's configure our dev.exs and test.exs to use the same db as Nectar, we could write some code and share the db settings between Nectar and our extensions, see: [running multiple elixir applications together](http://vinsol.com/blog/2016/04/26/running-multiple-elixir-apps-in-umbrella-project/) for more details. But, for simplicity's sake we are just copying the settings from Nectar to get started.
 
 __DB_SETTINGS__:
 
