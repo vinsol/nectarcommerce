@@ -59,7 +59,7 @@ Update the dependencies in extension\_manager/mix.exs with the favorite_products
 
 That should be enough to get us going.
 
-__MODEL LAYER__: We want a Nectar user to have some products to like and a way to remember them in short a join table and with two associations let's generate them:
+__MODEL LAYER__: We want a Nectar user to have some products to like and a way to remember them, we can use a join table with relations to user and products to achieve this. let's generate the model:
 
 <script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=model_gen.bash"></script>
 
@@ -100,7 +100,8 @@ __controller__
 
 <script src="https://gist.github.com/nimish-mehta/529ae0c19711ddc6cdd43ae3232a1a4d.js"></script>
 
-Notice how we use the Nectar.Repo itself instead of using the FavoriteProducts.Repo, in-fact besides migration, we won't be utilizing or starting the FavoriteProducts.Repo, which will help us keep the number of connections open to database limited via only the Nectar.Repo
+Notice how we use the Nectar.Repo itself instead of using the FavoriteProducts.Repo. 
+In-fact besides migration, we won't be utilizing or starting the FavoriteProducts.Repo, which will help us keep the number of connections open to database limited only to the Nectar.Repo.
 
 __the view file: index.html.eex__
 
@@ -127,7 +128,7 @@ And, visit 127.0.0.1:4000/favorite and click on mark to like a product.
 
 ![Missing Layout](assets/images/before_layout.png){: .center-image }
 
-But things don't seem right do they, our Nectar layout has been replaced with the default one used by phoenix. Let's rectify that.
+But things don't seem right do they? Our Nectar layout has been replaced with the default one used by phoenix. Let's rectify that.
 
 Update layout_view.ex as:
 
@@ -157,7 +158,7 @@ But things are not so smooth for accessing the Nectar Repo. Which brings us to w
 
 ### An Untestable soution ###
 
-Ideally, running ```mix test``` should work and we should see our test running green, unfortunately this requires Nectar to be compiled before running the tests, which is impossible since Nectar depends upon the extension\_manager to be compiled which depends upon all the extensions to be compiled, resulting in a cyclic dependency. Also we used Nectar's repo for all database work. That works because we were running our server through Nectar and the repo was started in Nectar's Supervision tree. Which again adds an implicit requirement Nectar application is available and ready to be started during test time. We could replace ```Nectar.Repo``` with ```FavoriteProducts.Repo``` using compile time conditionals i.e. when ```MIX_ENV==test```, but it is a can of worms we would rather avoid right now.
+Ideally, running ```mix test``` should work and we should see our test running green, unfortunately this requires Nectar to be compiled before running the tests, which is impossible since Nectar depends upon the extension\_manager to be compiled which depends upon all the extensions to be compiled, resulting in a cyclic dependency. Also we used Nectar's repo for all database work. That works because we were running our server through Nectar and the repo was started in Nectar's Supervision tree. Which again adds an implicit requirement i.e. Nectar application is available and ready to be started during test time. We could replace ```Nectar.Repo``` with ```FavoriteProducts.Repo``` using compile time conditionals i.e. when ```MIX_ENV==test```, but it is a can of worms we would rather avoid right now.
 
 This seems like the end of the road for this approach. Where we are failing right now is making Nectar available to extensions as a dependency at compile time and in turn test time. So that they can run independently. Let's try that in our second approach and reverse the dependency order.
 

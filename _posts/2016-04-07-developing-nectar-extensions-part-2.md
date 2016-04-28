@@ -30,7 +30,7 @@ Developing Nectar Extensions Part 2
 
 ### Where we left off ###
 
-In our [previous approach](), we tried to compile extensions and then based on it compile a version of nectar, which had the serious limitation of Nectar was unavailable for testing.
+In our [previous approach](), we tried to compile extensions and then based on it compile a version of nectar, which had the serious limitation of Nectar being unavailable for testing.
 
 What we need is that Nectar is available and compiled while developing extensions and if an extension is added it should recompile itself to include the new extensions.
 We have modified Nectar for this approach to seek for extensions and used a custom compiler step(A story for another time) to mark files for recompilation. Let's get started and see if we can scale the testing barrier.
@@ -40,14 +40,14 @@ Note: Most(read all) of the code for the extension is same. You can probably ski
 ### A layered guide to nectar extensions ###
 
 __Setup__: Create a new phoenix application to hold the favorite products application.
-in your shell run inside the umbrella/apps folder:
+In your shell run inside the umbrella/apps folder:
 
 <script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=new_phoenix_application.bash"></script>
 
 
 We could have gone with a regular mix application, but phoenix/ecto will come in handy in this case, since we want to have views to display stuff and a model to store data.
 
-While we are at it let's configure our dev.exs to use the same db as nectar, we could write some code and share the db settings between nectar and our extensions see: link to running multiple phoenix application together for more details. But now for simplicity's sake we are  just copying the settings from nectar to get started.
+While we are at it let's configure our dev.exs to use the same db as nectar, we could write some code and share the db settings between nectar and our extensions see: [running multiple phoenix application together](http://vinsol.com/blog/2016/04/26/running-multiple-elixir-apps-in-umbrella-project/) for more details. But now for simplicity's sake we are  just copying the settings from nectar to get started.
 
 <script src="https://gist.github.com/nimish-mehta/49dcc6c0bcf6123f536ccc13220bf7ea.js"></script>
 
@@ -135,7 +135,7 @@ let's update the layout as well:
 
 ##Starting the server to preview the code##
 
-In the previous version we were directly running the nectar server, However since we are essentially working from ground up. Let us make another change and add a forward from favorite_products to nectar.
+In the previous version we were directly running the nectar server, However since we are essentially working from ground up, let us make another change and add a forward from favorite_products to nectar.
 
 In favorite_products/web/router.ex:
 
@@ -178,7 +178,7 @@ We already did this, when we were creating favorite_products extension. A forwar
 
 ## Suggested Workflow ##
 
-We can now see developing extensions is not very different from building our store with custom functionality based on nectar. You Start with your store and extract out the functionality into self contained applications and load them back as extensions into nectar.
+We can now see developing extensions is not very different from building our store with custom functionality based on nectar. You start with your store and extract out the functionality into self contained applications and load them back as extensions into nectar.
 
 
 >
