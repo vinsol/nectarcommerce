@@ -22,7 +22,7 @@ The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 1. Phoenix View Extension
 1. Running Multiple Elixir Apps Together
 1. Extension Approach Explained
-1. **Developer Experience and Workflow developing Favorite Product Extension**
+1. **Developer Experience and Workflow developing Favorite Product Extension Part 1**
 1. Developer Experience and Workflow testing Favorite Product Extension
 
 
@@ -39,8 +39,15 @@ In the past few posts we have learned how to write code that extends existing mo
 
 ### A layered guide to NectarCommerce extensions ###
 
+## Index
+1. [Setup](#setup)
+2. [Model Layer](#model-layer)
+3. [View Layer](#view-layer)
+4. [Testing](#testing)
 
-__Setup__: Create a new phoenix application to hold the favorite products application, in your shell run inside the umbrella/apps folder:
+## Setup ##
+
+Create a new phoenix application to hold the favorite products application, in your shell run inside the umbrella/apps folder:
 
 <script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=new_phoenix_application.bash"></script>
 
@@ -59,7 +66,9 @@ Update the dependencies in extension\_manager/mix.exs with the favorite_products
 
 That should be enough to get us going.
 
-__MODEL LAYER__: We want a Nectar user to have some products to like and a way to remember them, we can use a join table with relations to user and products to achieve this. let's generate the model:
+## MODEL LAYER ##
+
+We want a Nectar user to have some products to like and a way to remember them, we can use a join table with relations to user and products to achieve this. let's generate the model:
 
 <script src="https://gist.github.com/nimish-mehta/994e51defad0787eb88e6611219066fb.js?file=model_gen.bash"></script>
 
@@ -94,7 +103,9 @@ Which will migrate the user_likes table onto the original Nectar database. Back 
 
 Voila! we can now save and retrieve records to a relation we defined outside Nectar from Nectar models without actually modifying Nectar code.
 
-__VIEW LAYER__: Now that we can save the user likes, we should probably add an interface for the user to like them as well. Which leads us to the first shortcoming, in our current approach, we can replace existing views but right now we don't have anything for adding to an existing view(Please leave us a note [here](https://github.com/vinsol/nectarcommerce/pull/48) if you know of a clean & performant method to do this). I also suspect most of us will end up overriding the existing views to something more custom then updating it piecemeal via extensions but I digress. For now let's have a page where we list all the products and user can mark them as liked or unlike the previously liked ones.
+## VIEW LAYER ##
+
+ Now that we can save the user likes, we should probably add an interface for the user to like them as well. Which leads us to the first shortcoming, in our current approach, we can replace existing views but right now we don't have anything for adding to an existing view(Please leave us a note [here](https://github.com/vinsol/nectarcommerce/pull/48) if you know of a clean & performant method to do this). I also suspect most of us will end up overriding the existing views to something more custom then updating it piecemeal via extensions. For now let's have a page where we list all the products and user can mark them as liked or unlike the previously liked ones.
 
 __controller__
 
@@ -144,10 +155,11 @@ On our next visit:
 
 Much better.
 
-> __Note__: When we need to change the extension code while running the server we will have to recompile and reload. We don't have anything in Nectar right now to monitor all extensions file and do an automatic compilation and code reload.
+> __Note__: When we need to change the extension code while running the server we will have to recompile and reload. We don't have anything in Nectar right now to monitor all extensions file and do an augistscripttomatic compilation and code reload.
 
 
-#Testing#
+## Testing ##
+
 We are almost done now. To ensure that we know when things break we should consider adding a few test cases. For that we need to make sure that Nectar migrations are run before running the migrations for favorite products and we need the Nectar repo running as well.
 
 For the former we could update the test_helper.ex with:
