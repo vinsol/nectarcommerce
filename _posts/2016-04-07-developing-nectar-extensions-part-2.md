@@ -1,7 +1,7 @@
 ---
 layout: post
 cover: 'assets/images/general-cover-3.jpg'
-title: Developing Nectar Extensions Part 2
+title: Developing Nectar Extensions
 tags: docs
 subclass: 'post tag-docs'
 categories: 'elixir'

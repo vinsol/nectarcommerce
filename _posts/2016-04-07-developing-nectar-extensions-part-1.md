@@ -1,7 +1,7 @@
 ---
 layout: post
 cover: 'assets/images/general-cover-3.jpg'
-title: Developing Nectar Extensions Part 1
+title: Learning from failures: First Experiment at NectarCommerce Extension Approach
 tags: docs
 subclass: 'post tag-docs'
 categories: 'elixir'
@@ -27,7 +27,7 @@ The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 
 
 
-Developing NectarCommerce Extensions Part 1
+Learning from failures: First Experiment at NectarCommerce Extension Approach
 =================
 
 
