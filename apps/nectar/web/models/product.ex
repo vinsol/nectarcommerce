@@ -1,4 +1,46 @@
+## Library Code
+## Defines DSL to be used by Service Code
+## in order to get properly consumed by Consumer
+defmodule Nectar.ModelExtension do
+  defmacro __using__(_opts) do
+    quote do
+      Module.register_attribute(__MODULE__, :schema_changes, accumulate: true)
+      import Nectar.ModelExtension, only: [add_to_schema: 1]
+      @before_compile Nectar.ModelExtension
+    end
+  end
+
+  # Part of Schema Addition DSL
+  defmacro add_to_schema([do: block]) do
+    schema_change = Macro.escape(block)
+    quote bind_quoted: [schema_change: schema_change] do
+      Module.put_attribute(__MODULE__, :schema_changes, schema_change)
+    end
+  end
+
+  defmacro __before_compile__(_env) do
+    quote do
+      defmacro extensions do
+        @schema_changes
+      end
+    end
+  end
+end
+
+## Service Code
+defmodule Nectar.ExtendProduct do
+  ## Make DSL available defined in library code
+  use Nectar.ModelExtension
+
+  add_to_schema do: (field :special, :boolean, virtual: true)
+  add_to_schema do: (field :type, :string, virtual: true)
+end
+
 defmodule Nectar.Product do
+  ## Make Service Code available to be consumed
+  ## through Library Code
+  import Nectar.ExtendProduct
+
   use Nectar.Web, :model
   use Arc.Ecto.Model
 
@@ -18,11 +60,13 @@ defmodule Nectar.Product do
     has_many :product_categories, Nectar.ProductCategory
     has_many :categories, through: [:product_categories, :category]
 
+    ## Service Consumer Code
+    extensions
     timestamps
   end
 
   @required_fields ~w(name description available_on)
-  @optional_fields ~w(slug)
+  @optional_fields ~w(slug special)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
