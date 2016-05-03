@@ -12,17 +12,18 @@ logo: 'assets/images/nectar-cart.png'
 >
 The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 >
-1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_
-1. _[Extension Framework Game Plan](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/)_
-1. _[Introduction to Metaprogramming](http://vinsol.com/blog/2016/04/14/introduction-to-metaprogramming/)_
-1. _[Ecto Model Schema Extension](http://vinsol.com/blog/2016/04/15/ecto-model-schema-extension/)_
-1. Ecto Model Support Functions Extension
-1. Phoenix Router Extension
-1. Phoenix View Extension
-1. Running Multiple Elixir Apps Together
+1. _[NectarCommerce Vision](http://vinsol.github.io/nectarcommerce/vision)_
+1. _[Extension Framework Game Plan](http://vinsol.github.io/nectarcommerce/extension-framework-game-plan)_
+1. _[Introduction to Metaprogramming](http://vinsol.github.io/nectarcommerce/intro-to-macros)_
+1. _[Ecto Model Schema Extension](http://vinsol.github.io/nectarcommerce/ecto-model-schema-extension)_
+1. _[Ecto Model Support Functions Extension](http://vinsol.github.io/nectarcommerce/model-function-extension)_
+1. _[Phoenix Router Extension](http://vinsol.github.io/nectarcommerce/phoenix-router-extension)_
+1. _[Phoenix View Extension](http://vinsol.github.io/nectarcommerce/phoenix-view-extension)_
+1. _[Running Multiple Elixir Apps Together](http://vinsol.github.io/nectarcommerce/running-multiple-apps-in-umbrella-project)_
 1. **Extension Approach Explained**
-1. Developer Experience and Workflow developing Favorite Product Extension
-1. Developer Experience and Workflow testing Favorite Product Extension
+1. _[Learning from failures: First Experiment at NectarCommerce Extension Approach](http://vinsol.github.io/nectarcommerce/developing-nectar-extensions-part-1)_
+1. _[Developing NectarCommerce Extensions](http://vinsol.github.io/nectarcommerce/developing-nectar-extensions-part-2)_
+1. _[Building an exrm release including NectarCommerce](http://vinsol.github.io/nectarcommerce/exrm-release)_
 
 ## What will be NectarCommerce
 
@@ -50,7 +51,7 @@ NectarCommerce can be divided in two components, both of which reside in the sam
 
 Nectar is a run of the mill phoenix application, with models, controllers and some conveniences built into it which makes it amenable to extension. It has no dependencies on other application in the umbrella besides `worldly` which once done should also be a separate package.
 
-1. __Nectar.Extender__, if any module is using this during compile time, Nectar.Extender searches for whether the _module_ which can act as an extension to the using module has been compiled and loads the extension into it. There is a basic naming convention being followed for doing this: if ```Nectar.Product``` uses ```Nectar.Extender``` then it will search for module ```ExtensionsManager.ExtendProduct``` as the module to use for extension. This is a proof of concept implementation, which we can flesh out later to support fully name-spaced extension modules. 
+1. __Nectar.Extender__, if any module is using this during compile time, Nectar.Extender searches for whether the _module_ which can act as an extension to the using module has been compiled and loads the extension into it. There is a basic naming convention being followed for doing this: if ```Nectar.Product``` uses ```Nectar.Extender``` then it will search for module ```ExtensionsManager.ExtendProduct``` as the module to use for extension. This is a proof of concept implementation, which we can flesh out later to support fully name-spaced extension modules.
 [source](https://github.com/vinsol/nectarcommerce/blob/extension/approach-2/apps/nectar/lib/nectar/extender.ex).
 
 	> **Note**: This currently limits the point of extension per module to a single module. It is by design to keep things in one place.

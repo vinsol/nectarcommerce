@@ -13,17 +13,18 @@ logo: 'assets/images/nectar-cart.png'
 >
 The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 >
-1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_
-1. _[Extension Framework Game Plan](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/)_
-1. _[Introduction to Metaprogramming](http://vinsol.com/blog/2016/04/14/introduction-to-metaprogramming/)_
-1. _[Ecto Model Schema Extension](http://vinsol.com/blog/2016/04/15/ecto-model-schema-extension/)_
-1. _[Ecto Model Support Functions Extension](http://vinsol.com/blog/2016/04/18/ecto-model-support-functions-extension/)_
-1. _[Phoenix Router Extension](http://vinsol.com/blog/2016/04/21/phoenix-router-extension/)_
+1. _[NectarCommerce Vision](http://vinsol.github.io/nectarcommerce/vision)_
+1. _[Extension Framework Game Plan](http://vinsol.github.io/nectarcommerce/extension-framework-game-plan)_
+1. _[Introduction to Metaprogramming](http://vinsol.github.io/nectarcommerce/intro-to-macros)_
+1. _[Ecto Model Schema Extension](http://vinsol.github.io/nectarcommerce/ecto-model-schema-extension)_
+1. _[Ecto Model Support Functions Extension](http://vinsol.github.io/nectarcommerce/model-function-extension)_
+1. _[Phoenix Router Extension](http://vinsol.github.io/nectarcommerce/phoenix-router-extension)_
 1. **Phoenix View Extension**
-1. Running Multiple Elixir Apps Together
-1. Extension Approach Explained
-1. Developer Experience and Workflow developing Favorite Product Extension
-1. Developer Experience and Workflow testing Favorite Product Extension
+1. _[Running Multiple Elixir Apps Together](http://vinsol.github.io/nectarcommerce/running-multiple-apps-in-umbrella-project)_
+1. _[Extension Approach Explained](http://vinsol.github.io/nectarcommerce/extension-approach-2)_
+1. _[Learning from failures: First Experiment at NectarCommerce Extension Approach](http://vinsol.github.io/nectarcommerce/developing-nectar-extensions-part-1)_
+1. _[Developing NectarCommerce Extensions](http://vinsol.github.io/nectarcommerce/developing-nectar-extensions-part-2)_
+1. _[Building an exrm release including NectarCommerce](http://vinsol.github.io/nectarcommerce/exrm-release)_
 
 
 ## What will be NectarCommerce
@@ -80,4 +81,3 @@ Check the [library code](#library_code), [service code](#service_code) and [cons
 _Our aim with these posts is to start a dialog with the Elixir community on validity and technical soundness of our approach. We would really appreciate your feedback and reviews, and any ideas/suggestions/pull requests for improvements to our current implementation or entirely different and better way to do things to achieve the goals we have set out for NectarCommerce._
 
 _Enjoy the Elixir potion !!_
-

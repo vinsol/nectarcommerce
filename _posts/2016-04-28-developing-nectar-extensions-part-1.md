@@ -13,18 +13,18 @@ logo: 'assets/images/nectar-cart.png'
 >
 The post belongs to _NectarCommerce and Extension Framework Awareness_ Series
 >
-1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_
-1. _[Extension Framework Game Plan](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/)_
-1. _[Introduction to Metaprogramming](http://vinsol.com/blog/2016/04/14/introduction-to-metaprogramming/)_
-1. _[Ecto Model Schema Extension](http://vinsol.com/blog/2016/04/15/ecto-model-schema-extension/)_
-1. Ecto Model Support Functions Extension
-1. Phoenix Router Extension
-1. Phoenix View Extension
-1. Running Multiple Elixir Apps Together
-1. Extension Approach Explained
-1. **Developer Experience and Workflow developing Favorite Product Extension Part 1**
-1. Developer Experience and Workflow testing Favorite Product Extension
-
+1. _[NectarCommerce Vision](http://vinsol.github.io/nectarcommerce/vision)_
+1. _[Extension Framework Game Plan](http://vinsol.github.io/nectarcommerce/extension-framework-game-plan)_
+1. _[Introduction to Metaprogramming](http://vinsol.github.io/nectarcommerce/intro-to-macros)_
+1. _[Ecto Model Schema Extension](http://vinsol.github.io/nectarcommerce/ecto-model-schema-extension)_
+1. _[Ecto Model Support Functions Extension](http://vinsol.github.io/nectarcommerce/model-function-extension)_
+1. _[Phoenix Router Extension](http://vinsol.github.io/nectarcommerce/phoenix-router-extension)_
+1. _[Phoenix View Extension](http://vinsol.github.io/nectarcommerce/phoenix-view-extension)_
+1. _[Running Multiple Elixir Apps Together](http://vinsol.github.io/nectarcommerce/running-multiple-apps-in-umbrella-project)_
+1. _[Extension Approach Explained](http://vinsol.github.io/nectarcommerce/extension-approach-2)_
+1. **Learning from failures: First Experiment at NectarCommerce Extension Approach**
+1. _[Developing NectarCommerce Extensions](http://vinsol.github.io/nectarcommerce/developing-nectar-extensions-part-2)_
+1. _[Building an exrm release including NectarCommerce](http://vinsol.github.io/nectarcommerce/exrm-release)_
 
 
 Learning from failures: First Experiment at NectarCommerce Extension Approach
@@ -111,7 +111,7 @@ __controller__
 
 <script src="https://gist.github.com/nimish-mehta/529ae0c19711ddc6cdd43ae3232a1a4d.js"></script>
 
-Notice how we use the Nectar.Repo itself instead of using the FavoriteProducts.Repo. 
+Notice how we use the Nectar.Repo itself instead of using the FavoriteProducts.Repo.
 In-fact besides migration, we won't be utilizing or starting the FavoriteProducts.Repo, which will help us keep the number of connections open to database limited only to the Nectar.Repo.
 
 __the view file: index.html.eex__

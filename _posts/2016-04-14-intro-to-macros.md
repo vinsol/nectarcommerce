@@ -13,17 +13,18 @@ logo: 'assets/images/nectar-cart.png'
 >
 _The post belongs to NectarCommerce and Extension Framework Awareness_
 >
-1. _[NectarCommerce Vision](http://vinsol.com/blog/2016/04/08/nectarcommerce-vision/)_
-1. _[Extension Framework Game Plan](http://vinsol.com/blog/2016/04/12/extension-framework-game-plan/)_
+1. _[NectarCommerce Vision](http://vinsol.github.io/nectarcommerce/vision)_
+1. _[Extension Framework Game Plan](http://vinsol.github.io/nectarcommerce/extension-framework-game-plan)_
 1. **Introduction to Metaprogramming**
-1. Ecto Model Schema Extension
-1. Ecto Model Support Functions Extension
-1. Phoenix Router Extension
-1. Phoenix View Extension
-1. Running Multiple Elixir Apps Together
-1. Extension Approach Explained
-1. Developer Experience and Workflow developing Favorite Product Extension
-1. Developer Experience and Workflow testing Favorite Product Extension
+1. _[Ecto Model Schema Extension](http://vinsol.github.io/nectarcommerce/ecto-model-schema-extension)_
+1. _[Ecto Model Support Functions Extension](http://vinsol.github.io/nectarcommerce/model-function-extension)_
+1. _[Phoenix Router Extension](http://vinsol.github.io/nectarcommerce/phoenix-router-extension)_
+1. _[Phoenix View Extension](http://vinsol.github.io/nectarcommerce/phoenix-view-extension)_
+1. _[Running Multiple Elixir Apps Together](http://vinsol.github.io/nectarcommerce/running-multiple-apps-in-umbrella-project)_
+1. _[Extension Approach Explained](http://vinsol.github.io/nectarcommerce/extension-approach-2)_
+1. _[Learning from failures: First Experiment at NectarCommerce Extension Approach](http://vinsol.github.io/nectarcommerce/developing-nectar-extensions-part-1)_
+1. _[Developing NectarCommerce Extensions](http://vinsol.github.io/nectarcommerce/developing-nectar-extensions-part-2)_
+1. _[Building an exrm release including NectarCommerce](http://vinsol.github.io/nectarcommerce/exrm-release)_
 
 
 ### What will be NectarCommerce
