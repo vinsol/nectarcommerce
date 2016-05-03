@@ -1,7 +1,7 @@
 ---
 layout: post
 cover: 'assets/images/general-cover-3.jpg'
-title: Learning from failures: First Experiment at NectarCommerce Extension Approach
+title: Learning from failures, First Experiment at NectarCommerce Extension Approach
 tags: docs
 subclass: 'post tag-docs'
 categories: 'elixir'
