@@ -3,7 +3,7 @@ defmodule FavoriteProducts.UserLikeTest do
 
   alias FavoriteProducts.UserLike
 
-  @valid_attrs %{}
+  @valid_attrs %{user_id: 1, product_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

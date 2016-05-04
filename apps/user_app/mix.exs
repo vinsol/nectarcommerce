@@ -10,7 +10,7 @@ defmodule UserApp.Mixfile do
      lockfile: "../../mix.lock",
      elixir: "~> 1.0",
      elixirc_paths: elixirc_paths(Mix.env),
-     compilers: [:phoenix, :gettext] ++ Mix.compilers,
+     compilers: [:phoenix, :gettext] ++ Mix.compilers ++ [:extensions],
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: aliases,
