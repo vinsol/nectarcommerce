@@ -21,6 +21,14 @@ defmodule ExtensionManager.Test do
     end
   end
 
+  defmodule SimpleRouterExtension do
+    use ExtensionsManager.RouterExtension
+
+    define_route do
+      resources "/new_resource"
+    end
+  end
+
   test "adds fields to the model" do
     assert SimpleModel.__schema__(:fields) == [:id, :name, :injected]
   end
@@ -41,5 +49,17 @@ defmodule ExtensionManager.Test do
     # !!NOTE: test will break if line number of inject_method changes
     assert SimpleModelExtension.method_blocks == [[do: {:def, [line: 9], [{:inject_method, [line: 9], nil}, [do: :injected_value]]}]]
   end
+
+  test "only defines a macro for route extension" do
+    assert SimpleRouterExtension.__info__(:macros) == [mount: 0]
+    assert SimpleRouterExtension.__info__(:functions) == []
+  end
+
+  test "macro expands to the route definition provided" do
+    require SimpleRouterExtension
+    assert Macro.expand((quote do: SimpleRouterExtension.mount), __ENV__) == [{:resources, [line: 28], ["/new_resource"]}]
+  end
+
+
 
 end
