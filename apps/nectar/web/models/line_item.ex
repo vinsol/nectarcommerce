@@ -16,6 +16,7 @@ defmodule Nectar.LineItem do
 
     field :delete, :boolean, virtual: true
     timestamps
+    extensions
   end
 
   def cancel_fullfillment(%Nectar.LineItem{fullfilled: false} = line_item), do: line_item

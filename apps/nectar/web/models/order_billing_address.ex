@@ -14,6 +14,7 @@ defmodule Nectar.OrderBillingAddress do
     field :country_id, :integer, virtual: true
 
     timestamps
+    extensions
   end
 
   def changeset(model, params \\ :empty) do

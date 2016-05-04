@@ -8,6 +8,7 @@ defmodule Nectar.ProductCategory do
     field :delete, :boolean, virtual: true, default: false
 
     timestamps
+    extensions
   end
 
   @required_fields ~w(product_id category_id)

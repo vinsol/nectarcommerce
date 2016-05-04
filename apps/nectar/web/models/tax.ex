@@ -5,6 +5,7 @@ defmodule Nectar.Tax do
     field :name
 
     timestamps
+    extensions
   end
 
   @optional_fields ~w()

@@ -10,6 +10,7 @@ defmodule Nectar.Category do
     has_many :products, through: [:product_categories, :product]
 
     timestamps
+    extensions
   end
 
   @required_fields ~w(name)

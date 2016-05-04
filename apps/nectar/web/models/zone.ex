@@ -10,6 +10,7 @@ defmodule Nectar.Zone do
     has_many :state_zone_members, {"state_zone_members", Nectar.ZoneMember}
 
     timestamps
+    extensions
   end
 
   @required_fields ~w(name description type)

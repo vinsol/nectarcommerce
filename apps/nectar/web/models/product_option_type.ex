@@ -8,6 +8,7 @@ defmodule Nectar.ProductOptionType do
     belongs_to :option_type, Nectar.OptionType
 
     timestamps
+    extensions
   end
 
   @required_fields ~w(product_id option_type_id)

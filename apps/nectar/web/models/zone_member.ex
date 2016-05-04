@@ -5,6 +5,7 @@ defmodule Nectar.ZoneMember do
     field :zoneable_id, :integer
     belongs_to :zone, Nectar.Zone
     timestamps
+    extensions
   end
 
   @required_fields ~w(zoneable_id zone_id)

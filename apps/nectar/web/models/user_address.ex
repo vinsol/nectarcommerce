@@ -5,6 +5,7 @@ defmodule Nectar.UserAddress do
     belongs_to :user, Nectar.User
     belongs_to :address, Nectar.Address
     timestamps
+    extensions
   end
 
   def changeset(model, params \\ :empty) do

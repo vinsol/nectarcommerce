@@ -7,6 +7,7 @@ defmodule Nectar.Shipping do
     has_one :adjustment, Nectar.Adjustment
 
     timestamps
+    extensions
   end
 
   @required_fields ~w(shipping_method_id)

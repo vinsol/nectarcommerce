@@ -6,6 +6,7 @@ defmodule Nectar.Payment do
     belongs_to :payment_method, Nectar.PaymentMethod
 
     timestamps
+    extensions
   end
 
   @required_fields ~w(payment_method_id)

@@ -9,6 +9,7 @@ defmodule Nectar.ShippingMethod do
     field :shipping_cost, :decimal, virtual: true, default: Decimal.new("0")
 
     timestamps
+    extensions
   end
 
   @required_fields ~w(name)

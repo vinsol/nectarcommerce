@@ -8,6 +8,7 @@ defmodule Nectar.VariantOptionValue do
     belongs_to :option_value, Nectar.OptionValue
 
     timestamps
+    extensions
   end
 
   @required_fields ~w(variant_id option_value_id)

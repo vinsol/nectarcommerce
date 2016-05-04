@@ -9,6 +9,7 @@ defmodule Nectar.Adjustment do
     field :amount, :decimal
 
     timestamps
+    extensions
   end
 
   @required_fields ~w(amount)
