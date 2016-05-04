@@ -1,0 +1,2 @@
+defmodule ExtensionsManager do
+end
