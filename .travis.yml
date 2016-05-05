@@ -7,6 +7,7 @@ otp_release:
 env:
   - MIX_ENV=test
 script:
+  - mix compile
   - mix test --trace
 notifications:
   email:
