@@ -8,13 +8,16 @@ defmodule Nectar.ShippingCalculator do
 
   # generate all possible shippings
   def calculate_applicable_shippings(%Order{} = order) do
-    available_shipping_methods = Repo.all ShippingMethod.enabled_shipping_methods
-    {:ok, server} = ShippingCalculator.Runner.start(self(), available_shipping_methods, order)
-    GenServer.cast(server, {:calculate})
-    applicable_shippings = receive do
-      {:ok, results} -> results
+    case Repo.all ShippingMethod.enabled_shipping_methods do
+      [] -> []
+      available_shipping_methods ->
+        {:ok, server} = ShippingCalculator.Runner.start(self(), available_shipping_methods, order)
+        GenServer.cast(server, {:calculate})
+        applicable_shippings = receive do
+          {:ok, results} -> results
+        end
+        applicable_shippings
     end
-    applicable_shippings
   end
 
   def calculate_shipping_cost(%ShippingMethod{} = shipping_method, order) do
