@@ -12,8 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :favorite_products, FavoriteProducts.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "nimish",
-  password: "root",
+  username: "postgres",
+  password: "",
   database: "nectar_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
