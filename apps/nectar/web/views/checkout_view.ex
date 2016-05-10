@@ -37,7 +37,7 @@ defmodule Nectar.CheckoutView do
   end
 
   def braintree_client_token do
-    Nectar.Gateway.BrainTree.client_token
+    Nectar.Gateway.Braintree.client_token
   end
 
   def next_step(%Nectar.Order{state: state, confirmation_status: true} = order) do

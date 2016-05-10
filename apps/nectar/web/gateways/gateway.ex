@@ -7,15 +7,8 @@ defmodule Nectar.Gateway do
     Nectar.Repo.get!(Nectar.PaymentMethod, selected_payment_id) |> Map.get(:name)
   end
 
-  defp do_authorize_payment(order, "stripe", payment_method_params) do
-    Nectar.Gateway.Stripe.authorize(order, payment_method_params["stripe"])
-  end
-
-  defp do_authorize_payment(order, "braintree", payment_method_params) do
-    Nectar.Gateway.BrainTree.authorize(order, payment_method_params["braintree"])
-  end
-
-  defp do_authorize_payment(_order, "cheque", _params) do
-    {:ok}
+  defp do_authorize_payment(order, method_name, params) do
+    payment_module = Module.concat(Nectar.Gateway, (Macro.camelize method_name))
+    apply(payment_module, :authorize, [order, params[method_name]])
   end
 end
