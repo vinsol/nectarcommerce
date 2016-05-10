@@ -15,3 +15,8 @@ defmodule ExtensionsManager.Router do
   use FavoriteProducts.NectarExtension, install: "router"
   use NectarWallet.NectarExtension, install: "router"
 end
+
+defmodule ExtensionsManager.ExtendCheckoutView do
+  use ExtensionsManager.ViewExtension
+  use NectarWallet.NectarExtension, install: "checkout_view"
+end

@@ -30,4 +30,10 @@ defmodule NectarWallet.NectarExtension do
       end
     end
   end
+
+  defp do_install("checkout_view") do
+    quote do
+      provide_partial(NectarWallet.WalletView, "payment.nectar_wallet.html")
+    end
+  end
 end
