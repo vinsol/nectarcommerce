@@ -8,7 +8,6 @@ defmodule Nectar.Billing.Gateways.NectarWalletGateway do
 
   def authorize(nil, amount, _opts), do: {:error, "cannot pay by wallet for guest order"}
   def authorize(user_id, amount, _opts) do
-    IO.inspect("got called by billing authorize")
     case Repo.get_by(Wallet, user_id: user_id) do
       nil -> {:error, "wallet not found"}
       wallet -> do_authorize_payment(wallet, amount)
@@ -17,7 +16,6 @@ defmodule Nectar.Billing.Gateways.NectarWalletGateway do
 
   defp do_authorize_payment(wallet, amount) do
     deduction_change = Wallet.deduction_changeset(wallet, %{deduct_amount: amount})
-    IO.inspect deduction_change
     case Repo.update(deduction_change) do
       {:error, changeset} -> {:error, changeset.errors[:deduct_amount]}
       {:ok, wallet} -> {:ok, "success"}

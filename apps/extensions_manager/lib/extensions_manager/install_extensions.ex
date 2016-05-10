@@ -10,7 +10,7 @@ defmodule ExtensionsManager.ExtendUser do
   use NectarWallet.NectarExtension, install: "users"
 end
 
-defmodule ExtensionsManager.Router do
+defmodule ExtensionsManager.ExtensionsRouter do
   use ExtensionsManager.RouterExtension
   use FavoriteProducts.NectarExtension, install: "router"
   use NectarWallet.NectarExtension, install: "router"

@@ -9,3 +9,4 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+Nectar.PaymentMethod.changeset(%Nectar.PaymentMethod{}, %{name: "nectar_wallet"}) |> Nectar.Repo.insert!

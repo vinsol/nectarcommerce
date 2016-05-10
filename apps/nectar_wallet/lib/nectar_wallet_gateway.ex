@@ -1,4 +1,6 @@
 defmodule Nectar.Gateway.NectarWallet do
+  alias Commerce.Billing
+
   def authorize(order, _params) do
     case Billing.authorize(:nectar_wallet, order.user_id, order.total) do
       {:ok, _} -> {:ok}
