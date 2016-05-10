@@ -1,4 +1,4 @@
-defmodule Nectar.Gateway.BrainTree do
+defmodule Nectar.Gateway.Braintree do
   alias Nectar.Repo
   alias Commerce.Billing.Address
   alias Commerce.Billing.CreditCard
