@@ -48,7 +48,7 @@ defmodule Nectar.Mixfile do
       {:gettext, "~> 0.9"},
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.1"},
-      {:guardian, "~> 0.9.0"},
+      {:guardian, "~> 0.10.0"},
       {:ex_aws, "~> 0.4.10"},
       {:arc_ecto, "~> 0.3.2"},
       {:commerce_billing, github: "nimish-mehta/commerce_billing",  override: true},
