@@ -112,6 +112,12 @@ defmodule Nectar.ShippingCalculatorTest do
     assert shipping.shipping_cost == Decimal.new(0)
   end
 
+  test "if no calculators are enabled it returns an empty list" do
+    calculated_shippings = ShippingCalculator.calculate_applicable_shippings(create_order)
+    assert Enum.count(calculated_shippings) == 0
+    assert calculated_shippings == []
+  end
+
   defp create_order do
     Order.cart_changeset(%Order{}, %{})
     |> Repo.insert!
