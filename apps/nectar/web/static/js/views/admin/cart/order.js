@@ -4,7 +4,6 @@ export default {
   error: $("p.alert.alert-danger"),
 
   init: function(id) {
-    console.log(`Adding products to order ${id}`);
     this.orderId = id;
     this.bindEvents();
   },
