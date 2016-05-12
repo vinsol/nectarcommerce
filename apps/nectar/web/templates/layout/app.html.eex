@@ -13,6 +13,7 @@
   </head>
 
   <body>
+  <body data-js-view-name="<%= js_view_name(@view_module, @view_template) %>">
     <div class="container">
       <header class="header">
         <%= render "_login_nav_bar.html", conn: @conn %>
