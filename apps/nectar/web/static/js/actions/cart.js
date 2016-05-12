@@ -7,7 +7,7 @@ const Actions = {
     return dispatch => {
       dispatch({type: Constants.FETCHING_CART_SUMMARY});
 
-      httpGet('/cart?summary=true')
+      httpGet('/api/cart?summary=true')
         .then((data) => {
           dispatch({
             type: Constants.CART_SUMMARY_RECEIVED,
