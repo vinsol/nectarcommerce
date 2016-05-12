@@ -32,4 +32,19 @@ defmodule Nectar.Admin.LayoutView do
     active_on_current(conn, admin_order_path(conn, :index)) ||
     active_on_current(conn, admin_cart_path(conn, :new))
   end
+
+  def js_view_name(view_module, view_template) do
+    "Admin." <> view_module_name(view_module) <> "." <> view_template_name(view_template)
+  end
+
+  defp view_module_name(module_name) do
+    module_name
+    |> Phoenix.Naming.resource_name
+    |> Phoenix.Naming.camelize
+  end
+
+  defp view_template_name(template_name) do
+    String.replace_suffix(template_name, ".html", "")
+  end
+
 end
