@@ -1,2 +1,4 @@
-<%= back_link(@conn, @order) %>
-<%= render next_step(@order), Map.merge(%{action: checkout_path(@conn, :next)}, assigns) %>
+<div class="order" data-order-state="<%= @order.state %>">
+  <%= back_link(@conn, @order) %>
+  <%= render next_step(@order), Map.merge(%{action: checkout_path(@conn, :next)}, assigns) %>
+</div>
