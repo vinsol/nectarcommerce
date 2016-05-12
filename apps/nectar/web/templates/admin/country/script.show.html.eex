@@ -1,3 +1,0 @@
-<script>
- state.init(<%= @country.id %>)
-</script>

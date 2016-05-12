@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
-  <div class="panel-heading"><h4><%= @country.name %></h4></div>
+  <div class="panel-heading" id="country" data-country-id="<%= @country.id %>"><h4><%= @country.name %></h4></div>
 
   <table class="table">
     <thead>

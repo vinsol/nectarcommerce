@@ -1,7 +1,0 @@
-<script>
- if ("<%= @order.state %>" == "tax") {
-  payment.init({
-    braintreeClientToken: $('#braintree').data('client-token')
-   });
- }
-</script>

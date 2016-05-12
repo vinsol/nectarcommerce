@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" id="order" data-order-id="<%= @order.id %>">
   <div class="panel-body">
     <h2>Create Order</h2>
     <ul class="list-group" id="product-listing">
