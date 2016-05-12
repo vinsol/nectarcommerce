@@ -4,6 +4,10 @@ defmodule Nectar.CartManager do
   alias Nectar.LineItem
   alias Nectar.Repo
 
+  def count_items_in_cart(%Order{} = order) do
+    Enum.reduce(order.line_items, 0, &(&1.quantity + &2))
+  end
+
   def add_to_cart(_, %{"variant_id" => nil}) do
     {:error, %Ecto.Changeset{errors: [variant: "can't be blank"]}}
   end

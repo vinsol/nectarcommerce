@@ -13,7 +13,8 @@ defmodule Nectar do
       # worker(Nectar.Worker, [arg1, arg2, arg3]),
 
       worker(Commerce.Billing.Worker, stripe_worker_configuration, id: :stripe),
-      worker(Commerce.Billing.Worker, braintree_worker_configuration, id: :braintree)
+      worker(Commerce.Billing.Worker, braintree_worker_configuration, id: :braintree),
+      CartEventManager.child_spec
     ]
 
   else
@@ -25,9 +26,9 @@ defmodule Nectar do
         supervisor(Nectar.Repo, []),
         # Here you could define other workers and supervisors as children
         # worker(Nectar.Worker, [arg1, arg2, arg3]),
-
         worker(Commerce.Billing.Worker, stripe_worker_configuration, id: :stripe),
-        worker(Commerce.Billing.Worker, braintree_worker_configuration, id: :braintree)
+        worker(Commerce.Billing.Worker, braintree_worker_configuration, id: :braintree),
+        CartEventManager.child_spec
     ]
   end
 

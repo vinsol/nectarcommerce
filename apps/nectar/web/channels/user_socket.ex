@@ -3,6 +3,7 @@ defmodule Nectar.UserSocket do
 
   ## Channels
   # channel "rooms:*", Nectar.RoomChannel
+  channel "cart:*", Nectar.CartChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

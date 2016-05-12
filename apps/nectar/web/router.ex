@@ -14,6 +14,11 @@ defmodule Nectar.Router do
     plug Guardian.Plug.LoadResource
   end
 
+  pipeline :api_auth do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+  end
+
   pipeline :admin_browser_auth do
     plug Guardian.Plug.VerifySession, key: :admin
     plug Guardian.Plug.LoadResource, key: :admin
@@ -21,6 +26,7 @@ defmodule Nectar.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   scope "/", Nectar do
@@ -98,6 +104,11 @@ defmodule Nectar.Router do
       resources "/variants", VariantController
     end
     resources "/users", UserController
+  end
+
+  scope "/api", Nectar.Api do
+    pipe_through [:api, :api_auth, Nectar.Plugs.Cart]
+    get "/cart", CartController, :show
   end
 
   use Nectar.RouteExtender

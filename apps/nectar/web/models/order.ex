@@ -389,4 +389,23 @@ defmodule Nectar.Order do
     (from o in Nectar.Order, where: o.user_id == ^id)
   end
 
+  def variants_in_cart(%Order{id: id} = order) do
+    from v in assoc(order, :variants)
+  end
+
+  def with_variants_in_cart(variant_ids) do
+    from order in Nectar.Order,
+      join: variant in assoc(order, :variants),
+      where: variant.id in ^variant_ids,
+      select: order
+  end
+
+  # used for sending out of stock notifications
+  def out_of_stock_carts_sharing_variants_with(order) do
+    out_of_stock_variants_in_cart =
+      Repo.all(from v in Order.variants_in_cart(order),
+        where: v.bought_quantity == v.total_quantity,
+        select: v.id)
+    Repo.all(Order.with_variants_in_cart(out_of_stock_variants_in_cart))
+  end
 end
