@@ -98,6 +98,7 @@ defmodule Nectar.Router do
       resources "/variants", VariantController
     end
     resources "/users", UserController
+    resources "/line_item_returns", LineItemReturnController, only: [:index, :update]
   end
 
   use Nectar.RouteExtender

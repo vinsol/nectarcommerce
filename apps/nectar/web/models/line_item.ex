@@ -9,6 +9,9 @@ defmodule Nectar.LineItem do
   schema "line_items" do
     belongs_to :variant, Nectar.Variant
     belongs_to :order, Nectar.Order
+
+    has_many :line_item_returns, Nectar.LineItemReturn
+
     field :add_quantity, :integer, virtual: true, default: 0
     field :quantity, :integer
     field :total, :decimal
@@ -27,13 +30,22 @@ defmodule Nectar.LineItem do
       |> fullfillment_changeset(%{fullfilled: false})
       |> Nectar.Repo.update do
         {:ok, line_item} ->
-          move_stock(line_item)
-          Order.settle_adjustments_and_product_payments(line_item.order)
+          create_line_item_return(line_item)
           line_item
         {:error, changeset} ->
           Nectar.Repo.rollback changeset
       end
     end)
+  end
+
+  def create_line_item_return(line_item) do
+    line_item
+      |> build_assoc(:line_item_returns)
+      |> Nectar.LineItemReturn.changeset(%{
+          "quantity" => line_item.quantity,
+          "status" => Nectar.LineItemReturn.get_status("pending")
+        })
+      |> Nectar.Repo.insert!
   end
 
   def changeset(model, params \\ :empty) do
