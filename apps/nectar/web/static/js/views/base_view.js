@@ -14,7 +14,6 @@ export default class BaseView {
     ReactDOM.render(<Provider store={this.store}>
                       <div>
                         <MiniCart/>
-                        <CartNotification/>
                       </div>
                     </Provider>,
                     document.getElementById('cart'));
@@ -28,6 +27,6 @@ export default class BaseView {
   setupListeners() {
     this.socket = socket;
     socket.connect();
-    new CartNotificationListener(socket, this.store, {cart_id: this.store.getState().mini_cart.cart_summary.id});
+    new CartNotificationListener(socket, this.store, {cart_id: this.store.getState().mini_cart.cart.cart_summary.id});
   }
 }
