@@ -15,7 +15,10 @@ defmodule Nectar.Api.CartView do
 
   defp line_items(order, conn) do
     Enum.map(order.line_items, fn(ln_item) ->
-      %{name: ln_item.variant.sku, quantity: ln_item.quantity, total: ln_item.total, path: product_path(conn, :show, ln_item.variant.product)}
+      %{name:     ln_item.variant.product.name <> Nectar.ProductView.variant_name(ln_item.variant),
+        quantity: ln_item.quantity,
+        total:    ln_item.total,
+        path:     product_path(conn, :show, ln_item.variant.product)}
     end)
   end
 end

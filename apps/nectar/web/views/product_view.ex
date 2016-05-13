@@ -13,7 +13,7 @@ defmodule Nectar.ProductView do
     Nectar.Variant.available_quantity(variant) == 0
   end
 
-  defp variant_name(variant) do
+  def variant_name(variant) do
     Nectar.Admin.VariantView.variant_options_text(variant)
     <> if out_of_stock?(variant) do
       " (out of stock)"
