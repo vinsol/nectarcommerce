@@ -1,15 +1,15 @@
 import Constants from "../constants";
 
 const initialState = {
-  notification_message: ""
+  notifications: []
 };
 
 export default function reducer(state = initialState, action = {}) {
   switch(action.type) {
   case Constants.CART_NOTIFICATION_RECEIVED:
-    return {...state, notification_message: action.notification_message};
+    return {...state, notifications: [...state.notifications, {message: action.notification_message}]};
   case Constants.CART_NOTIFICATION_CLEARED:
-    return {...state, notification_message: ""};
+    return {...state, notifications: [...state.notifications.slice(0, action.notification_index), ...state.notifications.slice(action.notification_index+1)]};
   default:
     return state;
   }

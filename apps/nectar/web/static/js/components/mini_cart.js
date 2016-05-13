@@ -3,23 +3,61 @@ import { connect } from 'react-redux';
 import CartNotification from "./cart_notification";
 import ReactCSSTransitionGroup from "react-addons-transition-group";
 import { Modal } from 'react-bootstrap';
+import cartNotificationActions from "../actions/cart_notification";
 
+class DissmissableAlert extends React.Component {
+
+  constructor() {
+    super();
+    this.removeFromNotifications = this.removeFromNotifications.bind(this);
+  }
+
+  removeFromNotifications() {
+    this.props.clear(this.props.index);
+  }
+
+  render() {
+    return (<div className="alert alert-danger">
+            <a href="#" class="close" title="close" onClick={this.removeFromNotifications}>×</a>
+              <span>{this.props.message}</span>
+            </div>);
+  }
+}
+
+class Alerts extends React.Component {
+  render() {
+    const alerts = this.props.alerts.map( (alert, idx) => <DissmissableAlert message={alert.message} key={idx} index={idx} clear={this.props.clear}/>);
+    return (
+      <div>
+        {alerts}
+      </div>
+    );
+  }
+}
 
 class CartModal extends React.Component {
+  constructor() {
+    super();
+    this.clearAlert = this.clearAlert.bind(this);
+  }
+  clearAlert(index) {
+    this.props.dispatch(cartNotificationActions.clearCartNotification(index));
+  }
   render() {
     const tableBody = this.props.lineItems.map((lItem, idx) =>  <tr key={idx}>
-                                                                  <td>{lItem.name}</td>
+                                                                  <td><a href={lItem.path}>{lItem.name}</a></td>
                                                                   <td>{lItem.quantity}</td>
                                                                   <td>{lItem.total}</td>
                                                                 </tr>
                                                                );
 
     const tableStyle = {width: "100%"};
+
     return(
         <Modal show={this.props.show} onHide={this.props.onHide} title="cart" bsStyle="container">
           <div className="cart-contents">
             <h5>Your cart contents</h5>
-            <div className="alert alert-danger">{this.props.cartNotification.notification_message}</div>
+            <Alerts alerts={this.props.cartNotifications.notifications} clear={this.clearAlert}/>
             <table className="table table-responsive" style={tableStyle}>
               <thead>
                 <tr><th>Product</th><th>Quantity</th><th>Cost</th></tr>
@@ -54,15 +92,16 @@ class MiniCart extends React.Component {
   render() {
     var cart_link = "" + this.props.cart.cart_link;
     const modal = <CartModal onHide={this.onHide}
-                             cartNotification={this.props.cart_notification}
+                             cartNotifications={this.props.cart_notifications}
                              lineItems={this.props.cart.cart_summary.line_items}
                              cartLink={this.props.cart.cart_link}
-                             show={this.state.showModal}/>;
-    if (this.props.cart_notification.notification_message) {
+                             show={this.state.showModal}
+                             dispatch={this.props.dispatch}/>;
+    if (this.props.cart_notifications.notifications.length > 0) {
       return (
         <div>
         <a type="button" className="shake btn btn-default btn-sm btn-danger" onClick={this.onClick}>
-          <span className=""></span> {this.cartMessage()}
+          Cart <span className="badge">{this.props.cart.cart_summary.items_in_cart}</span>
         </a>
         {modal}
         </div>
@@ -71,25 +110,13 @@ class MiniCart extends React.Component {
       return (
         <div>
         <a type="button" className="btn btn-default btn-sm btn-primary" onClick={this.onClick}>
-          <span className=""></span> {this.cartMessage()}
+          Cart <span className="badge">{this.props.cart.cart_summary.items_in_cart}</span>
         </a>
         {modal}
         </div>
       );
     }
   }
-
-  cartMessage() {
-    const itemsInCart = this.props.cart.cart_summary.items_in_cart;
-    if (itemsInCart == 0) {
-      return "Cart Empty";
-    } else if (itemsInCart == 1) {
-      return `${itemsInCart} item in cart`;
-    } else {
-      return `${itemsInCart} items in cart`;
-    }
-  }
-
 }
 
 const mapStateToProps = (state) => ( state.mini_cart );

@@ -6,7 +6,7 @@ defmodule Nectar.Api.CartController do
       conn.assigns.current_order
       |> Repo.preload([line_items: [variant: [:product, option_values: :option_type]]])
 
-    render(conn, "cart.json", order: order, summary: Map.get(params, "summary", false))
+    render(conn, "cart.json", order: order, summary: Map.get(params, "summary", false), conn: conn)
   end
 
 end

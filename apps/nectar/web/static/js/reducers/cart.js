@@ -1,6 +1,7 @@
 import Constants from '../constants';
 
-let cart_link = document.getElementById('cart').getAttribute('data-cart-link');
+const cart = document.getElementById('cart');
+const cart_link = cart ? cart.getAttribute('data-cart-link') : "";
 const initialState = {
   cart_summary: {items_in_cart: 0, id: -1, line_items: []},
   fetching: true,

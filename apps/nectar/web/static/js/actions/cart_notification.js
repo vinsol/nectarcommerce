@@ -8,9 +8,9 @@ const Actions = {
     };
   },
 
-  clearCartNotification: () => {
+  clearCartNotification: (index) => {
     return dispatch => {
-      dispatch({type: Constants.CART_NOTIFICATION_CLEARED});
+      dispatch({type: Constants.CART_NOTIFICATION_CLEARED, notification_index: index});
     };
   }
 

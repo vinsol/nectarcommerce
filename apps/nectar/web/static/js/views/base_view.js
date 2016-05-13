@@ -12,9 +12,7 @@ export default class BaseView {
   mount() {
     this.store = configureStore();
     ReactDOM.render(<Provider store={this.store}>
-                      <div>
                         <MiniCart/>
-                      </div>
                     </Provider>,
                     document.getElementById('cart'));
 
