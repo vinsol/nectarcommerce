@@ -1,6 +1,8 @@
 defmodule Nectar.Admin.ChannelEchoController do
   use Nectar.Web, :admin_controller
 
+  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
+
   def echo(conn, _params) do
     render(conn, "echo.html")
   end
