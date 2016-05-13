@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default" id="zone" data-zone-id="<%= @zone.id %>">
   <!-- Default panel contents -->
   <div class="panel-heading"><%= @zone.name %></div>
   <div class="panel-body">

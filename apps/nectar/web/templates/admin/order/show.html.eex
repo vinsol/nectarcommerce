@@ -1,5 +1,5 @@
 <%= link "All orders", to: admin_order_path(@conn, :index) %>
-<div class="panel">
+<div class="panel" id="order" data-order-id="<%= @order.id %>">
   <div class="panel-body">
     <h5>Status: The order is in <strong style="text-transform: uppercase"><%= @order.state %></strong> state with the total cost of <%= @order.total %></h5>
   </div>

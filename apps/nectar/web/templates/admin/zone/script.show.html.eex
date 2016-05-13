@@ -1,3 +1,0 @@
-<script>
- zone.init(<%= @zone.id %>);
-</script>

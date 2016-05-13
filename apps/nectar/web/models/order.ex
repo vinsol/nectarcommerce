@@ -172,19 +172,7 @@ defmodule Nectar.Order do
 
 
   def confirm_availability(order) do
-    {sufficient_quantity_available, oos_items} =
-      Nectar.LineItem
-      |> Nectar.LineItem.in_order(order.model)
-      |> Nectar.Repo.all
-      |> Nectar.Repo.preload(:variant)
-      |> Enum.reduce({true, []}, fn (ln_item, {status, out_of_stock}) ->
-                                   {available, _} = Nectar.LineItem.sufficient_quantity_available?(ln_item)
-                                   if available do
-                                     {status, out_of_stock}
-                                   else
-                                     {false, [ln_item|out_of_stock]}
-                                   end
-                                 end)
+    {sufficient_quantity_available, oos_items} = check_if_variants_in_stock(order)
     if sufficient_quantity_available do
       order
     else
@@ -193,6 +181,37 @@ defmodule Nectar.Order do
        |> Enum.reduce("", fn (item, acc) -> acc <> Nectar.Variant.display_name(item.variant) <> "," end)
       add_error(order, :line_items, "#{name_of_oos} are out of stock")
     end
+  end
+
+  def check_if_variants_in_stock(%Ecto.Changeset{model: order}) do
+    check_if_variants_in_stock(order)
+  end
+
+  def check_if_variants_in_stock(order) when is_binary(order) do
+    check_if_variants_in_stock(String.to_integer(order))
+  end
+
+  def check_if_variants_in_stock(order) when is_number(order) do
+    order = Repo.get!(Order, order) |> Repo.preload([line_items: :variant])
+    check_if_variants_in_stock(order)
+  end
+
+  def check_if_variants_in_stock(%Order{} = order) do
+    reduction_function =
+      fn (ln_item, {status, out_of_stock}) ->
+        {available, _} = Nectar.LineItem.sufficient_quantity_available?(ln_item)
+        if available do
+          {status, out_of_stock}
+        else
+          {false, [ln_item|out_of_stock]}
+        end
+    end
+
+    Nectar.LineItem
+    |> Nectar.LineItem.in_order(order)
+    |> Nectar.Repo.all
+    |> Nectar.Repo.preload(:variant)
+    |> Enum.reduce({true, []}, reduction_function)
   end
 
   # returns the appropriate changeset required based on the next state
@@ -389,4 +408,23 @@ defmodule Nectar.Order do
     (from o in Nectar.Order, where: o.user_id == ^id)
   end
 
+  def variants_in_cart(%Order{id: id} = order) do
+    from v in assoc(order, :variants)
+  end
+
+  def with_variants_in_cart(variant_ids) do
+    from order in Nectar.Order,
+      join: variant in assoc(order, :variants),
+      where: variant.id in ^variant_ids,
+      select: order
+  end
+
+  # used for sending out of stock notifications
+  def out_of_stock_carts_sharing_variants_with(order) do
+    out_of_stock_variants_in_cart =
+      Repo.all(from v in Order.variants_in_cart(order),
+        where: v.bought_quantity == v.total_quantity,
+        select: v.id)
+    Repo.all(Order.with_variants_in_cart(out_of_stock_variants_in_cart))
+  end
 end
