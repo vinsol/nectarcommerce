@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-export default class BaseView {
-  mount() {
-=======
 import ReactDOM       from "react-dom";
 import React          from "react";
 import { Provider }   from "react-redux";
@@ -28,7 +24,7 @@ export default class BaseView {
 
   unmount() {
   }
-  
+
   setupListeners() {
     this.socket = socket;
     socket.connect();

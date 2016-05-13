@@ -99,6 +99,7 @@ defmodule Nectar.CheckoutManager do
     order
     |> Order.acquire_variant_stock
     |> CartEventManager.send_notification_if_out_of_stock_on_checkout
+    order
   end
 
   # default match do nothing just return order
