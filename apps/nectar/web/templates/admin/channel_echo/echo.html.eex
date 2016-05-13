@@ -1,0 +1,14 @@
+<div class="well">
+  <form action="<%= admin_channel_echo_path(@conn, :do_echo) %>" method="post">
+    <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>">
+    <div class="form-group">
+      <label for="echo[topic]">Topic</label>
+      <input class="form-control" name="echo[topic]" type="text" value=""/>
+      <label for="echo[event]">Event</label>
+      <input class="form-control" name="echo[event]" type="text" value=""/>
+      <label for="echo[payload]">Payload</label>
+      <input class="form-control" name="echo[payload]" type="text" value=""/>
+    </div>
+    <button>Echo</button>
+  </form>
+</div>

@@ -47,6 +47,9 @@
             <li role="presentation" class='<%= active_on_current(@conn, admin_setting_path(@conn, :payment_method_settings)) %>'>
               <%= link "Payment", to: admin_setting_path(@conn, :payment_method_settings)%>
             </li>
+            <li role="presentation" class='<%= active_on_current(@conn, admin_channel_echo_path(@conn, :echo)) %>'>
+              <%= link "Echo To Channel", to: admin_channel_echo_path(@conn, :echo)%>
+            </li>
           </li>
         </ul>
       </li>

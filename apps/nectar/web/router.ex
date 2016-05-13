@@ -94,6 +94,9 @@ defmodule Nectar.Router do
     post "/settings/payment", SettingController,  :update_payment_method_settings
     post "/settings/shipping", SettingController, :update_shipping_method_settings
 
+    get "/echo", ChannelEchoController, :echo
+    post "/echo", ChannelEchoController, :do_echo
+
 
     resources "/sessions", SessionController, only: [:new, :create]
     delete "/logout", SessionController, :logout
