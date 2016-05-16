@@ -84,7 +84,8 @@ defmodule Nectar.LineItemTest do
   test "adding product with updated price calculates total based on the added price" do
     line_item = create_line_item_with_product_quantity(2) |> Repo.insert!
     total = line_item.total
-    assert total = Decimal.mult(Decimal.new(2), @master_cost_price)
+    assert total == Decimal.mult(Decimal.new(2), @master_cost_price)
+
     variant = Repo.get(Variant, line_item.variant_id)
     new_cost_price = Decimal.mult(Decimal.new(2), @master_cost_price)
     Repo.update! Variant.update_master_changeset(variant, %{cost_price: new_cost_price, discontinue_on: Ecto.Date.utc})

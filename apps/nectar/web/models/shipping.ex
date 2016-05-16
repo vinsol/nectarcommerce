@@ -5,10 +5,13 @@ defmodule Nectar.Shipping do
     belongs_to :order, Nectar.Order
     belongs_to :shipping_method, Nectar.ShippingMethod
     has_one :adjustment, Nectar.Adjustment
+    field :shipping_state, :string, default: "shipment_created"
 
     timestamps
     extensions
   end
+
+  @shipping_states ~w(shipment_created pending shipped received return_initiated picked_up return_received)
 
   @required_fields ~w(shipping_method_id)
   @optional_fields ~w()

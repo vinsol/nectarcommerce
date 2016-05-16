@@ -5,10 +5,13 @@ defmodule Nectar.Payment do
     belongs_to :order, Nectar.Order
     belongs_to :payment_method, Nectar.PaymentMethod
     field :amount, :decimal
+    field :payment_state, :string, default: "authorized"
 
     timestamps
     extensions
   end
+
+  @payment_states  ~w(authorized received refund_created refunded)
 
   @required_fields ~w(payment_method_id amount)
   @optional_fields ~w()
