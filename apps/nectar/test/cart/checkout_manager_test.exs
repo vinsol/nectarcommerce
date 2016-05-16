@@ -196,6 +196,16 @@ defmodule Nectar.CheckoutManagerTest do
     assert c_payment.state == "payment"
   end
 
+  test "moving to payment state with valid parameters creates payment with order.total" do
+    {_, c_addr} = move_cart_to_address_state(setup_cart)
+    {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
+    {_status, c_tax} = move_cart_to_tax_state(c_shipp)
+    {status, c_payment} = move_cart_to_payment_state(c_tax)
+    assert status == :ok
+    assert c_payment.state == "payment"
+    assert c_payment.payment.amount == c_payment.total
+  end
+
   test "move to confirmation state missing parameters" do
     {_, c_addr} = move_cart_to_address_state(setup_cart)
     {_status, c_shipp} = move_cart_to_shipping_state(c_addr)

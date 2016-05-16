@@ -368,9 +368,16 @@ defmodule Nectar.Order do
   # select payment method from list of payments
   def payment_changeset(model, params \\ :empty) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(payment_params(model, params), @required_fields, @optional_fields)
     |> cast_assoc(:payment, required: true, with: &Nectar.Payment.applicable_payment_changeset/2)
   end
+
+  def payment_params(order, :empty), do: :empty
+  def payment_params(order, %{"payment" => %{"payment_method_id" => ""}} = params), do: params
+  def payment_params(order, %{"payment" => %{"payment_method_id" => payment_method_id}} = params) do
+    %{params|"payment" => %{"payment_method_id" => payment_method_id, "amount" => order.total}}
+  end
+  def payment_params(order, params), do: params
 
   # Check availability and othe stuff here
   def confirmation_changeset(model, params \\ :empty) do

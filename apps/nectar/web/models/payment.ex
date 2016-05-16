@@ -4,12 +4,13 @@ defmodule Nectar.Payment do
   schema "payments" do
     belongs_to :order, Nectar.Order
     belongs_to :payment_method, Nectar.PaymentMethod
+    field :amount, :decimal
 
     timestamps
     extensions
   end
 
-  @required_fields ~w(payment_method_id)
+  @required_fields ~w(payment_method_id amount)
   @optional_fields ~w()
 
   def changeset(model, params \\ :empty) do
