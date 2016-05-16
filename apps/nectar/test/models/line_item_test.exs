@@ -78,7 +78,21 @@ defmodule Nectar.LineItemTest do
 
   test "adding product calculates total" do
     changeset = create_line_item_with_product_quantity(2)
-    assert changeset.changes[:total] == Decimal.mult(Decimal.new("2"), @master_cost_price)
+    assert changeset.changes[:total] == Decimal.mult(Decimal.new(2), @master_cost_price)
+  end
+
+  test "adding product with updated price calculates total based on the added price" do
+    line_item = create_line_item_with_product_quantity(2) |> Repo.insert!
+    total = line_item.total
+    assert total = Decimal.mult(Decimal.new(2), @master_cost_price)
+    variant = Repo.get(Variant, line_item.variant_id)
+    new_cost_price = Decimal.mult(Decimal.new(2), @master_cost_price)
+    Repo.update! Variant.update_master_changeset(variant, %{cost_price: new_cost_price, discontinue_on: Ecto.Date.utc})
+    changeset = LineItem.quantity_changeset(line_item, %{add_quantity: 1})
+
+    assert changeset.valid?
+    refute changeset.changes[:total] == Decimal.mult(Decimal.new(3), new_cost_price)
+    assert changeset.changes[:total] == Decimal.mult(Decimal.new(3), @master_cost_price)
   end
 
   test "line item for non existent order" do
@@ -177,22 +191,24 @@ defmodule Nectar.LineItemTest do
   end
 
   defp create_line_item_with_product(order_id \\ nil) do
-    create_product.master
+    variant = create_product.master
+    variant
     |> Ecto.build_assoc(:line_items)
-    |> LineItem.create_changeset(%{order_id: order_id || create_order.id})
+    |> LineItem.create_changeset(%{order_id: order_id || create_order.id, unit_price: variant.cost_price})
   end
 
   defp create_line_item_with_invalid_master_variant do
-    create_product_with_variant.master
+    variant = create_product_with_variant.master
+    variant
     |> Ecto.build_assoc(:line_items)
-    |> LineItem.create_changeset(%{order_id: create_order.id})
+    |> LineItem.create_changeset(%{order_id: create_order.id, unit_price: variant.cost_price})
   end
 
   defp create_line_item_with_out_of_stock_product do
     oos_variant = List.first create_product_with_oos_variant.variants
     oos_variant
     |> Ecto.build_assoc(:line_items)
-    |> LineItem.changeset(%{order_id: create_order.id, add_quantity: 3})
+    |> LineItem.changeset(%{order_id: create_order.id, add_quantity: 3, unit_price: oos_variant.cost_price})
   end
 
   defp create_line_item_with_product_quantity(quantity) do

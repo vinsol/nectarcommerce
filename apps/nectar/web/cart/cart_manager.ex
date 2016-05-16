@@ -44,6 +44,6 @@ defmodule Nectar.CartManager do
   defp build_line_item(%Order{id: order_id} = _order, %Variant{} = variant) do
     variant
     |> Ecto.build_assoc(:line_items)
-    |> LineItem.create_changeset(%{order_id: order_id})
+    |> LineItem.create_changeset(%{order_id: order_id, unit_price: variant.cost_price})
   end
 end
