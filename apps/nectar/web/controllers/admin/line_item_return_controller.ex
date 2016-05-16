@@ -14,12 +14,13 @@ defmodule Nectar.Admin.LineItemReturnController do
   def update(conn, %{"status" => status} = params) do
     line_item_return = Repo.get(LineItemReturn, params["id"])
     IO.inspect line_item_return
-    case LineItemReturn.stock_and_order_update(line_item_return) do
+    case LineItemReturn.stock_and_order_update(line_item_return, params) do
       {:ok, line_item_return} ->
         text conn, "Done"
       {:error, changeset} ->
-        IO.inspect changeset.errors
-        text conn, Enum.reduce(changeset.errors, "", fn(x, acc) -> "Error" end)
+        text conn, "Action Failed"
+      {:noop, line_item_return} ->
+        text conn, "Make sure you are not changing already changed return or invalid status"
     end
   end
 end

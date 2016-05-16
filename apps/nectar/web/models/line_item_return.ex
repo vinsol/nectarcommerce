@@ -1,6 +1,10 @@
 defmodule Nectar.LineItemReturn do
   use Nectar.Web, :model
 
+  alias Nectar.Repo
+  alias Nectar.LineItem
+  alias Nectar.Order
+
   @status_map %{"pending" => 0, "returned" => 1, "discarded" => 2}
   @reverse_status_map %{0 => "pending", 1 => "returned", 2 => "discarded"}
 
@@ -14,6 +18,14 @@ defmodule Nectar.LineItemReturn do
 
   def reverse_status_map do
     @reverse_status_map
+  end
+
+  def get_human_status(name) do
+    Map.fetch!(reverse_status_map, name)
+  end
+
+  def is_pending?(status) do
+    status == 0
   end
 
   schema "line_item_returns" do
@@ -43,27 +55,29 @@ defmodule Nectar.LineItemReturn do
     |> cast(params, ~w(status), ~w())
   end
 
-  def stock_and_order_update(line_item_return, params \\ :empty) do
+  def stock_and_order_update(line_item_return, params \\ :empty)
+  def stock_and_order_update(%Nectar.LineItemReturn{status: 0} = line_item_return, params) do
     changeset = line_item_return
       |> updated_changeset(params)
     do_stock_and_order_update(line_item_return, changeset)
   end
+  def stock_and_order_update(line_item_return, params), do: {:noop, line_item_return}
 
   # Pattern match on changeset for changes
-  defp do_stock_and_order_update(%Nectar.LineItemReturn{status: 1} = line_item_return, changeset) do
-    Nectar.Repo.transaction(fn ->
+  defp do_stock_and_order_update(line_item_return, %Ecto.Changeset{changes: %{status: 1}} = changeset) do
+    Repo.transaction(fn ->
       case Repo.update(changeset) do
         {:ok, line_item_return}->
           # An extra query as not assuming coming preloaded from above
-          line_item_return = line_item_return |> Repo.preload(:line_item)
+          line_item_return = line_item_return |> Repo.preload([line_item: [:variant, [order: :adjustments]]])
           line_item = line_item_return.line_item
           LineItem.restock_variant(line_item)
           Order.settle_adjustments_and_product_payments(line_item.order)
         {:error, changeset} ->
-          Nectar.Repo.rollback changeset
+          Repo.rollback changeset
       end
     end)
   end
-  defp do_stock_and_order_update(%Nectar.LineItemReturn{status: 2} = line_item_return, changeset), do: {:ok, line_item_return}
-  defp do_stock_and_order_update(line_item_return, changeset), do: {:error, Ecto.Changeset.add_error(change(line_item_return, %{}), :status, "not given")}
+  defp do_stock_and_order_update(line_item_return, %Ecto.Changeset{changes: %{status: 2}} = changeset), do: Repo.update(changeset)
+  defp do_stock_and_order_update(line_item_return, changeset), do: {:noop, line_item_return}
 end

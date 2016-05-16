@@ -13,9 +13,14 @@
       <tr>
         <td><%= return.line_item_id %></td>
         <td><%= return.quantity %></td>
-        <td><%= return.status %></td>
-        <td><%= button("Return", to: admin_line_item_return_path(@conn, :update, return, status: Nectar.LineItemReturn.get_status("returned")), method: :put) %></td>
-        <td><%= button("Discard", to: admin_line_item_return_path(@conn, :update, return, status: Nectar.LineItemReturn.get_status("discarded")), method: :put) %></td>
+        <td><%= Nectar.LineItemReturn.get_human_status(return.status) %></td>
+        <%= if Nectar.LineItemReturn.is_pending?(return.status) do %>
+          <td><%= button("Return", to: admin_line_item_return_path(@conn, :update, return, status: Nectar.LineItemReturn.get_status("returned")), method: :put) %></td>
+          <td><%= button("Discard", to: admin_line_item_return_path(@conn, :update, return, status: Nectar.LineItemReturn.get_status("discarded")), method: :put) %></td>
+        <% else %>
+          <td></td>
+          <td></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
