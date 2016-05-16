@@ -10,6 +10,7 @@ defmodule Nectar.Order do
     field :total, :decimal, default: Decimal.new("0")
     field :confirmation_status, :boolean, default: true
     field :product_total, :decimal, default: Decimal.new("0")
+    field :order_state, :string, default: "confirmed"
 
     # virtual fields
     field :confirm, :boolean, virtual: true
@@ -44,9 +45,14 @@ defmodule Nectar.Order do
   @optional_fields ~w(slug confirmation_status same_as_billing)
 
   @states ~w(cart address shipping tax payment confirmation)
+  @order_states ~w(confirmed payment_received shipped partially_fullfilled fullfilled)
 
   def states do
     @states
+  end
+
+  def order_states do
+    @order_states
   end
 
   def confirmed?(%Order{state: "confirmation"}), do: true
