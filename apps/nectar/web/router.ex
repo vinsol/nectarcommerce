@@ -99,6 +99,7 @@ defmodule Nectar.Router do
     end
     resources "/users", UserController
     resources "/line_item_returns", LineItemReturnController, only: [:index, :update]
+    resources "/refunds", RefundController, only: [:index, :create]
   end
 
   use Nectar.RouteExtender

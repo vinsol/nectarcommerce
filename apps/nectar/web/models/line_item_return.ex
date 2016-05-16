@@ -28,12 +28,19 @@ defmodule Nectar.LineItemReturn do
     status == 0
   end
 
+  def is_accepted?(status) do
+    (status == 1) || (status == 2)
+  end
+
   schema "line_item_returns" do
     field :quantity, :integer
     field :status, :integer
     belongs_to :line_item, Nectar.LineItem
 
+    has_one :refund, Nectar.Refund
+
     timestamps
+    extensions
   end
 
   @required_fields ~w(quantity status line_item_id)
