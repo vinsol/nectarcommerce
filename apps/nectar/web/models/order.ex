@@ -378,6 +378,13 @@ defmodule Nectar.Order do
     |> cast_assoc(:payment, required: true, with: &Nectar.Payment.applicable_payment_changeset/2)
   end
 
+  def transaction_id_changeset(model, transaction_id) do
+    payment_changes = put_change(model.changes[:payment], :transaction_id, transaction_id)
+    %Ecto.Changeset{model | changes: %{model.changes | payment: payment_changes}}
+  end
+
+  def transaction_id_changeset(model, nil), do: model
+
   def payment_params(order, :empty), do: :empty
   def payment_params(order, %{"payment" => %{"payment_method_id" => ""}} = params), do: params
   def payment_params(order, %{"payment" => %{"payment_method_id" => payment_method_id}} = params) do

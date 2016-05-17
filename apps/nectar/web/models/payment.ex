@@ -6,21 +6,21 @@ defmodule Nectar.Payment do
     belongs_to :payment_method, Nectar.PaymentMethod
     field :amount, :decimal
     field :payment_state, :string, default: "authorized"
+    field :transaction_id
 
     timestamps
     extensions
   end
 
-  @payment_states  ~w(authorized received refund_created refunded)
+  @payment_states  ~w(authorized captured refunded)
 
-  @required_fields ~w(payment_method_id amount)
-  @optional_fields ~w()
+  @required_fields ~w(payment_method_id amount payment_state)
+  @optional_fields ~w(transaction_id)
 
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
-
 
   # TODO: can we add errors while payment authorisation here ??
   def applicable_payment_changeset(model, params) do

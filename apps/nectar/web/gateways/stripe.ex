@@ -13,7 +13,8 @@ defmodule Nectar.Gateway.Stripe do
                       card,
                       billing_address: billing_address,
                       description: "Order No. #{order.id}") do
-      {:ok, _}  -> {:ok}
+      {:ok, response}  ->
+        {:ok, response.authorization}
       {:error, %Commerce.Billing.Response{raw: %{"error" => %{"message" => message}}}} -> {:error, message}
     end
   end
