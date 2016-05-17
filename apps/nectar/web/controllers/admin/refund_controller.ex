@@ -12,14 +12,14 @@ defmodule Nectar.Admin.RefundController do
     render conn, "index.html", refunds: refunds
   end
 
-  def create(conn, %{"amount" => amount, "line_item_return_id" => line_item_return_id} = params) do
+  def create(conn, %{"refund" => refund_params}) do
     # Create refund for return for no more value than return
-    line_item_return = Repo.get(LineItemReturn, params["line_item_return_id"]) |> Repo.preload([:refund])
-    changeset = Ecto.build_assoc(line_item_return, :refund) |> Refund.create_changeset(params)
+    line_item_return = Repo.get(LineItemReturn, refund_params["line_item_return_id"]) |> Repo.preload([:refund])
+    changeset = Ecto.build_assoc(line_item_return, :refund) |> Refund.create_changeset(refund_params)
     case Repo.insert(changeset) do
       {:ok, refund} ->
         conn
-          |> put_flash(:info, "Refund created successfully")
+          |> put_flash(:info, "Refund created successfully for Return #{line_item_return.id}")
           |> redirect(to: admin_line_item_return_path(conn, :index))
       {:error, changeset} ->
         conn

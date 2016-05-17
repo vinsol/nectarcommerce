@@ -22,7 +22,13 @@
             <%= if return.refund do %>
               <td><%= return.refund.amount %></td>
             <% else %>
-              <td><%= button("Create Refund", to: admin_refund_path(@conn, :create, amount: 20, line_item_return_id: return.id)) %></td>
+              <td>
+                <%= form_for @conn, admin_refund_path(@conn, :create), [as: :refund], fn f -> %>
+                  <%= text_input f, :amount %>
+                  <%= hidden_input f, :line_item_return_id, value: return.id %>
+                  <%= submit "Create Refund" %>
+                <% end %>
+              </td>
             <% end %>
           <% else %>
             <td></td>
