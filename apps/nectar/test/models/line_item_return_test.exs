@@ -9,6 +9,8 @@ defmodule Nectar.LineItemReturnTest do
   @valid_attrs %{quantity: 42, status: 42, line_item_id: 1}
   @invalid_attrs %{}
 
+  #setup_all runs in a separate process so created db records are not accessible in test process
+
   test "changeset with valid attributes" do
     changeset = LineItemReturn.changeset(%LineItemReturn{}, @valid_attrs)
     assert changeset.valid?
@@ -50,6 +52,32 @@ defmodule Nectar.LineItemReturnTest do
   end
 
   test "return discarded" do
+    assert Repo.all(Order) == []
 
+    {:ok, line_item: line_item} = Nectar.TestSetup.Order.create_order_with_line_items
+
+    refute Repo.all(Order) == []
+    [order] = Repo.all(Order)
+
+    order = order |> Repo.preload([:line_items])
+
+    assert Enum.count(order.line_items) == 1
+
+    assert order.state == "confirmation"
+    assert order.confirmation_status
+
+    ## Using line_item |> Repo.preload(:variant)
+    ## gets copy from SQL cache, I assume and returns 0 instead of 2 :(
+    line_item =  Repo.get(LineItem, line_item.id) |> Repo.preload(:variant)
+    old_variant = line_item.variant
+
+    {_status, line_item} = LineItem.cancel_fullfillment(%LineItem{line_item|order: order})
+    refute line_item.fullfilled
+
+    line_item_return = Nectar.Repo.one(from lr in Nectar.LineItemReturn, where: lr.line_item_id == ^line_item.id )
+    Nectar.LineItemReturn.accept_or_reject(line_item_return, %{"status" => 2})
+
+    updated_line_item = Repo.get(LineItem, line_item.id) |> Repo.preload(:variant)
+    assert updated_line_item.variant.bought_quantity == old_variant.bought_quantity
   end
 end
