@@ -9,6 +9,8 @@ defmodule Nectar.LineItem do
   schema "line_items" do
     belongs_to :variant, Nectar.Variant
     belongs_to :order, Nectar.Order
+    belongs_to :shipment_unit, Nectar.ShipmentUnit
+
     field :add_quantity, :integer, virtual: true, default: 0
     field :quantity, :integer
     field :total, :decimal
@@ -205,5 +207,11 @@ defmodule Nectar.LineItem do
     else
       changeset
     end
+  end
+
+  def set_shipment_unit(line_item_ids, shipment_unit_id) do
+    from line_item in Nectar.LineItem,
+      where: line_item.id in ^line_item_ids,
+      update: [set: [shipment_unit_id: ^shipment_unit_id]]
   end
 end
