@@ -72,6 +72,7 @@ defmodule Nectar.LineItemReturn do
 
   # Pattern match on changeset for changes
   defp do_stock_update(line_item_return, %Ecto.Changeset{changes: %{status: 1}} = changeset) do
+    # Transaction wraps the result in :ok, :error
     Repo.transaction(fn ->
       case Repo.update(changeset) do
         {:ok, line_item_return}->
@@ -79,11 +80,13 @@ defmodule Nectar.LineItemReturn do
           line_item_return = line_item_return |> Repo.preload([line_item: [:variant, [order: :adjustments]]])
           line_item = line_item_return.line_item
           LineItem.restock_variant(line_item)
+          line_item_return
         {:error, changeset} ->
           Repo.rollback changeset
+          line_item_return
       end
     end)
   end
-  defp do_stock_update(line_item_return, %Ecto.Changeset{changes: %{status: 2}} = changeset), do: Repo.update(changeset)
+  defp do_stock_update(line_item_return, %Ecto.Changeset{changes: %{status: 2}} = changeset), do: {:ok, Repo.update(changeset)}
   defp do_stock_update(line_item_return, changeset), do: {:noop, line_item_return}
 end
