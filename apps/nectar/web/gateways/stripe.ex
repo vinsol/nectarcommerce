@@ -31,8 +31,6 @@ defmodule Nectar.Gateway.Stripe do
     case Billing.refund(:stripe, String.to_float(Decimal.to_string(amount)), transaction_id) do
       {:ok, _} -> {:ok}
       {:error, response} ->
-        import IEx
-        IEx.pry
         {:error, "failed to refund"}
     end
   end

@@ -1,6 +1,8 @@
 defmodule Nectar.Payment do
   use Nectar.Web, :model
 
+  alias __MODULE__
+
   schema "payments" do
     belongs_to :order, Nectar.Order
     belongs_to :payment_method, Nectar.PaymentMethod
@@ -16,6 +18,15 @@ defmodule Nectar.Payment do
 
   @required_fields ~w(payment_method_id amount payment_state)
   @optional_fields ~w(transaction_id)
+
+  def authorized?(%Payment{payment_state: "authorized"}), do: true
+  def authorized?(%Payment{}), do: false
+
+  def captured?(%Payment{payment_state: "captured"}), do: true
+  def captured?(%Payment{}), do: false
+
+  def refunded?(%Payment{payment_state: "refunded"}), do: true
+  def refunded?(%Payment{}), do: false
 
   def changeset(model, params \\ :empty) do
     model

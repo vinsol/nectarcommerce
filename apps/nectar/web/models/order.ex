@@ -383,7 +383,6 @@ defmodule Nectar.Order do
     %Ecto.Changeset{model | changes: %{model.changes | payment: payment_changes}}
   end
 
-  def transaction_id_changeset(model, nil), do: model
 
   def payment_params(order, :empty), do: :empty
   def payment_params(order, %{"payment" => %{"payment_method_id" => ""}} = params), do: params

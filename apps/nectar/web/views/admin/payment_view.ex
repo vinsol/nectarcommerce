@@ -3,9 +3,8 @@ defmodule Nectar.Admin.PaymentView do
 
   alias Nectar.Payment
 
-  def payment_not_captured(%Payment{payment_state: "captured"}), do: false
-  def payment_not_captured(_), do: true
-  def payment_not_refunded(%Payment{payment_state: "refunded"}), do: false
-  def payment_not_refunded(_), do: true
+  defdelegate authorized?(payment), to: Nectar.Payment
+  defdelegate captured?(payment), to: Nectar.Payment
+  defdelegate refunded?(payment), to: Nectar.Payment
 
 end
