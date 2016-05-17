@@ -112,7 +112,7 @@ defmodule Nectar.LineItemTest do
     assert changeset.errors[:fullfilled] == "Order should be in confirmation state before updating the fullfillment status"
   end
 
-  test "cancel fullfillment on confirmed order updates the order status and total" do
+  test "cancel fulfillment on confirmed order creates a return and updates the order status and total" do
     line_item = create_line_item_with_product_quantity(2) |> Repo.insert!
     order_id = line_item.order_id
     order = Nectar.Repo.get(Nectar.Order, order_id) |> Repo.preload([:line_items])
@@ -129,8 +129,15 @@ defmodule Nectar.LineItemTest do
     assert c_confirm.state == "confirmation"
     assert c_confirm.confirmation_status
 
+    line_item_return = Nectar.Repo.all(from lr in Nectar.LineItemReturn, where: lr.line_item_id == ^line_item.id )
+    assert line_item_return == []
+
     {_status, line_item} = Nectar.LineItem.cancel_fullfillment(%Nectar.LineItem{line_item|order: c_confirm})
     refute line_item.fullfilled
+
+    line_item_return = Nectar.Repo.all(from lr in Nectar.LineItemReturn, where: lr.line_item_id == ^line_item.id )
+    refute line_item_return == []
+    assert length(line_item_return) == 1
 
     updated_order = Nectar.Repo.get(Nectar.Order, order_id)
     # helper method for calculating the sum of adjustments.

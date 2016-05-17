@@ -62,16 +62,16 @@ defmodule Nectar.LineItemReturn do
     |> cast(params, ~w(status), ~w())
   end
 
-  def stock_and_order_update(line_item_return, params \\ :empty)
-  def stock_and_order_update(%Nectar.LineItemReturn{status: 0} = line_item_return, params) do
+  def accept_or_reject(line_item_return, params \\ :empty)
+  def accept_or_reject(%Nectar.LineItemReturn{status: 0} = line_item_return, params) do
     changeset = line_item_return
       |> updated_changeset(params)
-    do_stock_and_order_update(line_item_return, changeset)
+    do_stock_update(line_item_return, changeset)
   end
-  def stock_and_order_update(line_item_return, params), do: {:noop, line_item_return}
+  def accept_or_reject(line_item_return, params), do: {:noop, line_item_return}
 
   # Pattern match on changeset for changes
-  defp do_stock_and_order_update(line_item_return, %Ecto.Changeset{changes: %{status: 1}} = changeset) do
+  defp do_stock_update(line_item_return, %Ecto.Changeset{changes: %{status: 1}} = changeset) do
     Repo.transaction(fn ->
       case Repo.update(changeset) do
         {:ok, line_item_return}->
@@ -79,12 +79,11 @@ defmodule Nectar.LineItemReturn do
           line_item_return = line_item_return |> Repo.preload([line_item: [:variant, [order: :adjustments]]])
           line_item = line_item_return.line_item
           LineItem.restock_variant(line_item)
-          Order.settle_adjustments_and_product_payments(line_item.order)
         {:error, changeset} ->
           Repo.rollback changeset
       end
     end)
   end
-  defp do_stock_and_order_update(line_item_return, %Ecto.Changeset{changes: %{status: 2}} = changeset), do: Repo.update(changeset)
-  defp do_stock_and_order_update(line_item_return, changeset), do: {:noop, line_item_return}
+  defp do_stock_update(line_item_return, %Ecto.Changeset{changes: %{status: 2}} = changeset), do: Repo.update(changeset)
+  defp do_stock_update(line_item_return, changeset), do: {:noop, line_item_return}
 end

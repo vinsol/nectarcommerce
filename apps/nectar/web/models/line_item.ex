@@ -31,6 +31,7 @@ defmodule Nectar.LineItem do
       |> Nectar.Repo.update do
         {:ok, line_item} ->
           create_line_item_return(line_item)
+          Order.settle_adjustments_and_product_payments(line_item.order)
           line_item
         {:error, changeset} ->
           Nectar.Repo.rollback changeset

@@ -14,7 +14,7 @@ defmodule Nectar.Admin.LineItemReturnController do
   def update(conn, %{"status" => status} = params) do
     line_item_return = Repo.get(LineItemReturn, params["id"])
     IO.inspect line_item_return
-    case LineItemReturn.stock_and_order_update(line_item_return, params) do
+    case LineItemReturn.accept_or_reject(line_item_return, params) do
       {:ok, line_item_return} ->
         text conn, "Done"
       {:error, changeset} ->
