@@ -1,0 +1,19 @@
+<h2>Listing Refunds</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>LineItemReturn Id</th>
+      <th>Amount</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for refund <- @refunds do %>
+      <tr>
+        <td><%= refund.line_item_return_id %></td>
+        <td><%= refund.amount %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

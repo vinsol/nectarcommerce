@@ -5,7 +5,7 @@
       <th>Line Item</th>
       <th>Quantity</th>
       <th>Status</th>
-      <th></th>
+      <th>Actions (Refund)</th>
     </tr>
   </thead>
   <tbody>
@@ -18,8 +18,12 @@
           <td><%= button("Return", to: admin_line_item_return_path(@conn, :update, return, status: Nectar.LineItemReturn.get_status("returned")), method: :put) %></td>
           <td><%= button("Discard", to: admin_line_item_return_path(@conn, :update, return, status: Nectar.LineItemReturn.get_status("discarded")), method: :put) %></td>
         <% else %>
-          <%= if Nectar.LineItemReturn.is_accepted?(return.status) && !(return.refund) do %>
-            <td><%= button("Create Refund", to: admin_refund_path(@conn, :create, amount: 20, line_item_return_id: return.id)) %></td>
+          <%= if Nectar.LineItemReturn.is_accepted?(return.status) do %>
+            <%= if return.refund do %>
+              <td><%= return.refund.amount %></td>
+            <% else %>
+              <td><%= button("Create Refund", to: admin_refund_path(@conn, :create, amount: 20, line_item_return_id: return.id)) %></td>
+            <% end %>
           <% else %>
             <td></td>
           <% end %>

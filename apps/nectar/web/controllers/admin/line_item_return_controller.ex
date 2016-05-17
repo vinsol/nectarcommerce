@@ -7,7 +7,7 @@ defmodule Nectar.Admin.LineItemReturnController do
   alias Nectar.LineItemReturn
 
   def index(conn, _params) do
-    line_item_returns = Repo.all(LineItemReturn)
+    line_item_returns = Repo.all(LineItemReturn) |> Repo.preload([:refund])
     render(conn, "index.html", line_item_returns: line_item_returns, conn: conn)
   end
 

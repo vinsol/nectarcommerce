@@ -59,6 +59,12 @@
           <li role="presentation" class='<%= active_on_current(@conn, admin_cart_path(@conn, :new)) %>'>
             <%= link "Cart", to: admin_cart_path(@conn, :new) %>
           </li>
+          <li role="presentation" class='<%= active_on_current(@conn, admin_line_item_return_path(@conn, :index)) %>'>
+            <%= link "Returns", to: admin_line_item_return_path(@conn, :index) %>
+          </li>
+          <li role="presentation" class='<%= active_on_current(@conn, admin_refund_path(@conn, :index)) %>'>
+            <%= link "Refunds", to: admin_refund_path(@conn, :index) %>
+          </li>
         </ul>
       </li>
       <li class="dropdown" role="presentation">

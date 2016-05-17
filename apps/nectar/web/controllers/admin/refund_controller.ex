@@ -8,7 +8,8 @@ defmodule Nectar.Admin.RefundController do
   alias Nectar.Refund
 
   def index(conn, _params) do
-    text conn, "Works"
+    refunds = Repo.all(Refund)
+    render conn, "index.html", refunds: refunds
   end
 
   def create(conn, %{"amount" => amount, "line_item_return_id" => line_item_return_id} = params) do
