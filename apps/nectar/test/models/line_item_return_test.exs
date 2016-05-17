@@ -34,10 +34,10 @@ defmodule Nectar.LineItemReturnTest do
     assert order.state == "confirmation"
     assert order.confirmation_status
 
-    line_item =  line_item |> Repo.preload(:variant)
+    ## Using line_item |> Repo.preload(:variant)
+    ## gets copy from SQL cache, I assume and returns 0 instead of 2 :(
+    line_item =  Repo.get(LineItem, line_item.id) |> Repo.preload(:variant)
     old_variant = line_item.variant
-    IO.inspect old_variant
-    IO.inspect old_variant.bought_quantity
 
     {_status, line_item} = LineItem.cancel_fullfillment(%LineItem{line_item|order: order})
     refute line_item.fullfilled
@@ -46,7 +46,6 @@ defmodule Nectar.LineItemReturnTest do
     Nectar.LineItemReturn.accept_or_reject(line_item_return, %{"status" => 1})
 
     updated_line_item = Repo.get(LineItem, line_item.id) |> Repo.preload(:variant)
-    IO.inspect updated_line_item.variant
     assert updated_line_item.variant.bought_quantity == old_variant.bought_quantity - updated_line_item.quantity
   end
 
