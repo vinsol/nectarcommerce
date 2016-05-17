@@ -19,6 +19,24 @@ defmodule Nectar.Gateway.Stripe do
     end
   end
 
+  def capture(transaction_id) do
+    case Billing.capture(:stripe, transaction_id) do
+      {:ok, _} -> {:ok}
+      {:error, response} ->
+        {:error, "failed to capture"}
+    end
+  end
+
+  def refund(transaction_id, amount) do
+    case Billing.refund(:stripe, String.to_float(Decimal.to_string(amount)), transaction_id) do
+      {:ok, _} -> {:ok}
+      {:error, response} ->
+        import IEx
+        IEx.pry
+        {:error, "failed to refund"}
+    end
+  end
+
   def get_billing_address(order) do
     billing_address =
       order

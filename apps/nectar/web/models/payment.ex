@@ -22,6 +22,16 @@ defmodule Nectar.Payment do
     |> cast(params, @required_fields, @optional_fields)
   end
 
+  def capture_changeset(model) do
+    model
+    |> cast(%{"payment_state" => "captured"}, ~w(payment_state), ~w())
+  end
+
+  def refund_changeset(model) do
+    model
+    |> cast(%{"payment_state" => "refunded"}, ~w(payment_state), ~w())
+  end
+
   # TODO: can we add errors while payment authorisation here ??
   def applicable_payment_changeset(model, params) do
     model

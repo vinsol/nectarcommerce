@@ -1,5 +1,9 @@
 <%= if payment_not_captured(@payment) && payment_not_refunded(@payment) do %>
   <%= link "Capture Payment", to: admin_order_payment_capture_path(@conn, :capture, @order, @payment), method: :put %>
 <%= else %>
-  <%= link "Refund Payment", to: admin_order_payment_refund_path(@conn, :refund, @order, @payment), method: :put %>
+  <%= if payment_not_refunded(@payment) do %>
+    <%= link "Refund Payment", to: admin_order_payment_refund_path(@conn, :refund, @order, @payment), method: :put %>
+  <% else %>
+    Payment Refunded
+  <% end %>
 <% end %>

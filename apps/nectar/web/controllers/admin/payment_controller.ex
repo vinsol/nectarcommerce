@@ -2,6 +2,7 @@ defmodule Nectar.Admin.PaymentController do
   use Nectar.Web, :admin_controller
 
   alias Nectar.Repo
+  alias Nectar.Payment
   alias Nectar.Order
   alias Nectar.LineItem
 
@@ -14,6 +15,7 @@ defmodule Nectar.Admin.PaymentController do
     {order, payment} = load_order_and_payment(order_id)
     case Nectar.Gateway.refund_payment(payment) do
       {:ok} ->
+        payment = Payment.refund_changeset(payment) |> Repo.update!
         conn
         |> put_flash(:success, "Successfully refunded the amount")
         |> redirect(to: admin_order_payment_path(conn, :show, order, payment))
@@ -28,6 +30,7 @@ defmodule Nectar.Admin.PaymentController do
     {order, payment} = load_order_and_payment(order_id)
     case Nectar.Gateway.capture_payment(payment) do
       {:ok} ->
+        payment = Payment.capture_changeset(payment) |> Repo.update!
         conn
         |> put_flash(:success, "Successfully captured the amount")
         |> redirect(to: admin_order_payment_path(conn, :show, order, payment))
