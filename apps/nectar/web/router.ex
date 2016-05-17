@@ -82,6 +82,10 @@ defmodule Nectar.Router do
       get "/checkout", CheckoutController, :checkout
       put "/checkout/next", CheckoutController, :next
       put "/checkout/back", CheckoutController, :back
+      resources "payments", PaymentController, only: [:show] do
+        put "/refund",  PaymentController, :refund,  as: :refund
+        put "/capture", PaymentController, :capture, as: :capture
+      end
     end
 
     resources "/users", UserController do

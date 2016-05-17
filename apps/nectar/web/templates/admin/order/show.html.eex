@@ -62,11 +62,15 @@
   <thead>
     <tr>
       <td>Name</td>
+      <td>State</td>
+      <td>Details</td>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><%=  @order.payment.payment_method.name %></td>
+      <td><%= @order.payment.payment_state %></td>
+      <td><%= link "Details", to: admin_order_payment_path(@conn, :show, @order, @order.payment) %></td>
     </tr>
   </tbody>
 </table>
