@@ -7,11 +7,11 @@ defmodule Nectar.ShipmentUnit do
   schema "shipment_units" do
 
     # associations
-    belongs_to  :shipping_method, Nectar.ShippingMethod
+
     belongs_to  :order, Nectar.Order
 
-    has_many :line_items, Nectar.LineItem
-    has_one  :shipment, Nectar.Shipment
+    has_many :line_items, Nectar.LineItem, on_delete: :nilify_all
+    has_one  :shipment, Nectar.Shipment, on_delete: :nilify_all
 
     # virtual fields
     field :proposed_shipments, {:array, :map}, virtual: true
@@ -48,7 +48,7 @@ defmodule Nectar.ShipmentUnit do
 
   def create_shipment_changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(shipping_method_id), ~w())
+    |> cast(params, ~w(), ~w())
     |> cast_assoc(:shipment, required: true, with: &Nectar.Shipment.create_changeset/2)
   end
 
