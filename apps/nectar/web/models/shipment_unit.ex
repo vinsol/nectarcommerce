@@ -48,8 +48,16 @@ defmodule Nectar.ShipmentUnit do
 
   def create_shipment_changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(), ~w())
+    |> cast(params_with_shipping_cost(model, params), ~w(), ~w())
     |> cast_assoc(:shipment, required: true, with: &Nectar.Shipment.create_changeset/2)
   end
+
+  defp params_with_shipping_cost(model, %{"shipment" => %{"shipping_method_id" => shipping_method_id}} = params) do
+    shipping_method = Nectar.Repo.get(Nectar.ShippingMethod, shipping_method_id)
+    {:ok, shipping_cost} = Nectar.ShippingCalculator.shipping_cost(shipping_method, model)
+
+    %{params | "shipment" => Map.merge(Map.get(params, "shipment"), %{"shipping_cost" => shipping_cost, "order_id" => model.order_id})}
+  end
+  defp add_shipping_cost_to(params), do: params
 
 end

@@ -14,7 +14,7 @@ defmodule Nectar.Admin.CheckoutView do
     [{"--Select State--", ""} | Repo.all(from c in Nectar.State, select: {c.name, c.id})]
   end
 
-  def adjustment_row(%Nectar.Adjustment{shipping_id: shipping_id} = adjustment) when not is_nil(shipping_id) do
+  def adjustment_row(%Nectar.Adjustment{shipment_id: shipment_id} = adjustment) when not is_nil(shipment_id) do
     content_tag :tr do
       [content_tag :td do
         to_string(adjustment.amount)

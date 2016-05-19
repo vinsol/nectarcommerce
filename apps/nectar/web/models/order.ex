@@ -146,9 +146,8 @@ defmodule Nectar.Order do
   alias Nectar.Repo
 
   defp delete_shipments(order) do
-    shipping_ids = Repo.all(from o in assoc(order, :shipping), select: o.id)
-    Repo.delete_all(from o in assoc(order, :adjustments), where: o.shipping_id in ^shipping_ids)
-    Repo.delete_all(from o in assoc(order, :shipment_units))
+    # shipment_ids = Repo.all(from o in assoc(order, :shipments), select: o.id)
+    # Repo.delete_all(from o in assoc(order, :adjustments), where: o.shipment_id in ^shipment_ids)
     order
   end
 
@@ -231,12 +230,12 @@ defmodule Nectar.Order do
   end
 
   def with_preloaded_assoc(model, "shipping") do
-    order = Nectar.Repo.get!(Order, model.id) |> Repo.preload([shipment_units: [shipment: [:shipment_method], line_items: [variant: :product]]])
+    order = Nectar.Repo.get!(Order, model.id) |> Repo.preload([shipment_units: [shipment: [:shipping_method, :adjustment], line_items: [variant: :product]]])
   end
 
   def with_preloaded_assoc(model, "tax") do
     Nectar.Repo.get!(Order, model.id)
-    |> Nectar.Repo.preload([adjustments: [:tax, shipping: :shipping_method]])
+    |> Nectar.Repo.preload([adjustments: [:tax, shipment: :shipping_method]])
   end
 
   def with_preloaded_assoc(model, "payment") do
