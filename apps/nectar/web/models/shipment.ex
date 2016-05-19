@@ -2,12 +2,13 @@ defmodule Nectar.Shipment do
   use Nectar.Web, :model
 
   schema "shipments" do
+    belongs_to  :shipping_method, Nectar.ShippingMethod
     belongs_to :shipment_unit, Nectar.ShipmentUnit
     has_one    :adjustment, Nectar.Adjustment
     timestamps
   end
 
-  @required_fields ~w()
+  @required_fields ~w(shipping_method_id)
   @optional_fields ~w()
 
   @doc """
@@ -17,6 +18,11 @@ defmodule Nectar.Shipment do
   with no validation performed.
   """
   def changeset(model, params \\ :empty) do
+    model
+    |> cast(params, @required_fields, @optional_fields)
+  end
+
+  def create_changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end

@@ -99,7 +99,7 @@ defmodule Nectar.Order do
       order
       |> delete_payments
       |> delete_tax_adjustments
-      |> delete_shippings
+      |> delete_shipments
       |> delete_addresses
       |> cast(%{state: "cart"}, ~w(state), ~w())
       |> Nectar.Repo.update!
@@ -111,7 +111,7 @@ defmodule Nectar.Order do
       order
       |> delete_payments
       |> delete_tax_adjustments
-      |> delete_shippings
+      |> delete_shipments
       |> cast(%{state: "address"}, ~w(state), ~w())
       |> Nectar.Repo.update!
     end)
@@ -145,10 +145,10 @@ defmodule Nectar.Order do
 
   alias Nectar.Repo
 
-  defp delete_shippings(order) do
+  defp delete_shipments(order) do
     shipping_ids = Repo.all(from o in assoc(order, :shipping), select: o.id)
     Repo.delete_all(from o in assoc(order, :adjustments), where: o.shipping_id in ^shipping_ids)
-    Repo.delete_all(from o in assoc(order, :shipping))
+    Repo.delete_all(from o in assoc(order, :shipment_units))
     order
   end
 
@@ -231,7 +231,7 @@ defmodule Nectar.Order do
   end
 
   def with_preloaded_assoc(model, "shipping") do
-    order = Nectar.Repo.get!(Order, model.id) |> Repo.preload([shipment_units: [line_items: [variant: :product]]])
+    order = Nectar.Repo.get!(Order, model.id) |> Repo.preload([shipment_units: [shipment: [:shipment_method], line_items: [variant: :product]]])
   end
 
   def with_preloaded_assoc(model, "tax") do
@@ -332,8 +332,6 @@ defmodule Nectar.Order do
 
   # use this to set shipping
   def shipping_changeset(model, params \\ :empty) do
-    import IEx
-    IEx.pry
     model
     |> cast(shipping_params(model, params), @required_fields, @optional_fields)
     |> cast_assoc(:shipment_units, required: true, with: &Nectar.ShipmentUnit.create_shipment_changeset/2)

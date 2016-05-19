@@ -3,11 +3,13 @@
     <div class="info alert"><%= @changeset.changes.shipping.errors[:shipping_method_id] %></div>
   <% end %>
   <%= inputs_for f, :shipment_units, fn fship -> %>
-    <h4>Select your shipping method for <%=  shipment_details(fship.source.model) %></h4>
-    <div class="form-group">
-      <%= label fship, :shipping_method_id, "Shipping Method", class: "control-label" %>
-      <%= select fship, :shipping_method_id, shipping_method_selection(fship.source) %>
-    </div>
+    <%= inputs_for fship, :shipment, fn fshipment -> %>
+      <h4>Select your shipping method for <%=  shipment_details(fship.source.model) %></h4>
+      <div class="form-group">
+        <%= label fshipment, :shipping_method_id, "Shipping Method", class: "control-label" %>
+        <%= select fshipment, :shipping_method_id, shipping_method_selection(fship.source) %>
+      </div>
+    <% end %>
     <hr>
   <% end %>
 
