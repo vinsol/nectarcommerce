@@ -1,7 +1,7 @@
 defmodule Nectar.ShippingCalculator.Base do
-  @callback calculate_shipping(Nectar.Order.t) :: any
-  @callback applicable?(Nectar.Order.t) :: any
-  @callback shipping_rate(Nectar.Order.t) :: any
+  @callback calculate_shipping(Nectar.ShippingUnit.t) :: any
+  @callback applicable?(Nectar.ShippingUnit.t) :: any
+  @callback shipping_rate(Nectar.ShippingUnit.t) :: any
 
   defmacro __using__([shipping_rate: provided_shipping_rate]) do
     add_shipping_methods(provided_shipping_rate)
@@ -15,19 +15,19 @@ defmodule Nectar.ShippingCalculator.Base do
     quote location: :keep do
 
       @behaviour Nectar.ShippingCalculator.Base
-      def calculate_shipping(order) do
-        if applicable? order do
-          {:ok, shipping_rate(order)}
+      def calculate_shipping(shipping_unit) do
+        if applicable? shipping_unit do
+          {:ok, shipping_rate(shipping_unit)}
         else
           {:not_applicable, Decimal.new(0)}
         end
       end
 
-      def applicable?(order) do
+      def applicable?(shipping_unit) do
         true
       end
 
-      def shipping_rate(order) do
+      def shipping_rate(shipping_unit) do
         Decimal.new(unquote(shipping))
       end
 
