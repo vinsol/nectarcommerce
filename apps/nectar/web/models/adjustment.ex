@@ -2,7 +2,7 @@ defmodule Nectar.Adjustment do
   use Nectar.Web, :model
 
   schema "adjustments" do
-    belongs_to :shipping, Nectar.Shipping
+    belongs_to :shipment, Nectar.Shipment
     belongs_to :tax,      Nectar.Tax
     belongs_to :order,    Nectar.Order
 
@@ -13,7 +13,7 @@ defmodule Nectar.Adjustment do
   end
 
   @required_fields ~w(amount)
-  @optional_fields ~w(shipping_id tax_id order_id)
+  @optional_fields ~w(shipment_id tax_id order_id)
 
   def changeset(model, params \\ :empty) do
     model
