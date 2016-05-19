@@ -4,13 +4,14 @@ defmodule Nectar.CheckoutView do
   alias Nectar.Repo
   alias Nectar.CheckoutManager
 
-  import Ecto.Query
 
   def country_names_and_ids do
+    import Ecto.Query
     [{"--Select Country--", ""} | Repo.all(from c in Nectar.Country, select: {c.name, c.id})]
   end
 
   def state_names_and_ids do
+    import Ecto.Query
     [{"--Select State--", ""} | Repo.all(from c in Nectar.State, select: {c.name, c.id})]
   end
 
@@ -54,11 +55,23 @@ defmodule Nectar.CheckoutView do
     "cancelled.html"
   end
 
+  def shipment_details(%Nectar.ShipmentUnit{} = shipment_unit) do
+    Enum.reduce(shipment_unit.line_items, "", fn (line_item, acc) ->
+      acc <> line_item.variant.product.name <> ","
+    end)
+  end
+
+  def shipping_method_selection(%Ecto.Changeset{model: model}), do: shipping_method_selection(model)
+
+  def shipping_method_selection(%Nectar.ShipmentUnit{proposed_shipments: proposed_shipments}) do
+    Enum.map(proposed_shipments, &({&1.shipping_method_name <> " (+#{&1.shipping_cost})", &1.shipping_method_id}))
+  end
+
   def payment_methods_available?(%Nectar.Order{applicable_payment_methods: []}), do: false
   def payment_methods_available?(%Nectar.Order{}), do: true
 
-  def shipping_methods_available?(%Nectar.Order{applicable_shipping_methods: []}), do: false
-  def shipping_methods_available?(%Nectar.Order{}), do: true
+  def shipping_methods_available?(%Nectar.ShipmentUnit{proposed_shipments: []}), do: false
+  def shipping_methods_available?(%Nectar.ShipmentUnit{}), do: true
 
   def error_in_payment_method?(changeset, payment_method_id) do
     (!changeset.valid?) && changeset.params["payment"]["payment_method_id"] == to_string(payment_method_id)

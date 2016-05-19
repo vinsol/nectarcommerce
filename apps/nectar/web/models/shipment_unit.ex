@@ -8,10 +8,13 @@ defmodule Nectar.ShipmentUnit do
 
     # associations
     belongs_to  :shipping_method, Nectar.ShippingMethod
+    belongs_to  :order, Nectar.Order
+
     has_many :line_items, Nectar.LineItem
+    has_one  :shipment, Nectar.Shipment
 
     # virtual fields
-    field :proposed_shipping_methods, {:array, :map}, virtual: true
+    field :proposed_shipments, {:array, :map}, virtual: true
 
     timestamps
     extensions
@@ -29,20 +32,24 @@ defmodule Nectar.ShipmentUnit do
 
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(), ~w())
+    |> cast(params, ~w(order_id), ~w())
   end
 
   def create(line_items) do
-    Repo.transaction(fn ->
-      shipment_unit = Repo.insert!(changeset(%ShipmentUnit{}, %{}))
+    order_id = List.first(line_items) |> Map.get(:order_id)
+    {:ok, shipment_unit} = Repo.transaction(fn ->
+      shipment_unit = Repo.insert!(changeset(%ShipmentUnit{}, %{order_id: order_id}))
       query = LineItem.set_shipment_unit(Enum.map(line_items, &(&1.id)), shipment_unit.id)
       Repo.update_all(query, [])
       shipment_unit |> Repo.preload([:line_items])
     end)
+    shipment_unit
   end
 
-  def shipment_method_changeset(model, params \\ :empty) do
-
+  def create_shipment_changeset(model, params \\ :empty) do
+    model
+    |> cast(params, ~w(shipping_method_id), ~w())
+    |> cast_assoc(:shipment, required: true, with: &Nectar.Shipment.create_changeset/2)
   end
 
 end

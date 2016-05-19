@@ -2,6 +2,7 @@ defmodule Nectar.CheckoutManager do
 
   alias Nectar.Order
   alias Nectar.TaxCalculator
+  alias Nectar.Shipment.Splitter
 
   # States:
   # cart -> address -> shipping -> tax -> payment -> confirmation
@@ -11,7 +12,7 @@ defmodule Nectar.CheckoutManager do
                      |> Enum.reduce(%{}, fn ({frm, to}, acc) -> Map.put_new(acc, frm, to) end)
 
   def next_changeset(%Order{state: "cart"} = order), do: Order.transition_changeset(order, "address")
-  def next_changeset(%Order{state: "address"} = order), do: Order.transition_changeset(order, "shipping")
+  def next_changeset(%Order{state: "address"} = order), do: Order.transition_changeset(order, "shipping") |> Nectar.Shipment.Generator.propose
   def next_changeset(%Order{state: "shipping"} = order), do: Order.transition_changeset(order, "tax")
   def next_changeset(%Order{state: "tax"} = order), do: Order.transition_changeset(order, "payment")
   def next_changeset(%Order{state: "payment"} = order), do: Order.transition_changeset(order, "confirmation")
@@ -84,6 +85,12 @@ defmodule Nectar.CheckoutManager do
 
   # default match do nothing just return order
   def before_transition(order, _to, _data), do: order
+
+  def after_transition(%Order{state: "address"} = order, _params) do
+    order
+    |> Splitter.make_shipment_units
+    order
+  end
 
   def after_transition(%Order{state: "shipping"} = order, _params) do
     order

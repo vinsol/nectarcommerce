@@ -21,6 +21,7 @@ defmodule Nectar.Order do
 
     # relationships
     has_many :line_items, Nectar.LineItem
+    has_many :shipment_units, Nectar.ShipmentUnit # added for convenience
     has_many :adjustments, Nectar.Adjustment
     has_one  :shipping, Nectar.Shipping
     has_many :variants, through: [:line_items, :variant]
@@ -230,8 +231,7 @@ defmodule Nectar.Order do
   end
 
   def with_preloaded_assoc(model, "shipping") do
-    order = Nectar.Repo.get!(Order, model.id) |> Repo.preload([:shipping])
-    %Order{order|applicable_shipping_methods: Nectar.ShippingCalculator.calculate_applicable_shippings(order)}
+    order = Nectar.Repo.get!(Order, model.id) |> Repo.preload([shipment_units: [line_items: [variant: :product]]])
   end
 
   def with_preloaded_assoc(model, "tax") do
@@ -332,9 +332,11 @@ defmodule Nectar.Order do
 
   # use this to set shipping
   def shipping_changeset(model, params \\ :empty) do
+    import IEx
+    IEx.pry
     model
     |> cast(shipping_params(model, params), @required_fields, @optional_fields)
-    |> cast_assoc(:shipping, required: true, with: &Nectar.Shipping.applicable_shipping_changeset/2)
+    |> cast_assoc(:shipment_units, required: true, with: &Nectar.ShipmentUnit.create_shipment_changeset/2)
   end
 
   defp shipping_params(_order, %{"shipping" => %{"shipping_method_id" => ""}} = params), do: params
