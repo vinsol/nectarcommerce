@@ -22,6 +22,7 @@ defmodule Nectar.Order do
     # relationships
     has_many :line_items, Nectar.LineItem
     has_many :shipment_units, Nectar.ShipmentUnit # added for convenience
+    has_many :shipments, through: [:shipment_units, :shipment]
     has_many :adjustments, Nectar.Adjustment
     has_one  :shipping, Nectar.Shipping
     has_many :variants, through: [:line_items, :variant]
@@ -100,6 +101,7 @@ defmodule Nectar.Order do
       |> delete_payments
       |> delete_tax_adjustments
       |> delete_shipments
+      |> delete_shipment_units
       |> delete_addresses
       |> cast(%{state: "cart"}, ~w(state), ~w())
       |> Nectar.Repo.update!
@@ -146,8 +148,14 @@ defmodule Nectar.Order do
   alias Nectar.Repo
 
   defp delete_shipments(order) do
-    # shipment_ids = Repo.all(from o in assoc(order, :shipments), select: o.id)
-    # Repo.delete_all(from o in assoc(order, :adjustments), where: o.shipment_id in ^shipment_ids)
+    shipment_ids = Repo.all(from o in assoc(order, :shipments), select: o.id)
+    Repo.delete_all(from o in assoc(order, :adjustments), where: o.shipment_id in ^shipment_ids)
+    order
+  end
+
+  defp delete_shipment_units(order) do
+    shipment_units = Repo.all(from o in assoc(order, :shipment_units))
+    Enum.each(shipment_units, &(Repo.delete &1))
     order
   end
 

@@ -15,13 +15,14 @@ defmodule Nectar.ShippingCalculator.Runner do
 
   def handle_cast({:calculate}, state) do
     current = self()
-    proc_list = Enum.map(state.shipping_methods, fn(method) ->
-      spawn_monitor(fn ->
+    proc_list =
+      Enum.flat_map(state.shipping_methods, fn(method) ->
         Enum.map(state.order.shipment_units, fn(shipment_unit) ->
-          send(current, Tuple.append(ShippingCalculator.calculate_shipping_cost(method, shipment_unit), self()))
+          spawn_monitor(fn ->
+            send(current, Tuple.append(ShippingCalculator.calculate_shipping_cost(method, shipment_unit), self()))
+          end)
         end)
       end)
-    end)
     timer = Process.send_after(current, {:timeout}, @shipping_calculation_timeout)
     {:noreply, %State{state|timer: timer, pending: proc_list}}
   end
