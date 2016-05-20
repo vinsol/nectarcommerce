@@ -64,7 +64,7 @@ defmodule Nectar.CheckoutView do
   def shipping_method_selection(%Ecto.Changeset{model: model}), do: shipping_method_selection(model)
 
   def shipping_method_selection(%Nectar.ShipmentUnit{proposed_shipments: proposed_shipments}) do
-    Enum.map(proposed_shipments, &({&1.shipping_method_name <> " (+#{&1.shipping_cost})", &1.shipping_method_id}))
+    [{"--Select Your Shipping Method--", ""}] ++ Enum.map(proposed_shipments, &({&1.shipping_method_name <> " (+#{&1.shipping_cost})", &1.shipping_method_id}))
   end
 
   def payment_methods_available?(%Nectar.Order{applicable_payment_methods: []}), do: false

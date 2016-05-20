@@ -18,7 +18,7 @@ defmodule Nectar.ShippingCalculator do
         receive do
           {:ok, results} -> aggregate_into_shipping_units(order, results)
         end
-      {:no_shipping_methods} -> []
+      {:no_shipping_methods} -> aggregate_into_shipping_units(order, [])
     end
   end
 

@@ -9,7 +9,6 @@ defmodule Nectar.CheckoutController do
   def checkout(conn, _params) do
     order = conn.assigns.current_order
     changeset = CheckoutManager.next_changeset(order)
-    IO.inspect changeset.model
     render(conn, "checkout.html", order: order, changeset: changeset)
   end
 
