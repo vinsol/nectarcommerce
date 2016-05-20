@@ -340,18 +340,9 @@ defmodule Nectar.Order do
   # use this to set shipping
   def shipping_changeset(model, params \\ :empty) do
     model
-    |> cast(shipping_params(model, params), @required_fields, @optional_fields)
+    |> cast(params, ~w(state), ~w())
     |> cast_assoc(:shipment_units, required: true, with: &Nectar.ShipmentUnit.create_shipment_changeset/2)
   end
-
-  defp shipping_params(_order, %{"shipping" => %{"shipping_method_id" => ""}} = params), do: params
-  defp shipping_params(order, %{"shipping" => shipping_params} = params) do
-    shipping_method = Nectar.Repo.get(Nectar.ShippingMethod, shipping_params["shipping_method_id"])
-    {:ok, shipping_cost} = Nectar.ShippingCalculator.shipping_cost(shipping_method, order)
-    %{params | "shipping" => %{shipping_method_id: shipping_method.id,
-                              adjustment: %{amount: shipping_cost, order_id: order.id}}}
-  end
-  defp shipping_params(_order, params), do: params
 
   # no changes to be made with tax
   def tax_changeset(model, params \\ :empty) do

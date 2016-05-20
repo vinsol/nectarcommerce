@@ -15,6 +15,9 @@ defmodule Nectar.CheckoutView do
     [{"--Select State--", ""} | Repo.all(from c in Nectar.State, select: {c.name, c.id})]
   end
 
+  def has_shipping_method?(%Nectar.ShipmentUnit{proposed_shipments: []}), do: false
+  def has_shipping_method?(%Nectar.ShipmentUnit{}), do: true
+
   def adjustment_row(%Nectar.Adjustment{shipment_id: shipment_id} = adjustment) when not is_nil(shipment_id) do
     content_tag :tr do
       [content_tag :td do
@@ -64,7 +67,7 @@ defmodule Nectar.CheckoutView do
   def shipping_method_selection(%Ecto.Changeset{model: model}), do: shipping_method_selection(model)
 
   def shipping_method_selection(%Nectar.ShipmentUnit{proposed_shipments: proposed_shipments}) do
-    [{"--Select Your Shipping Method--", ""}] ++ Enum.map(proposed_shipments, &({&1.shipping_method_name <> " (+#{&1.shipping_cost})", &1.shipping_method_id}))
+    Enum.map(proposed_shipments, &({&1.shipping_method_name <> " (+#{&1.shipping_cost})", &1.shipping_method_id}))
   end
 
   def payment_methods_available?(%Nectar.Order{applicable_payment_methods: []}), do: false

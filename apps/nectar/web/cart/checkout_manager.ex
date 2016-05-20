@@ -11,12 +11,15 @@ defmodule Nectar.CheckoutManager do
                      |> Enum.zip(Enum.drop(@states, 1))
                      |> Enum.reduce(%{}, fn ({frm, to}, acc) -> Map.put_new(acc, frm, to) end)
 
-  def next_changeset(%Order{state: "cart"} = order), do: Order.transition_changeset(order, "address")
-  def next_changeset(%Order{state: "address"} = order), do: Order.transition_changeset(order, "shipping") |> Nectar.Shipment.Generator.propose
-  def next_changeset(%Order{state: "shipping"} = order), do: Order.transition_changeset(order, "tax")
-  def next_changeset(%Order{state: "tax"} = order), do: Order.transition_changeset(order, "payment")
-  def next_changeset(%Order{state: "payment"} = order), do: Order.transition_changeset(order, "confirmation")
-  def next_changeset(%Order{} = order), do: order
+
+  def next_changeset(order, params \\ :empty)
+  def next_changeset(%Order{state: "cart"} = order, params),     do: Order.transition_changeset(order, "address", params)
+  def next_changeset(%Order{state: "address"} = order, params),  do: Order.transition_changeset(order, "shipping", params) |> Nectar.Shipment.Generator.propose
+  def next_changeset(%Order{state: "shipping"} = order, params), do: Order.transition_changeset(order, "tax", params)
+  def next_changeset(%Order{state: "tax"} = order, params),      do: Order.transition_changeset(order, "payment", params)
+  def next_changeset(%Order{state: "payment"} = order, params),  do: Order.transition_changeset(order, "confirmation", params)
+  def next_changeset(%Order{} = order, _params),                 do: order
+
 
   # transitions
   # TODO: autogenerate the transitions
@@ -114,16 +117,16 @@ defmodule Nectar.CheckoutManager do
 
   defp to_state(%Order{} = order, next_state, params) do
     Nectar.Repo.transaction(fn ->
-    {status, model} =
-      order
-      |> Order.transition_changeset(next_state, params)
-      |> before_transition(next_state, params)
-      |> Nectar.Repo.update
+      changes = Nectar.CheckoutManager.next_changeset(order, params)
+      {status, model} =
+        changes
+        |> before_transition(next_state, params)
+        |> Nectar.Repo.update
 
-    case status do
-      :ok -> after_transition(model, params)
-      :error -> Nectar.Repo.rollback model
-    end
+      case status do
+        :ok -> after_transition(model, params)
+        :error -> Nectar.Repo.rollback model
+      end
     end)
   end
 
