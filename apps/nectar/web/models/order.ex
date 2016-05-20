@@ -284,9 +284,9 @@ defmodule Nectar.Order do
 
   def shipping_total(model) do
     Nectar.Repo.one(
-      from shipping_adj in assoc(model, :adjustments),
-      where: not is_nil(shipping_adj.shipping_id),
-      select: sum(shipping_adj.amount)
+      from shipment_adj in assoc(model, :adjustments),
+      where: not is_nil(shipment_adj.shipment_id),
+      select: sum(shipment_adj.amount)
     ) || Decimal.new("0")
   end
 
