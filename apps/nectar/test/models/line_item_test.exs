@@ -254,9 +254,15 @@ defmodule Nectar.LineItemTest do
     CheckoutManager.next(cart, %{"confirm" => true})
   end
 
-  defp valid_shipping_params(_cart) do
+  defp valid_shipping_params(cart) do
     shipping_method_id = create_shipping_methods |> List.first |> Map.get(:id)
-    %{"shipping" => %{"shipping_method_id" => shipping_method_id}}
+    shipment_unit_id =
+      cart
+      |> Repo.preload([:shipment_units])
+      |> Map.get(:shipment_units)
+      |> List.first
+      |> Map.get(:id)
+    %{"shipment_units" => %{ "0" => %{"shipment" => %{"shipping_method_id" => shipping_method_id}, "id" => shipment_unit_id}}}
   end
 
   defp valid_payment_params(_cart) do

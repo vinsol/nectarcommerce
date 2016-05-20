@@ -66,15 +66,13 @@ defmodule Nectar.CheckoutManagerTest do
     assert Enum.count(cart_in_addr_state.shipment_units) >= 1
   end
 
-
   test "move to shipping state missing parameters" do
     cart = setup_cart
     {:ok, cart_in_addr_state} = move_cart_to_address_state(cart)
     {status, order} = CheckoutManager.next(cart_in_addr_state, %{})
     assert status == :error
-    assert order.errors[:shipping] == "can't be blank"
+    assert order.errors[:shipment_units] == "are required"
   end
-
 
   test "move to shipping state valid parameters" do
     {_, c_addr} = move_cart_to_address_state(setup_cart)
@@ -354,9 +352,15 @@ defmodule Nectar.CheckoutManagerTest do
     CheckoutManager.next(cart, %{"confirm" => true})
   end
 
-  defp valid_shipping_params(_cart) do
+  defp valid_shipping_params(cart) do
     shipping_method_id = create_shipping_methods |> List.first |> Map.get(:id)
-    %{"shipping" => %{"shipping_method_id" => shipping_method_id}}
+    shipment_unit_id =
+      cart
+      |> Repo.preload([:shipment_units])
+      |> Map.get(:shipment_units)
+      |> List.first
+      |> Map.get(:id)
+    %{"shipment_units" => %{ "0" => %{"shipment" => %{"shipping_method_id" => shipping_method_id}, "id" => shipment_unit_id}}}
   end
 
   defp valid_payment_params(_cart) do
