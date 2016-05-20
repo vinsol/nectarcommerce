@@ -16,9 +16,9 @@ defmodule Nectar.ShippingCalculator do
       {:ok, server} ->
         GenServer.cast(server, {:calculate})
         receive do
-          {:ok, results} -> aggregate_into_shipping_units(order, results)
+          {:ok, results} -> aggregate_into_shipping_units(results)
         end
-      {:no_shipping_methods} -> aggregate_into_shipping_units(order, [])
+      {:no_shipping_methods} -> %{}
     end
   end
 
@@ -37,12 +37,8 @@ defmodule Nectar.ShippingCalculator do
     shipping_calculator_module(name).calculate_shipping(order)
   end
 
-  def aggregate_into_shipping_units(order, results) do
+  def aggregate_into_shipping_units(results) do
     grouped_results = Enum.group_by(results, &(&1.shipment_unit_id))
-    shipment_units = Enum.map(order.shipment_units, fn (shipment_unit) ->
-      %ShipmentUnit{shipment_unit|proposed_shipments: Map.get(grouped_results, shipment_unit.id, [])}
-    end)
-    %Order{order|shipment_units: shipment_units}
   end
 
 end

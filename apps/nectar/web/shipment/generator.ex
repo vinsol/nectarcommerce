@@ -5,8 +5,8 @@ defmodule Nectar.Shipment.Generator do
   alias Nectar.ShippingCalculator
 
 
-  def propose(%Ecto.Changeset{model: order} = changeset) do
-    %Ecto.Changeset{changeset| model: ShippingCalculator.calculate_applicable_shippings(order)}
+  def propose(order) do
+    ShippingCalculator.calculate_applicable_shippings(order)
   end
   # Shipment Params:
   # {shipment_unit => shipment_method_id}
