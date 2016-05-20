@@ -6,8 +6,13 @@
     <%= inputs_for fship, :shipment, fn fshipment -> %>
       <h4>Select your shipping method for <%=  shipment_details(fship.source.model) %></h4>
       <div class="form-group">
-        <%= label fshipment, :shipping_method_id, "Shipping Method", class: "control-label" %>
-        <%= select fshipment, :shipping_method_id, shipping_method_selection(fship.source) %>
+        <%= if has_shipping_method? fship.source.model do %>
+          <%= label fshipment, :shipping_method_id, "Shipping Method", class: "control-label" %>
+          <%= select fshipment, :shipping_method_id, shipping_method_selection(fship.source), prompt: "Choose your shipping method" %>
+          <%= error_tag fshipment, :shipping_method_id %>
+        <% else %>
+          <div>we cannot deliver these products at this time to your location.</div>
+        <% end %>
       </div>
     <% end %>
     <hr>
