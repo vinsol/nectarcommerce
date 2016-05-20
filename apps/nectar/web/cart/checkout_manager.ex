@@ -14,7 +14,7 @@ defmodule Nectar.CheckoutManager do
 
   def next_changeset(order, params \\ :empty)
   def next_changeset(%Order{state: "cart"} = order, params),     do: Order.transition_changeset(order, "address", params)
-  def next_changeset(%Order{state: "address"} = order, params),  do: Order.transition_changeset(order, "shipping", params) |> Nectar.Shipment.Generator.propose
+  def next_changeset(%Order{state: "address"} = order, params),  do: Order.transition_changeset(order, "shipping", params)
   def next_changeset(%Order{state: "shipping"} = order, params), do: Order.transition_changeset(order, "tax", params)
   def next_changeset(%Order{state: "tax"} = order, params),      do: Order.transition_changeset(order, "payment", params)
   def next_changeset(%Order{state: "payment"} = order, params),  do: Order.transition_changeset(order, "confirmation", params)
@@ -84,6 +84,13 @@ defmodule Nectar.CheckoutManager do
     order
     |> authorize_payment(params)
   end
+
+  def view_data(%Order{state: "address"} = order) do
+    %{
+      proposed_shipments: Nectar.Shipment.Generator.propose(order)
+    }
+  end
+  def view_data(order), do: %{}
 
 
   # default match do nothing just return order

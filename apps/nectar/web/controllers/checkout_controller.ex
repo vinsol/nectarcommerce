@@ -9,18 +9,21 @@ defmodule Nectar.CheckoutController do
   def checkout(conn, _params) do
     order = conn.assigns.current_order
     changeset = CheckoutManager.next_changeset(order)
-    render(conn, "checkout.html", order: order, changeset: changeset)
+    data = CheckoutManager.view_data(order)
+    render(conn, "checkout.html", order: order, changeset: changeset, data: data)
   end
 
   def next(conn, %{"order" => order_params}) do
     order = conn.assigns.current_order
     case CheckoutManager.next(order, order_params) do
       {:error, updated_changeset} ->
-        render(conn, "checkout.html", order: order, changeset: updated_changeset)
+        data = CheckoutManager.view_data(order)
+        render(conn, "checkout.html", order: order, changeset: updated_changeset, data: data)
       {:ok, %Nectar.Order{state: "confirmation"} = updated_order} ->
         redirect(conn, to: order_path(conn, :show, updated_order))
       {:ok, updated_order} ->
-        render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(updated_order))
+        data = CheckoutManager.view_data(updated_order)
+        render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(updated_order), data: data)
     end
   end
 
