@@ -8,7 +8,7 @@ defmodule Nectar.Shipment.Splitter.DoNotSplitTest do
   test "it splits the line items into 1 shipment unit" do
     cart = setup_cart_with_one_product |> Repo.preload([:line_items])
     [shipment_unit] = Nectar.Shipment.Splitter.DoNotSplit.split(cart)
-    Enum.count(shipment_unit.line_items) == Enum.count(cart.line_items)
+    assert Enum.count(shipment_unit.line_items) == Enum.count(cart.line_items)
   end
 
   @product_data %{name: "Sample Product",

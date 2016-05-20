@@ -39,8 +39,8 @@ defmodule Nectar.Admin.OrderController do
     if order do
       order = order
               |> Repo.preload([line_items: [variant: [:product, [option_values: :option_type]]]])
-              |> Repo.preload([shipping: [:shipping_method, :adjustment]])
-              |> Repo.preload([adjustments: [:tax, :shipping]])
+              |> Repo.preload([shipments: [:shipping_method, :adjustment, shipment_unit: [line_items: [variant: [:product, [option_values: :option_type]]]]]])
+              |> Repo.preload([adjustments: [:tax, :shipment]])
               |> Repo.preload([payment: [:payment_method]])
       render(conn, "show.html", order: order)
     else

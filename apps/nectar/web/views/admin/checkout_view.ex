@@ -20,7 +20,7 @@ defmodule Nectar.Admin.CheckoutView do
         to_string(adjustment.amount)
       end,
       content_tag :td do
-        "shipping: #{adjustment.shipping.shipping_method.name}"
+        "shipping: #{adjustment.shipment.shipping_method.name}"
       end]
     end
   end
@@ -74,6 +74,22 @@ defmodule Nectar.Admin.CheckoutView do
 
   def back_link(conn, %Nectar.Order{} = order) do
     link "Back", to: admin_order_checkout_path(conn, :back, order), method: "put", class: "btn btn-xs"
+  end
+
+  def shipment_details(%Nectar.ShipmentUnit{} = shipment_unit) do
+    Enum.reduce(shipment_unit.line_items, "", fn (line_item, acc) ->
+      acc <> line_item.variant.product.name <> ","
+    end)
+  end
+
+  def has_shipping_method?(data, shipment_unit_id) do
+    not is_nil(data.proposed_shipments[shipment_unit_id] )
+  end
+
+  def shipping_method_selection(data, id), do: shipping_method_selection(data.proposed_shipments[id])
+
+  def shipping_method_selection(proposed_shipments) do
+    Enum.map(proposed_shipments, &({&1.shipping_method_name <> " (+#{&1.shipping_cost})", &1.shipping_method_id}))
   end
 
 end
