@@ -341,8 +341,22 @@ defmodule Nectar.Order do
   def shipping_changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(state), ~w())
+    |> ensure_presence_of_shipment_units
     |> cast_assoc(:shipment_units, required: true, with: &Nectar.ShipmentUnit.create_shipment_changeset/2)
   end
+
+  defp ensure_presence_of_shipment_units(%Ecto.Changeset{params: params} = changeset) do
+    unless params["shipment_units"] do
+      add_error(changeset, :shipment_units, "are required")
+    else
+      changeset
+    end
+  end
+
+  defp ensure_presence_of_shipment_units(%Ecto.Changeset{} = changeset) do
+    add_error(changeset, :shipment_units, "are required")
+  end
+
 
   # no changes to be made with tax
   def tax_changeset(model, params \\ :empty) do

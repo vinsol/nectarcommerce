@@ -76,18 +76,15 @@ defmodule Nectar.ShippingCalculatorTest do
   end
 
   @using_calculator ["simple", "provided"]
-  test "shipping calculator run with all applicable calculators returns all" do
-    order = get_order
+  test "shipping calculator run with all applicable calculators returns all with one entry per shipment unit" do
     setup_enabled_calculators(@using_calculator)
-    proposed_shippings = ShippingCalculator.calculate_applicable_shippings(order) |> Map.get(:shipment_units) |> List.first |> Map.get(:proposed_shipments)
-    assert Enum.count(proposed_shippings) == 2
+    assert Enum.count(proposed_shipments(get_order)) == 2
   end
 
   @using_calculator ["simple", "throws_exception"]
   test "shipping calculator run with one exception throwing calculator returns only success" do
-    order = get_order
     setup_enabled_calculators(@using_calculator)
-    proposed_shippings = ShippingCalculator.calculate_applicable_shippings(order) |> Map.get(:shipment_units) |> List.first |> Map.get(:proposed_shipments)
+    proposed_shippings = proposed_shipments(get_order)
     assert Enum.count(proposed_shippings) == 1
     shipping = List.first proposed_shippings
     assert shipping.shipping_method_name == "simple"
@@ -96,9 +93,8 @@ defmodule Nectar.ShippingCalculatorTest do
 
   @using_calculator ["simple", "not_applicable", "throws_exception"]
   test "shipping calculator run with one exception throwing and one not applicable calculator returns only success" do
-    order = get_order
     setup_enabled_calculators(@using_calculator)
-    proposed_shippings = ShippingCalculator.calculate_applicable_shippings(order) |> Map.get(:shipment_units) |> List.first |> Map.get(:proposed_shipments)
+    proposed_shippings = proposed_shipments(get_order)
     assert Enum.count(proposed_shippings) == 1
     shipping = List.first proposed_shippings
     assert shipping.shipping_method_name == "simple"
@@ -107,9 +103,8 @@ defmodule Nectar.ShippingCalculatorTest do
 
   @using_calculator ["simple", "times_out"]
   test "shipping calculator run with one calculator that times out returns only success" do
-    order = get_order
     setup_enabled_calculators(@using_calculator)
-    proposed_shippings = ShippingCalculator.calculate_applicable_shippings(order) |> Map.get(:shipment_units) |> List.first |> Map.get(:proposed_shipments)
+    proposed_shippings = proposed_shipments(get_order)
     assert Enum.count(proposed_shippings) == 1
     shipping = List.first proposed_shippings
     assert shipping.shipping_method_name == "simple"
@@ -117,8 +112,7 @@ defmodule Nectar.ShippingCalculatorTest do
   end
 
   test "if no calculators are enabled it returns an empty list" do
-    order = get_order
-    proposed_shippings = ShippingCalculator.calculate_applicable_shippings(order) |> Map.get(:shipment_units) |> List.first |> Map.get(:proposed_shipments)
+    proposed_shippings = proposed_shipments(get_order)
     assert Enum.count(proposed_shippings) == 0
     assert proposed_shippings == []
   end
@@ -146,6 +140,11 @@ defmodule Nectar.ShippingCalculatorTest do
       ShippingMethod.changeset(%ShippingMethod{}, %{name: name, enabled: true})
       |> Nectar.Repo.insert!
     end)
+  end
+
+  def proposed_shipments(order) do
+    shipment_unit = List.first(order |> Repo.preload([:shipment_units]) |> Map.get(:shipment_units))
+    ShippingCalculator.calculate_applicable_shippings(order) |> Map.get(shipment_unit.id, [])
   end
 
 
