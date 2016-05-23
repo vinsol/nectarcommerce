@@ -66,6 +66,16 @@ defmodule Nectar.CheckoutManagerTest do
     assert Enum.count(cart_in_addr_state.shipment_units) >= 1
   end
 
+  test "move to shipping_state creates shipment units with configured splitter" do
+    Application.put_env(:nectar, :shipment_splitter, Nectar.Shipment.Splitter.SplitAll)
+    cart = setup_cart
+    {:ok, cart_in_addr_state} = move_cart_to_address_state(cart)
+    cart_in_addr_state = cart_in_addr_state |> Repo.preload([:shipment_units])
+    assert Enum.count(cart_in_addr_state.shipment_units) >= 1
+    Application.delete_env(:nectar, :shipment_splitter)
+  end
+
+
   test "move to shipping state missing parameters" do
     cart = setup_cart
     {:ok, cart_in_addr_state} = move_cart_to_address_state(cart)

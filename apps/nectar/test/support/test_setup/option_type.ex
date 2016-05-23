@@ -17,9 +17,9 @@ defmodule Nectar.TestSetup.OptionType do
     ]
   }
 
-  def create_option_type do
-    option_type_changeset = OptionType.changeset(%OptionType{}, @option_type_attrs)
-    option_type = Repo.insert!(option_type_changeset)
-      |> Repo.preload([:option_values])
+  def create_option_type(option_type_attrs \\ @option_type_attrs) do
+    option_type_changeset = OptionType.changeset(%OptionType{}, option_type_attrs)
+    option_type = Repo.insert!(option_type_changeset) |> Repo.preload([:option_values])
   end
+
 end

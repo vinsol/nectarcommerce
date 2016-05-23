@@ -5,10 +5,10 @@ defmodule Nectar.VariantTest do
   alias Nectar.Variant
 
   import Nectar.DateTestHelpers, only: [get_past_date: 0, get_current_date: 0, get_future_date: 1]
-  import Nectar.TestSetup.Variant, only: [create_variant: 0, create_product_with: 1]
+  import Nectar.TestSetup.Variant, only: [create_variant: 0]
 
   import Nectar.TestSetup.OptionType, only: [create_option_type: 0]
-  import Nectar.TestSetup.Product, only: [create_product: 0]
+  import Nectar.TestSetup.Product, only: [create_product: 0, create_product_with: 1]
 
   @variant_attrs %{
     cost_currency: "INR", cost_price: "30", weight: 3, height: 3, width: 3, depth: 3,

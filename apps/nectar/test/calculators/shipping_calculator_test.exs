@@ -1,10 +1,11 @@
 defmodule Nectar.ShippingCalculatorTest do
   use Nectar.ModelCase
 
-  alias Nectar.Order
   alias Nectar.ShippingCalculator
   alias Nectar.ShippingCalculator.Base
-  alias Nectar.ShippingMethod
+  import Nectar.TestSetup.ShippingMethod, only: [create_shipping_methods: 1]
+  import Nectar.TestSetup.ShipmentUnit, only: [create_shipment_units: 0]
+  import Nectar.TestSetup.Order, only: [order_with_shipment_units: 0]
 
   defmodule Simple do
     use Base
@@ -17,7 +18,7 @@ defmodule Nectar.ShippingCalculatorTest do
   defmodule OveriddenShippingRate do
     use Base
 
-    def shipping_rate(order) do
+    def shipping_rate(_shipping_unit) do
       Decimal.new(100)
     end
   end
@@ -25,7 +26,7 @@ defmodule Nectar.ShippingCalculatorTest do
   defmodule ThrowsException do
     use Base
 
-    def shipping_rate(order) do
+    def shipping_rate(_shipping_unit) do
       1/0
     end
   end
@@ -33,7 +34,7 @@ defmodule Nectar.ShippingCalculatorTest do
   defmodule TimesOut do
     use Base
 
-    def shipping_rate(order) do
+    def shipping_rate(_shipping_unit) do
       :timer.sleep(6000)
       Decimal.new(0)
     end
@@ -42,7 +43,7 @@ defmodule Nectar.ShippingCalculatorTest do
   defmodule NotApplicable do
     use Base
 
-    def applicable?(order) do
+    def applicable?(_shipping_unit) do
       false
     end
   end
@@ -77,14 +78,14 @@ defmodule Nectar.ShippingCalculatorTest do
 
   @using_calculator ["simple", "provided"]
   test "shipping calculator run with all applicable calculators returns all with one entry per shipment unit" do
-    setup_enabled_calculators(@using_calculator)
-    assert Enum.count(proposed_shipments(get_order)) == 2
+    create_shipping_methods(@using_calculator)
+    assert Enum.count(proposed_shipments(order_with_shipment_units)) == 2
   end
 
   @using_calculator ["simple", "throws_exception"]
   test "shipping calculator run with one exception throwing calculator returns only success" do
-    setup_enabled_calculators(@using_calculator)
-    proposed_shippings = proposed_shipments(get_order)
+    create_shipping_methods(@using_calculator)
+    proposed_shippings = proposed_shipments(order_with_shipment_units)
     assert Enum.count(proposed_shippings) == 1
     shipping = List.first proposed_shippings
     assert shipping.shipping_method_name == "simple"
@@ -93,8 +94,8 @@ defmodule Nectar.ShippingCalculatorTest do
 
   @using_calculator ["simple", "not_applicable", "throws_exception"]
   test "shipping calculator run with one exception throwing and one not applicable calculator returns only success" do
-    setup_enabled_calculators(@using_calculator)
-    proposed_shippings = proposed_shipments(get_order)
+    create_shipping_methods(@using_calculator)
+    proposed_shippings = proposed_shipments(order_with_shipment_units)
     assert Enum.count(proposed_shippings) == 1
     shipping = List.first proposed_shippings
     assert shipping.shipping_method_name == "simple"
@@ -103,8 +104,8 @@ defmodule Nectar.ShippingCalculatorTest do
 
   @using_calculator ["simple", "times_out"]
   test "shipping calculator run with one calculator that times out returns only success" do
-    setup_enabled_calculators(@using_calculator)
-    proposed_shippings = proposed_shipments(get_order)
+    create_shipping_methods(@using_calculator)
+    proposed_shippings = proposed_shipments(order_with_shipment_units)
     assert Enum.count(proposed_shippings) == 1
     shipping = List.first proposed_shippings
     assert shipping.shipping_method_name == "simple"
@@ -112,40 +113,15 @@ defmodule Nectar.ShippingCalculatorTest do
   end
 
   test "if no calculators are enabled it returns an empty list" do
-    proposed_shippings = proposed_shipments(get_order)
+    proposed_shippings = proposed_shipments(order_with_shipment_units)
     assert Enum.count(proposed_shippings) == 0
     assert proposed_shippings == []
   end
 
-  defp create_shipment_units do
-    %{variant: variant} = Nectar.TestSetup.Variant.create_variant
-
-    variant =
-      variant
-      |> Nectar.Variant.changeset(%{add_count: 3})
-      |> Repo.update!
-
-    order = Order.cart_changeset(%Order{}, %{}) |> Repo.insert!
-    add_to_cart = Nectar.CartManager.add_to_cart(order, %{"variant_id" => variant.id, "quantity" => 3})
-    Nectar.Shipment.Splitter.make_shipment_units(Repo.get(Order, order.id))
-  end
-
-  defp get_order do
-    shipment_units = create_shipment_units
-    order = Repo.get(Order, List.first(shipment_units).order_id)
-  end
-
-  defp setup_enabled_calculators(calculator_names) do
-    Enum.map(calculator_names, fn (name) ->
-      ShippingMethod.changeset(%ShippingMethod{}, %{name: name, enabled: true})
-      |> Nectar.Repo.insert!
-    end)
-  end
-
   def proposed_shipments(order) do
     shipment_unit = List.first(order |> Repo.preload([:shipment_units]) |> Map.get(:shipment_units))
-    ShippingCalculator.calculate_applicable_shippings(order) |> Map.get(shipment_unit.id, [])
+    results = ShippingCalculator.calculate_applicable_shippings(order)
+    results |> Map.get(shipment_unit.id, [])
   end
-
 
 end
