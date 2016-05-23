@@ -62,7 +62,7 @@ defmodule Nectar.CheckoutControllerTest do
     assert html_response(address_page_conn, 200) =~ "Address"
 
     shipping_page_conn = put(conn, checkout_path(conn, :next), order: valid_address_params)
-    assert html_response(shipping_page_conn, 200) =~ "applicable"
+    assert html_response(shipping_page_conn, 200) =~ "we cannot deliver these products at this time to your location."
   end
 
 
@@ -154,9 +154,15 @@ defmodule Nectar.CheckoutControllerTest do
     end)
   end
 
-  defp valid_shipping_params(%Order{"id": _id}) do
+  defp valid_shipping_params(cart) do
     shipping_method_id = create_shipping_methods |> List.first |> Map.get(:id)
-    %{"shipping" => %{"shipping_method_id" => shipping_method_id}}
+    shipment_unit_id =
+      cart
+      |> Repo.preload([:shipment_units])
+      |> Map.get(:shipment_units)
+      |> List.first
+      |> Map.get(:id)
+    %{"shipment_units" => %{ "0" => %{"shipment" => %{"shipping_method_id" => shipping_method_id}, "id" => shipment_unit_id}}}
   end
 
   defp valid_payment_params(%Order{"id": _id}) do

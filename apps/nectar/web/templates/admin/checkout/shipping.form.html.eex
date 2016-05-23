@@ -1,17 +1,22 @@
-<%= if shipping_methods_available? @changeset.model do %>
-  <%= form_for @changeset, @action, fn _ -> %>
-    <h4>Select your shipping method</h4>
-    <select name="order[shipping][shipping_method_id]">
-      <option value="">--Select Shipping Method--</option>
-      <%= for shipping_method <- @changeset.model.applicable_shipping_methods do %>
-        <option value="<%= shipping_method.id %>"><%= shipping_method.name %> (+<%= shipping_method.shipping_cost %>)</option>
-      <% end %>
-    </select>
-    <%= if @changeset.changes[:shipping] do %>
-      <div class="info alert"><%= @changeset.changes.shipping.errors[:shipping_method_id] %></div>
-    <% end %>
-    <%= submit "Next", class: "btn btn-primary" %>
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.changes[:shipping] do %>
+    <div class="info alert"><%= @changeset.changes.shipping.errors[:shipping_method_id] %></div>
   <% end %>
-<% else %>
-  <h4>No shipping methods applicable. Unable to proceed forward</h4>
+  <%= inputs_for f, :shipment_units, fn fship -> %>
+    <%= inputs_for fship, :shipment, fn fshipment -> %>
+      <h4>Select your shipping method for <%=  shipment_details(fship.source.model) %></h4>
+      <div class="form-group">
+        <%= if has_shipping_method?(@data, fship.source.model.id) do %>
+          <%= label fshipment, :shipping_method_id, "Shipping Method", class: "control-label" %>
+          <%= select fshipment, :shipping_method_id, shipping_method_selection(@data, fship.source.model.id), prompt: "Choose your shipping method" %>
+          <%= error_tag fshipment, :shipping_method_id %>
+        <% else %>
+          <div>we cannot deliver these products at this time to your location.</div>
+        <% end %>
+      </div>
+    <% end %>
+    <hr>
+  <% end %>
+
+  <%= submit "Next", class: "btn btn-primary" %>
 <% end %>

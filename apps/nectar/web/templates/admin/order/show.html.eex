@@ -34,21 +34,24 @@
     <% end %>
   </tbody>
 </table>
-
-<%= if @order.shipping do %>
+<%= if @order.shipments do %>
   <h4>Shipping Method</h4>
   <table class="table">
     <thead>
       <tr>
         <td>Name</td>
+        <td>Items</td>
         <td>Cost</td>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td><%=  @order.shipping.shipping_method.name %></td>
-        <td><%=  @order.shipping.adjustment.amount %></td>
-      </tr>
+      <%= for shipment <- @order.shipments do %>
+        <tr>
+          <td><%=  shipment.shipping_method.name %></td>
+          <td><%=  shipment_items(shipment.shipment_unit) %></td>
+          <td><%=  shipment.adjustment.amount %></td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 <% end %>

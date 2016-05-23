@@ -2,6 +2,7 @@ defmodule Nectar.CheckoutManager do
 
   alias Nectar.Order
   alias Nectar.TaxCalculator
+  alias Nectar.Shipment.Splitter
 
   # States:
   # cart -> address -> shipping -> tax -> payment -> confirmation
@@ -10,12 +11,15 @@ defmodule Nectar.CheckoutManager do
                      |> Enum.zip(Enum.drop(@states, 1))
                      |> Enum.reduce(%{}, fn ({frm, to}, acc) -> Map.put_new(acc, frm, to) end)
 
-  def next_changeset(%Order{state: "cart"} = order), do: Order.transition_changeset(order, "address")
-  def next_changeset(%Order{state: "address"} = order), do: Order.transition_changeset(order, "shipping")
-  def next_changeset(%Order{state: "shipping"} = order), do: Order.transition_changeset(order, "tax")
-  def next_changeset(%Order{state: "tax"} = order), do: Order.transition_changeset(order, "payment")
-  def next_changeset(%Order{state: "payment"} = order), do: Order.transition_changeset(order, "confirmation")
-  def next_changeset(%Order{} = order), do: order
+
+  def next_changeset(order, params \\ :empty)
+  def next_changeset(%Order{state: "cart"} = order, params),     do: Order.transition_changeset(order, "address", params)
+  def next_changeset(%Order{state: "address"} = order, params),  do: Order.transition_changeset(order, "shipping", params)
+  def next_changeset(%Order{state: "shipping"} = order, params), do: Order.transition_changeset(order, "tax", params)
+  def next_changeset(%Order{state: "tax"} = order, params),      do: Order.transition_changeset(order, "payment", params)
+  def next_changeset(%Order{state: "payment"} = order, params),  do: Order.transition_changeset(order, "confirmation", params)
+  def next_changeset(%Order{} = order, _params),                 do: order
+
 
   # transitions
   # TODO: autogenerate the transitions
@@ -81,9 +85,22 @@ defmodule Nectar.CheckoutManager do
     |> authorize_payment(params)
   end
 
+  def view_data(%Order{state: "address"} = order) do
+    %{
+      proposed_shipments: Nectar.Shipment.Generator.propose(order)
+    }
+  end
+  def view_data(order), do: %{}
+
 
   # default match do nothing just return order
   def before_transition(order, _to, _data), do: order
+
+  def after_transition(%Order{state: "address"} = order, _params) do
+    order
+    |> Splitter.make_shipment_units
+    order
+  end
 
   def after_transition(%Order{state: "shipping"} = order, _params) do
     order
@@ -107,16 +124,16 @@ defmodule Nectar.CheckoutManager do
 
   defp to_state(%Order{} = order, next_state, params) do
     Nectar.Repo.transaction(fn ->
-    {status, model} =
-      order
-      |> Order.transition_changeset(next_state, params)
-      |> before_transition(next_state, params)
-      |> Nectar.Repo.update
+      changes = Nectar.CheckoutManager.next_changeset(order, params)
+      {status, model} =
+        changes
+        |> before_transition(next_state, params)
+        |> Nectar.Repo.update
 
-    case status do
-      :ok -> after_transition(model, params)
-      :error -> Nectar.Repo.rollback model
-    end
+      case status do
+        :ok -> after_transition(model, params)
+        :error -> Nectar.Repo.rollback model
+      end
     end)
   end
 

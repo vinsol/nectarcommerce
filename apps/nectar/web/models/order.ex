@@ -21,6 +21,8 @@ defmodule Nectar.Order do
 
     # relationships
     has_many :line_items, Nectar.LineItem
+    has_many :shipment_units, Nectar.ShipmentUnit # added for convenience
+    has_many :shipments, through: [:shipment_units, :shipment]
     has_many :adjustments, Nectar.Adjustment
     has_one  :shipping, Nectar.Shipping
     has_many :variants, through: [:line_items, :variant]
@@ -98,7 +100,8 @@ defmodule Nectar.Order do
       order
       |> delete_payments
       |> delete_tax_adjustments
-      |> delete_shippings
+      |> delete_shipments
+      |> delete_shipment_units
       |> delete_addresses
       |> cast(%{state: "cart"}, ~w(state), ~w())
       |> Nectar.Repo.update!
@@ -110,7 +113,7 @@ defmodule Nectar.Order do
       order
       |> delete_payments
       |> delete_tax_adjustments
-      |> delete_shippings
+      |> delete_shipments
       |> cast(%{state: "address"}, ~w(state), ~w())
       |> Nectar.Repo.update!
     end)
@@ -144,10 +147,15 @@ defmodule Nectar.Order do
 
   alias Nectar.Repo
 
-  defp delete_shippings(order) do
-    shipping_ids = Repo.all(from o in assoc(order, :shipping), select: o.id)
-    Repo.delete_all(from o in assoc(order, :adjustments), where: o.shipping_id in ^shipping_ids)
-    Repo.delete_all(from o in assoc(order, :shipping))
+  defp delete_shipments(order) do
+    shipment_ids = Repo.all(from o in assoc(order, :shipments), select: o.id)
+    Repo.delete_all(from o in assoc(order, :adjustments), where: o.shipment_id in ^shipment_ids)
+    order
+  end
+
+  defp delete_shipment_units(order) do
+    shipment_units = Repo.all(from o in assoc(order, :shipment_units))
+    Enum.each(shipment_units, &(Repo.delete &1))
     order
   end
 
@@ -230,13 +238,12 @@ defmodule Nectar.Order do
   end
 
   def with_preloaded_assoc(model, "shipping") do
-    order = Nectar.Repo.get!(Order, model.id) |> Repo.preload([:shipping])
-    %Order{order|applicable_shipping_methods: Nectar.ShippingCalculator.calculate_applicable_shippings(order)}
+    order = Nectar.Repo.get!(Order, model.id) |> Repo.preload([shipment_units: [shipment: [:shipping_method, :adjustment], line_items: [variant: :product]]])
   end
 
   def with_preloaded_assoc(model, "tax") do
     Nectar.Repo.get!(Order, model.id)
-    |> Nectar.Repo.preload([adjustments: [:tax, shipping: :shipping_method]])
+    |> Nectar.Repo.preload([adjustments: [:tax, shipment: :shipping_method]])
   end
 
   def with_preloaded_assoc(model, "payment") do
@@ -277,9 +284,9 @@ defmodule Nectar.Order do
 
   def shipping_total(model) do
     Nectar.Repo.one(
-      from shipping_adj in assoc(model, :adjustments),
-      where: not is_nil(shipping_adj.shipping_id),
-      select: sum(shipping_adj.amount)
+      from shipment_adj in assoc(model, :adjustments),
+      where: not is_nil(shipment_adj.shipment_id),
+      select: sum(shipment_adj.amount)
     ) || Decimal.new("0")
   end
 
@@ -333,18 +340,23 @@ defmodule Nectar.Order do
   # use this to set shipping
   def shipping_changeset(model, params \\ :empty) do
     model
-    |> cast(shipping_params(model, params), @required_fields, @optional_fields)
-    |> cast_assoc(:shipping, required: true, with: &Nectar.Shipping.applicable_shipping_changeset/2)
+    |> cast(params, ~w(state), ~w())
+    |> ensure_presence_of_shipment_units
+    |> cast_assoc(:shipment_units, required: true, with: &Nectar.ShipmentUnit.create_shipment_changeset/2)
   end
 
-  defp shipping_params(_order, %{"shipping" => %{"shipping_method_id" => ""}} = params), do: params
-  defp shipping_params(order, %{"shipping" => shipping_params} = params) do
-    shipping_method = Nectar.Repo.get(Nectar.ShippingMethod, shipping_params["shipping_method_id"])
-    {:ok, shipping_cost} = Nectar.ShippingCalculator.shipping_cost(shipping_method, order)
-    %{params | "shipping" => %{shipping_method_id: shipping_method.id,
-                              adjustment: %{amount: shipping_cost, order_id: order.id}}}
+  defp ensure_presence_of_shipment_units(%Ecto.Changeset{params: params} = changeset) do
+    unless params["shipment_units"] do
+      add_error(changeset, :shipment_units, "are required")
+    else
+      changeset
+    end
   end
-  defp shipping_params(_order, params), do: params
+
+  defp ensure_presence_of_shipment_units(%Ecto.Changeset{} = changeset) do
+    add_error(changeset, :shipment_units, "are required")
+  end
+
 
   # no changes to be made with tax
   def tax_changeset(model, params \\ :empty) do
