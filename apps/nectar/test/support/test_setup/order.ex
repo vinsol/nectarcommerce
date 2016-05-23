@@ -8,4 +8,8 @@ defmodule Nectar.TestSetup.Order do
     Repo.get(Order, List.first(shipment_units).order_id)
   end
 
+  def create_cart do
+    Order.cart_changeset(%Order{}, %{}) |> Repo.insert!
+  end
+
 end

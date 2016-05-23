@@ -9,7 +9,8 @@ defmodule Nectar.TestSetup.Product do
   }
   @master_variant_attrs %{
     master: %{
-      cost_price: "20"
+      cost_price: "20",
+      add_count: 3
     }
   }
   @valid_product_attrs Map.merge(@product_attrs, @master_variant_attrs)

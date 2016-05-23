@@ -8,6 +8,14 @@ defmodule Nectar.CheckoutManagerTest do
   alias Nectar.Product
   alias Nectar.CartManager
 
+  import Nectar.TestSetup.Country,        only: [create_country: 0]
+  import Nectar.TestSetup.State,          only: [create_state: 1]
+  import Nectar.TestSetup.PaymentMethod,  only: [create_payment_methods: 0]
+  import Nectar.TestSetup.ShippingMethod, only: [create_shipping_methods: 0]
+  import Nectar.TestSetup.Tax,            only: [create_taxes: 0]
+  import Nectar.TestSetup.Order,          only: [create_cart: 0]
+  import Nectar.TestSetup.Product,        only: [create_product: 0]
+
   test "assert cart is not empty before each step" do
     cart = setup_cart_without_product
     {status, order} = CheckoutManager.next(cart, %{})
@@ -262,42 +270,21 @@ defmodule Nectar.CheckoutManagerTest do
 
   defp setup_cart_without_product do
     create_shipping_methods
-    create_taxations
+    create_taxes
     create_payment_methods
-    Order.cart_changeset(%Order{}, %{})
-    |> Repo.insert!
+    create_cart
   end
-
-  @product_data %{name: "Sample Product",
-    description: "Sample Product for testing without variant",
-    available_on: Ecto.Date.utc,
-  }
-  @master_cost_price Decimal.new("30.00")
-  @max_master_quantity 3
-  @product_master_variant_data %{
-    master: %{
-      cost_price: @master_cost_price,
-      add_count: @max_master_quantity
-    }
-  }
-  @product_attr Map.merge(@product_data, @product_master_variant_data)
 
   defp setup_cart do
     cart = setup_cart_without_product
     product = create_product
+    master_variant = product.master
     quantity = 2
-    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => product.id, "quantity" => quantity})
+    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => master_variant.id, "quantity" => quantity})
     cart
   end
 
-  defp create_product do
-    product = Product.create_changeset(%Product{}, @product_attr)
-    |> Repo.insert!
-    product.master
-  end
-
   @address_parameters  %{"address_line_1" => "address line 12", "address_line_2" => "address line 22"}
-
   defp valid_address_params do
     address = Dict.merge(@address_parameters, valid_country_and_state_ids)
     %{"order_shipping_address" => address, "order_billing_address" => address}
@@ -308,39 +295,11 @@ defmodule Nectar.CheckoutManagerTest do
   end
 
   defp valid_country_and_state_ids do
-    country =
-      Country.changeset(%Country{}, %{"name" => "Country", "iso" => "Co",
-                                    "iso3" => "Con", "numcode" => "123"})
-      |> Repo.insert!
-    state =
-      State.changeset(%State{}, %{"name" => "State", "abbr" => "ST", "country_id" => country.id})
-      |> Repo.insert!
+    country = create_country
+    state = create_state(country)
     %{"country_id" => country.id, "state_id" => state.id}
   end
 
-  defp create_shipping_methods do
-    shipping_methods = ["regular", "express"]
-    Enum.map(shipping_methods, fn(method_name) ->
-      Nectar.ShippingMethod.changeset(%Nectar.ShippingMethod{}, %{name: method_name})
-      |> Nectar.Repo.insert!
-    end)
-  end
-
-  defp create_taxations do
-    taxes = ["VAT", "GST"]
-    Enum.each(taxes, fn(tax_name) ->
-      Nectar.Tax.changeset(%Nectar.Tax{}, %{name: tax_name})
-      |> Nectar.Repo.insert!
-    end)
-  end
-
-  defp create_payment_methods do
-    payment_methods = ["cheque", "Call With a card"]
-    Enum.map(payment_methods, fn(method_name) ->
-      Nectar.PaymentMethod.changeset(%Nectar.PaymentMethod{}, %{name: method_name})
-      |> Nectar.Repo.insert!
-    end)
-  end
 
   defp move_cart_to_address_state(cart) do
     CheckoutManager.next(cart, valid_address_params)
