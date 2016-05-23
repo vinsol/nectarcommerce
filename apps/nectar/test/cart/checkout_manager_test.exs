@@ -14,7 +14,7 @@ defmodule Nectar.CheckoutManagerTest do
   import Nectar.TestSetup.ShippingMethod, only: [create_shipping_methods: 0]
   import Nectar.TestSetup.Tax,            only: [create_taxes: 0]
   import Nectar.TestSetup.Order,          only: [create_cart: 0]
-  import Nectar.TestSetup.Product,        only: [create_product: 0]
+  import Nectar.TestSetup.Product,        only: [create_product: 0, create_products: 0]
 
   test "assert cart is not empty before each step" do
     cart = setup_cart_without_product
@@ -67,22 +67,38 @@ defmodule Nectar.CheckoutManagerTest do
     assert order.changes[:order_billing_address].errors[:country_id] == "can't be blank"
   end
 
-  test "move to shipping_state creates shipment units" do
+  test "move to shipping_state creates a single shipment units" do
     cart = setup_cart
     {:ok, cart_in_addr_state} = move_cart_to_address_state(cart)
     cart_in_addr_state = cart_in_addr_state |> Repo.preload([:shipment_units])
-    assert Enum.count(cart_in_addr_state.shipment_units) >= 1
+    assert Enum.count(cart_in_addr_state.shipment_units) == 1
   end
+
+  test "move to shipping_state creates a single shipment units for multiple line items by default" do
+    cart = setup_cart_with_multiple_products
+    {:ok, cart_in_addr_state} = move_cart_to_address_state(cart)
+    cart_in_addr_state = cart_in_addr_state |> Repo.preload([:shipment_units])
+    assert Enum.count(cart_in_addr_state.shipment_units) == 1
+  end
+
 
   test "move to shipping_state creates shipment units with configured splitter" do
     Application.put_env(:nectar, :shipment_splitter, Nectar.Shipment.Splitter.SplitAll)
     cart = setup_cart
     {:ok, cart_in_addr_state} = move_cart_to_address_state(cart)
     cart_in_addr_state = cart_in_addr_state |> Repo.preload([:shipment_units])
-    assert Enum.count(cart_in_addr_state.shipment_units) >= 1
+    assert Enum.count(cart_in_addr_state.shipment_units) == 1
     Application.delete_env(:nectar, :shipment_splitter)
   end
 
+  test "move to shipping_state may create multiple shipments with configured splitter" do
+    Application.put_env(:nectar, :shipment_splitter, Nectar.Shipment.Splitter.SplitAll)
+    cart = setup_cart_with_multiple_products
+    {:ok, cart_in_addr_state} = move_cart_to_address_state(cart)
+    cart_in_addr_state = cart_in_addr_state |> Repo.preload([:shipment_units])
+    assert Enum.count(cart_in_addr_state.shipment_units) == 2
+    Application.delete_env(:nectar, :shipment_splitter)
+  end
 
   test "move to shipping state missing parameters" do
     cart = setup_cart
@@ -98,6 +114,17 @@ defmodule Nectar.CheckoutManagerTest do
 
     assert status == :ok
     assert c_shipp.state == "shipping"
+  end
+
+  test "move to shipping state requires shipment details for all shipping units" do
+    Application.put_env(:nectar, :shipment_splitter, Nectar.Shipment.Splitter.SplitAll)
+    {_, c_addr} = move_cart_to_address_state(setup_cart_with_multiple_products)
+    {status, c_shipp} = CheckoutManager.next(c_addr, valid_shipping_params_for_multiple_units(c_addr))
+
+    assert status == :ok
+    assert c_shipp.state == "shipping"
+
+    Application.delete_env(:nectar, :shipment_splitter)
   end
 
   test "move to shipping state valid parameters adds tax adjustments" do
@@ -284,6 +311,16 @@ defmodule Nectar.CheckoutManagerTest do
     cart
   end
 
+  def setup_cart_with_multiple_products do
+    cart = setup_cart_without_product
+    [product1, product2] = create_products
+    [master_variant1, master_variant2] = [product1.master, product2.master]
+    quantity = 2
+    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => master_variant1.id, "quantity" => quantity})
+    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => master_variant2.id, "quantity" => quantity})
+    cart
+  end
+
   @address_parameters  %{"address_line_1" => "address line 12", "address_line_2" => "address line 22"}
   defp valid_address_params do
     address = Dict.merge(@address_parameters, valid_country_and_state_ids)
@@ -330,6 +367,17 @@ defmodule Nectar.CheckoutManagerTest do
       |> List.first
       |> Map.get(:id)
     %{"shipment_units" => %{ "0" => %{"shipment" => %{"shipping_method_id" => shipping_method_id}, "id" => shipment_unit_id}}}
+  end
+
+  defp valid_shipping_params_for_multiple_units(cart) do
+    shipping_method_id = create_shipping_methods |> List.first |> Map.get(:id)
+    shipment_units =
+      cart
+      |> Repo.preload([:shipment_units])
+      |> Map.get(:shipment_units)
+    %{"shipment_units" => Enum.reduce(shipment_units, %{}, fn (shipment_unit, acc) ->
+      Map.put_new(acc, Integer.to_string(shipment_unit.id), %{"shipment" => %{"shipping_method_id" => shipping_method_id}, "id" => shipment_unit.id})
+       end)}
   end
 
   defp valid_payment_params(_cart) do
