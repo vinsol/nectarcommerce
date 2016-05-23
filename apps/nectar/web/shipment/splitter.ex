@@ -8,7 +8,7 @@ defmodule Nectar.Shipment.Splitter do
   end
 
   defp configured_shipment_splitter do
-    Application.get_env(:nectar, :shipping_splitter)
+    Application.get_env(:nectar, :shipment_splitter)
   end
 
 end
