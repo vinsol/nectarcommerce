@@ -17,7 +17,7 @@ defmodule Nectar.OrderBillingAddress do
     extensions
   end
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     if address_id_available? params do
       model
       |> cast(params, ~w(), ~w(order_id address_id))

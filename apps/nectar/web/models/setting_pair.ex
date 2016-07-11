@@ -1,5 +1,5 @@
 defmodule  Nectar.SettingPair do
-  use Ecto.Model
+  use Nectar.Web, :model
 
   embedded_schema do
     field :name
@@ -9,7 +9,7 @@ defmodule  Nectar.SettingPair do
   @required_fields ~w(name)
   @optional_fields ~w(value)
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end

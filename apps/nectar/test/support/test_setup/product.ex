@@ -16,7 +16,9 @@ defmodule Nectar.TestSetup.Product do
   @valid_product_attrs Map.merge(@product_attrs, @master_variant_attrs)
 
   def create_product(product_attrs \\ @valid_product_attrs) do
-    product_changeset = Product.create_changeset(%Product{}, product_attrs)
+    option_type = Nectar.TestSetup.OptionType.create_option_type
+    product_option_type_params = %{product_option_types: [%{option_type_id: option_type.id}]}
+    product_changeset = Product.create_changeset(%Product{}, Map.merge(product_attrs, product_option_type_params))
     product = Repo.insert! product_changeset
     product |> Repo.preload([:product_option_types, :product_categories])
   end
@@ -42,7 +44,6 @@ defmodule Nectar.TestSetup.Product do
     create_product
     |> add_option_types(option_type)
   end
-
 
   def add_option_types(product, option_types) when is_list(option_types) do
     product_option_type_attrs = %{

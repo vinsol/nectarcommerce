@@ -61,23 +61,23 @@ defmodule Nectar.Order do
   def in_cart_state?(%Order{state: "cart"}), do: true
   def in_cart_state?(%Order{state: _}), do: false
 
-  def cart_changeset(model, params \\ :empty) do
+  def cart_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(state), ~w())
   end
 
-  def user_cart_changeset(model, params \\ :empty) do
+  def user_cart_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(state user_id), ~w())
   end
 
-  def cart_update_changeset(model, params \\ :empty) do
+  def cart_update_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(), ~w())
     |> cast_assoc(:line_items, with: &Nectar.LineItem.direct_quantity_update_changeset/2)
   end
 
-  def link_to_user_changeset(model, params \\ :empty) do
+  def link_to_user_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(user_id), ~w())
     |> validate_order_not_confirmed
@@ -229,12 +229,15 @@ defmodule Nectar.Order do
   end
 
   # returns the appropriate changeset required based on the next state
-  def transition_changeset(model, next_state, params \\ :empty) do
+  def transition_changeset(model, next_state, params \\ %{}) do
     case params do
-      :empty -> apply(Nectar.Order, String.to_atom("#{next_state}_changeset"), [with_preloaded_assoc(model, next_state)])
-        _    -> apply(Nectar.Order,
-                      String.to_atom("#{next_state}_changeset"),
-                      [with_preloaded_assoc(model, next_state), Dict.merge(%{"state" => next_state}, params)])
+      %{} = opt when opt == %{} ->
+        apply(Nectar.Order, String.to_atom("#{next_state}_changeset"), [with_preloaded_assoc(model, next_state)])
+
+      _ -> apply(Nectar.Order,
+                 String.to_atom("#{next_state}_changeset"),
+                 [with_preloaded_assoc(model, next_state),
+                  Dict.merge(%{"state" => next_state}, params)])
     end
   end
 
@@ -322,7 +325,7 @@ defmodule Nectar.Order do
     model
   end
 
-  def address_changeset(model, params \\ :empty) do
+  def address_changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> ensure_cart_is_not_empty
@@ -344,7 +347,7 @@ defmodule Nectar.Order do
   end
 
   # use this to set shipping
-  def shipping_changeset(model, params \\ :empty) do
+  def shipping_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(state), ~w())
     |> ensure_presence_of_shipment_units
@@ -365,14 +368,14 @@ defmodule Nectar.Order do
 
 
   # no changes to be made with tax
-  def tax_changeset(model, params \\ :empty) do
+  def tax_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(tax_confirm state), @optional_fields)
     |> validate_tax_confirmed
   end
 
   # select payment method from list of payments
-  def payment_changeset(model, params \\ :empty) do
+  def payment_changeset(model, params \\ %{}) do
     model
     |> cast(payment_params(model, params), @required_fields, @optional_fields)
     |> cast_assoc(:payment, required: true, with: &Nectar.Payment.applicable_payment_changeset/2)
@@ -383,8 +386,6 @@ defmodule Nectar.Order do
     %Ecto.Changeset{model | changes: %{model.changes | payment: payment_changes}}
   end
 
-
-  def payment_params(order, :empty), do: :empty
   def payment_params(order, %{"payment" => %{"payment_method_id" => ""}} = params), do: params
   def payment_params(order, %{"payment" => %{"payment_method_id" => payment_method_id}} = params) do
     %{params|"payment" => %{"payment_method_id" => payment_method_id, "amount" => order.total}}
@@ -392,7 +393,7 @@ defmodule Nectar.Order do
   def payment_params(order, params), do: params
 
   # Check availability and othe stuff here
-  def confirmation_changeset(model, params \\ :empty) do
+  def confirmation_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(confirm state), ~w())
     |> validate_order_confirmed

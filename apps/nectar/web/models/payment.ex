@@ -28,7 +28,7 @@ defmodule Nectar.Payment do
   def refunded?(%Payment{payment_state: "refunded"}), do: true
   def refunded?(%Payment{}), do: false
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end

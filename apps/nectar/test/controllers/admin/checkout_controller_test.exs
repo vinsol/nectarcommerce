@@ -68,17 +68,10 @@ defmodule Nectar.Admin.CheckoutControllerTest do
 
   defp setup_cart do
     cart = setup_cart_without_product
-    product = create_product
+    product = Nectar.TestSetup.Variant.create_variant
     quantity = 2
     {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => product.id, "quantity" => quantity})
     cart
-  end
-
-
-  defp create_product do
-    product = Product.create_changeset(%Product{}, @product_attr)
-    |> Repo.insert!
-    product.master
   end
 
   @address_parameters  %{"address_line_1" => "address line 12", "address_line_2" => "address line 22"}

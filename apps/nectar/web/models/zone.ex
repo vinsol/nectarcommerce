@@ -18,7 +18,7 @@ defmodule Nectar.Zone do
 
   @zone_types ~w(Country State)
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_inclusion(:type, @zone_types)

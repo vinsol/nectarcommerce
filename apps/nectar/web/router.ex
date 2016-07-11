@@ -55,7 +55,7 @@ defmodule Nectar.Router do
     get "/checkout",      CheckoutController, :checkout
     put "/checkout/next", CheckoutController, :next
     put "/checkout/back", CheckoutController, :back
-    resources "categories", CategoryController do
+    resources "/categories", CategoryController do
       get "/products", CategoryController, :associated_products, as: :products
     end
   end
@@ -71,25 +71,25 @@ defmodule Nectar.Router do
       resources "/members", ZoneMemberController, only: [:create, :delete]
     end
 
-    resources "cart", CartController, only: [:new, :edit, :create]
+    resources "/cart", CartController, only: [:new, :edit, :create]
 
     resources "/categories", CategoryController
 
-    resources "orders", OrderController, only: [:index, :show, :update, :edit] do
-      resources "line_items", LineItemController, only: [:create, :delete] do
+    resources "/orders", OrderController, only: [:index, :show, :update, :edit] do
+      resources "/line_items", LineItemController, only: [:create, :delete] do
         put "/update_fullfillment", LineItemController, :update_fullfillment
       end
       get "/checkout", CheckoutController, :checkout
       put "/checkout/next", CheckoutController, :next
       put "/checkout/back", CheckoutController, :back
-      resources "payments", PaymentController, only: [:show] do
+      resources "/payments", PaymentController, only: [:show] do
         put "/refund",  PaymentController, :refund,  as: :refund
         put "/capture", PaymentController, :capture, as: :capture
       end
     end
 
     resources "/users", UserController do
-      get "all_pending_orders", UserController, :all_pending_orders
+      get "/all_pending_orders", UserController, :all_pending_orders
     end
 
     resources "/settings", SettingController, only: [:edit, :update]

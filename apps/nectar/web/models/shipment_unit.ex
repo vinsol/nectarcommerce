@@ -30,7 +30,7 @@ defmodule Nectar.ShipmentUnit do
   with no validation performed.
   """
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(order_id), ~w())
   end
@@ -46,7 +46,7 @@ defmodule Nectar.ShipmentUnit do
     shipment_unit
   end
 
-  def create_shipment_changeset(model, params \\ :empty) do
+  def create_shipment_changeset(model, params \\ %{}) do
     model
     |> cast(params_with_shipping_cost(model, params), ~w(), ~w())
     |> cast_assoc(:shipment, required: true, with: &Nectar.Shipment.create_changeset/2)

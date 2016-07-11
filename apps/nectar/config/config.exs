@@ -28,6 +28,8 @@ config :phoenix, :generators,
   migration: true,
   binary_id: false
 
+config :nectar, ecto_repos: [Nectar.Repo]
+
 config :guardian, Guardian,
   allowed_algos: ["HS512"],
   verify_module: Guardian.JWT,

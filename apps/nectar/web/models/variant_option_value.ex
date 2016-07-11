@@ -20,19 +20,19 @@ defmodule Nectar.VariantOptionValue do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def from_variant_changeset(model, params \\ :empty) do
+  def from_variant_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(option_value_id option_type_id), ~w())
     |> remove_if_not_in_valid_product_option_type
   end
 
   def remove_if_not_in_valid_product_option_type(changeset) do
-    if changeset.model.id do
+    if changeset.data.id do
       variant = Nectar.Repo.get_by(Nectar.Variant, id: changeset.model.variant_id)
                               |> Nectar.Repo.preload(product: :product_option_types)
       product_option_types = variant.product.product_option_types

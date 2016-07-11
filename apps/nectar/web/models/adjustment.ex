@@ -15,7 +15,7 @@ defmodule Nectar.Adjustment do
   @required_fields ~w(amount)
   @optional_fields ~w(shipment_id tax_id order_id)
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end

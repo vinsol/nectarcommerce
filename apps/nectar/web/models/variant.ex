@@ -41,7 +41,7 @@ defmodule Nectar.Variant do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> Validations.Date.validate_not_past_date(:discontinue_on)
@@ -49,7 +49,7 @@ defmodule Nectar.Variant do
     |> update_total_quantity
   end
 
-  def create_master_changeset(model, params \\ :empty) do
+  def create_master_changeset(model, params \\ %{}) do
     cast(model, params, ~w(cost_price), ~w(add_count discontinue_on))
     |> update_total_quantity
     |> put_change(:is_master, true)
@@ -57,7 +57,7 @@ defmodule Nectar.Variant do
     |> cast_attachments(params, ~w(), ~w(image))
   end
 
-  def update_master_changeset(model, params \\ :empty) do
+  def update_master_changeset(model, params \\ %{}) do
     cast(model, params, ~w(cost_price discontinue_on), ~w(add_count))
     |> Validations.Date.validate_not_past_date(:discontinue_on)
     |> validate_discontinue_gt_available_on
@@ -78,7 +78,7 @@ defmodule Nectar.Variant do
     end
   end
 
-  def create_variant_changeset(model, params \\ :empty) do
+  def create_variant_changeset(model, params \\ %{}) do
     changeset(model, params)
     |> validate_discontinue_gt_available_on
     |> put_change(:is_master, false)
@@ -86,7 +86,7 @@ defmodule Nectar.Variant do
     |> cast_assoc(:variant_option_values, required: true, with: &Nectar.VariantOptionValue.from_variant_changeset/2)
   end
 
-  def update_variant_changeset(model, params \\ :empty) do
+  def update_variant_changeset(model, params \\ %{}) do
     changeset(model, params)
     |> validate_discontinue_gt_available_on
     |> validate_not_master
@@ -104,7 +104,7 @@ defmodule Nectar.Variant do
     end
   end
 
-  def buy_changeset(model, params \\ :empty) do
+  def buy_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(buy_count), ~w())
     |> validate_number(:buy_count, greater_than: 0)
@@ -121,7 +121,7 @@ defmodule Nectar.Variant do
   defp update_total_quantity(model) do
     quantity_to_add = model.changes[:add_count]
     if quantity_to_add do
-      put_change(model, :total_quantity, model.model.total_quantity + quantity_to_add)
+      put_change(model, :total_quantity, model.data.total_quantity + quantity_to_add)
     else
       model
     end
@@ -159,7 +159,7 @@ defmodule Nectar.Variant do
   end
 
   defp validate_discontinue_gt_available_on(changeset) do
-    product = changeset.model |> Nectar.Repo.preload([:product]) |> Map.get(:product)
+    product = changeset.data |> Nectar.Repo.preload([:product]) |> Map.get(:product)
     changeset
       |> Validations.Date.validate_gt_date(:discontinue_on, product.available_on)
   end

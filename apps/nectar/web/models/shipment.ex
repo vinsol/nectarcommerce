@@ -17,12 +17,12 @@ defmodule Nectar.Shipment do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def create_changeset(model, params \\ :empty) do
+  def create_changeset(model, params \\ %{}) do
     model
     |> cast(params_with_adjustment(model, params), @required_fields, @optional_fields)
     |> cast_assoc(:adjustment)

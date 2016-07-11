@@ -27,7 +27,7 @@ defmodule Nectar.Address do
 
   # currently called by order's build assoc
   # ensure all other keys are set
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_length(:address_line_1, min: 10)

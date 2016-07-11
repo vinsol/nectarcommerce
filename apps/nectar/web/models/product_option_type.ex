@@ -20,12 +20,12 @@ defmodule Nectar.ProductOptionType do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def from_product_changeset(model, params \\ :empty) do
+  def from_product_changeset(model, params \\ %{}) do
     cast(model, params, ~w(option_type_id), ~w(delete))
     |> set_delete_action
     |> unique_constraint(:option_type_id, name: :unique_product_option_types_index)

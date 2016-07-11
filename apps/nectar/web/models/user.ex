@@ -17,7 +17,7 @@ defmodule Nectar.User do
     timestamps
   end
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(), ~w())
   end
@@ -25,7 +25,7 @@ defmodule Nectar.User do
   @doc """
   Refer Registration changeset
   """
-  def create_changeset(model, params \\ :empty), do: changeset(model, params) |> add_error(:email, "Refer Registration changeset")
+  def create_changeset(model, params \\ %{}), do: changeset(model, params) |> add_error(:email, "Refer Registration changeset")
 
   @doc """
   Updates a user changeset based on the `model` and `params`.
@@ -33,7 +33,7 @@ defmodule Nectar.User do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def update_changeset(model, params \\ :empty) do
+  def update_changeset(model, params \\ %{}) do
     model
     |> cast(params, ~w(email), ~w(name password password_confirmation is_admin))
     |> changeset_helper

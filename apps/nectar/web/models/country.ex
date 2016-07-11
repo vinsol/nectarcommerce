@@ -21,7 +21,7 @@ defmodule Nectar.Country do
   @required_fields ~w(name iso3 iso has_states)
   @optional_fields ~w(numcode iso_name)
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> validate_length(:iso,  is: 2)

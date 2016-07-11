@@ -82,7 +82,7 @@ defmodule Nectar.Admin.OptionTypeControllerTest do
   end
 
   defp do_setup(%{nologin: _} = _context) do
-    {:ok, %{conn: conn}}
+    {:ok, %{conn: build_conn()}}
   end
 
   defp do_setup(_context) do

@@ -26,8 +26,9 @@ defmodule Nectar.ModelCase do
   end
 
   setup tags do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Nectar.Repo)
     unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(Nectar.Repo, [])
+      Ecto.Adapters.SQL.Sandbox.mode(Nectar.Repo, {:shared, self()})
     end
 
     :ok

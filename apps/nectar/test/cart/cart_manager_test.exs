@@ -15,6 +15,7 @@ defmodule Nectar.CartManagerTest do
   @product_data %{name: "Sample Product",
     description: "Sample Product for testing without variant",
     available_on: Ecto.Date.utc,
+    product_option_types: [%{}]
   }
   @max_master_quantity 3
   @master_cost_price Decimal.new("30.00")
@@ -34,7 +35,7 @@ defmodule Nectar.CartManagerTest do
 
   test "add to cart" do
     order = create_order
-    product = create_product
+    product = Nectar.TestSetup.Product.create_product
     quantity = 2
     {status, line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => product.master.id, "quantity" => quantity})
     assert status == :ok

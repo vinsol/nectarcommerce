@@ -16,12 +16,12 @@ defmodule Nectar.Shipping do
   @required_fields ~w(shipping_method_id)
   @optional_fields ~w()
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
 
-  def applicable_shipping_changeset(model, params \\ :empty) do
+  def applicable_shipping_changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> cast_assoc(:adjustment)

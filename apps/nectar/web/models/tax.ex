@@ -11,7 +11,7 @@ defmodule Nectar.Tax do
   @optional_fields ~w()
   @required_fields ~w(name)
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
   end
