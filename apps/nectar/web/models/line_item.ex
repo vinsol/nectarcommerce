@@ -26,10 +26,10 @@ defmodule Nectar.LineItem do
 
   def cancel_fullfillment(%Nectar.LineItem{fullfilled: true} = line_item) do
     Nectar.Repo.transaction(fn ->
-      case line_item
-      |> fullfillment_changeset(%{fullfilled: false})
-      |> Nectar.Repo.update do
+      changeset = fullfillment_changeset(line_item, %{fullfilled: false})
+      case Nectar.Repo.update(changeset) do
         {:ok, line_item} ->
+          line_item = preload_assoc(line_item)
           move_stock(line_item)
           Order.settle_adjustments_and_product_payments(line_item.order)
           line_item
@@ -45,29 +45,41 @@ defmodule Nectar.LineItem do
     |> quantity_changeset(params)
   end
 
+  @required_fields ~w(fullfilled)a
+  @optional_fields ~w()a
   def fullfillment_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(fullfilled), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> ensure_order_is_confirmed
   end
 
+  @required_fields ~w(order_id unit_price)a
+  @optional_fields ~w()a
   def create_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(order_id unit_price), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> foreign_key_constraint(:order_id)
     |> ensure_product_has_no_variants_if_master()
   end
 
+  @required_fields ~w()a
+  @optional_fields ~w(fullfilled add_quantity unit_price)a
   def quantity_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(), ~w(fullfilled add_quantity))
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> add_to_existing_quantity
     |> quantity_update(params)
   end
 
+  @required_fields ~w(quantity)a
+  @optional_fields ~w(delete)a
   def direct_quantity_update_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(quantity), ~w(delete))
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> quantity_update(params)
     |> set_delete_action
   end
@@ -83,9 +95,11 @@ defmodule Nectar.LineItem do
   defp update_total_changeset(model, params) when params == %{}, do: model
   defp update_total_changeset(model, _params) do
     quantity = get_field(model, :quantity)
-    unit_price = get_field(model, :unit_price)
-    cost = Decimal.mult(Decimal.new(quantity), unit_price)
+    unit_price = model.data.variant.cost_price
+    existing_total = get_field(model, :total) || Decimal.new(0)
+    cost = Decimal.add(existing_total, Decimal.mult(Decimal.new(quantity), unit_price))
     put_change(model, :total, cost)
+    |> put_change(:unit_price, unit_price)
   end
 
   defp add_to_existing_quantity(changeset) do

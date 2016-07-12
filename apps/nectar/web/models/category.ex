@@ -13,8 +13,8 @@ defmodule Nectar.Category do
     extensions
   end
 
-  @required_fields ~w(name)
-  @optional_fields ~w(parent_id)
+  @required_fields ~w(name)a
+  @optional_fields ~w(parent_id)a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -24,7 +24,8 @@ defmodule Nectar.Category do
   """
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   def children_changeset(model, params \\ %{}) do

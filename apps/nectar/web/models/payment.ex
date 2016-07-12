@@ -16,8 +16,8 @@ defmodule Nectar.Payment do
 
   @payment_states  ~w(authorized captured refunded)
 
-  @required_fields ~w(payment_method_id amount payment_state)
-  @optional_fields ~w(transaction_id)
+  @required_fields ~w(payment_method_id amount payment_state)a
+  @optional_fields ~w(transaction_id)a
 
   def authorized?(%Payment{payment_state: "authorized"}), do: true
   def authorized?(%Payment{}), do: false
@@ -30,23 +30,32 @@ defmodule Nectar.Payment do
 
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
-  end
-
-  def capture_changeset(model) do
-    model
-    |> cast(%{"payment_state" => "captured"}, ~w(payment_state), ~w())
-  end
-
-  def refund_changeset(model) do
-    model
-    |> cast(%{"payment_state" => "refunded"}, ~w(payment_state), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   # TODO: can we add errors while payment authorisation here ??
   def applicable_payment_changeset(model, params) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+  end
+
+
+  @required_fields ~w(payment_state)a
+  @optional_fields ~w()a
+  def capture_changeset(model) do
+    model
+    |> cast(%{"payment_state" => "captured"}, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+  end
+
+  @required_fields ~w(payment_state)a
+  @optional_fields ~w()a
+  def refund_changeset(model) do
+    model
+    |> cast(%{"payment_state" => "refunded"}, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   def for_order(%Nectar.Order{id: order_id}) do

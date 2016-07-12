@@ -20,8 +20,8 @@ defmodule Nectar.ShipmentUnit do
     extensions
   end
 
-  @required_fields ~w()
-  @optional_fields ~w()
+  @required_fields ~w(order_id)a
+  @optional_fields ~w()a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -32,7 +32,8 @@ defmodule Nectar.ShipmentUnit do
 
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(order_id), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   def create(line_items) do
@@ -46,9 +47,12 @@ defmodule Nectar.ShipmentUnit do
     shipment_unit
   end
 
+  @required_fields ~w()a
+  @optional_fields ~w()a
   def create_shipment_changeset(model, params \\ %{}) do
     model
-    |> cast(params_with_shipping_cost(model, params), ~w(), ~w())
+    |> cast(params_with_shipping_cost(model, params), @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> cast_assoc(:shipment, required: true, with: &Nectar.Shipment.create_changeset/2)
   end
 

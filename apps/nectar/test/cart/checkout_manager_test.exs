@@ -1,11 +1,7 @@
 defmodule Nectar.CheckoutManagerTest do
   use Nectar.ModelCase
 
-  alias Nectar.Order
   alias Nectar.CheckoutManager
-  alias Nectar.Country
-  alias Nectar.State
-  alias Nectar.Product
   alias Nectar.CartManager
 
   import Nectar.TestSetup.Country,        only: [create_country: 0]
@@ -20,22 +16,22 @@ defmodule Nectar.CheckoutManagerTest do
     cart = setup_cart_without_product
     {status, order} = CheckoutManager.next(cart, %{})
     assert status == :error
-    assert order.errors[:line_items] == "Please add some item to your cart to proceed"
+    assert errors_on(order)[:line_items] == "Please add some item to your cart to proceed"
   end
 
   test "move to address state missing parameters" do
     {status, order} = CheckoutManager.next(setup_cart, %{})
     assert status == :error
-    assert order.model.state == "cart"
-    assert order.errors[:order_billing_address] == "can't be blank"
-    assert order.errors[:order_shipping_address] == "can't be blank"
+    assert order.data.state == "cart"
+    assert errors_on(order)[:order_billing_address] == "can't be blank"
+    assert errors_on(order)[:order_shipping_address] == "can't be blank"
   end
 
   test "move to address state invalid parameters" do
     {status, order} = CheckoutManager.next(setup_cart, %{"order_shipping_address" =>  %{"address_line_1" => "asd", "country_id" => 1},
                                                          "order_billing_address" => %{}})
     assert status == :error
-    assert order.model.state == "cart"
+    assert order.data.state == "cart"
     assert order.errors == []
     assert order.changes[:order_shipping_address].errors[:address_line_1] == {"should be at least %{count} character(s)", [count: 10]}
     assert order.changes[:order_billing_address].errors[:country_id] == "can't be blank"
@@ -62,7 +58,7 @@ defmodule Nectar.CheckoutManagerTest do
     {status, order} = CheckoutManager.next(setup_cart, %{"order_shipping_address" =>  %{"address_line_1" => "asd", "country_id" => 1},
                                                          "order_billing_address" => %{}, "same_as_billing" => true})
     assert status == :error
-    assert order.model.state == "cart"
+    assert order.data.state == "cart"
     assert order.errors == []
     assert order.changes[:order_billing_address].errors[:country_id] == "can't be blank"
   end
@@ -105,7 +101,7 @@ defmodule Nectar.CheckoutManagerTest do
     {:ok, cart_in_addr_state} = move_cart_to_address_state(cart)
     {status, order} = CheckoutManager.next(cart_in_addr_state, %{})
     assert status == :error
-    assert order.errors[:shipment_units] == "are required"
+    assert errors_on(order)[:shipment_units] == "are required"
   end
 
   test "move to shipping state valid parameters" do
@@ -139,7 +135,7 @@ defmodule Nectar.CheckoutManagerTest do
     {_, c_shipp} = move_cart_to_shipping_state(c_addr)
     {status, failed_change} = CheckoutManager.next(c_shipp, %{})
     assert status == :error
-    assert failed_change.errors[:tax_confirm] == "Please confirm to proceed"
+    assert errors_on(failed_change)[:tax_confirm] == "Please confirm to proceed"
   end
 
   test "move to tax state valid parameters" do
@@ -184,7 +180,7 @@ defmodule Nectar.CheckoutManagerTest do
     {_status, c_tax} = move_cart_to_tax_state(c_shipp)
     {status, c_payment} = CheckoutManager.next(c_tax, %{})
     assert status == :error
-    assert c_payment.errors[:payment] == "can't be blank"
+    assert errors_on(c_payment)[:payment] == "can't be blank"
   end
 
   test "move to payment state valid parameters" do
@@ -213,7 +209,7 @@ defmodule Nectar.CheckoutManagerTest do
     {_status, c_payment} = move_cart_to_payment_state(c_tax)
     {status,  c_confirm} = CheckoutManager.next(c_payment, %{})
     assert status == :error
-    assert c_confirm.errors[:confirm] == "Please confirm to finalise the order"
+    assert errors_on(c_confirm)[:confirm] == "Please confirm to finalise the order"
   end
 
   test "move to confirmation state valid parameters" do
@@ -342,7 +338,7 @@ defmodule Nectar.CheckoutManagerTest do
   end
 
   defp valid_country_and_state_ids do
-    country = create_country
+    {:ok, country}= create_country
     state = create_state(country)
     %{"country_id" => country.id, "state_id" => state.id}
   end

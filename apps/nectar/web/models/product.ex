@@ -22,8 +22,8 @@ defmodule Nectar.Product do
     timestamps
   end
 
-  @required_fields ~w(name description available_on)
-  @optional_fields ~w(slug)
+  @required_fields ~w(name description available_on)a
+  @optional_fields ~w(slug)a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -38,7 +38,8 @@ defmodule Nectar.Product do
 
   def create_changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> Validations.Date.validate_not_past_date(:available_on)
     |> Nectar.Slug.generate_slug()
     |> cast_assoc(:master, required: true, with: &Nectar.Variant.create_master_changeset/2)
@@ -49,7 +50,8 @@ defmodule Nectar.Product do
 
   def update_changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> Validations.Date.validate_not_past_date(:available_on)
     |> Nectar.Slug.generate_slug()
     |> cast_assoc(:product_categories, with: &Nectar.ProductCategory.from_product_changeset/2)
@@ -62,9 +64,9 @@ defmodule Nectar.Product do
   defp validate_available_on_lt_discontinue_on(changeset) do
     changed_master = get_change(changeset, :master)
     changed_discontinue_on = if changed_master do
-      get_change(changed_master, :discontinue_on) || changed_master.model.discontinue_on
+      get_change(changed_master, :discontinue_on) || changed_master.data.discontinue_on
     else
-      changeset.model.master.discontinue_on
+      changeset.data.master.discontinue_on
     end
     changeset
       |> Validations.Date.validate_lt_date(:available_on, changed_discontinue_on)

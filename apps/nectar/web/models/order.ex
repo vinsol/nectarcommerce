@@ -41,8 +41,8 @@ defmodule Nectar.Order do
     extensions
   end
 
-  @required_fields ~w(state)
-  @optional_fields ~w(slug confirmation_status same_as_billing)
+  @required_fields ~w(state)a
+  @optional_fields ~w(slug confirmation_status same_as_billing)a
 
   @states          ~w(cart address shipping tax payment confirmation)
   @order_states    ~w(confirmed partially_fullfilled fullfilled)
@@ -61,25 +61,56 @@ defmodule Nectar.Order do
   def in_cart_state?(%Order{state: "cart"}), do: true
   def in_cart_state?(%Order{state: _}), do: false
 
+  @required_fields ~w(state)a
+  @optional_fields ~w(same_as_billing)a
+  def address_changeset(model, params \\ %{}) do
+    model
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+    |> ensure_cart_is_not_empty
+    |> cast_assoc(:order_billing_address, required: true)
+    |> duplicate_params_if_same_as_billing
+    |> cast_assoc(:order_shipping_address, required: true)
+  end
+
+  def payment_changeset(model, params \\ %{}) do
+    model
+    |> cast(payment_params(model, params), @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+    |> cast_assoc(:payment, required: true, with: &Nectar.Payment.applicable_payment_changeset/2)
+  end
+
+  @required_fields ~w(state)a
+  @optional_fields ~w()a
   def cart_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(state), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
+  @required_fields ~w(state user_id)a
+  @optional_fields ~w()a
   def user_cart_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(state user_id), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
+  @required_fields ~w()a
+  @optional_fields ~w()a
   def cart_update_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> cast_assoc(:line_items, with: &Nectar.LineItem.direct_quantity_update_changeset/2)
   end
 
+  @required_fields ~w(user_id)a
+  @optional_fields ~w()a
   def link_to_user_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(user_id), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_order_not_confirmed
   end
 
@@ -101,6 +132,8 @@ defmodule Nectar.Order do
     end)
   end
 
+  @required_fields ~w(state)a
+  @optional_fields ~w()a
   def move_back_to_cart_state(order) do
     Nectar.Repo.transaction(fn ->
       order
@@ -109,7 +142,8 @@ defmodule Nectar.Order do
       |> delete_shipments
       |> delete_shipment_units
       |> delete_addresses
-      |> cast(%{state: "cart"}, ~w(state), ~w())
+      |> cast(%{state: "cart"}, @required_fields ++ @optional_fields)
+      |> validate_required(@required_fields)
       |> Nectar.Repo.update!
     end)
   end
@@ -120,7 +154,8 @@ defmodule Nectar.Order do
       |> delete_payments
       |> delete_tax_adjustments
       |> delete_shipments
-      |> cast(%{state: "address"}, ~w(state), ~w())
+      |> cast(%{state: "address"}, @required_fields ++ @optional_fields)
+      |> validate_required(@required_fields)
       |> Nectar.Repo.update!
     end)
   end
@@ -129,7 +164,8 @@ defmodule Nectar.Order do
     Nectar.Repo.transaction(fn ->
       order
       |> delete_payments
-      |> cast(%{state: "shipping"}, ~w(state), ~w())
+      |> cast(%{state: "shipping"}, @required_fields ++ @optional_fields)
+      |> validate_required(@required_fields)
       |> Nectar.Repo.update!
     end)
   end
@@ -138,7 +174,8 @@ defmodule Nectar.Order do
     Nectar.Repo.transaction(fn ->
       order
       |> delete_payments
-      |> cast(%{state: "tax"}, ~w(state), ~w())
+      |> cast(%{state: "tax"}, @required_fields ++ @optional_fields)
+      |> validate_required(@required_fields)
       |> Nectar.Repo.update!
     end)
   end
@@ -146,7 +183,8 @@ defmodule Nectar.Order do
   def move_back_to_payment_state(order) do
     Nectar.Repo.transaction(fn ->
       order
-      |> cast(%{state: "payment"}, ~w(state), ~w())
+      |> cast(%{state: "payment"}, @required_fields ++ @optional_fields)
+      |> validate_required(@required_fields)
       |> Nectar.Repo.update!
     end)
   end
@@ -186,7 +224,19 @@ defmodule Nectar.Order do
 
 
   def confirm_availability(order) do
-    {sufficient_quantity_available, oos_items} = check_if_variants_in_stock(order)
+    {sufficient_quantity_available, oos_items} =
+      Nectar.LineItem
+      |> Nectar.LineItem.in_order(order.data)
+      |> Nectar.Repo.all
+      |> Nectar.Repo.preload(:variant)
+      |> Enum.reduce({true, []}, fn (ln_item, {status, out_of_stock}) ->
+                                   {available, _} = Nectar.LineItem.sufficient_quantity_available?(ln_item)
+                                   if available do
+                                     {status, out_of_stock}
+                                   else
+                                     {false, [ln_item|out_of_stock]}
+                                   end
+                                 end)
     if sufficient_quantity_available do
       order
     else
@@ -270,6 +320,8 @@ defmodule Nectar.Order do
     model
   end
 
+  @required_fields ~w(confirmation_status total product_total)a
+  @optional_fields ~w()a
   def settle_adjustments_and_product_payments(model) do
     adjustment_total = shipping_total(model) |> Decimal.add(tax_total(model))
     product_total = product_total(model)
@@ -277,7 +329,8 @@ defmodule Nectar.Order do
     model
     |> cast(%{total: total, product_total: product_total,
               confirmation_status: can_be_fullfilled?(model)},
-            ~w(confirmation_status total product_total), ~w())
+              @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> Repo.update!
   end
 
@@ -325,15 +378,6 @@ defmodule Nectar.Order do
     model
   end
 
-  def address_changeset(model, params \\ %{}) do
-    model
-    |> cast(params, @required_fields, @optional_fields)
-    |> ensure_cart_is_not_empty
-    |> cast_assoc(:order_billing_address, required: true)
-    |> duplicate_params_if_same_as_billing
-    |> cast_assoc(:order_shipping_address, required: true)
-  end
-
   defp duplicate_params_if_same_as_billing(changeset) do
     same_as_billing = get_field(changeset, :same_as_billing)
     billing_address_changes = changeset.changes[:order_billing_address]
@@ -347,9 +391,12 @@ defmodule Nectar.Order do
   end
 
   # use this to set shipping
+  @required_fields ~w(state)a
+  @optional_fields ~w()a
   def shipping_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(state), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> ensure_presence_of_shipment_units
     |> cast_assoc(:shipment_units, required: true, with: &Nectar.ShipmentUnit.create_shipment_changeset/2)
   end
@@ -368,17 +415,13 @@ defmodule Nectar.Order do
 
 
   # no changes to be made with tax
+  @required_fields ~w(tax_confirm state)a
+  @optional_fields ~w()a
   def tax_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(tax_confirm state), @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_tax_confirmed
-  end
-
-  # select payment method from list of payments
-  def payment_changeset(model, params \\ %{}) do
-    model
-    |> cast(payment_params(model, params), @required_fields, @optional_fields)
-    |> cast_assoc(:payment, required: true, with: &Nectar.Payment.applicable_payment_changeset/2)
   end
 
   def transaction_id_changeset(model, transaction_id) do
@@ -393,9 +436,12 @@ defmodule Nectar.Order do
   def payment_params(order, params), do: params
 
   # Check availability and othe stuff here
+  @required_fields ~w(confirm state)a
+  @optional_fields ~w()
   def confirmation_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(confirm state), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_order_confirmed
   end
 

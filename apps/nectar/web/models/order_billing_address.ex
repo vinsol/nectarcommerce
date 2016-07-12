@@ -17,10 +17,13 @@ defmodule Nectar.OrderBillingAddress do
     extensions
   end
 
+  @required_fields ~w()
+  @optional_fields  ~w(order_id address_id)
   def changeset(model, params \\ %{}) do
     if address_id_available? params do
       model
-      |> cast(params, ~w(), ~w(order_id address_id))
+      |> cast(params, @required_fields ++ @optional_fields)
+      |> validate_required(@required_fields)
     else
       cast_with_address_created_from_params(model, params)
     end

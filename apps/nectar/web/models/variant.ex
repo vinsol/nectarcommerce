@@ -32,8 +32,8 @@ defmodule Nectar.Variant do
     extensions
   end
 
-  @required_fields ~w(is_master discontinue_on cost_price)
-  @optional_fields ~w(sku weight height width depth cost_currency add_count)
+  @required_fields ~w(is_master discontinue_on cost_price)a
+  @optional_fields ~w(sku weight height width depth cost_currency add_count)a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -43,22 +43,31 @@ defmodule Nectar.Variant do
   """
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> Validations.Date.validate_not_past_date(:discontinue_on)
     |> validate_number(:add_count, greater_than: 0)
     |> update_total_quantity
   end
 
+  @required_fields ~w(cost_price)a
+  @optional_fields ~w(add_count discontinue_on)a
   def create_master_changeset(model, params \\ %{}) do
-    cast(model, params, ~w(cost_price), ~w(add_count discontinue_on))
+    model
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> update_total_quantity
     |> put_change(:is_master, true)
     |> validate_number(:add_count, greater_than: 0)
     |> cast_attachments(params, ~w(), ~w(image))
   end
 
+  @required_fields ~w(cost_price discontinue_on)a
+  @optional_fields ~w(add_count)a
   def update_master_changeset(model, params \\ %{}) do
-    cast(model, params, ~w(cost_price discontinue_on), ~w(add_count))
+    model
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> Validations.Date.validate_not_past_date(:discontinue_on)
     |> validate_discontinue_gt_available_on
     |> update_total_quantity
@@ -96,7 +105,7 @@ defmodule Nectar.Variant do
   end
 
   defp validate_not_master(changeset) do
-    if changeset.model.is_master do
+    if changeset.data.is_master do
       add_error(changeset, :is_master, "can't be updated")
       |> add_error(:base, "Please go to Product Edit Page to update master variant")
     else
@@ -104,16 +113,22 @@ defmodule Nectar.Variant do
     end
   end
 
+  @required_fields ~w(buy_count)a
+  @optional_fields ~w()a
   def buy_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(buy_count), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_number(:buy_count, greater_than: 0)
     |> increment_bought_quantity
   end
 
+  @required_fields ~w(restock_count)a
+  @optional_fields ~w()
   def restocking_changeset(model, params) do
     model
-    |> cast(params, ~w(restock_count), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_number(:restock_count, greater_than: 0)
     |> decrement_bought_quantity
   end
@@ -130,7 +145,7 @@ defmodule Nectar.Variant do
   defp increment_bought_quantity(model) do
     quantity_to_add = model.changes[:buy_count]
     if quantity_to_add do
-      put_change(model, :bought_quantity, (model.model.bought_quantity || 0) + quantity_to_add)
+      put_change(model, :bought_quantity, (model.data.bought_quantity || 0) + quantity_to_add)
     else
       model
     end
@@ -139,7 +154,7 @@ defmodule Nectar.Variant do
   defp decrement_bought_quantity(model) do
     quantity_to_subtract = model.changes[:restock_count]
     if quantity_to_subtract do
-      put_change(model, :bought_quantity, (model.model.bought_quantity || 0) - quantity_to_subtract)
+      put_change(model, :bought_quantity, (model.data.bought_quantity || 0) - quantity_to_subtract)
     else
       model
     end

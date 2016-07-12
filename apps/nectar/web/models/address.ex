@@ -21,15 +21,16 @@ defmodule Nectar.Address do
     extensions
   end
 
-  @required_fields ~w(address_line_1 address_line_2 country_id state_id)
-  @optional_fields ~w()
+  @required_fields ~w(address_line_1 address_line_2 country_id state_id)a
+  @optional_fields ~w()a
 
 
   # currently called by order's build assoc
   # ensure all other keys are set
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_length(:address_line_1, min: 10)
     |> validate_length(:address_line_2, min: 10)
     |> foreign_key_constraint(:state_id)

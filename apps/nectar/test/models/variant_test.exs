@@ -1,14 +1,10 @@
 defmodule Nectar.VariantTest do
   use Nectar.ModelCase
 
-  alias Nectar.Product
   alias Nectar.Variant
 
-  import Nectar.DateTestHelpers, only: [get_past_date: 0, get_current_date: 0, get_future_date: 1]
-  import Nectar.TestSetup.Variant, only: [create_variant: 0]
-
-  import Nectar.TestSetup.OptionType, only: [create_option_type: 0]
-  import Nectar.TestSetup.Product, only: [create_product: 0, create_product_with: 1]
+  import Nectar.DateTestHelpers, only: [get_past_date: 0]
+  import Nectar.TestSetup.Product, only: [create_product: 0]
 
   @variant_attrs %{
     cost_currency: "INR", cost_price: "30", weight: 3, height: 3, width: 3, depth: 3,
@@ -17,21 +13,13 @@ defmodule Nectar.VariantTest do
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
-    option_type = create_option_type
-    assert option_type.id
+    product =
+      create_product
+      |> Nectar.Repo.preload([product_option_types:
+                             [option_type: :option_values]])
 
-    product = create_product
-    assert product.id
-
-    product = Product.update_changeset(product, %{
-        product_option_types: [
-          %{option_type_id: option_type.id}
-        ]
-      })
-      |> Repo.update!
-
-    assert product.product_option_types
-
+    [product_option_type] = product.product_option_types
+    option_type = product_option_type.option_type
     last_option_value = Enum.at(option_type.option_values, 1)
     assert last_option_value
 
@@ -52,15 +40,14 @@ defmodule Nectar.VariantTest do
   end
 
   test "changeset with invalid attributes" do
-    option_type = create_option_type
-    assert option_type.id
+    product =
+      create_product
+      |> Nectar.Repo.preload([product_option_types:
+                             [option_type: :option_values]])
 
-    product = create_product_with(option_type)
-    assert product.id
-    assert product.product_option_types
-
+    [product_option_type] = product.product_option_types
+    option_type = product_option_type.option_type
     last_option_value = Enum.at(option_type.option_values, 1)
-    assert last_option_value
 
     changeset = product
       |> build_assoc(:variants)
@@ -79,15 +66,14 @@ defmodule Nectar.VariantTest do
   end
 
   test "Create: Discontinue on should not be past date and greater than product available_on" do
-    option_type = create_option_type
-    assert option_type.id
+    product =
+      create_product
+      |> Nectar.Repo.preload([product_option_types:
+                             [option_type: :option_values]])
 
-    product = create_product_with(option_type)
-    assert product.id
-    assert product.product_option_types
-
+    [product_option_type] = product.product_option_types
+    option_type = product_option_type.option_type
     last_option_value = Enum.at(option_type.option_values, 1)
-    assert last_option_value
 
     changeset = product
       |> build_assoc(:variants)
@@ -103,16 +89,12 @@ defmodule Nectar.VariantTest do
         })
       )
 
-    assert changeset.errors == [discontinue_on: "should be greater or same as #{Ecto.Date.utc}", discontinue_on: "can not be past date"]
+    assert errors_on(changeset) == [discontinue_on: "should be greater or same as #{Ecto.Date.utc}", discontinue_on: "can not be past date"]
   end
 
   test "Update: Discontinue on should not be past date and greater than product available_on" do
-    %{product: product, variant: variant, option_type: _option_type} = create_variant
-
-    assert product.id
-    assert variant.id
-
+    variant = Nectar.TestSetup.Variant.create_variant
     changeset = Variant.update_variant_changeset(variant, %{"discontinue_on" => get_past_date})
-    assert changeset.errors == [discontinue_on: "should be greater or same as #{Ecto.Date.utc}", discontinue_on: "can not be past date"]
+    assert errors_on(changeset) == [discontinue_on: "should be greater or same as #{Ecto.Date.utc}", discontinue_on: "can not be past date"]
   end
 end

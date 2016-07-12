@@ -8,12 +8,13 @@ defmodule Nectar.Setting do
     extensions
   end
 
-  @required_fields ~w(name)
-  @optional_fields ~w(slug)
+  @required_fields ~w(name)a
+  @optional_fields ~w(slug)a
 
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> generate_slug()
     |> cast_embed(:settings)
   end

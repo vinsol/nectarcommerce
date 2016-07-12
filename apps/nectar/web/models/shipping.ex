@@ -13,17 +13,19 @@ defmodule Nectar.Shipping do
 
   @shipping_states ~w(shipment_created pending shipped received return_initiated picked_up return_received)
 
-  @required_fields ~w(shipping_method_id)
-  @optional_fields ~w()
+  @required_fields ~w(shipping_method_id)a
+  @optional_fields ~w()a
 
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   def applicable_shipping_changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> cast_assoc(:adjustment)
     |> foreign_key_constraint(:shipping_method_id)
   end

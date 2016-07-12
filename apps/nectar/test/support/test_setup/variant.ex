@@ -31,8 +31,14 @@ defmodule Nectar.TestSetup.Variant do
   end
 
   def create_variant do
-    option_type = TestSetup.OptionType.create_option_type
-    product = TestSetup.Product.create_product_with_option_type(TestSetup.Product.default_product_attrs, option_type)
+    product =
+      Nectar.TestSetup.Product.create_product
+      |> Nectar.Repo.preload([product_option_types:
+                             [option_type: :option_values]])
+
+    [product_option_type] = product.product_option_types
+    option_type = product_option_type.option_type
+
     valid_variant_with_option_value_attrs = get_valid_variant_params(option_type)
 
     variant =
@@ -41,7 +47,20 @@ defmodule Nectar.TestSetup.Variant do
       |> Variant.create_variant_changeset(valid_variant_with_option_value_attrs)
       |> Repo.insert!
 
-    %{product: product, variant: variant, option_type: option_type}
+    variant
+  end
+
+  def add_variant(product) do
+    option_type =
+      product
+      |> Nectar.Repo.preload([option_types: :option_values])
+      |> Map.get(:option_types)
+      |> List.first
+    valid_variant_with_option_value_attrs = get_valid_variant_params(option_type)
+    product
+    |> build_assoc(:variants)
+    |> Variant.create_variant_changeset(valid_variant_with_option_value_attrs)
+    |> Repo.insert
   end
 
   def add_quantity(variant, quantity) do

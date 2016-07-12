@@ -13,14 +13,15 @@ defmodule Nectar.Zone do
     extensions
   end
 
-  @required_fields ~w(name description type)
-  @optional_fields ~w()
+  @required_fields ~w(name description type)a
+  @optional_fields ~w()a
 
   @zone_types ~w(Country State)
 
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_inclusion(:type, @zone_types)
   end
 

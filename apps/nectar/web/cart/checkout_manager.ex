@@ -153,7 +153,7 @@ defmodule Nectar.CheckoutManager do
 
   defp do_authorize_payment(order, selected_payment_id, payment_method_params) do
     # in case payment fails add the error message to changeset to prevent it from moving to next state.
-    case Nectar.Gateway.authorize_payment(order.model, selected_payment_id, payment_method_params) do
+    case Nectar.Gateway.authorize_payment(order.data, selected_payment_id, payment_method_params) do
       {:ok, transaction_id}   -> order |> Order.transaction_id_changeset(transaction_id)
       {:error, error_message} -> order |> Ecto.Changeset.add_error(:payment, error_message)
     end

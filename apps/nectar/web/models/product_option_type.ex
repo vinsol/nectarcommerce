@@ -11,8 +11,8 @@ defmodule Nectar.ProductOptionType do
     extensions
   end
 
-  @required_fields ~w(product_id option_type_id)
-  @optional_fields ~w()
+  @required_fields ~w(product_id option_type_id)a
+  @optional_fields ~w()a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -22,7 +22,8 @@ defmodule Nectar.ProductOptionType do
   """
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   def from_product_changeset(model, params \\ %{}) do

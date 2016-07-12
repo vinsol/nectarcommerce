@@ -8,12 +8,13 @@ defmodule Nectar.Tax do
     extensions
   end
 
-  @optional_fields ~w()
-  @required_fields ~w(name)
+  @optional_fields ~w()a
+  @required_fields ~w(name)a
 
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
 end

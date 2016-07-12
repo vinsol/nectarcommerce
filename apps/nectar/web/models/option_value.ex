@@ -13,8 +13,8 @@ defmodule Nectar.OptionValue do
     extensions
   end
 
-  @required_fields ~w(name presentation)
-  @optional_fields ~w(delete)
+  @required_fields ~w(name presentation)a
+  @optional_fields ~w(delete)a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -24,7 +24,8 @@ defmodule Nectar.OptionValue do
   """
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> unique_constraint(:name, name: :option_values_name_option_type_index)
     |> set_delete_action
   end

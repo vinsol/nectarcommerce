@@ -8,8 +8,8 @@ defmodule Nectar.Shipment do
     timestamps
   end
 
-  @required_fields ~w(shipping_method_id)
-  @optional_fields ~w()
+  @required_fields ~w(shipping_method_id)a
+  @optional_fields ~w()a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -19,12 +19,14 @@ defmodule Nectar.Shipment do
   """
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   def create_changeset(model, params \\ %{}) do
     model
-    |> cast(params_with_adjustment(model, params), @required_fields, @optional_fields)
+    |> cast(params_with_adjustment(model, params), @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> cast_assoc(:adjustment)
   end
 

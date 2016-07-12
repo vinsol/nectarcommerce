@@ -8,9 +8,12 @@ defmodule Nectar.UserAddress do
     extensions
   end
 
+  @required_fields ~w()a
+  @optional_fields ~w(user_id address_id)a
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, ~w(), ~w(user_id address_id))
+    |> cast(params, ~w(), @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
 end

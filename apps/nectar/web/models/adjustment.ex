@@ -12,12 +12,13 @@ defmodule Nectar.Adjustment do
     extensions
   end
 
-  @required_fields ~w(amount)
-  @optional_fields ~w(shipment_id tax_id order_id)
+  @required_fields ~w(amount)a
+  @optional_fields ~w(shipment_id tax_id order_id)a
 
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   def for_order(%Nectar.Order{id: order_id}) do

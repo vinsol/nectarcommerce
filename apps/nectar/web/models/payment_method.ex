@@ -9,12 +9,13 @@ defmodule Nectar.PaymentMethod do
     extensions
   end
 
-  @required_fields ~w(name)
-  @optional_fields ~w(enabled)
+  @required_fields ~w(name)a
+  @optional_fields ~w(enabled)a
 
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   def enabled_payment_methods do

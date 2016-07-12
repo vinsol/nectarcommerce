@@ -64,7 +64,8 @@ defmodule Nectar.Admin.VariantControllerTest do
     assert html_response(conn, 200) =~ "Listing variants"
   end
 
-  @tag :no_product_option_types
+  # @tag :no_product_option_types, cannot do this since option type is required while creating the product
+  @tag :pending
   test "redirects to listing when no ProductOptionTypes present", %{conn: conn, product: product} do
     conn = get conn, admin_product_variant_path(conn, :new, product)
     assert html_response(conn, 302)
@@ -146,34 +147,22 @@ defmodule Nectar.Admin.VariantControllerTest do
   end
 
   defp do_setup(%{nologin: _} = _context) do
-    product_changeset = Product.create_changeset(%Product{}, @valid_product_attrs)
-    product = Repo.insert! product_changeset
-    {:ok, %{conn: conn, product: product}}
+    product = Nectar.TestSetup.Product.create_product
+    {:ok, %{conn: build_conn, product: product}}
   end
 
   defp do_setup(%{no_product_option_types: _} = _context) do
-    product_changeset = Product.create_changeset(%Product{}, @valid_product_attrs)
-    product = Repo.insert! product_changeset
+    product = Nectar.TestSetup.Product.create_product
     admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
     conn = guardian_login(admin_user, :token, key: :admin)
     {:ok, %{conn: conn, product: product}}
   end
 
   defp do_setup(_context) do
-    option_type_changeset = OptionType.changeset(%OptionType{}, @option_type_attrs)
-    option_type = Repo.insert!(option_type_changeset) |> Repo.preload([:option_values])
-    product_option_type_attrs = %{
-      product_option_types: [
-        %{
-          option_type_id: option_type.id
-        }
-      ]
-    }
-    valid_product_with_option_type_attrs = Map.merge(@valid_product_attrs, product_option_type_attrs)
-    product_changeset = Product.create_changeset(%Product{}, valid_product_with_option_type_attrs)
-    product = Repo.insert! product_changeset
+    product = Nectar.TestSetup.Product.create_product |> Nectar.Repo.preload([product_option_types: [option_type: :option_values]])
     admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
     conn = guardian_login(admin_user, :token, key: :admin)
+    option_type = product |> Map.get(:product_option_types) |> List.first |> Map.get(:option_type)
     {:ok, %{conn: conn, product: product, option_type: option_type}}
   end
 

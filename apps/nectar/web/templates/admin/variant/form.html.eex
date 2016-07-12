@@ -14,7 +14,7 @@
         <% required_option_values = Nectar.Repo.all(
           from o in Nectar.OptionValue,
           preload: [:option_type],
-          where: o.option_type_id == ^(vo.source.model.option_type_id || vo.source.changes.option_type_id))
+          where: o.option_type_id == ^(vo.source.data.option_type_id || vo.source.changes.option_type_id))
         %>
         <%= label vo, :option_value_id, option_name(required_option_values), class: "control-label" %>
         <%= select vo, :option_value_id, required_option_values |> Enum.map(fn(x) -> {x.name, x.id} end), class: "form-control" %>
@@ -75,7 +75,7 @@
     <%= error_tag f, :cost_price %>
   </div>
 
-  <%= if f.model.id do %>
+  <%= if f.data.id do %>
     <div class="form-group">
       <%= label f, :image, class: "control-label" %>
       <%= file_input f, :image, class: "form-control" %>

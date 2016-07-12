@@ -12,8 +12,8 @@ defmodule Nectar.OptionType do
     extensions
   end
 
-  @required_fields ~w(name presentation)
-  @optional_fields ~w()
+  @required_fields ~w(name presentation)a
+  @optional_fields ~w()a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -23,7 +23,8 @@ defmodule Nectar.OptionType do
   """
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> cast_assoc(:option_values, required: true)
     |> unique_constraint(:name)
   end
