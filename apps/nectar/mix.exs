@@ -53,7 +53,7 @@ defmodule Nectar.Mixfile do
       {:ex_aws, "~> 0.4.10"},
       {:arc_ecto, "~> 0.3.2"},
       {:commerce_billing, github: "nimish-mehta/commerce_billing",  override: true},
-      {:braintree, "~> 0.3.2"},
+      {:braintree, "~> 0.5.0"},
       {:yamerl, github: "yakaz/yamerl"},
       {:worldly, "~> 0.1.2"}
     ]
