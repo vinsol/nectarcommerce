@@ -24,7 +24,6 @@ defmodule Nectar.Address do
   @required_fields ~w(address_line_1 address_line_2 country_id state_id)a
   @optional_fields ~w()a
 
-
   # currently called by order's build assoc
   # ensure all other keys are set
   def changeset(model, params \\ %{}) do

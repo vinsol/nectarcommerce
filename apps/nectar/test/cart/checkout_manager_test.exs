@@ -28,11 +28,11 @@ defmodule Nectar.CheckoutManagerTest do
   end
 
   test "move to address state invalid parameters" do
-    {status, order} = CheckoutManager.next(setup_cart, %{"order_shipping_address" =>  %{"address_line_1" => "asd", "country_id" => 1},
+    {status, order} = CheckoutManager.next(setup_cart, %{"order_shipping_address" =>  %{"address" => %{"address_line_1" => "asd", "country_id" => 1}},
                                                          "order_billing_address" => %{}})
     assert status == :error
     assert order.data.state == "cart"
-    assert order.errors == []
+    assert errors_on(order) == []
     assert order.changes[:order_shipping_address].errors[:address_line_1] == {"should be at least %{count} character(s)", [count: 10]}
     assert order.changes[:order_billing_address].errors[:country_id] == "can't be blank"
   end

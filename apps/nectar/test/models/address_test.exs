@@ -1,5 +1,5 @@
 defmodule Nectar.AddressTest do
-  use Nectar.ModelCase
+  use Nectar.ModelCase, async: true
   alias Nectar.Address
   alias Nectar.TestSetup
 
@@ -13,6 +13,15 @@ defmodule Nectar.AddressTest do
       ~w(order_shipping_addresses shipping_order state country)a
 
     has_associations Address, assocs
+
+    belongs_to? Address, :state,                    via:     Nectar.State
+    belongs_to? Address, :country,                  via:     Nectar.Country
+    has_one?    Address, :user_address,             via:     Nectar.UserAddress
+    has_one?    Address, :user,                     through: [:user_address,:user]
+    has_many?   Address, :order_billing_addresses,  via:     Nectar.OrderBillingAddress
+    has_many?   Address, :billing_orders,           through: [:order_billing_addresses,:order]
+    has_many?   Address, :order_shipping_addresses, via:     Nectar.OrderShippingAddress
+    has_many?   Address, :shipping_order,           through: [:order_shipping_addresses,:order]
   end
 
   describe "validations" do
@@ -36,24 +45,4 @@ defmodule Nectar.AddressTest do
       refute changeset.valid?
     end
   end
-
-  describe "db validations" do
-    test "insert fails when country id and state id not present in db" do
-      changeset = Address.changeset(%Address{}, TestSetup.Address.valid_attrs)
-      assert changeset.valid?
-      {status, updated_changeset} = Repo.insert changeset
-      assert status == :error
-      refute updated_changeset.valid?
-      assert updated_changeset.errors[:state_id] == {"does not exist", []}
-    end
-
-    test "insert succeeds when country id and state id present in db" do
-      changeset = Address.changeset(%Address{}, TestSetup.Address.valid_attrs_with_country_and_state!)
-      assert changeset.valid?
-      {status, _} = Repo.insert changeset
-      assert status == :ok
-      assert Enum.count(Repo.all(Address))  == 1
-    end
-  end
-
 end
