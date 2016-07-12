@@ -124,7 +124,7 @@ defmodule Nectar.Order do
 
   # cancelling all line items will automatically cancel the order.
   def cancel_order(model) do
-    Repo.transaction(fn ->
+    Nectar.Repo.transaction(fn ->
       model
       |> Nectar.Repo.preload([:line_items])
       |> Map.get(:line_items)
