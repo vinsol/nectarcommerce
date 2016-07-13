@@ -7,13 +7,12 @@ defmodule Nectar.SessionController do
   plug :scrub_params, "user" when action in [:create]
 
   def new(conn, _params) do
-    changeset = User.changeset(%User{})
+    changeset = User.login_changeset(%User{})
     render conn, "new.html", changeset: changeset
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params)
-    case Session.user_login(changeset, Repo) do
+    case Nectar.Command.User.login(Repo, user_params) do
       {:ok, user} ->
         conn
         |> Guardian.Plug.sign_in(user)

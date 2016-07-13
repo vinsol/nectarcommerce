@@ -1,8 +1,6 @@
 defmodule Nectar.Admin.CartController do
   use Nectar.Web, :admin_controller
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   alias Nectar.Repo
   alias Nectar.LineItem
   alias Nectar.Product

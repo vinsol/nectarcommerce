@@ -1,8 +1,6 @@
 defmodule Nectar.Admin.SettingController do
   use Nectar.Web, :admin_controller
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   alias Nectar.Setting
 
   def edit(conn, %{"id" => slug}) do

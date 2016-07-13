@@ -7,7 +7,7 @@ defmodule Nectar.User do
     field :encrypted_password, :string
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
-    field :is_admin, :boolean
+    field :is_admin, :boolean, default: false
 
     has_many :orders, Nectar.Order
     has_many :user_addresses, Nectar.UserAddress
@@ -17,48 +17,58 @@ defmodule Nectar.User do
     timestamps
   end
 
+  def admin?(%__MODULE__{is_admin: is_admin}), do: is_admin
+
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(), ~w())
+    |> cast(params, ~w(email name password password_confirmation is_admin))
+    |> shared_validations
+    |> password_confirm_and_set_hashed
   end
 
-  @doc """
-  Refer Registration changeset
-  """
-  def create_changeset(model, params \\ %{}), do: changeset(model, params) |> add_error(:email, "Refer Registration changeset")
-
-  @doc """
-  Updates a user changeset based on the `model` and `params`.
-
-  If no params are provided, an invalid changeset is returned
-  with no validation performed.
-  """
-  def update_changeset(model, params \\ %{}) do
+  def login_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(email), ~w(name password password_confirmation is_admin))
-    |> changeset_helper
+    |> cast(params, ~w(email password))
+    |> validate_required(~w(email password)a)
+    |> shared_validations
   end
 
-  def changeset_helper(changeset) do
+  def registration_changeset(model, params \\ %{}) do
+    model
+    |> cast(params, ~w(email password password_confirmation))
+    |> validate_required(~w(email password password_confirmation)a)
+    |> shared_validations
+    |> password_confirm_and_set_hashed
+  end
+
+  defp password_confirm_and_set_hashed(changeset) do
     changeset
     |> validate_confirmation(:password, message: "password does not match")
-    |> validate_format(:email, ~r/@/)
-    |> validate_length(:password, min: 5)
-    |> unique_constraint(:email)
     |> set_hashed_password
   end
 
-  # Changing pattern match to valid?: instead of errors:
-  # would fail for more than one error also :(
-  # Passing no params to changeset, results in valid? to be false
-  # should not be a problem here but good to know as could lead to some edge case :P
-  # Intent is to not perform hashing if changeset is invalid
-  defp set_hashed_password(changeset = %{valid?: false}), do: changeset
-  defp set_hashed_password(changeset = %{params: %{"password" => password}}) when password != "" and not(is_nil(password)) do
-    changeset
-    |> put_change(:encrypted_password, Comeonin.Bcrypt.hashpwsalt(password))
+  def admin_registration_changeset(model, params \\ %{}) do
+    registration_changeset(model, params)
+    |> put_change(:is_admin, true)
   end
-  # No Error added as create_changeset makes password mandatory in cast
-  # but update_changeset can ignore
-  defp set_hashed_password(changeset), do: changeset
+
+  defp shared_validations(changeset) do
+    changeset
+    |> validate_required(~w(email)a)
+    |> validate_format(:email, ~r/@/)
+    |> validate_length(:password, min: 5)
+    |> unique_constraint(:email)
+  end
+
+  # Do not hash if changeset is invalid
+  defp set_hashed_password(changeset = %{valid?: false}), do: changeset
+  defp set_hashed_password(changeset) do
+    password = get_change(changeset, :password)
+    if password do
+      changeset
+      |> put_change(:encrypted_password, Comeonin.Bcrypt.hashpwsalt(password))
+    else
+      changeset
+    end
+  end
 end

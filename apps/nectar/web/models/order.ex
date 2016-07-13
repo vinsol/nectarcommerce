@@ -115,7 +115,7 @@ defmodule Nectar.Order do
   end
 
   defp validate_order_not_confirmed(changeset) do
-    if confirmed? changeset.model do
+    if confirmed? changeset.data do
       add_error(changeset, :order, "Cannot update confirmed order")
     else
       changeset

@@ -4,12 +4,10 @@ defmodule Nectar.Admin.UserController do
   alias Nectar.User
   alias Nectar.User.Registration
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   plug :scrub_params, "user" when action in [:create, :update]
 
   def index(conn, _params) do
-    users = Repo.all(User)
+    users = Nectar.Query.User.all(Repo)
     render(conn, "index.html", users: users)
   end
 
@@ -19,9 +17,7 @@ defmodule Nectar.Admin.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = Registration.admin_changeset(%User{}, user_params)
-
-    case Repo.insert(changeset) do
+    case Nectar.Command.User.insert(Repo, user_params) do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "User created successfully.")
@@ -32,19 +28,19 @@ defmodule Nectar.Admin.UserController do
   end
 
   def show(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
+    user = Nectar.Query.User.get!(Repo, id)
     render(conn, "show.html", user: user)
   end
 
   def edit(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
+    user = Nectar.Query.User.get!(Repo, id)
     changeset = User.changeset(user)
     render(conn, "edit.html", user: user, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "user" => user_params}) do
-    user = Repo.get!(User, id)
-    changeset = User.update_changeset(user, user_params)
+    user = Nectar.Query.User.get!(Repo, id)
+    changeset = User.changeset(user, user_params)
 
     case Repo.update(changeset) do
       {:ok, user} ->
@@ -57,11 +53,10 @@ defmodule Nectar.Admin.UserController do
   end
 
   def delete(conn, %{"id" => id}) do
-    user = Repo.get!(User, id)
-
+    user = Nectar.Query.User.get!(Repo, id)
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(user)
+    Nectar.Command.User.delete!(Repo, user)
 
     conn
     |> put_flash(:info, "User deleted successfully.")
@@ -69,7 +64,7 @@ defmodule Nectar.Admin.UserController do
   end
 
   def all_pending_orders(conn, %{"user_id" => id}) do
-    user = Repo.get!(User, id)
+    user = Nectar.Query.User.get!(Repo, id)
     orders = Repo.all Nectar.Order.all_abandoned_orders_for(user)
     render(conn, "pending_orders.json",  orders: orders)
   end

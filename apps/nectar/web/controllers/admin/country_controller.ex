@@ -1,8 +1,6 @@
 defmodule Nectar.Admin.CountryController do
   use Nectar.Web, :admin_controller
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   alias Nectar.Country
 
   plug :scrub_params, "country" when action in [:create, :update]

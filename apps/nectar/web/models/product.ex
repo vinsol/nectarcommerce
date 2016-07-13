@@ -33,7 +33,8 @@ defmodule Nectar.Product do
   """
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   def create_changeset(model, params \\ %{}) do
@@ -70,50 +71,6 @@ defmodule Nectar.Product do
     end
     changeset
       |> Validations.Date.validate_lt_date(:available_on, changed_discontinue_on)
-  end
-
-  def has_variants_excluding_master?(product) do
-    Nectar.Repo.one(from variant in all_variants(product), select: count(variant.id)) > 0
-  end
-
-  def variant_count(product) do
-    Nectar.Repo.one(from variant in all_variants_including_master(product), select: count(variant.id))
-  end
-
-  def master_variant(model) do
-    from variant in all_variants_including_master(model), where: variant.is_master
-  end
-
-  def all_variants(model) do
-    from variant in all_variants_including_master(model), where: not(variant.is_master)
-  end
-
-  def all_variants_including_master(model) do
-    from variant in assoc(model, :variants)
-  end
-
-  # helper queries for preloading variant data.
-  @master_query  from m in Nectar.Variant, where: m.is_master
-  @variant_query from m in Nectar.Variant, where: not(m.is_master), preload: [option_values: :option_type]
-
-  def products_with_master_variant do
-    from p in Nectar.Product, preload: [master: ^@master_query]
-  end
-
-  def products_with_variants do
-    from p in Nectar.Product, preload: [master: ^@master_query, variants: ^@variant_query]
-  end
-
-  def product_with_master_variant(product_id) do
-    from p in Nectar.Product,
-    where: p.id == ^product_id,
-    preload: [master: ^@master_query]
-  end
-
-  def product_with_variants(product_id) do
-    from p in Nectar.Product,
-    where: p.id == ^product_id,
-    preload: [variants: ^@variant_query, master: ^@master_query]
   end
 
 end

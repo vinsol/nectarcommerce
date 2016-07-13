@@ -6,8 +6,6 @@ defmodule Nectar.Admin.ProductController do
   alias Nectar.Category
   alias Nectar.SearchProduct
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   plug :scrub_params, "product" when action in [:create, :update]
   plug :load_categories_and_option_types when action in [:create, :new, :edit, :update]
 

@@ -3,8 +3,6 @@ defmodule Nectar.Admin.CategoryController do
 
   alias Nectar.Category
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   plug :scrub_params, "category" when action in [:create, :update]
 
   def index(conn, _params) do

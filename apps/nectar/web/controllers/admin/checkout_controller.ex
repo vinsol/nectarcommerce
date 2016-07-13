@@ -1,7 +1,6 @@
 defmodule Nectar.Admin.CheckoutController do
   use Nectar.Web, :admin_controller
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
   plug :go_back_to_cart_if_empty when action in [:checkout, :next, :back]
 
   alias Nectar.CheckoutManager

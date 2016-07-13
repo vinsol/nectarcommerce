@@ -1,8 +1,6 @@
 defmodule Nectar.Admin.OrderController do
   use Nectar.Web, :admin_controller
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   alias Nectar.Order
   alias Nectar.User
   alias Nectar.Repo

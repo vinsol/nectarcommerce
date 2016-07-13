@@ -21,9 +21,4 @@ defmodule Nectar.Adjustment do
     |> validate_required(@required_fields)
   end
 
-  def for_order(%Nectar.Order{id: order_id}) do
-    from p in Nectar.Adjustment,
-    where: p.order_id == ^order_id
-  end
-
 end

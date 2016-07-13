@@ -4,8 +4,6 @@ defmodule Nectar.Admin.StateController do
   alias Nectar.Country
   alias Nectar.State
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   plug :scrub_params, "state" when action in [:create]
   plug :load_country when action in [:create]
 

@@ -20,8 +20,9 @@ defmodule Nectar.Router do
   end
 
   pipeline :admin_browser_auth do
-    plug Guardian.Plug.VerifySession, key: :admin
-    plug Guardian.Plug.LoadResource, key: :admin
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+    plug Nectar.Plugs.AdminAccessRequired
   end
 
   pipeline :api do
@@ -101,9 +102,6 @@ defmodule Nectar.Router do
     get "/echo", ChannelEchoController, :echo
     post "/echo", ChannelEchoController, :do_echo
 
-
-    resources "/sessions", SessionController, only: [:new, :create]
-    delete "/logout", SessionController, :logout
 
     resources "/option_types", OptionTypeController
 

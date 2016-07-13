@@ -3,8 +3,6 @@ defmodule Nectar.Admin.OptionTypeController do
 
   alias Nectar.OptionType
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   plug :scrub_params, "option_type" when action in [:create, :update]
 
   def index(conn, _params) do
