@@ -6,7 +6,7 @@ defmodule Nectar.ProductController do
 
   def index(conn, %{"search_product" => search_params} = _params) do
     categories = Query.Category.with_associated_products(Repo)
-    products = Repo.all(SearchProduct.search(Product.products_with_master_variant, search_params))
+    products = Repo.all(SearchProduct.search(Nectar.Query.Product.products_with_master_variant, search_params))
     render(conn, "index.html", products: products, categories: categories,
       search_changeset: SearchProduct.changeset(%SearchProduct{}, search_params),
       search_action: product_path(conn, :index)

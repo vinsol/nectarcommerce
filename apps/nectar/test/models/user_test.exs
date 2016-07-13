@@ -29,8 +29,13 @@ defmodule Nectar.UserTest.Shared do
   defmacro user_changeset_tests do
     quote location: :keep do
       @tag valid_changeset: true
-      test "sanity", %{changeset: changeset} do
-        changeset.valid?
+      test "valid changeset returned", %{changeset: changeset} do
+        assert changeset.valid?
+      end
+
+      @tag valid_changeset: false
+      test "invalid changeset returned", %{changeset: changeset} do
+        refute changeset.valid?
       end
 
       @tag valid_changeset: false

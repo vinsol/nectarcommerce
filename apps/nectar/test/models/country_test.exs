@@ -1,5 +1,5 @@
 defmodule Nectar.CountryTest do
-  use Nectar.ModelCase
+  use Nectar.ModelCase, async: True
 
   alias Nectar.Country
   alias Nectar.TestSetup
@@ -10,6 +10,9 @@ defmodule Nectar.CountryTest do
 
   describe "associations" do
     has_associations Country, ~w(states zone_members zones)a
+    has_many? Country, :states, via: Nectar.State
+    has_many? Country, :zone_members, via: Nectar.ZoneMember
+    has_many? Country, :zones, through: [:zone_members, :zone]
   end
 
   describe "validations" do
@@ -40,39 +43,4 @@ defmodule Nectar.CountryTest do
       assert changeset.changes[:iso_name] == String.upcase(TestSetup.Country.valid_attrs["name"])
     end
   end
-
-  describe "db validations" do
-    # Params are rewritten because postgres fails on the first validation
-    test "prevent reuse of iso" do
-      TestSetup.Country.create_country!
-      {status, changeset} = TestSetup.Country.create_country(TestSetup.Country.valid_attrs)
-      assert status == :error
-      assert errors_on(changeset)[:iso] == "has already been taken"
-    end
-
-    test "prevent reuse of iso3" do
-      TestSetup.Country.create_country!
-      attrs = Dict.merge(TestSetup.Country.valid_attrs, %{"iso" => "NK"})
-      {status, changeset} = TestSetup.Country.create_country(attrs)
-      assert status == :error
-      assert errors_on(changeset)[:iso3] == "has already been taken"
-    end
-
-    test "prevent reuse of name" do
-      TestSetup.Country.create_country!
-      attrs = Dict.merge(TestSetup.Country.valid_attrs, %{"iso" => "NK", "iso3" => "NKE"})
-      {status, changeset} = TestSetup.Country.create_country(attrs)
-      assert status == :error
-      assert errors_on(changeset)[:name] == "has already been taken"
-    end
-
-    test "prevent reuse of numcode" do
-      TestSetup.Country.create_country!
-      attrs = Dict.merge(TestSetup.Country.valid_attrs, %{"iso" => "NK", "iso3" => "NKE", "name" => "Junk"})
-      {status, changeset} = TestSetup.Country.create_country(attrs)
-      assert status == :error
-      assert errors_on(changeset)[:numcode] == "has already been taken"
-    end
-  end
-
 end

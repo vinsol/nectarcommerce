@@ -19,6 +19,11 @@ defmodule Nectar.Query.Category do
     |> leaf_categories
     |> repo.all
   end
+
+  def leaf_categories_name_and_id(repo) do
+    ids = repo.all(parent_ids)
+    repo.all from p in leaf_categories(ids), select: {p.name, p.id}
+  end
   def with_associated_products(repo), do: repo.all(with_associated_products)
 
 end

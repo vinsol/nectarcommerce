@@ -12,10 +12,10 @@ defmodule Nectar.Product do
     has_one :master, Nectar.Variant, on_delete: :nilify_all # As this and below association same, how to handle on_delete
     has_many :variants, Nectar.Variant, on_delete: :nilify_all
 
-    has_many :product_option_types, Nectar.ProductOptionType
+    has_many :product_option_types, Nectar.ProductOptionType, on_delete: :nilify_all
     has_many :option_types, through: [:product_option_types, :option_type]
 
-    has_many :product_categories, Nectar.ProductCategory
+    has_many :product_categories, Nectar.ProductCategory, on_delete: :nilify_all
     has_many :categories, through: [:product_categories, :category]
 
     extensions

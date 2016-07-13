@@ -37,6 +37,10 @@ defmodule Nectar.Country do
   defp build_iso_name(%{valid?: false} = changeset), do: changeset
   defp build_iso_name(changeset) do
     name = get_change(changeset, :name)
-    put_change(changeset, :iso_name, String.upcase(name))
+    if name do
+      put_change(changeset, :iso_name, String.upcase(name))
+    else
+      changeset
+    end
   end
 end

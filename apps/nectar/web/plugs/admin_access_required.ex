@@ -14,6 +14,7 @@ defmodule Nectar.Plugs.AdminAccessRequired do
       !Nectar.User.admin?(current_user) ->
         conn
         |> Phoenix.Controller.put_flash(:error, "Access Denied!")
+        |> Plug.Conn.put_status(403)
         |> Phoenix.Controller.redirect(to: Nectar.Router.Helpers.home_path(conn, :index))
         |> Plug.Conn.halt()
       true ->

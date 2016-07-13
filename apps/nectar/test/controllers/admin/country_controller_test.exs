@@ -3,7 +3,6 @@ defmodule Nectar.Admin.CountryControllerTest do
 
   alias Nectar.Repo
   alias Nectar.Country
-  alias Nectar.User
 
   @valid_attrs   %{name: "CountryName", iso: "Co", iso3: "Con", numcode: "123"}
   @invalid_attrs %{name: "Country", iso: "C", iso3: "Co", numcode: "123"}
@@ -34,9 +33,9 @@ defmodule Nectar.Admin.CountryControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    country = Repo.insert! Country.changeset(%Country{}, @valid_attrs)
+    country = Nectar.TestSetup.Country.create_country!
     conn = get conn, admin_country_path(conn, :show, country)
-    assert html_response(conn, 200) =~ @valid_attrs[:name]
+    assert html_response(conn, 200) =~ country.name
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
@@ -45,39 +44,57 @@ defmodule Nectar.Admin.CountryControllerTest do
     end
   end
 
+  @tag :nologin
+  test "redirects to login page if not logged in", %{conn: conn} do
+    html_response = get conn, admin_country_path(conn, :show, -1)
+    assert redirected_to(html_response) == session_path(conn, :new)
+  end
+
+  @tag :non_admin_login
+  test "raises acccess forbidden if not admin", %{conn: conn} do
+    conn = get conn, admin_country_path(conn, :show, -1)
+    assert html_response(conn, 403) =~ "redirected"
+  end
+
   test "renders form for editing chosen resource", %{conn: conn} do
-    country = Repo.insert! %Country{}
+    country = Nectar.TestSetup.Country.create_country!
     conn = get conn, admin_country_path(conn, :edit, country)
     assert html_response(conn, 200) =~ "Edit country"
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
-    country = Repo.insert! %Country{}
+    country = Nectar.TestSetup.Country.create_country!
     conn = put conn, admin_country_path(conn, :update, country), country: @valid_attrs
     assert redirected_to(conn) == admin_country_path(conn, :show, country)
     assert Repo.get_by(Country, @valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    country = Repo.insert! %Country{}
+    country = Nectar.TestSetup.Country.create_country!
     conn = put conn, admin_country_path(conn, :update, country), country: @invalid_attrs
     assert html_response(conn, 200) =~ "Edit country"
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    country = Repo.insert! %Country{}
+    country = Nectar.TestSetup.Country.create_country!
     conn = delete conn, admin_country_path(conn, :delete, country)
     assert redirected_to(conn) == admin_country_path(conn, :index)
     refute Repo.get(Country, country.id)
   end
 
   defp do_setup(%{nologin: _} = _context) do
+    {:ok, %{conn: build_conn}}
+  end
+
+  defp do_setup(%{non_admin_login: _} = _context) do
+    {:ok, user} = Nectar.TestSetup.User.create_user
+    conn = guardian_login(user)
     {:ok, %{conn: conn}}
   end
 
   defp do_setup(_context) do
-    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
-    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, admin_user} = Nectar.TestSetup.User.create_admin
+    conn = guardian_login(admin_user)
     {:ok, %{conn: conn}}
   end
 end

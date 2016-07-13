@@ -6,11 +6,11 @@ defmodule Nectar.TestSetup.Country do
 
   def create_country!(country_attrs \\ nil) do
     attrs = country_attrs || valid_attrs
-    Nectar.Country.changeset(%Nectar.Country{}, attrs) |> Repo.insert!
+    Nectar.Command.Country.insert!(Repo, attrs)
   end
 
   def create_country(country_attrs \\ nil) do
     attrs = country_attrs || valid_attrs
-    Nectar.Country.changeset(%Nectar.Country{}, attrs) |> Repo.insert
+    Nectar.Command.Country.insert(Repo, attrs)
   end
 end
