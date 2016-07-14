@@ -17,11 +17,4 @@ defmodule Nectar.ZoneMember do
     |> validate_required(@required_fields)
   end
 
-  # do not need the params for now.
-  def changeset(zoneable, %Nectar.Zone{id: zone_id}, _params) do
-    zoneable
-    |> Ecto.build_assoc(:zone_members)
-    |> changeset(%{zone_id: zone_id})
-  end
-
 end

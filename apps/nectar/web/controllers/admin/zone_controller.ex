@@ -1,14 +1,11 @@
 defmodule Nectar.Admin.ZoneController do
   use Nectar.Web, :admin_controller
-
   alias Nectar.Zone
-
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
 
   plug :scrub_params, "zone" when action in [:create, :update]
 
   def index(conn, _params) do
-    zones = Repo.all(Zone)
+    zones = Nectar.Query.Zone.all(Repo)
     render(conn, "index.html", zones: zones)
   end
 
@@ -19,8 +16,7 @@ defmodule Nectar.Admin.ZoneController do
   end
 
   def create(conn, %{"zone" => zone_params}) do
-    changeset = Zone.changeset(%Zone{}, zone_params)
-    case Repo.insert(changeset) do
+    case Nectar.Command.Zone.insert(Repo, zone_params) do
       {:ok, _zone} ->
         conn
         |> put_flash(:info, "Zone created successfully.")
@@ -31,22 +27,21 @@ defmodule Nectar.Admin.ZoneController do
   end
 
   def show(conn, %{"id" => id}) do
-    zone = Repo.get!(Zone, id)
-    zone_members = Repo.all Zone.member_ids_and_names(zone)
-    zoneables = Zone.zoneable_candidates(zone)
+    zone = Nectar.Query.Zone.get!(Repo, id)
+    zone_members = Nectar.Query.Zone.member_ids_and_names(Repo, zone)
+    zoneables = Nectar.Query.Zone.zoneable_candidates(Repo, zone)
     render(conn, "show.html", zone: zone, zone_members: zone_members, zoneables: zoneables)
   end
 
   def edit(conn, %{"id" => id}) do
-    zone = Repo.get!(Zone, id)
+    zone = Nectar.Query.Zone.get!(Repo, id)
     changeset = Zone.changeset(zone)
     render(conn, "edit.html", zone: zone, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "zone" => zone_params}) do
-    zone = Repo.get!(Zone, id)
-    changeset = Zone.changeset(zone, zone_params)
-    case Repo.update(changeset) do
+    zone = Nectar.Query.Zone.get!(Repo, id)
+    case Nectar.Command.Zone.update(Repo, zone, zone_params) do
       {:ok, zone} ->
         conn
         |> put_flash(:info, "Zone updated successfully.")
@@ -57,11 +52,11 @@ defmodule Nectar.Admin.ZoneController do
   end
 
   def delete(conn, %{"id" => id}) do
-    zone = Repo.get!(Zone, id)
+    zone = Nectar.Query.Zone.get!(Repo, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(zone)
+    Nectar.Command.Zone.delete!(Repo, zone)
 
     conn
     |> put_flash(:info, "Zone deleted successfully.")

@@ -3,10 +3,7 @@ defmodule Nectar.Admin.ZoneControllerTest do
 
   alias Nectar.Repo
   alias Nectar.Zone
-  alias Nectar.User
-
-  @valid_attrs   %{name: "NA", description: "TEST", type: "Country"}
-  @invalid_attrs %{name: "NA", description: "FAIL TEST", type: "DoesNotExist"}
+  alias Nectar.TestSetup
 
   setup(context) do
     do_setup(context)
@@ -23,14 +20,13 @@ defmodule Nectar.Admin.ZoneControllerTest do
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
-    conn = post conn, admin_zone_path(conn, :create), zone: @valid_attrs
+    conn = post conn, admin_zone_path(conn, :create), zone: TestSetup.Zone.valid_attrs
     assert redirected_to(conn) == admin_zone_path(conn, :index)
-    assert Repo.get_by(Zone, @valid_attrs)
+    assert Repo.get_by(Zone, TestSetup.Zone.valid_attrs)
   end
 
-  @tag :pending
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, admin_zone_path(conn, :create), zone: @invalid_attrs
+    conn = post conn, admin_zone_path(conn, :create), zone: TestSetup.Zone.invalid_attrs
     assert html_response(conn, 200) =~ "Create Zone"
     # Please confirm whether right way
     #assert html_response(conn, 200) =~ "Not Country"
@@ -38,9 +34,9 @@ defmodule Nectar.Admin.ZoneControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
-    zone = Repo.insert! Zone.changeset(%Zone{}, @valid_attrs)
+    zone = Repo.insert! Zone.changeset(%Zone{}, TestSetup.Zone.valid_attrs)
     conn = get conn, admin_zone_path(conn, :show, zone)
-    assert html_response(conn, 200) =~ @valid_attrs[:name]
+    assert html_response(conn, 200) =~ TestSetup.Zone.valid_attrs[:name]
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
@@ -57,14 +53,14 @@ defmodule Nectar.Admin.ZoneControllerTest do
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
     zone = Repo.insert! %Zone{}
-    conn = put conn, admin_zone_path(conn, :update, zone), zone: @valid_attrs
+    conn = put conn, admin_zone_path(conn, :update, zone), zone: TestSetup.Zone.valid_attrs
     assert redirected_to(conn) == admin_zone_path(conn, :show, zone)
-    assert Repo.get_by(Zone, @valid_attrs)
+    assert Repo.get_by(Zone, TestSetup.Zone.valid_attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
     zone = Repo.insert! %Zone{}
-    conn = put conn, admin_zone_path(conn, :update, zone), zone: @invalid_attrs
+    conn = put conn, admin_zone_path(conn, :update, zone), zone: TestSetup.Zone.invalid_attrs
     assert html_response(conn, 200) =~ "Edit Zone"
   end
 
@@ -80,8 +76,8 @@ defmodule Nectar.Admin.ZoneControllerTest do
   end
 
   defp do_setup(_context) do
-    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
-    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, admin_user} = Nectar.TestSetup.User.create_admin
+    conn = guardian_login(admin_user)
     {:ok, %{conn: conn}}
   end
 end

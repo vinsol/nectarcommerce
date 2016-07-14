@@ -21,21 +21,4 @@ defmodule Nectar.ShippingMethod do
     |> validate_required(@required_fields)
   end
 
-  def enabled_shipping_methods do
-    from shipp in Nectar.ShippingMethod,
-    where: shipp.enabled
-  end
-
-  def enable(shipping_method_ids) do
-    from shipping in Nectar.ShippingMethod,
-    where: shipping.id in ^shipping_method_ids,
-    update: [set: [enabled: true]]
-  end
-
-  def disable_other_than(shipping_method_ids) do
-    from shipping in Nectar.ShippingMethod,
-    where: not shipping.id in ^shipping_method_ids,
-    update: [set: [enabled: false]]
-  end
-
 end
