@@ -22,7 +22,7 @@ defmodule Nectar.Admin.ProductControllerTest do
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
-    conn = post conn, admin_product_path(conn, :create), product: Nectar.TestSetup.Product.valid_attrs
+    conn = post conn, admin_product_path(conn, :create), product: Nectar.TestSetup.Product.valid_attrs_with_option_type
     assert redirected_to(conn) == admin_product_path(conn, :index)
     refute Nectar.Query.Product.all(Repo) == []
   end

@@ -13,5 +13,7 @@ defmodule Nectar.PaymentTest do
     assocs =
       ~w(order payment_method)a
     has_associations Payment, assocs
+    belongs_to? Payment, :order, via: Nectar.Order
+    belongs_to? Payment, :payment_method, via: Nectar.PaymentMethod
   end
 end

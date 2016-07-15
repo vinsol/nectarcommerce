@@ -35,31 +35,25 @@ defmodule Nectar.Product do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+    |> Validations.Date.validate_not_past_date(:available_on)
+    |> Nectar.Slug.generate_slug()
+    |> cast_assoc(:product_option_types, required: true, with: &Nectar.ProductOptionType.from_product_changeset/2)
+    |> cast_assoc(:product_categories, with: &Nectar.ProductCategory.from_product_changeset/2)
+    |> unique_constraint(:slug)
   end
 
   def create_changeset(model, params \\ %{}) do
-    model
-    |> cast(params, @required_fields ++ @optional_fields)
-    |> validate_required(@required_fields)
-    |> Validations.Date.validate_not_past_date(:available_on)
-    |> Nectar.Slug.generate_slug()
+    changeset(model, params)
     |> cast_assoc(:master, required: true, with: &Nectar.Variant.create_master_changeset/2)
-    |> cast_assoc(:product_option_types, required: true, with: &Nectar.ProductOptionType.from_product_changeset/2)
-    |> cast_assoc(:product_categories, with: &Nectar.ProductCategory.from_product_changeset/2)
-    |> unique_constraint(:slug)
+
   end
 
   def update_changeset(model, params \\ %{}) do
-    model
-    |> cast(params, @required_fields ++ @optional_fields)
-    |> validate_required(@required_fields)
-    |> Validations.Date.validate_not_past_date(:available_on)
-    |> Nectar.Slug.generate_slug()
-    |> cast_assoc(:product_categories, with: &Nectar.ProductCategory.from_product_changeset/2)
+    changeset(model, params)
     |> cast_assoc(:master, required: true, with: &Nectar.Variant.update_master_changeset/2)
     |> validate_available_on_lt_discontinue_on
-    |> cast_assoc(:product_option_types, required: true, with: &Nectar.ProductOptionType.from_product_changeset/2)
-    |> unique_constraint(:slug)
   end
 
   defp validate_available_on_lt_discontinue_on(changeset) do

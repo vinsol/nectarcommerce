@@ -18,6 +18,12 @@ defmodule Nectar.TestSetup.Product do
   def valid_attrs, do: @valid_product_attrs
   def invalid_attrs, do: %{}
 
+  def valid_attrs_with_option_type do
+    option_type = Nectar.TestSetup.OptionType.create_option_type
+    product_option_type_params = %{product_option_types: [%{option_type_id: option_type.id}]}
+    Map.merge(@valid_product_attrs, product_option_type_params)
+  end
+
   def create_product(product_attrs \\ @valid_product_attrs) do
     option_type = Nectar.TestSetup.OptionType.create_option_type
     product_option_type_params = %{product_option_types: [%{option_type_id: option_type.id}]}
