@@ -25,7 +25,7 @@ defmodule Nectar.OptionType do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> cast_assoc(:option_values, required: true)
+    |> cast_assoc(:option_values)
     |> unique_constraint(:name)
   end
 end

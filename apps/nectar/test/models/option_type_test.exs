@@ -1,5 +1,5 @@
 defmodule Nectar.OptionTypeTest do
-  use Nectar.ModelCase
+  use Nectar.ModelCase, async: true
 
   alias Nectar.OptionType
 
@@ -21,5 +21,6 @@ defmodule Nectar.OptionTypeTest do
 
   describe "associations" do
     has_associations OptionType, ~w(option_values)a
+    has_many? OptionType, :option_values, via: Nectar.OptionValue
   end
 end
