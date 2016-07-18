@@ -26,4 +26,16 @@ defmodule Nectar.Query.Category do
   end
   def with_associated_products(repo), do: repo.all(with_associated_products)
 
+  def names_and_id,
+    do: from c in Nectar.Category, select: {c.name, c.id}
+
+  def names_and_id(repo),
+    do: repo.all(names_and_id)
+
+  def names_and_id_excluding_id(id),
+    do: from c in names_and_id, where: c.id != ^id
+
+  def names_and_id_excluding_id(repo, id),
+    do: repo.all(names_and_id_excluding_id(id))
+
 end

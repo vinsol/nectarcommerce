@@ -13,17 +13,16 @@ defmodule Nectar.Admin.CartController do
 
   # use guest checkout unless user id provided.
   def create(conn, %{"order" => %{"user_id" => ""}}) do
-    order = Nectar.Order.cart_changeset(%Nectar.Order{}, %{}) |> Repo.insert!
+    order = Nectar.Command.Order.create_empty_cart_for_guest!(Repo)
     conn
     |> redirect(to: admin_cart_path(conn, :edit, order))
   end
 
   def create(conn, %{"order" => %{"user_id" => user_id}}) do
-    order = Nectar.Order.user_cart_changeset(%Nectar.Order{}, %{user_id: user_id}) |> Repo.insert!
+    order = Nectar.Command.Order.create_empty_cart_for_user!(Repo, user_id)
     conn
     |> redirect(to: admin_cart_path(conn, :edit, order))
   end
-
 
   def edit(conn, %{"id" => id}) do
     {:ok, order} = Repo.get!(Nectar.Order, id) |> Nectar.CheckoutManager.back("cart")
