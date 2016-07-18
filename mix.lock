@@ -23,7 +23,7 @@
   "idna": {:hex, :idna, "1.0.3", "d456a8761cad91c97e9788c27002eb3b773adaf5c893275fc35ba4e3434bbd9b", [:rebar3], []},
   "jazz": {:hex, :jazz, "0.2.1"},
   "joken": {:hex, :joken, "0.13.1"},
-  "jose": {:hex, :jose, "1.6.1", "c5cd5f05529437e50214c8eb717f6a942ffc5e9790b96ad79144ce9d7bec0e1d", [:mix, :rebar], [{:base64url, "~> 0.0.1", [hex: :base64url, optional: false]}]},
+  "jose": {:hex, :jose, "1.7.9", "9dc5a14ab62db4e41677fcc97993752562fb57ad0b8ba062589682edd3acb91f", [:mix, :rebar], [{:base64url, "~> 0.0.1", [hex: :base64url, optional: false]}]},
   "meck": {:hex, :meck, "0.8.4", "59ca1cd971372aa223138efcf9b29475bde299e1953046a0c727184790ab1520", [:rebar, :make], []},
   "mimerl": {:hex, :mimerl, "1.0.2", "993f9b0e084083405ed8252b99460c4f0563e41729ab42d9074fd5e52439be88", [:rebar3], []},
   "mock": {:hex, :mock, "0.1.1", "e21469ca27ba32aa7b18b61699db26f7a778171b21c0e5deb6f1218a53278574", [:mix], [{:meck, "~> 0.8.2", [hex: :meck, optional: false]}]},
