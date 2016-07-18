@@ -47,24 +47,26 @@ defmodule Nectar.Product do
   def create_changeset(model, params \\ %{}) do
     changeset(model, params)
     |> cast_assoc(:master, required: true, with: &Nectar.Variant.create_master_changeset/2)
-
   end
 
   def update_changeset(model, params \\ %{}) do
     changeset(model, params)
-    |> cast_assoc(:master, required: true, with: &Nectar.Variant.update_master_changeset/2)
+    |> cast_assoc(:master, required: true, with: &(Nectar.Variant.update_master_changeset(&1, model, &2)))
     |> validate_available_on_lt_discontinue_on
   end
 
   defp validate_available_on_lt_discontinue_on(changeset) do
+    changeset
+    |> Validations.Date.validate_lt_date(:available_on, changed_discontinue_on(changeset))
+  end
+
+  defp changed_discontinue_on(changeset) do
     changed_master = get_change(changeset, :master)
     changed_discontinue_on = if changed_master do
       get_change(changed_master, :discontinue_on) || changed_master.data.discontinue_on
     else
       changeset.data.master.discontinue_on
     end
-    changeset
-      |> Validations.Date.validate_lt_date(:available_on, changed_discontinue_on)
   end
 
 end

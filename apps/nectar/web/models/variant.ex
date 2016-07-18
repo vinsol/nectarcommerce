@@ -64,12 +64,12 @@ defmodule Nectar.Variant do
 
   @required_fields ~w(cost_price discontinue_on)a
   @optional_fields ~w(add_count)a
-  def update_master_changeset(model, params \\ %{}) do
+  def update_master_changeset(model, product, params \\ %{}) do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> Validations.Date.validate_not_past_date(:discontinue_on)
-    |> validate_discontinue_gt_available_on
+    |> validate_discontinue_gt_available_on(product)
     |> update_total_quantity
     |> put_change(:is_master, true)
     |> validate_number(:add_count, greater_than: 0)
@@ -87,17 +87,17 @@ defmodule Nectar.Variant do
     end
   end
 
-  def create_variant_changeset(model, params \\ %{}) do
+  def create_variant_changeset(model, product, params \\ %{}) do
     changeset(model, params)
-    |> validate_discontinue_gt_available_on
+    |> validate_discontinue_gt_available_on(product)
     |> put_change(:is_master, false)
     |> cast_attachments(params, ~w(), ~w(image))
     |> cast_assoc(:variant_option_values, required: true, with: &Nectar.VariantOptionValue.from_variant_changeset/2)
   end
 
-  def update_variant_changeset(model, params \\ %{}) do
+  def update_variant_changeset(model, product, params \\ %{}) do
     changeset(model, params)
-    |> validate_discontinue_gt_available_on
+    |> validate_discontinue_gt_available_on(product)
     |> validate_not_master
     # Even if changset is invalid, cast_attachments does it work :(
     |> cast_attachments(params, ~w(), ~w(image))
@@ -173,9 +173,8 @@ defmodule Nectar.Variant do
     "#{product.name}(#{variant.sku})"
   end
 
-  defp validate_discontinue_gt_available_on(changeset) do
-    product = changeset.data |> Nectar.Repo.preload([:product]) |> Map.get(:product)
+  defp validate_discontinue_gt_available_on(changeset, product) do
     changeset
-      |> Validations.Date.validate_gt_date(:discontinue_on, product.available_on)
+    |> Validations.Date.validate_gt_date(:discontinue_on, product.available_on)
   end
 end

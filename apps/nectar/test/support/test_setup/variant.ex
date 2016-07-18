@@ -59,7 +59,7 @@ defmodule Nectar.TestSetup.Variant do
     valid_variant_with_option_value_attrs = get_valid_variant_params(option_type)
     product
     |> build_assoc(:variants)
-    |> Variant.create_variant_changeset(valid_variant_with_option_value_attrs)
+    |> Variant.create_variant_changeset(product, valid_variant_with_option_value_attrs)
     |> Repo.insert
   end
 

@@ -2,9 +2,6 @@ defmodule Nectar.Admin.VariantControllerTest do
   use Nectar.ConnCase
 
   alias Nectar.Repo
-  alias Nectar.User
-  alias Nectar.OptionType
-  alias Nectar.Product
   alias Nectar.Variant
 
   @product_attrs %{
@@ -153,15 +150,15 @@ defmodule Nectar.Admin.VariantControllerTest do
 
   defp do_setup(%{no_product_option_types: _} = _context) do
     product = Nectar.TestSetup.Product.create_product
-    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
-    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, admin_user} = Nectar.TestSetup.User.create_admin
+    conn = guardian_login(admin_user)
     {:ok, %{conn: conn, product: product}}
   end
 
   defp do_setup(_context) do
     product = Nectar.TestSetup.Product.create_product |> Nectar.Repo.preload([product_option_types: [option_type: :option_values]])
-    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
-    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, admin_user} = Nectar.TestSetup.User.create_admin
+    conn = guardian_login(admin_user)
     option_type = product |> Map.get(:product_option_types) |> List.first |> Map.get(:option_type)
     {:ok, %{conn: conn, product: product, option_type: option_type}}
   end
@@ -183,11 +180,7 @@ defmodule Nectar.Admin.VariantControllerTest do
   end
 
   defp create_variant(data) do
-    {_, %{valid_variant_with_option_value_attrs: valid_variant_with_option_value_attrs}} = get_valid_variant_params(data)
-    product = data.product
-    variant_changeset = product |> build_assoc(:variants) |> Variant.create_variant_changeset(valid_variant_with_option_value_attrs)
-    assert variant_changeset.valid?
-    variant = Repo.insert! variant_changeset
+    {:ok, variant} = Nectar.TestSetup.Variant.add_variant(data.product)
     {:ok, %{variant: variant}}
   end
 end

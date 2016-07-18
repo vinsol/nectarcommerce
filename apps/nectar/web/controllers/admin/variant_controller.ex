@@ -5,7 +5,6 @@ defmodule Nectar.Admin.VariantController do
   alias Nectar.Variant
   alias Nectar.VariantOptionValue
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
   plug :scrub_params, "variant" when action in [:create, :update]
   plug :find_product
   plug :restrict_action when action in [:new, :create]
@@ -14,8 +13,10 @@ defmodule Nectar.Admin.VariantController do
 
   def index(conn, %{"product_id" => _product_id}) do
     product = conn.assigns[:product]
-    variants = Repo.all(from v in Variant, where: v.product_id == ^product.id)
+    variants =
+      Nectar.Query.Variant.for_product(Nectar.Repo, product)
       |> Repo.preload(option_values: :option_type)
+
     render(conn, "index.html", variants: variants)
   end
 
@@ -28,11 +29,7 @@ defmodule Nectar.Admin.VariantController do
 
   def create(conn, %{"variant" => variant_params, "product_id" => _product_id}) do
     product = conn.assigns[:product]
-    changeset = product
-      |> build_assoc(:variants)
-      |> Variant.create_variant_changeset(variant_params)
-
-    case Repo.insert(changeset) do
+    case Nectar.Command.Variant.insert_for_product(Repo, product, variant_params) do
       {:ok, _variant} ->
         conn
         |> put_flash(:info, "Variant created successfully.")
@@ -50,16 +47,15 @@ defmodule Nectar.Admin.VariantController do
     product = conn.assigns[:product]
     variant = conn.assigns[:variant]
     new_params = inspect_missing_option_values(product, variant)
-    changeset = Variant.update_variant_changeset(variant, new_params)
+    changeset = Variant.update_variant_changeset(variant, product, new_params)
     render(conn, "edit.html", changeset: changeset)
   end
 
   def update(conn, %{"id" => _id, "variant" => variant_params}) do
     product = conn.assigns[:product]
     variant = conn.assigns[:variant]
-    changeset = Variant.update_variant_changeset(variant, variant_params)
 
-    case Repo.update(changeset) do
+    case Nectar.Command.Variant.update_for_product(Repo, variant, product, variant_params) do
       {:ok, variant} ->
         conn
         |> put_flash(:info, "Variant updated successfully.")
@@ -75,7 +71,7 @@ defmodule Nectar.Admin.VariantController do
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(variant)
+    Nectar.Command.Variant.delete!(Repo, variant)
 
     conn
     |> put_flash(:info, "Variant deleted successfully.")
@@ -83,7 +79,8 @@ defmodule Nectar.Admin.VariantController do
   end
 
   defp find_product(conn, _) do
-    product = Repo.get_by(Product, id: conn.params["product_id"])
+    product =
+      Repo.get_by(Product, id: conn.params["product_id"])
       |> Repo.preload(option_types: :option_values)
     case product do
       nil ->
