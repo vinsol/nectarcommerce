@@ -177,4 +177,22 @@ defmodule Nectar.Variant do
     changeset
     |> Validations.Date.validate_gt_date(:discontinue_on, product.available_on)
   end
+
+  def sufficient_quantity_available?(variant, requested_quantity) do
+    available_quantity(variant) >= requested_quantity
+  end
+
+  def discontinued?(variant) do
+    discontinue_on = variant.discontinue_on
+    if discontinue_on do
+      case Ecto.Date.compare(discontinue_on, Ecto.Date.utc) do
+        :lt -> true
+        _   -> false
+      end
+    else
+      false
+    end
+  end
+
+
 end

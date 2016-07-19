@@ -13,37 +13,32 @@ defmodule Nectar.CartManager do
   end
 
   def add_to_cart(%Nectar.Order{} = order, %{"variant_id" => variant_id, "quantity" => quantity}) do
-    variant = Repo.get!(Variant, variant_id) |> Repo.preload([:product])
+    variant = Nectar.Query.Variant.get!(Repo, variant_id) |> Repo.preload([:product])
     do_add_to_cart(order, variant, quantity)
   end
 
   def add_to_cart(order_id, %{"variant_id" => variant_id, "quantity" => quantity}) do
     order = Repo.get!(Order, order_id)
-    variant = Repo.get!(Variant, variant_id) |> Repo.preload([:product])
+    variant = Nectar.Query.Variant.get!(Repo, variant_id) |> Repo.preload([:product])
     do_add_to_cart(order, variant, quantity)
   end
 
   defp do_add_to_cart(%Order{} = order, %Variant{} = variant, quantity) do
-    find_or_build_line_item(order, variant)
-    |> LineItem.quantity_changeset(%{add_quantity: quantity})
-    |> Repo.insert_or_update
+    line_item = Nectar.Query.LineItem.in_order_with_variant(Repo, order, variant)
+    update_result =
+      case line_item do
+        nil ->
+          Nectar.Workflow.AddNewItemToCart.run(Repo, variant, order, quantity)
+        line_item ->
+          Nectar.Workflow.UpdateQuantityInCart.run(Repo, line_item, variant, quantity)
+      end
+    process_update(update_result)
   end
 
+  defp process_update({:ok, update_result}),
+    do: {:ok, update_result[:line_item]}
 
-  defp find_or_build_line_item(order, variant) do
-    find_line_item(order, variant) || build_line_item(order, variant)
-  end
+  defp process_update({:error, _name, message, _result}),
+    do: {:error, message}
 
-  defp find_line_item(order, variant) do
-    LineItem
-    |> LineItem.in_order(order)
-    |> LineItem.with_variant(variant)
-    |> Repo.one()
-  end
-
-  defp build_line_item(%Order{id: order_id} = _order, %Variant{} = variant) do
-    variant
-    |> Ecto.build_assoc(:line_items)
-    |> LineItem.create_changeset(%{order_id: order_id, unit_price: variant.cost_price})
-  end
 end

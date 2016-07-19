@@ -6,7 +6,7 @@ defmodule Nectar.LineItemController do
   plug :scrub_params, "line_item" when action in [:create]
 
   # TODO:
-  # 1. Copy proper error messgae instead of the generic one.
+  # 1. Copy proper error message instead of the generic one.
   # 2. Reset cart if not in cart state.
 
   def create(conn, %{"line_item" => line_item_params}) do

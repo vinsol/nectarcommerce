@@ -4,7 +4,6 @@ defmodule Nectar.CartManagerTest do
   alias Nectar.CartManager
 
   alias Nectar.Repo
-  alias Nectar.LineItem
   alias Nectar.TestSetup
 
   test "add to cart" do
@@ -13,13 +12,15 @@ defmodule Nectar.CartManagerTest do
     quantity = 2
     {status, line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => product.master.id, "quantity" => quantity})
     assert status == :ok
-    assert line_item.id in Repo.all(from lin in LineItem.in_order(LineItem, order), select: lin.id)
+    [order_line_item] = Nectar.Query.LineItem.in_order(Repo, order)
+    assert line_item.id == order_line_item.id
+    assert line_item.quantity == order_line_item.quantity
   end
 
   test "add to cart with unavailable quantity" do
     order = TestSetup.Order.create_cart
     product = TestSetup.Product.create_product
-    quantity = 4
+    quantity = product.master.total_quantity + 1
     {status, line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => product.master.id, "quantity" => quantity})
     assert status == :error
     assert errors_on(line_item)[:quantity] == "only 3 available"
@@ -31,6 +32,7 @@ defmodule Nectar.CartManagerTest do
     quantity = 1
     {status, line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => product.master.id, "quantity" => quantity})
     assert status == :error
+
     assert errors_on(line_item)[:variant] == "cannot add master variant to cart when other variants are present."
   end
 
@@ -64,6 +66,17 @@ defmodule Nectar.CartManagerTest do
     assert line_item.id == updated_line_item.id
     refute updated_line_item.quantity == line_item.quantity
     assert updated_line_item.quantity == line_item.quantity + quantity_to_add
+  end
+
+  test "add to cart with existing line item with unavailable quantity" do
+    order = TestSetup.Order.create_cart
+    product = TestSetup.Product.create_product
+    quantity = 1
+    quantity_to_add = 3
+    {:ok, _line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => product.master.id, "quantity" => quantity})
+    {updated_status, updated_line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => product.master.id, "quantity" => quantity_to_add})
+    assert updated_status == :error
+    assert errors_on(updated_line_item)[:quantity] == "only 3 available"
   end
 
   test "add to cart with existing line item and same quantity" do

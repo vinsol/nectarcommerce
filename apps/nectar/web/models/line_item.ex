@@ -60,21 +60,20 @@ defmodule Nectar.LineItem do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> foreign_key_constraint(:order_id)
-    |> ensure_product_has_no_variants_if_master()
   end
 
-  @required_fields ~w()a
-  @optional_fields ~w(fullfilled add_quantity unit_price)a
+  @required_fields ~w(add_quantity unit_price)a
+  @optional_fields ~w(fullfilled)a
   def quantity_changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> validate_number(:add_quantity, greater_than: 0)
     |> add_to_existing_quantity
     |> quantity_update(params)
   end
 
-  @required_fields ~w(quantity)a
+  @required_fields ~w(quantity unit_price)a
   @optional_fields ~w(delete)a
   def direct_quantity_update_changeset(model, params \\ %{}) do
     model
@@ -87,19 +86,16 @@ defmodule Nectar.LineItem do
   defp quantity_update(changeset, params) do
     changeset
     |> validate_number(:quantity, greater_than: 0)
-    |> preload_assoc
-    |> validate_product_availability
     |> update_total_changeset(params)
   end
 
   defp update_total_changeset(model, params) when params == %{}, do: model
   defp update_total_changeset(model, _params) do
-    quantity = get_field(model, :quantity)
-    unit_price = model.data.variant.cost_price
-    existing_total = get_field(model, :total) || Decimal.new(0)
-    cost = Decimal.add(existing_total, Decimal.mult(Decimal.new(quantity), unit_price))
+    quantity       = get_field(model, :quantity) |> Decimal.new
+    unit_price     = get_field(model, :unit_price)
+    cost           = Decimal.mult(quantity, unit_price)
+    # always based on the curren price
     put_change(model, :total, cost)
-    |> put_change(:unit_price, unit_price)
   end
 
   defp add_to_existing_quantity(changeset) do
@@ -136,14 +132,6 @@ defmodule Nectar.LineItem do
     variant
   end
 
-  def in_order(query, %Order{id: order_id}) do
-    from c in query, where: c.order_id == ^order_id
-  end
-
-  def with_variant(query, %Variant{id: variant_id}) do
-    from c in query, where: c.variant_id == ^variant_id
-  end
-
   # assures that the product is preloaded before validation
   # of the quantity
   defp preload_assoc(%Ecto.Changeset{} = changeset) do
@@ -152,59 +140,6 @@ defmodule Nectar.LineItem do
 
   defp preload_assoc(%Nectar.LineItem{} = line_item) do
     Repo.preload(line_item, [:variant, :order])
-  end
-
-  def sufficient_quantity_available?(%Nectar.LineItem{} = line_item) do
-    requested_quantity = line_item.quantity
-    sufficient_quantity_available?(line_item, requested_quantity)
-  end
-
-  def sufficient_quantity_available?(%Nectar.LineItem{} = line_item, nil) do
-    available_product_quantity = line_item.variant |> Variant.available_quantity
-    {true, available_product_quantity}
-  end
-
-  def sufficient_quantity_available?(%Nectar.LineItem{} = line_item, requested_quantity) do
-    available_product_quantity = line_item.variant |> Variant.available_quantity
-    {requested_quantity <= available_product_quantity, available_product_quantity}
-  end
-
-  def validate_product_availability(changeset) do
-    changeset
-    |> validate_available_product_quantity
-    |> validate_product_discontinuation_date
-  end
-
-  defp validate_available_product_quantity(changeset) do
-    case sufficient_quantity_available?(changeset.data, changeset.changes[:quantity]) do
-      {true, _} -> changeset
-      {false, 0} -> add_error(changeset, :variant, "out of stock")
-      {false, available_product_quantity} -> add_error(changeset, :quantity, "only #{available_product_quantity} available")
-    end
-  end
-
-  defp validate_product_discontinuation_date(changeset) do
-    discontinue_on = changeset.data.variant.discontinue_on
-    if discontinue_on do
-      case Ecto.Date.compare(discontinue_on, Ecto.Date.utc) do
-        :lt -> add_error(changeset, :variant, "has been discontinued")
-        _  -> changeset
-      end
-    else
-      changeset
-    end
-  end
-
-  defp ensure_product_has_no_variants_if_master(changeset) do
-    variant =
-      changeset.data
-      |> Repo.preload([variant: :product])
-      |> Map.get(:variant)
-    if variant.is_master and Product.has_variants_excluding_master?(variant.product) do
-      add_error(changeset, :variant, "cannot add master variant to cart when other variants are present.")
-    else
-      changeset
-    end
   end
 
   defp ensure_order_is_confirmed(changeset) do
