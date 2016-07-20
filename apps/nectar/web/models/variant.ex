@@ -169,7 +169,7 @@ defmodule Nectar.Variant do
   end
 
   def display_name(variant) do
-    product = variant |> Nectar.Repo.preload([:product]) |> Map.get(:product)
+    product = variant.product
     "#{product.name}(#{variant.sku})"
   end
 
@@ -194,5 +194,20 @@ defmodule Nectar.Variant do
     end
   end
 
+  def availability_status(variant, requested_quantity \\ 0) do
+    cond do
+      discontinued?(variant) ->
+        :discontinued
+      not sufficient_quantity_available?(variant, requested_quantity) ->
+        available = available_quantity(variant)
+        if available > 0 do
+          {:insufficient_quantity, available}
+        else
+          :out_of_stock
+        end
+      true ->
+        :ok
+    end
+  end
 
 end

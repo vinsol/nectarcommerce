@@ -1,4 +1,6 @@
 defmodule Nectar.Workflow.MoveStockBackFromLineItem do
+  alias Ecto.Multi
+
   def run(repo, variant, restock_quantity), do: repo.transaction(steps(variant, restock_quantity))
 
   def steps(variant, quantity) do

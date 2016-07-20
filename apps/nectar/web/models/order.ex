@@ -67,7 +67,6 @@ defmodule Nectar.Order do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> ensure_cart_is_not_empty
     |> cast_assoc(:order_billing_address, required: true)
     |> duplicate_params_if_same_as_billing
     |> cast_assoc(:order_shipping_address, required: true)
@@ -122,129 +121,12 @@ defmodule Nectar.Order do
     end
   end
 
-  # cancelling all line items will automatically cancel the order.
-  def cancel_order(model) do
-    Nectar.Repo.transaction(fn ->
-      model
-      |> Nectar.Repo.preload([:line_items])
-      |> Map.get(:line_items)
-      |> Enum.each(&(Nectar.LineItem.cancel_fullfillment(&1)))
-    end)
-  end
-
   @required_fields ~w(state)a
   @optional_fields ~w()a
-  def move_back_to_cart_state(order) do
-    Nectar.Repo.transaction(fn ->
-      order
-      |> delete_payments
-      |> delete_tax_adjustments
-      |> delete_shipments
-      |> delete_shipment_units
-      |> delete_addresses
-      |> cast(%{state: "cart"}, @required_fields ++ @optional_fields)
-      |> validate_required(@required_fields)
-      |> Nectar.Repo.update!
-    end)
-  end
-
-  def move_back_to_address_state(order) do
-    Nectar.Repo.transaction(fn ->
-      order
-      |> delete_payments
-      |> delete_tax_adjustments
-      |> delete_shipments
-      |> cast(%{state: "address"}, @required_fields ++ @optional_fields)
-      |> validate_required(@required_fields)
-      |> Nectar.Repo.update!
-    end)
-  end
-
-  def move_back_to_shipping_state(order) do
-    Nectar.Repo.transaction(fn ->
-      order
-      |> delete_payments
-      |> cast(%{state: "shipping"}, @required_fields ++ @optional_fields)
-      |> validate_required(@required_fields)
-      |> Nectar.Repo.update!
-    end)
-  end
-
-  def move_back_to_tax_state(order) do
-    Nectar.Repo.transaction(fn ->
-      order
-      |> delete_payments
-      |> cast(%{state: "tax"}, @required_fields ++ @optional_fields)
-      |> validate_required(@required_fields)
-      |> Nectar.Repo.update!
-    end)
-  end
-
-  def move_back_to_payment_state(order) do
-    Nectar.Repo.transaction(fn ->
-      order
-      |> cast(%{state: "payment"}, @required_fields ++ @optional_fields)
-      |> validate_required(@required_fields)
-      |> Nectar.Repo.update!
-    end)
-  end
-
-  alias Nectar.Repo
-
-  defp delete_shipments(order) do
-    shipment_ids = Repo.all(from o in assoc(order, :shipments), select: o.id)
-    Repo.delete_all(from o in assoc(order, :adjustments), where: o.shipment_id in ^shipment_ids)
+  def state_changeset(order, params) do
     order
-  end
-
-  defp delete_shipment_units(order) do
-    shipment_units = Repo.all(from o in assoc(order, :shipment_units))
-    Enum.each(shipment_units, &(Repo.delete &1))
-    order
-  end
-
-  defp delete_tax_adjustments(order) do
-    Repo.delete_all(from o in assoc(order, :adjustments), where: not(is_nil(o.tax_id)))
-    order
-  end
-
-  defp delete_payments(order) do
-    # will want to create a refund here
-    Repo.delete_all(from o in assoc(order, :payment))
-    order
-  end
-
-  defp delete_addresses(order) do
-    # Caution, dangerous bug, since assoc will load with where order_id
-    # both of these actions have same impact
-    Repo.delete_all(from o in assoc(order, :order_billing_address))
-    Repo.delete_all(from o in assoc(order, :order_shipping_address))
-    order
-  end
-
-
-  def confirm_availability(order) do
-    {sufficient_quantity_available, oos_items} =
-      Nectar.LineItem
-      |> Nectar.LineItem.in_order(order.data)
-      |> Nectar.Repo.all
-      |> Nectar.Repo.preload(:variant)
-      |> Enum.reduce({true, []}, fn (ln_item, {status, out_of_stock}) ->
-                                   {available, _} = Nectar.LineItem.sufficient_quantity_available?(ln_item)
-                                   if available do
-                                     {status, out_of_stock}
-                                   else
-                                     {false, [ln_item|out_of_stock]}
-                                   end
-                                 end)
-    if sufficient_quantity_available do
-      order
-    else
-      name_of_oos =
-       oos_items
-       |> Enum.reduce("", fn (item, acc) -> acc <> Nectar.Variant.display_name(item.variant) <> "," end)
-      add_error(order, :line_items, "#{name_of_oos} are out of stock")
-    end
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
   def check_if_variants_in_stock(%Ecto.Changeset{model: order}) do
@@ -355,22 +237,8 @@ defmodule Nectar.Order do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> ensure_presence_of_shipment_units
     |> cast_assoc(:shipment_units, required: true, with: &Nectar.ShipmentUnit.create_shipment_changeset/2)
   end
-
-  defp ensure_presence_of_shipment_units(%Ecto.Changeset{params: params} = changeset) do
-    unless params["shipment_units"] do
-      add_error(changeset, :shipment_units, "are required")
-    else
-      changeset
-    end
-  end
-
-  defp ensure_presence_of_shipment_units(%Ecto.Changeset{} = changeset) do
-    add_error(changeset, :shipment_units, "are required")
-  end
-
 
   # no changes to be made with tax
   @required_fields ~w(tax_confirm state)a
@@ -418,14 +286,6 @@ defmodule Nectar.Order do
       model
     else
       add_error(model, :tax_confirm, "Please confirm to proceed")
-    end
-  end
-
-  defp ensure_cart_is_not_empty(model) do
-    line_items = get_field(model, :line_items)
-    case line_items do
-      []  -> add_error(model, :line_items, "Please add some item to your cart to proceed")
-      _   -> model
     end
   end
 

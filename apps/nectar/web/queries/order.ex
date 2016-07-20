@@ -54,4 +54,25 @@ defmodule Nectar.Query.Order do
       select: order
   end
 
+  def billing_address(order),
+    do: from o in Ecto.assoc(order, :order_billing_address)
+
+  def shipping_address(order),
+    do: from o in Ecto.assoc(order, :order_shipping_address)
+
+  def payment(order),
+    do: from o in Ecto.assoc(order, :payment)
+
+  def tax_adjustments(order),
+    do: from o in Ecto.assoc(order, :adjustments), where: not(is_nil(o.tax_id))
+
+  def shipment_units(order),
+    do: from o in Ecto.assoc(order, :shipment_units)
+
+  def shipment_adjustements(order),
+    do: from o in Ecto.assoc(order, :adjustments), where: not(is_nil(o.shipment_id))
+
+  def shipments(order),
+    do: from o in Ecto.assoc(order, :shipments)
+
 end

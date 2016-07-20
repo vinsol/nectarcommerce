@@ -1,4 +1,6 @@
 defmodule Nectar.Workflow.AcquireStockFromVariant do
+  alias Ecto.Multi
+
   def run(repo, variant, quantity), do: repo.transaction(steps(variant, quantity))
 
   def steps(variant, quantity) do

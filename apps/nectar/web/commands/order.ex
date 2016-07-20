@@ -12,5 +12,31 @@ defmodule Nectar.Command.Order do
     |> repo.update
   end
 
+  def delete_addresses(repo, order) do
+    repo.transaction(fn ->
+      repo.delete_all(Nectar.Query.Order.shipping_address(order))
+      repo.delete_all(Nectar.Query.Order.billing_address(order))
+    end)
+  end
+
+  def delete_payment(repo, order) do
+   repo.delete_all(Nectar.Query.Order.payment(order))
+  end
+
+  def delete_tax_adjustments(repo, order) do
+    repo.delete_all(Nectar.Query.Order.tax_adjustments(order))
+  end
+
+  def delete_shipment_units(repo, order) do
+    repo.delete_all(Nectar.Query.Order.shipment_units(order))
+  end
+
+  def delete_shipment_adjustments(repo, order) do
+    repo.delete_all(Nectar.Query.Order.shipment_adjustments(order))
+  end
+
+  def delete_shipments(repo, order) do
+    repo.delete_all(Nectar.Query.Order.shipments(order))
+  end
 
 end
