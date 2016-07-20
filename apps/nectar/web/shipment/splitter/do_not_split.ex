@@ -3,7 +3,7 @@ defmodule Nectar.Shipment.Splitter.DoNotSplit do
   alias Nectar.ShipmentUnit
 
   def split(order) do
-    line_items = order |> Repo.preload([:line_items]) |> Map.get(:line_items)
-    [ShipmentUnit.create(line_items)]
+    line_items = order.line_items
+    [line_items] # only one group of all line items
   end
 end

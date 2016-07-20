@@ -129,79 +129,9 @@ defmodule Nectar.Order do
     |> validate_required(@required_fields)
   end
 
-  def check_if_variants_in_stock(%Ecto.Changeset{model: order}) do
-    check_if_variants_in_stock(order)
-  end
 
-  def check_if_variants_in_stock(order) when is_binary(order) do
-    check_if_variants_in_stock(String.to_integer(order))
-  end
-
-  def check_if_variants_in_stock(order) when is_number(order) do
-    order = Repo.get!(Order, order) |> Repo.preload([line_items: :variant])
-    check_if_variants_in_stock(order)
-  end
-
-  def check_if_variants_in_stock(%Order{} = order) do
-    reduction_function =
-      fn (ln_item, {status, out_of_stock}) ->
-        {available, _} = Nectar.LineItem.sufficient_quantity_available?(ln_item)
-        if available do
-          {status, out_of_stock}
-        else
-          {false, [ln_item|out_of_stock]}
-        end
-    end
-
-    Nectar.LineItem
-    |> Nectar.LineItem.in_order(order)
-    |> Nectar.Repo.all
-    |> Nectar.Repo.preload(:variant)
-    |> Enum.reduce({true, []}, reduction_function)
-  end
-
-  # returns the appropriate changeset required based on the next state
-  def transition_changeset(model, next_state, params \\ %{}) do
-    case params do
-      %{} = opt when opt == %{} ->
-        apply(Nectar.Order, String.to_atom("#{next_state}_changeset"), [with_preloaded_assoc(model, next_state)])
-
-      _ -> apply(Nectar.Order,
-                 String.to_atom("#{next_state}_changeset"),
-                 [with_preloaded_assoc(model, next_state),
-                  Dict.merge(%{"state" => next_state}, params)])
-    end
-  end
-
-  def with_preloaded_assoc(model, "address") do
-    Nectar.Repo.get!(Order, model.id)
-    |> Nectar.Repo.preload([:order_shipping_address, :order_billing_address, :line_items, :shipping_address, :billing_address])
-  end
-
-  def with_preloaded_assoc(model, "shipping") do
-    order = Nectar.Repo.get!(Order, model.id) |> Repo.preload([shipment_units: [shipment: [:shipping_method, :adjustment], line_items: [variant: :product]]])
-  end
-
-  def with_preloaded_assoc(model, "tax") do
-    Nectar.Repo.get!(Order, model.id)
-    |> Nectar.Repo.preload([adjustments: [:tax, shipment: :shipping_method]])
-  end
-
-  def with_preloaded_assoc(model, "payment") do
-    order = Nectar.Repo.get!(Order, model.id)
-    |> Nectar.Repo.preload([:payment])
-    %Order{order|applicable_payment_methods: Nectar.Invoice.generate_applicable_payment_invoices(order)}
-  end
-
-  def with_preloaded_assoc(model, "confirmation") do
-    Nectar.Repo.get!(Order, model.id)
-    |> Nectar.Repo.preload([line_items: :variant])
-  end
-
-  def with_preloaded_assoc(model, _) do
-    model
-  end
-
+  @required_fields ~w(total product_total confirmation_status)a
+  @optional_fields ~w()a
   def settlement_changeset(order, params) do
     order
     |> cast(params, @required_fields ++ @optional_fields)
@@ -222,8 +152,7 @@ defmodule Nectar.Order do
     same_as_billing = get_field(changeset, :same_as_billing)
     billing_address_changes = changeset.changes[:order_billing_address]
     if same_as_billing && billing_address_changes do
-      billing_address_id = get_field(billing_address_changes, :address_id)
-      updated_params = Map.put(changeset.params, "order_shipping_address", %{"address_id" => billing_address_id})
+      updated_params = Map.put(changeset.params, "order_shipping_address", changeset.params["order_billing_address"])
       %Ecto.Changeset{changeset|params: updated_params}
     else
       changeset
@@ -237,7 +166,20 @@ defmodule Nectar.Order do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> ensure_presence_of_shipment_units
     |> cast_assoc(:shipment_units, required: true, with: &Nectar.ShipmentUnit.create_shipment_changeset/2)
+  end
+
+  defp ensure_presence_of_shipment_units(%Ecto.Changeset{params: params} = changeset) do
+    unless params["shipment_units"] do
+      add_error(changeset, :shipment_units, "are required")
+    else
+      changeset
+    end
+  end
+
+  defp ensure_presence_of_shipment_units(%Ecto.Changeset{} = changeset) do
+    add_error(changeset, :shipment_units, "are required")
   end
 
   # no changes to be made with tax
@@ -250,9 +192,10 @@ defmodule Nectar.Order do
     |> validate_tax_confirmed
   end
 
-  def transaction_id_changeset(model, transaction_id) do
-    payment_changes = put_change(model.changes[:payment], :transaction_id, transaction_id)
-    %Ecto.Changeset{model | changes: %{model.changes | payment: payment_changes}}
+  def transaction_id_changeset(model, params) do
+    model
+    |> cast(params, ~w()a)
+    |> cast_assoc(:payment, with: &Nectar.Payment.transaction_id_changeset/2)
   end
 
   def payment_params(order, %{"payment" => %{"payment_method_id" => ""}} = params), do: params

@@ -1,10 +1,6 @@
 defmodule Nectar.Gateway do
-  def authorize_payment(order, selected_payment_id, payment_method_params) do
-    do_authorize_payment(order, selected_payment_method(selected_payment_id), payment_method_params)
-  end
-
-  def capture_payment(payment) do
-    do_capture_payment(payment, selected_payment_method(payment.payment_method_id))
+  def authorize_payment(order, method_name, params) do
+    apply(payment_module(method_name), :authorize, [order, params[method_name]])
   end
 
   def refund_payment(payment) do
@@ -15,8 +11,8 @@ defmodule Nectar.Gateway do
     Nectar.Repo.get!(Nectar.PaymentMethod, selected_payment_id) |> Map.get(:name)
   end
 
-  defp do_authorize_payment(order, method_name, params) do
-    apply(payment_module(method_name), :authorize, [order, params[method_name]])
+  def capture_payment(payment) do
+    do_capture_payment(payment, selected_payment_method(payment.payment_method_id))
   end
 
   defp do_capture_payment(payment, method_name) do

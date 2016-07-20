@@ -43,6 +43,7 @@ defmodule Nectar.ProductTest do
       master_variant = Nectar.Query.Product.master_variant(Repo, product)
 
       changeset = Product.update_changeset(product, %{"master" => %{"discontinue_on" => get_past_date, "id" => master_variant.id}})
+
       assert errors_on(changeset.changes.master) == [discontinue_on: "should be greater or same as #{Ecto.Date.utc}", discontinue_on: "can not be past date"]
     end
 

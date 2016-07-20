@@ -37,12 +37,15 @@ defmodule Nectar.Workflow.ConfirmAvailabilityInOrderChangeset do
     order = order_changeset.data |> repo.preload([line_items: [variant: :product]])
     {available, oos, discontinued, insufficient} = check_line_items_for_availability(order)
     if available do
-      order_changeset
+      {:ok, order_changeset}
     else
-      order_changeset
-      |> add_error_message(:out_of_stock, oos)
-      |> add_error_message(:discontinued, discontinued)
-      |> add_error_message(:insuffcient_quantity, insufficient)
+      changeset =
+        order_changeset
+        |> add_error_message(:out_of_stock, oos)
+        |> add_error_message(:discontinued, discontinued)
+        |> add_error_message(:insuffcient_quantity, insufficient)
+
+      {:error, changeset}
     end
   end
 

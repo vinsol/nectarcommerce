@@ -11,25 +11,33 @@ defmodule Nectar.CheckoutManager do
                      |> Enum.zip(Enum.drop(@states, 1))
                      |> Enum.reduce(%{}, fn ({frm, to}, acc) -> Map.put_new(acc, frm, to) end)
 
+  @next_changeset_module %{
+    "cart"     => Nectar.Workflow.Checkout.Address,
+    "address"  => Nectar.Workflow.Checkout.Shipping,
+    "shipping" => Nectar.Workflow.Checkout.Tax,
+    "tax"      => Nectar.Workflow.Checkout.Payment
+  }
+  @nextable_state Map.keys(@next_changeset_module)
 
-  def next_changeset(order, params \\ :empty)
-  def next_changeset(%Order{state: "cart"} = order, params),     do: Order.transition_changeset(order, "address", params)
-  def next_changeset(%Order{state: "address"} = order, params),  do: Order.transition_changeset(order, "shipping", params)
-  def next_changeset(%Order{state: "shipping"} = order, params), do: Order.transition_changeset(order, "tax", params)
-  def next_changeset(%Order{state: "tax"} = order, params),      do: Order.transition_changeset(order, "payment", params)
-  def next_changeset(%Order{state: "payment"} = order, params),  do: Order.transition_changeset(order, "confirmation", params)
-  def next_changeset(%Order{} = order, _params),                 do: order
+  def next_changeset(repo, order, params \\ %{})
 
+  def next_changeset(repo, %Order{state: state} = order, params) when state in @nextable_state do
+    next_module = Map.get(@next_changeset_module, state)
+    order = next_module.order_with_preloads(repo, order)
+    next_module.changeset_for_step(order, params)
+  end
+  def next_changeset(_repo, order, params), do: order
 
-  # transitions
-  # TODO: autogenerate the transitions
+  def next(repo, %Order{state: state} = order, params) when state in @nextable_state do
+    next_module = Map.get(@next_changeset_module, state)
+    next_state = Map.get(@state_transitions, state)
+    next_module.run(repo, order, Map.merge(params, %{"state" => next_state}))
+    |> process_result
+  end
+  def next(repo, order, params), do: order
 
-  def next(%Order{state: "cart"} = order, params),         do: to_state(order, "address", params)
-  def next(%Order{state: "address"} = order, params),      do: to_state(order, "shipping", params)
-  def next(%Order{state: "shipping"} = order, params),     do: to_state(order, "tax", params)
-  def next(%Order{state: "tax"} = order, params),          do: to_state(order, "payment", params)
-  def next(%Order{state: "payment"} = order, params),      do: to_state(order, "confirmation", params)
-  def next(%Order{state: "confirmation"} = order, params), do: to_state(order, "confirmation", params)
+  def process_result({:ok, changes}), do: {:ok, changes.order}
+  def process_result({:error, _name, message, _changes}), do: {:error, message}
 
   @nextable_states Enum.drop(Enum.reverse(@states), 1)
   def next_state(%Order{state: state}) when state in @nextable_states, do: Map.get(@state_transitions, state)
@@ -37,12 +45,12 @@ defmodule Nectar.CheckoutManager do
 
   def back(order)
 
+  # use the workflows here
   def back(%Order{state: "address"} = order),  do: Order.move_back_to_cart_state(order)
   def back(%Order{state: "shipping"} = order), do: Order.move_back_to_address_state(order)
   def back(%Order{state: "tax"} = order),      do: Order.move_back_to_shipping_state(order)
-  def back(%Order{state: "payment"} = order),  do: Order.move_back_to_tax_state(order)
 
-  # cannot go back from confirmation or cart
+  # cannot go back from confirmation or cart.
   def back(%Order{state: _} = order), do: {:ok, order}
 
 
@@ -55,108 +63,20 @@ defmodule Nectar.CheckoutManager do
   end
 
   def back(order, state)
+
   @backable_states "cart"
   def back(%Order{state: "address"} = order, state)  when state in @backable_states, do: move_back_to_state(order, state)
+
   @backable_states "address"
   def back(%Order{state: "shipping"} = order, state) when state in @backable_states, do: move_back_to_state(order, state)
+
   @backable_states "shipping"
   def back(%Order{state: "tax"} = order, state)      when state in @backable_states, do: move_back_to_state(order, state)
-  @backable_states "tax"
-  def back(%Order{state: "payment"} = order, state)  when state in @backable_states, do: move_back_to_state(order, state)
 
   # default match cannot send the order back because not going to proper state, return the order
   def back(%Order{state: _} = order, _), do: {:ok, order}
 
-  # TODO: move transitions to seperate modules ?
-  def before_transition(order, next_state, data)
-
-  def before_transition(order, "address", _params) do
-    order
-    |> Order.confirm_availability
-  end
-
-  def before_transition(order, "confirmation", _params) do
-    order
-    |> Order.confirm_availability
-  end
-
-  def before_transition(order, "payment", params) do
-    order
-    |> authorize_payment(params)
-  end
-
-  def view_data(%Order{state: "address"} = order) do
-    %{
-      proposed_shipments: Nectar.Shipment.Generator.propose(order)
-    }
-  end
+  # TODO: delegate to the module.
   def view_data(order), do: %{}
-
-
-  # default match do nothing just return order
-  def before_transition(order, _to, _data), do: order
-
-  def after_transition(%Order{state: "address"} = order, _params) do
-    order
-    |> Splitter.make_shipment_units
-    order
-  end
-
-  def after_transition(%Order{state: "shipping"} = order, _params) do
-    order
-    |> TaxCalculator.calculate_taxes
-  end
-
-  def after_transition(%Order{state: "tax"} = order, _data) do
-    order
-    |> Order.settle_adjustments_and_product_payments
-  end
-
-  def after_transition(%Order{state: "confirmation"} = order, _data) do
-    order
-    |> Order.acquire_variant_stock
-    |> CartEventManager.send_notification_if_out_of_stock_on_checkout
-    order
-  end
-
-  # default match do nothing just return order
-  def after_transition(%Order{} = order, _data), do: order
-
-  defp to_state(%Order{} = order, next_state, params) do
-    Nectar.Repo.transaction(fn ->
-      changes = Nectar.CheckoutManager.next_changeset(order, params)
-      {status, model} =
-        changes
-        |> before_transition(next_state, params)
-        |> Nectar.Repo.update
-
-      case status do
-        :ok -> after_transition(model, params)
-        :error -> Nectar.Repo.rollback model
-      end
-    end)
-  end
-
-  # TODO: move these methods to gateway
-  defp authorize_payment(order, params) do
-    # get the selected payment method
-    # if none or more than one found return changeset it will handle missing payment method later
-    # else use the selected payment_method_id to complete the transaction.
-    case params["payment"] do
-      %{"payment_method_id" => selected_payment_id} -> do_authorize_payment(order, selected_payment_id, params["payment_method"])
-        _  -> order
-    end
-  end
-
-  defp do_authorize_payment(order, selected_payment_id, payment_method_params) when is_binary(selected_payment_id),
-    do: do_authorize_payment(order, String.to_integer(selected_payment_id), payment_method_params)
-
-  defp do_authorize_payment(order, selected_payment_id, payment_method_params) do
-    # in case payment fails add the error message to changeset to prevent it from moving to next state.
-    case Nectar.Gateway.authorize_payment(order.data, selected_payment_id, payment_method_params) do
-      {:ok, transaction_id}   -> order |> Order.transaction_id_changeset(transaction_id)
-      {:error, error_message} -> order |> Ecto.Changeset.add_error(:payment, error_message)
-    end
-  end
 
 end

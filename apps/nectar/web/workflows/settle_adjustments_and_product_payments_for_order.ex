@@ -14,16 +14,16 @@ defmodule Nectar.Workflow.SettleAdjustmentAndProductPaymentForOrder do
   end
 
   defp calculate_shipping_total(_changes, repo, order),
-    do: Nectar.Query.Order.shipping_total(repo, order)
+    do: {:ok, Nectar.Query.Order.shipping_total(repo, order)}
 
   defp calculate_product_total(_changes, repo, order),
-    do: Nectar.Query.Order.product_total(repo, order)
+    do: {:ok, Nectar.Query.Order.product_total(repo, order)}
 
   defp calculate_tax_total(_changes, repo, order),
-    do: Nectar.Query.Order.tax_total(repo, order)
+    do: {:ok, Nectar.Query.Order.tax_total(repo, order)}
 
   defp can_be_fullfilled?(_changes, repo, order),
-    do: Nectar.Query.Order.can_be_fullfilled?(repo, order)
+    do: {:ok, Nectar.Query.Order.can_be_fullfilled?(repo, order)}
 
   defp build_params(changes) do
     adjustment_total = Decimal.add(changes.shipping_total, changes.tax_total)

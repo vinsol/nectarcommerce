@@ -36,17 +36,6 @@ defmodule Nectar.ShipmentUnit do
     |> validate_required(@required_fields)
   end
 
-  def create(line_items) do
-    order_id = List.first(line_items) |> Map.get(:order_id)
-    {:ok, shipment_unit} = Repo.transaction(fn ->
-      shipment_unit = Repo.insert!(changeset(%ShipmentUnit{}, %{order_id: order_id}))
-      query = LineItem.set_shipment_unit(Enum.map(line_items, &(&1.id)), shipment_unit.id)
-      Repo.update_all(query, [])
-      shipment_unit |> Repo.preload([:line_items])
-    end)
-    shipment_unit
-  end
-
   @required_fields ~w()a
   @optional_fields ~w()a
   def create_shipment_changeset(model, params \\ %{}) do

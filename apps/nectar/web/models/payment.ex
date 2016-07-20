@@ -58,4 +58,12 @@ defmodule Nectar.Payment do
     |> validate_required(@required_fields)
   end
 
+  @required_fields ~w(transaction_id)a
+  @optional_fields ~w()a
+  def transaction_id_changeset(model, params \\ %{}) do
+    model
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
+  end
+
 end

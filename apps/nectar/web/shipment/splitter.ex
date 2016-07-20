@@ -2,7 +2,7 @@ defmodule Nectar.Shipment.Splitter do
 
   alias Nectar.Shipment.Splitter.DoNotSplit
 
-  def make_shipment_units(order) do
+  def split(order) do
     shipment_splitter = configured_shipment_splitter || DoNotSplit
     shipment_splitter.split(order)
   end
