@@ -11,6 +11,8 @@ defmodule Nectar.Query.LineItem do
     from c in query, where: c.variant_id == ^variant_id
   end
 
+  def with_variant(repo, variant), do: repo.all(with_variant(variant))
+
   def in_order_with_variant(order, variant),
     do: with_variant(variant, in_order(order))
 

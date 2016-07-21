@@ -14,7 +14,7 @@ defmodule Nectar.Workflow.CheckVariantAvailability do
         {:error, Ecto.Changeset.add_error(changeset, :variant, "has been discontinued")}
       :out_of_stock ->
         {:error, Ecto.Changeset.add_error(changeset, :variant, "out of stock")}
-      {:insuffcient_quantity, available} ->
+      {:insufficient_quantity, available} ->
         {:error, Ecto.Changeset.add_error(changeset, :quantity, "only #{ available } available")}
     end
   end

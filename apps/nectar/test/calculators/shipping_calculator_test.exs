@@ -119,8 +119,10 @@ defmodule Nectar.ShippingCalculatorTest do
   end
 
   def proposed_shipments(order) do
-    shipment_unit = List.first(order |> Repo.preload([:shipment_units]) |> Map.get(:shipment_units))
-    results = ShippingCalculator.calculate_applicable_shippings(order)
+    order = order |> Repo.preload([:shipment_units])
+    shipment_unit = List.first(order.shipment_units)
+    applicable_shipping_methods = Nectar.Query.ShippingMethod.enabled_shipping_methods(Nectar.Repo)
+    results = ShippingCalculator.calculate_applicable_shippings(order, applicable_shipping_methods)
     results |> Map.get(shipment_unit.id, [])
   end
 

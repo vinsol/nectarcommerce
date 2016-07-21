@@ -13,7 +13,7 @@ defmodule Nectar.LineItem do
 
     field :add_quantity, :integer, virtual: true, default: 0
     field :unit_price, :decimal
-    field :quantity, :integer
+    field :quantity, :integer, default: 0
     field :total, :decimal
     field :fullfilled, :boolean, default: true
 
@@ -42,6 +42,7 @@ defmodule Nectar.LineItem do
     model
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
+    |> foreign_key_constraint(:order_id)
   end
 
   @required_fields ~w(add_quantity unit_price)a
@@ -81,8 +82,8 @@ defmodule Nectar.LineItem do
   end
 
   defp add_to_existing_quantity(changeset) do
-    existing_quantity = changeset.data.quantity || 0
-    change_in_quantity = changeset.changes[:add_quantity] || 0
+    existing_quantity = get_field(changeset, :quantity)
+    change_in_quantity = get_field(changeset, :add_quantity)
     put_change(changeset, :quantity, existing_quantity + change_in_quantity)
   end
 

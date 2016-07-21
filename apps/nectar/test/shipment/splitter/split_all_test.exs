@@ -10,7 +10,7 @@ defmodule Nectar.Shipment.Splitter.SplitAllTest do
   test "it splits the line items into 1 shipment unit" do
     cart = setup_cart |> Repo.preload([:line_items])
     [shipment_unit] = Nectar.Shipment.Splitter.SplitAll.split(cart)
-    assert Enum.count(shipment_unit.line_items) == Enum.count(cart.line_items)
+    assert Enum.count(shipment_unit) == Enum.count(cart.line_items)
   end
 
   test "it splits multiple line items into seperate shipment unit" do
@@ -18,7 +18,7 @@ defmodule Nectar.Shipment.Splitter.SplitAllTest do
     shipment_units = Nectar.Shipment.Splitter.SplitAll.split(cart)
     shipment_unit = List.first shipment_units
     assert Enum.count(shipment_units) == 2
-    assert Enum.count(shipment_unit.line_items) == 1
+    assert Enum.count(shipment_unit)  == 1
   end
 
 end

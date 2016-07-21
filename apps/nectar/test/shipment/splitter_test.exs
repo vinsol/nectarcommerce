@@ -3,22 +3,31 @@ defmodule Nectar.Shipment.SplitterTest do
 
   import Nectar.TestSetup.Order, only: [setup_cart: 0, setup_cart_with_multiple_products: 0]
 
-  test "make_shipment_units/1 takes the order and splits it into shipment units" do
-    cart = setup_cart
-    shipments = [op]   = Nectar.Shipment.Splitter.make_shipment_units(cart)
-    assert Enum.count(shipments) == 1
-    assert op.__struct__ == Nectar.ShipmentUnit
+  setup context do
+    if context[:use_splitter] do
+      setting_name = :shipment_splitter
+      Application.put_env(:nectar, setting_name, context[:use_splitter])
+      on_exit fn -> Application.delete_env(:nectar, setting_name) end
+    end
+    :ok
   end
 
-  test "make_shipment_units/1 uses the configured splitter if present" do
-    Application.put_env(:nectar, :shipment_splitter, Nectar.Shipment.Splitter.SplitAll)
+  describe "split/1" do
+    test "takes the order and splits it into shipment units" do
+      cart = setup_cart |> Nectar.Repo.preload([:line_items])
+      shipments = [[op]]   = Nectar.Shipment.Splitter.split(cart)
+      assert Enum.count(shipments) == 1
+      assert op.__struct__ == Nectar.LineItem
+    end
 
-    cart = setup_cart_with_multiple_products
-    shipments = Nectar.Shipment.Splitter.make_shipment_units(cart)
-    op = List.first shipments
-    assert Enum.count(shipments) == 2
-    assert op.__struct__ == Nectar.ShipmentUnit
-    Application.delete_env(:nectar, :shipment_splitter)
+    @tag use_splitter: Nectar.Shipment.Splitter.SplitAll
+    test "uses the configured splitter if present" do
+      cart = setup_cart_with_multiple_products |> Nectar.Repo.preload([:line_items])
+      shipments = Nectar.Shipment.Splitter.split(cart)
+      [op] = List.first shipments
+      assert Enum.count(shipments) == 2
+      assert op.__struct__ == Nectar.LineItem
+    end
   end
 
 end

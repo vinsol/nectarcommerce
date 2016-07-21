@@ -8,7 +8,7 @@ defmodule Nectar.AdjustmentTest do
   end
 
   describe "associations" do
-    has_associations Adjustmwent, ~w(shipment tax order)a
+    has_associations Adjustment, ~w(shipment tax order)a
 
     belongs_to? Adjustment, :shipment, via: Nectar.Shipment
     belongs_to? Adjustment, :tax,      via: Nectar.Tax

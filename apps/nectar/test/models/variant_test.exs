@@ -26,6 +26,7 @@ defmodule Nectar.VariantTest do
     changeset = product
       |> build_assoc(:variants)
       |> Variant.create_variant_changeset(
+        product,
         Map.merge(@variant_attrs, %{
           variant_option_values: [
             %{
@@ -52,6 +53,7 @@ defmodule Nectar.VariantTest do
     changeset = product
       |> build_assoc(:variants)
       |> Variant.create_variant_changeset(
+        product,
         Map.merge(@invalid_attrs, %{
           variant_option_values: [
             %{
@@ -78,6 +80,7 @@ defmodule Nectar.VariantTest do
     changeset = product
       |> build_assoc(:variants)
       |> Variant.create_variant_changeset(
+        product,
         Map.merge(@variant_attrs, %{
           variant_option_values: [
             %{
@@ -93,8 +96,8 @@ defmodule Nectar.VariantTest do
   end
 
   test "Update: Discontinue on should not be past date and greater than product available_on" do
-    variant = Nectar.TestSetup.Variant.create_variant
-    changeset = Variant.update_variant_changeset(variant, %{"discontinue_on" => get_past_date})
+    variant = Nectar.TestSetup.Variant.create_variant |> Nectar.Repo.preload([:product])
+    changeset = Variant.update_variant_changeset(variant, variant.product, %{"discontinue_on" => get_past_date})
     assert errors_on(changeset) == [discontinue_on: "should be greater or same as #{Ecto.Date.utc}", discontinue_on: "can not be past date"]
   end
 end

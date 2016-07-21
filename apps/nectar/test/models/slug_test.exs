@@ -13,11 +13,8 @@ defmodule ExSHop.SlugTest do
   end
 
   test "slug not given but already present" do
-    existing_product = Product.changeset(%Product{}, @valid_product_attrs)
-      |> Slug.generate_slug
-      |> Repo.insert!
-
-    assert existing_product.slug == "slug-ed"
+    existing_product = Nectar.TestSetup.Product.create_product
+    assert existing_product.slug == "reebok-premium"
 
     changeset = Product.changeset(existing_product, %{name: "234"})
       |> Slug.generate_slug
@@ -37,11 +34,8 @@ defmodule ExSHop.SlugTest do
   end
 
   test "slug given but already present" do
-    existing_product = Product.changeset(%Product{}, @valid_product_attrs)
-      |> Slug.generate_slug
-      |> Repo.insert!
-
-    assert existing_product.slug == "slug-ed"
+    existing_product = Nectar.TestSetup.Product.create_product
+    assert existing_product.slug == "reebok-premium"
 
     changeset = Product.changeset(existing_product, %{slug: "234"})
       |> Slug.generate_slug
@@ -49,12 +43,8 @@ defmodule ExSHop.SlugTest do
   end
 
   test "slug given but already present & slug base present" do
-    existing_product = Product.changeset(%Product{}, @valid_product_attrs)
-      |> Slug.generate_slug
-      |> Repo.insert!
-
-    assert existing_product.slug == "slug-ed"
-
+    existing_product = Nectar.TestSetup.Product.create_product
+    assert existing_product.slug == "reebok-premium"
     changeset = Product.changeset(existing_product, %{name: "123", slug: "234"})
       |> Slug.generate_slug
     assert changeset.changes == %{name: "123", slug: "234"}

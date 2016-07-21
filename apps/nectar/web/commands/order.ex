@@ -1,6 +1,11 @@
 defmodule Nectar.Command.Order do
   use Nectar.Command, model: Nectar.Order
 
+  def insert!(_repo, _params), do: raise "insert not allowed, please use other commands"
+  def insert(_repo, _params),  do: raise "insert not allowed, please use other commands"
+  def update(_repo, _params),  do: raise "please use the proper workflow for updating order"
+  def update(_repo, _params),  do: raise "please use the proper workflow for updating order"
+
   def create_empty_cart_for_guest!(repo),
     do: Nectar.Order.cart_changeset(%Nectar.Order{}, %{}) |> repo.insert!
 
