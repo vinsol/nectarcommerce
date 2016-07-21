@@ -3,7 +3,7 @@ defmodule Nectar.Repo.Migrations.AddShippmentUnitIdToLineItems do
 
   def change do
     alter table(:line_items) do
-      add :shipment_unit_id, references(:shipment_units), on_delete: :nilify_all
+      add :shipment_unit_id, references(:shipment_units, on_delete: :nilify_all)
     end
   end
 end

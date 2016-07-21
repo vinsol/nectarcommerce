@@ -35,16 +35,16 @@ defmodule Nectar.Query.Order do
     repo.one(from ln in Ecto.assoc(order, :line_items), select: count(ln.id)) == 0
   end
 
-  def variants_in_cart(%Order{id: id} = order) do
-    from v in assoc(order, :variants)
+  def variants_in_cart(%Nectar.Order{id: id} = order) do
+    from v in Ecto.assoc(order, :variants)
   end
 
   def out_of_stock_carts_sharing_variants_with(repo, order) do
     out_of_stock_variants_in_cart =
-      repo.all(from v in Order.variants_in_cart(order),
+      repo.all(from v in variants_in_cart(order),
         where: v.bought_quantity == v.total_quantity,
         select: v.id)
-    repo.all(Order.with_variants_in_cart(out_of_stock_variants_in_cart))
+    repo.all(with_variants_in_cart(out_of_stock_variants_in_cart))
   end
 
   def with_variants_in_cart(variant_ids) do

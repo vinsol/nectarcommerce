@@ -3,7 +3,7 @@ defmodule Nectar.Repo.Migrations.AddShipmentUnitIdToShipments do
 
   def change do
     alter table(:shipments) do
-      add :shipment_unit_id, references(:shipment_units)
+      add :shipment_unit_id, references(:shipment_units, on_delete: :nilify_all)
     end
   end
 end

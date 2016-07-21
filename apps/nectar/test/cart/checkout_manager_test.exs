@@ -267,8 +267,8 @@ defmodule Nectar.CheckoutManagerTest do
     assert c_shipp.state == "shipping"
     {:ok, backed_order} = CheckoutManager.back(Repo, c_shipp)
     assert backed_order.state == "address"
-    assert Repo.all(Nectar.Shipping.for_order(backed_order)) == []
-    assert Repo.all(Nectar.Adjustment.for_order(backed_order)) == []
+    assert Nectar.Query.Shipping.for_order(Repo, backed_order) == []
+    assert Nectar.Query.Adjustment.for_order(Repo, backed_order) == []
   end
 
 

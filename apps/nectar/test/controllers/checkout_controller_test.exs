@@ -99,9 +99,9 @@ defmodule Nectar.CheckoutControllerTest do
     unless skip_payments, do: create_payment_methods
     unless skip_shipping_methods, do: create_shipping_methods
     create_taxations
-    product = create_product
+    product = Nectar.TestSetup.Product.create_product
     quantity = 2
-    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => product.id, "quantity" => quantity})
+    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => product.master.id, "quantity" => quantity})
     cart
   end
 
@@ -115,7 +115,7 @@ defmodule Nectar.CheckoutControllerTest do
   @address_parameters  %{"address_line_1" => "address line 12", "address_line_2" => "address line 22"}
 
   defp valid_address_params do
-    address = Dict.merge(@address_parameters, valid_country_and_state_ids)
+    address = %{"address" => Dict.merge(@address_parameters, valid_country_and_state_ids)}
     %{"order_shipping_address" => address, "order_billing_address" => address}
   end
 
@@ -175,7 +175,7 @@ defmodule Nectar.CheckoutControllerTest do
   end
 
   defp do_setup(_context) do
-    user = Repo.insert!(%User{name: "NotAdmin", email: "not_admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: false})
+    {:ok, user} = Nectar.TestSetup.User.create_user
     conn = guardian_login(user)
     {:ok, %{conn: conn}}
   end

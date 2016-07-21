@@ -8,14 +8,14 @@ defmodule Nectar.CheckoutController do
 
   def checkout(conn, _params) do
     order = conn.assigns.current_order
-    changeset = CheckoutManager.next_changeset(order)
+    changeset = CheckoutManager.next_changeset(Repo, order)
     data = CheckoutManager.view_data(order)
     render(conn, "checkout.html", order: order, changeset: changeset, data: data)
   end
 
   def next(conn, %{"order" => order_params}) do
     order = conn.assigns.current_order
-    case CheckoutManager.next(order, order_params) do
+    case CheckoutManager.next(Repo, order, order_params) do
       {:error, updated_changeset} ->
         data = CheckoutManager.view_data(order)
         render(conn, "checkout.html", order: order, changeset: updated_changeset, data: data)
@@ -23,7 +23,7 @@ defmodule Nectar.CheckoutController do
         redirect(conn, to: order_path(conn, :show, updated_order))
       {:ok, updated_order} ->
         data = CheckoutManager.view_data(updated_order)
-        render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(updated_order), data: data)
+        render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(Repo, updated_order), data: data)
     end
   end
 

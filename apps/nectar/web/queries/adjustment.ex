@@ -11,7 +11,7 @@ defmodule Nectar.Query.Adjustment do
   def tax_adjustments_for_order(order),
     do: from o in for_order(order), where: not(is_nil(o.tax_id))
 
-  def shipment_adjustements_for_order(order),
+  def shipment_adjustments_for_order(order),
     do: from o in for_order(order), where: not(is_nil(o.shipment_id))
 
 end
