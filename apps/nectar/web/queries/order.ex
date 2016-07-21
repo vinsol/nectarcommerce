@@ -57,6 +57,9 @@ defmodule Nectar.Query.Order do
   def billing_address(order),
     do: from o in Ecto.assoc(order, :order_billing_address)
 
+  def billing_address(order),
+    do: from o in Nectar.OrderBillingAddress, where: o.order_id == ^order.id
+
   def shipping_address(order),
     do: from o in Ecto.assoc(order, :order_shipping_address)
 

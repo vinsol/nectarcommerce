@@ -14,7 +14,9 @@ defmodule Nectar.Admin.CheckoutControllerTest do
   end
 
   test "checkout flow", %{conn: conn} do
-    cart = setup_cart
+    cart = setup_cart |> Repo.preload([:line_items])
+
+    refute Nectar.Query.Order.cart_empty?(Nectar.Repo, cart)
 
     address_page_conn = get(conn, admin_order_checkout_path(conn, :checkout, cart))
     assert html_response(address_page_conn, 200) =~ "Address"
@@ -67,17 +69,14 @@ defmodule Nectar.Admin.CheckoutControllerTest do
   @product_attr Map.merge(@product_data, @product_master_variant_data)
 
   defp setup_cart do
-    cart = setup_cart_without_product
-    product = Nectar.TestSetup.Variant.create_variant
-    quantity = 2
-    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => product.id, "quantity" => quantity})
-    cart
+    Nectar.TestSetup.Order.setup_cart
   end
 
   @address_parameters  %{"address_line_1" => "address line 12", "address_line_2" => "address line 22"}
 
   defp valid_address_params do
     address = Dict.merge(@address_parameters, valid_country_and_state_ids)
+    address = %{"address" => address}
     %{"order_shipping_address" => address, "order_billing_address" => address}
   end
 
@@ -137,8 +136,8 @@ defmodule Nectar.Admin.CheckoutControllerTest do
   end
 
   defp do_setup(_context) do
-    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
-    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, admin_user} = Nectar.TestSetup.User.create_admin
+    conn = guardian_login(admin_user)
     {:ok, %{conn: conn}}
   end
 end

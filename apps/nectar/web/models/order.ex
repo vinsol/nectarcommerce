@@ -61,6 +61,9 @@ defmodule Nectar.Order do
   def in_cart_state?(%Order{state: "cart"}), do: true
   def in_cart_state?(%Order{state: _}), do: false
 
+  def cart_empty?(%Order{line_items: []}), do: true
+  def cart_empty?(%Order{line_items: [_|_]}), do: false
+
   @required_fields ~w(state)a
   @optional_fields ~w(same_as_billing)a
   def address_changeset(model, params \\ %{}) do

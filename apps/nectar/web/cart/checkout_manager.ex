@@ -43,38 +43,59 @@ defmodule Nectar.CheckoutManager do
   def next_state(%Order{state: state}) when state in @nextable_states, do: Map.get(@state_transitions, state)
   def next_state(%Order{state: state}), do: state
 
-  def back(order)
 
-  # use the workflows here
-  def back(%Order{state: "address"} = order),  do: Order.move_back_to_cart_state(order)
-  def back(%Order{state: "shipping"} = order), do: Order.move_back_to_address_state(order)
-  def back(%Order{state: "tax"} = order),      do: Order.move_back_to_shipping_state(order)
+  @back_workflows %{
+    "cart"     => Nectar.Workflow.MoveBackToCartState,
+    "address"  => Nectar.Workflow.MoveBackToAddressState,
+    "shipping" => Nectar.Workflow.MoveBackToShippingState,
+    "tax"      => Nectar.Workflow.MoveBackToTaxState
+  }
+  defp move_back_to_state(repo, order, state) do
+    module = Map.get(@back_workflows, state)
+    module.run(repo, order)
+    |> process_back_results
+  end
+
+  defp process_back_results({:ok, results}),
+    do: {:ok, results.update_state}
+
+  # default back actions
+  def back(repo, order)
+
+   # use the workflows here
+  def back(repo, %Order{state: "address"} = order),
+    do: move_back_to_state(repo, order, "cart")
+
+  def back(repo, %Order{state: "shipping"} = order),
+    do: move_back_to_state(repo, order, "address")
+
+  def back(repo, %Order{state: "tax"} = order),
+    do: move_back_to_state(repo, order, "shipping")
 
   # cannot go back from confirmation or cart.
-  def back(%Order{state: _} = order), do: {:ok, order}
-
+  def back(_repo, %Order{state: _} = order),
+    do: {:ok, order}
 
   Module.register_attribute(__MODULE__, :backable_states, accumulate: true)
 
-  # when state is specified
-  # helper method used in back actions
-  defp move_back_to_state(order, state) do
-    apply(Order, String.to_atom("move_back_to_#{state}_state"), [order])
-  end
-
-  def back(order, state)
+  # for jumping multiple steps
+  def back(repo, order, state)
 
   @backable_states "cart"
-  def back(%Order{state: "address"} = order, state)  when state in @backable_states, do: move_back_to_state(order, state)
+  def back(repo, %Order{state: "address"} = order, state)  when state in @backable_states,
+    do: move_back_to_state(repo, order, state)
 
   @backable_states "address"
-  def back(%Order{state: "shipping"} = order, state) when state in @backable_states, do: move_back_to_state(order, state)
+  def back(repo, %Order{state: "shipping"} = order, state) when state in @backable_states,
+    do: move_back_to_state(repo, order, state)
 
   @backable_states "shipping"
-  def back(%Order{state: "tax"} = order, state)      when state in @backable_states, do: move_back_to_state(order, state)
+  def back(repo, %Order{state: "tax"} = order, state) when state in @backable_states,
+    do: move_back_to_state(repo, order, state)
 
   # default match cannot send the order back because not going to proper state, return the order
-  def back(%Order{state: _} = order, _), do: {:ok, order}
+  def back(_repo, %Order{state: _} = order, _state),
+    do: {:ok, order}
 
   # TODO: delegate to the module.
   def view_data(order), do: %{}

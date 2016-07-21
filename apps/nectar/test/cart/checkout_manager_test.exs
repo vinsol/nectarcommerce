@@ -235,32 +235,10 @@ defmodule Nectar.CheckoutManagerTest do
     {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
     {_status, c_tax} = move_cart_to_tax_state(c_shipp)
     {_status, c_payment} = move_cart_to_payment_state(c_tax)
-    {status,  c_confirm} = move_cart_to_confirmation_state(c_payment)
-    assert status == :ok
+    c_confirm = Nectar.Query.Order.get!(Repo, c_payment.id)
     assert c_confirm.state == "confirmation"
-    {:ok, backed_order} = CheckoutManager.back(c_confirm)
+    {:ok, backed_order} = CheckoutManager.back(Repo, c_confirm)
     assert backed_order.state == c_confirm.state
-  end
-
-  test "moving back from payment state goes to tax state" do
-    {_, c_addr} = move_cart_to_address_state(setup_cart)
-    {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
-    {_status, c_tax} = move_cart_to_tax_state(c_shipp)
-    {status, c_payment} = move_cart_to_payment_state(c_tax)
-    assert status == :ok
-    assert c_payment.state == "payment"
-    {:ok, backed_order} = CheckoutManager.back(c_payment)
-    assert backed_order.state == "tax"
-  end
-
-  test "moving back from payment state deletes the payment" do
-    {_, c_addr} = move_cart_to_address_state(setup_cart)
-    {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
-    {_status, c_tax} = move_cart_to_tax_state(c_shipp)
-    {_status, c_payment} = move_cart_to_payment_state(c_tax)
-    {:ok, backed_order} = CheckoutManager.back(c_payment)
-    assert backed_order.state == "tax"
-    assert Repo.all(Nectar.Payment.for_order(backed_order)) == []
   end
 
   test "moving back from tax state goes to shipping state" do
@@ -269,7 +247,7 @@ defmodule Nectar.CheckoutManagerTest do
     {status, c_tax} = move_cart_to_tax_state(c_shipp)
     assert status == :ok
     assert c_tax.state == "tax"
-    {:ok, backed_order} = CheckoutManager.back(c_tax)
+    {:ok, backed_order} = CheckoutManager.back(Repo, c_tax)
     assert backed_order.state == "shipping"
   end
 
@@ -278,7 +256,7 @@ defmodule Nectar.CheckoutManagerTest do
     {status, c_shipp} = move_cart_to_shipping_state(c_addr)
     assert status == :ok
     assert c_shipp.state == "shipping"
-    {:ok, backed_order} = CheckoutManager.back(c_shipp)
+    {:ok, backed_order} = CheckoutManager.back(Repo, c_shipp)
     assert backed_order.state == "address"
   end
 
@@ -287,7 +265,7 @@ defmodule Nectar.CheckoutManagerTest do
     {status, c_shipp} = move_cart_to_shipping_state(c_addr)
     assert status == :ok
     assert c_shipp.state == "shipping"
-    {:ok, backed_order} = CheckoutManager.back(c_shipp)
+    {:ok, backed_order} = CheckoutManager.back(Repo, c_shipp)
     assert backed_order.state == "address"
     assert Repo.all(Nectar.Shipping.for_order(backed_order)) == []
     assert Repo.all(Nectar.Adjustment.for_order(backed_order)) == []
@@ -298,14 +276,14 @@ defmodule Nectar.CheckoutManagerTest do
     {status, c_addr} = move_cart_to_address_state(setup_cart)
     assert status == :ok
     assert c_addr.state == "address"
-    {:ok, backed_order} = CheckoutManager.back(c_addr)
+    {:ok, backed_order} = CheckoutManager.back(Repo, c_addr)
     assert backed_order.state == "cart"
   end
 
   test "cannot move back from cart state" do
     cart = setup_cart
     assert cart.state == "cart"
-    {:ok, backed_order} = CheckoutManager.back(cart)
+    {:ok, backed_order} = CheckoutManager.back(Repo, cart)
     assert backed_order.state == "cart"
   end
 

@@ -44,4 +44,8 @@ defmodule Nectar.Command.Order do
     repo.delete_all(Nectar.Query.Order.shipments(order))
   end
 
+  def link_to_user!(repo, order, user_id) do
+    repo.update!(Nectar.Order.link_to_user_changeset(order, %{user_id: user_id}))
+  end
+
 end

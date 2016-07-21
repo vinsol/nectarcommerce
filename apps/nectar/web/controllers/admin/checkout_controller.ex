@@ -8,20 +8,20 @@ defmodule Nectar.Admin.CheckoutController do
 
   def checkout(conn, _params) do
     order = Repo.get!(Order, conn.params["order_id"])
-    changeset = CheckoutManager.next_changeset(order)
+    changeset = CheckoutManager.next_changeset(Repo, order)
     data = CheckoutManager.view_data(order)
     render(conn, "checkout.html", order: order, changeset: changeset, data: data)
   end
 
   def next(conn, %{"order" => order_params}) do
     order = Repo.get!(Order, conn.params["order_id"])
-    case CheckoutManager.next(order, order_params) do
+    case CheckoutManager.next(Repo, order, order_params) do
       {:error, updated_changeset} ->
         data = CheckoutManager.view_data(order)
         render(conn, "checkout.html", order: order, changeset: updated_changeset, data: data)
       {:ok, updated_order} ->
         data = CheckoutManager.view_data(updated_order)
-        render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(updated_order), data: data)
+        render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(Repo, updated_order), data: data)
     end
   end
 
@@ -34,7 +34,7 @@ defmodule Nectar.Admin.CheckoutController do
   end
 
   def go_back_to_cart_if_empty(conn, _params) do
-    order = Repo.get!(Order, conn.params["order_id"])
+    order = Nectar.Query.Order.get!(Repo, conn.params["order_id"]) |> Repo.preload([:line_items])
     if Nectar.Order.cart_empty? order do
       conn
       |> put_flash(:error, "please add some products to cart before continuing")

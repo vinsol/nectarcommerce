@@ -32,7 +32,7 @@ defmodule Nectar.Admin.StateController do
 
   defp load_country(conn, _params) do
     country_id = conn.params["country_id"]
-    country = Nectar.Query.State.get!(Repo, country_id)
+    country = Nectar.Query.Country.get!(Repo, country_id)
     assign(conn, :country, country)
   end
 
