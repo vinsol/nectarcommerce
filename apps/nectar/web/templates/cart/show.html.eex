@@ -15,10 +15,10 @@
     <tbody id="line_items">
         <%= inputs_for f, :line_items, fn lf -> %>
           <tr>
-            <td colspan="2"><%= lf.model.variant.product.name %><%= Nectar.Admin.VariantView.variant_options_text(lf.model.variant) %></td>
-            <td><%= lf.model.variant.cost_price %></td>
+            <td colspan="2"><%= lf.data.variant.product.name %><%= Nectar.Admin.VariantView.variant_options_text(lf.data.variant) %></td>
+            <td><%= lf.data.variant.cost_price %></td>
             <td><%= number_input lf, :quantity %><%= error_tag lf, :quantity %></td>
-            <td><%= lf.model.total %></td>
+            <td><%= lf.data.total %></td>
             <td><%= checkbox lf, :delete %></td>
           </tr>
         <% end %>
@@ -27,7 +27,7 @@
         <td></td>
         <td></td>
         <td><strong>Total</strong></td>
-        <td><strong><%= Nectar.Order.product_total(@order) %></strong></td>
+        <td><strong><%= @order.product_total %></strong></td>
       </tr>
     </tbody>
   </table>

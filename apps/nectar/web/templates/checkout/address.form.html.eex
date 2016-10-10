@@ -4,28 +4,30 @@
 
   <h4>Billing Address</h4>
 
-  <%= inputs_for f, :order_billing_address, fn billing_addr_f -> %>
-    <div class="form-group">
-      <%= label billing_addr_f, :address_line_1, class: "control-label" %>
-      <%= text_input billing_addr_f, :address_line_1, class: "form-control" %>
-      <%= error_tag billing_addr_f, :address_line_1 %>
-    </div>
-    <div class="form-group">
-      <%= label billing_addr_f, :address_line_2, class: "control-label" %>
-      <%= text_input billing_addr_f, :address_line_2, class: "form-control" %>
-      <%= error_tag billing_addr_f, :address_line_2 %>
-    </div>
-    <div class="form-group">
-      <%= label billing_addr_f, :country_id,  "Country", class: "control-label" %>
-      <%= select billing_addr_f, :country_id,  country_names_and_ids, class: "form-control" %>
-      <%= error_tag billing_addr_f, :country_id %>
-    </div>
-    <!-- use ajax to build this finally -->
-    <div class="form-group">
-      <%= label billing_addr_f, :state_id,  "State", class: "control-label" %>
-      <%= select billing_addr_f, :state_id,  state_names_and_ids, class: "form-control" %>
-      <%= error_tag billing_addr_f, :state_id %>
-    </div>
+  <%= inputs_for f, :order_billing_address, fn addr_f -> %>
+    <%= inputs_for addr_f, :address, fn billing_addr_f -> %>
+      <div class="form-group">
+        <%= label billing_addr_f, :address_line_1, class: "control-label" %>
+        <%= text_input billing_addr_f, :address_line_1, class: "form-control" %>
+        <%= error_tag billing_addr_f, :address_line_1 %>
+      </div>
+      <div class="form-group">
+        <%= label billing_addr_f, :address_line_2, class: "control-label" %>
+        <%= text_input billing_addr_f, :address_line_2, class: "form-control" %>
+        <%= error_tag billing_addr_f, :address_line_2 %>
+      </div>
+      <div class="form-group">
+        <%= label billing_addr_f, :country_id,  "Country", class: "control-label" %>
+        <%= select billing_addr_f, :country_id,  country_names_and_ids, class: "form-control" %>
+        <%= error_tag billing_addr_f, :country_id %>
+      </div>
+      <!-- use ajax to build this finally -->
+      <div class="form-group">
+        <%= label billing_addr_f, :state_id,  "State", class: "control-label" %>
+        <%= select billing_addr_f, :state_id,  state_names_and_ids, class: "form-control" %>
+        <%= error_tag billing_addr_f, :state_id %>
+      </div>
+    <% end %>
   <% end %>
   <h4>Shipping Address</h4>
   <div class="form-group">
@@ -33,28 +35,30 @@
     <%= checkbox f, :same_as_billing, class: "form-control"%>
     <%= error_tag f, :same_as_billing %>
   </div>
-  <%= inputs_for f, :order_shipping_address, fn shipping_addr_f -> %>
-    <div class="form-group">
-      <%= label shipping_addr_f, :address_line_1, class: "control-label" %>
-      <%= text_input shipping_addr_f, :address_line_1, class: "form-control" %>
-      <%= error_tag shipping_addr_f, :address_line_1 %>
-    </div>
-    <div class="form-group">
-      <%= label shipping_addr_f, :address_line_2, class: "control-label" %>
-      <%= text_input shipping_addr_f, :address_line_2, class: "form-control" %>
-      <%= error_tag shipping_addr_f, :address_line_2 %>
-    </div>
-    <div class="form-group">
-      <%= label shipping_addr_f, :country_id,  "Country", class: "control-label" %>
-      <%= select shipping_addr_f, :country_id,  country_names_and_ids, class: "form-control" %>
-      <%= error_tag shipping_addr_f, :country_id %>
-    </div>
-    <!-- use ajax to build this finally -->
-    <div class="form-group">
-      <%= label shipping_addr_f, :state_id,  "State", class: "control-label" %>
-      <%= select shipping_addr_f, :state_id,  state_names_and_ids, class: "form-control" %>
-      <%= error_tag shipping_addr_f, :state_id %>
-    </div>
+  <%= inputs_for f, :order_shipping_address, fn addr_f -> %>
+    <%= inputs_for addr_f, :address, fn shipping_addr_f -> %>
+      <div class="form-group">
+        <%= label shipping_addr_f, :address_line_1, class: "control-label" %>
+        <%= text_input shipping_addr_f, :address_line_1, class: "form-control" %>
+        <%= error_tag shipping_addr_f, :address_line_1 %>
+      </div>
+      <div class="form-group">
+        <%= label shipping_addr_f, :address_line_2, class: "control-label" %>
+        <%= text_input shipping_addr_f, :address_line_2, class: "form-control" %>
+        <%= error_tag shipping_addr_f, :address_line_2 %>
+      </div>
+      <div class="form-group">
+        <%= label shipping_addr_f, :country_id,  "Country", class: "control-label" %>
+        <%= select shipping_addr_f, :country_id,  country_names_and_ids, class: "form-control" %>
+        <%= error_tag shipping_addr_f, :country_id %>
+      </div>
+      <!-- use ajax to build this finally -->
+      <div class="form-group">
+        <%= label shipping_addr_f, :state_id,  "State", class: "control-label" %>
+        <%= select shipping_addr_f, :state_id,  state_names_and_ids, class: "form-control" %>
+        <%= error_tag shipping_addr_f, :state_id %>
+      </div>
+    <% end %>
   <% end %>
   <%= submit "Next", class: "btn btn-primary" %>
 

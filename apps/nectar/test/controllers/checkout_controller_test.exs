@@ -31,10 +31,7 @@ defmodule Nectar.CheckoutControllerTest do
     assert html_response(payment_page_conn, 200) =~ "Select your payment method"
 
     confirmation_page_conn = put(conn, checkout_path(conn, :next), order: valid_payment_params(cart))
-    assert html_response(confirmation_page_conn, 200) =~ "Confirm"
-
-    order_success_page_conn = put(conn, checkout_path(conn, :next), order: %{"confirm" => true})
-    assert html_response(order_success_page_conn, 302) =~ "redirected"
+    assert html_response(confirmation_page_conn, 302) =~ "redirected"
   end
 
   test "checkout flow no payment methods available", %{conn: conn} do

@@ -82,14 +82,20 @@ defmodule Nectar.Admin.CheckoutView do
     end)
   end
 
-  def has_shipping_method?(data, shipment_unit_id) do
-    not is_nil(data.proposed_shipments[shipment_unit_id] )
-  end
-
-  def shipping_method_selection(data, id), do: shipping_method_selection(data.proposed_shipments[id])
+  def shipping_method_selection(data, id), do: shipping_method_selection(data.proposed_shipping_methods[id])
 
   def shipping_method_selection(proposed_shipments) do
     Enum.map(proposed_shipments, &({&1.shipping_method_name <> " (+#{&1.shipping_cost})", &1.shipping_method_id}))
   end
+
+  def has_shipping_method?(data, shipment_unit_id) do
+    not is_nil(data.proposed_shipping_methods[shipment_unit_id] )
+  end
+
+  def payment_methods_available?(%{applicable_payment_methods: []}),
+    do: false
+
+  def payment_methods_available?(%{}),
+    do: true
 
 end

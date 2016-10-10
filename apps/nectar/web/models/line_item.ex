@@ -11,7 +11,7 @@ defmodule Nectar.LineItem do
     belongs_to :order, Nectar.Order
     belongs_to :shipment_unit, Nectar.ShipmentUnit
 
-    field :add_quantity, :integer, virtual: true, default: 0
+    field :add_quantity, :integer, virtual: true # No defaults to avoid issues with being provided same value as default.
     field :unit_price, :decimal
     field :quantity, :integer, default: 0
     field :total, :decimal
@@ -81,6 +81,8 @@ defmodule Nectar.LineItem do
     put_change(model, :total, cost)
   end
 
+
+  defp add_to_existing_quantity(%Ecto.Changeset{valid?: false} = changeset), do: changeset
   defp add_to_existing_quantity(changeset) do
     existing_quantity = get_field(changeset, :quantity)
     change_in_quantity = get_field(changeset, :add_quantity)

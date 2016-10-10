@@ -32,10 +32,8 @@ defmodule Nectar.Admin.CheckoutControllerTest do
     assert html_response(payment_page_conn, 200) =~ "Select your payment method"
 
     confirmation_page_conn = put(conn, admin_order_checkout_path(conn, :next, cart), order: valid_payment_params(cart))
-    assert html_response(confirmation_page_conn, 200) =~ "Confirm"
+    assert html_response(confirmation_page_conn, 302) =~ "redirected"
 
-    order_success_page_conn = put(conn, admin_order_checkout_path(conn, :next, cart), order: %{"confirm" => true})
-    assert html_response(order_success_page_conn, 200) =~ "Order placed successfully"
   end
 
   test "checkout flow empty cart", %{conn: conn} do
@@ -69,6 +67,9 @@ defmodule Nectar.Admin.CheckoutControllerTest do
   @product_attr Map.merge(@product_data, @product_master_variant_data)
 
   defp setup_cart do
+    create_shipping_methods
+    create_taxations
+    create_payment_methods
     Nectar.TestSetup.Order.setup_cart
   end
 

@@ -5,7 +5,7 @@ defmodule Nectar.Api.CartView do
       items_in_cart: Nectar.CartManager.count_items_in_cart(order),
       id: order.id,
       line_items: line_items(order, conn),
-      total: Nectar.Order.product_total(order)
+      total: order.product_total
     }
   end
 

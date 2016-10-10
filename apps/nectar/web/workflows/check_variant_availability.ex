@@ -6,6 +6,9 @@ defmodule Nectar.Workflow.CheckVariantAvailability do
     |> Multi.run(:availability, &(ensure_variant_available(&1, variant, quantity, changeset)))
   end
 
+  defp ensure_variant_available(_changes, variant, quantity, changeset) when is_binary(quantity),
+    do: ensure_variant_available(_changes, variant, String.to_integer(quantity), changeset)
+
   defp ensure_variant_available(_changes, variant, quantity, changeset) do
     case Nectar.Variant.availability_status(variant, quantity) do
       :ok ->

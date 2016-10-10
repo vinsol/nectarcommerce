@@ -25,6 +25,7 @@ defmodule Nectar.CartManager do
 
   defp do_add_to_cart(%Order{} = order, %Variant{} = variant, quantity) do
     line_item = Nectar.Query.LineItem.in_order_with_variant(Repo, order, variant)
+
     update_result =
       case line_item do
         nil ->

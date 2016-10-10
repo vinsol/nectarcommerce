@@ -97,7 +97,20 @@ defmodule Nectar.CheckoutManager do
   def back(_repo, %Order{state: _} = order, _state),
     do: {:ok, order}
 
+  def view_data(repo, %Order{state: "address"} = order) do
+    available_shipping_methods =
+      Nectar.Query.ShippingMethod.enabled_shipping_methods(repo)
+    order =
+      order
+      |> repo.preload(:shipment_units)
+    %{proposed_shipping_methods: Nectar.ShippingCalculator.calculate_applicable_shippings(order, available_shipping_methods)}
+  end
+
+  def view_data(repo, %Order{state: "tax"} = order) do
+    %{applicable_payment_methods: Nectar.Invoice.generate_applicable_payment_invoices(repo, order)}
+  end
+
   # TODO: delegate to the module.
-  def view_data(order), do: %{}
+  def view_data(repo, order), do: %{}
 
 end

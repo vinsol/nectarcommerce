@@ -51,8 +51,9 @@ defmodule Nectar.CartManagerTest do
     product = TestSetup.Product.create_product
     quantity = 0
     {status, line_item} = CartManager.add_to_cart(order.id, %{"variant_id" => product.master.id, "quantity" => quantity})
+
     assert status == :error
-    assert errors_on(line_item)[:quantity] == "must be greater than 0"
+    assert errors_on(line_item)[:add_quantity] == "must be greater than 0"
   end
 
   test "add to cart with existing line item" do

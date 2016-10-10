@@ -16,8 +16,14 @@ defmodule Nectar.CheckoutView do
   end
 
   def has_shipping_method?(data, shipment_unit_id) do
-    not is_nil(data.proposed_shipments[shipment_unit_id] )
+    not is_nil(data.proposed_shipping_methods[shipment_unit_id] )
   end
+
+  def payment_methods_available?(%{applicable_payment_methods: []}),
+    do: false
+
+  def payment_methods_available?(%{}),
+    do: true
 
   def adjustment_row(%Nectar.Adjustment{shipment_id: shipment_id} = adjustment) when not is_nil(shipment_id) do
     content_tag :tr do
@@ -65,17 +71,11 @@ defmodule Nectar.CheckoutView do
     end)
   end
 
-  def shipping_method_selection(data, id), do: shipping_method_selection(data.proposed_shipments[id])
+  def shipping_method_selection(data, id), do: shipping_method_selection(data.proposed_shipping_methods[id])
 
   def shipping_method_selection(proposed_shipments) do
     Enum.map(proposed_shipments, &({&1.shipping_method_name <> " (+#{&1.shipping_cost})", &1.shipping_method_id}))
   end
-
-  def payment_methods_available?(%Nectar.Order{applicable_payment_methods: []}), do: false
-  def payment_methods_available?(%Nectar.Order{}), do: true
-
-  def shipping_methods_available?(%Nectar.ShipmentUnit{proposed_shipments: []}), do: false
-  def shipping_methods_available?(%Nectar.ShipmentUnit{}), do: true
 
   def error_in_payment_method?(changeset, payment_method_id) do
     (!changeset.valid?) && changeset.params["payment"]["payment_method_id"] == to_string(payment_method_id)

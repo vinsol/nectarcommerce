@@ -50,9 +50,10 @@ defmodule Nectar.ProductTest do
     test "Available on should be less than Master Variant discontinue_on" do
       product = create_product
       master_variant = Nectar.Query.Product.master_variant(Repo, product)
-
-      product = Product.update_changeset(product, %{"master" => %{"discontinue_on" => get_future_date(5), "id" => master_variant.id}})
-      |> Repo.update!
+      params = %{"master" => %{"discontinue_on" => get_future_date(5), "id" => master_variant.id}}
+      product =
+        Product.update_changeset(product, params)
+        |> Repo.update!
 
       master_variant = Nectar.Query.Product.master_variant(Repo, product)
 

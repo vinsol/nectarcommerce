@@ -209,7 +209,7 @@ defmodule Nectar.CheckoutManagerTest do
     assert c_payment.payment.amount == c_payment.total
   end
 
-  test "moveing to payment state with valid payment parameters, moves the order to confirmed state" do
+  test "moving to payment state with valid payment parameters, moves the order to confirmed state" do
     {_, c_addr} = move_cart_to_address_state(setup_cart)
     {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
     {_status, c_tax} = move_cart_to_tax_state(c_shipp)
@@ -220,7 +220,7 @@ defmodule Nectar.CheckoutManagerTest do
     assert line_item.variant.bought_quantity == line_item.quantity
   end
 
-  test "moveing to payment state acquires the stock from variant" do
+  test "moving to payment state acquires the stock from variant" do
     {_, c_addr} = move_cart_to_address_state(setup_cart)
     {_status, c_shipp} = move_cart_to_shipping_state(c_addr)
     {_status, c_tax} = move_cart_to_tax_state(c_shipp)

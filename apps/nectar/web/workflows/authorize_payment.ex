@@ -19,7 +19,7 @@ defmodule Nectar.Workflow.AuthorizePayment do
         payment_params        = params["payment"] || params.payment
         payment_method_id     = payment_params["payment_method_id"] || payment_params[:payment_method_id]
         payment_method        = Nectar.Query.PaymentMethod.get!(repo, payment_method_id) |> Map.get(:name)
-        payment_method_params = params["payment_method"] || params.payment_method
+        payment_method_params = params["payment_method"] || params[:payment_method] || %{}
 
         case Nectar.Gateway.authorize_payment(order_changeset.data, payment_method, payment_method_params) do
           {:ok, transaction_id}   -> {:ok, transaction_id}

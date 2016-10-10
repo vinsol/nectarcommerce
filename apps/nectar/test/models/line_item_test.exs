@@ -36,6 +36,18 @@ defmodule Nectar.LineItemTest do
       assert errors_on(changeset)[:add_quantity] == "must be greater than 0"
     end
 
+    test "line item with 0 quantity" do
+      product = TestSetup.Product.create_product
+      master = product.master
+      changeset =
+        TestSetup.LineItem.line_item_changeset_with_variant(master)
+        |> TestSetup.LineItem.set_quantity(0)
+
+      refute changeset.valid?
+      assert errors_on(changeset)[:add_quantity] == "must be greater than 0"
+    end
+
+
     test "adding product calculates total" do
       product = TestSetup.Product.create_product
       master = product.master

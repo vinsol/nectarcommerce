@@ -10,14 +10,15 @@ defmodule Nectar.LineItemController do
   # 2. Reset cart if not in cart state.
 
   def create(conn, %{"line_item" => line_item_params}) do
-    {:ok, order} = Nectar.CheckoutManager.back(conn.assigns.current_order, "cart")
-    product = Nectar.Repo.get!(Nectar.Product, line_item_params["product_id"])
+    {:ok, order} = Nectar.CheckoutManager.back(Repo, conn.assigns.current_order, "cart")
     case CartManager.add_to_cart(order, line_item_params) do
       {:ok, _line_item} ->
         conn
         |> put_flash(:success, "Added product succcesfully")
         |> redirect(to: cart_path(conn, :show))
       {:error, changeset} ->
+        IO.inspect changeset
+        product = Nectar.Repo.get!(Nectar.Product, line_item_params["product_id"])
         conn
         |> put_flash(:error, extract_error_message(changeset))
         |> redirect(to: product_path(conn, :show, product))

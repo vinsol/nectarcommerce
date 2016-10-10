@@ -9,7 +9,7 @@ defmodule Nectar.CheckoutController do
   def checkout(conn, _params) do
     order = conn.assigns.current_order
     changeset = CheckoutManager.next_changeset(Repo, order)
-    data = CheckoutManager.view_data(order)
+    data = CheckoutManager.view_data(Repo, order)
     render(conn, "checkout.html", order: order, changeset: changeset, data: data)
   end
 
@@ -17,12 +17,13 @@ defmodule Nectar.CheckoutController do
     order = conn.assigns.current_order
     case CheckoutManager.next(Repo, order, order_params) do
       {:error, updated_changeset} ->
-        data = CheckoutManager.view_data(order)
+        data = CheckoutManager.view_data(Repo, order)
         render(conn, "checkout.html", order: order, changeset: updated_changeset, data: data)
-      {:ok, %Nectar.Order{state: "confirmation"} = updated_order} ->
-        redirect(conn, to: order_path(conn, :show, updated_order))
+      {:ok, %Nectar.Order{state: "payment"} = updated_order} ->
+        confirmed_order = Nectar.Query.Order.get!(Repo, updated_order.id)
+        redirect(conn, to: order_path(conn, :show, confirmed_order))
       {:ok, updated_order} ->
-        data = CheckoutManager.view_data(updated_order)
+        data = CheckoutManager.view_data(Repo, updated_order)
         render(conn, "checkout.html", order: updated_order, changeset: CheckoutManager.next_changeset(Repo, updated_order), data: data)
     end
   end
