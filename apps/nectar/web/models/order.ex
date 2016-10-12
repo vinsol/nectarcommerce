@@ -45,7 +45,7 @@ defmodule Nectar.Order do
   @optional_fields ~w(slug confirmation_status same_as_billing)a
 
   @states          ~w(cart address shipping tax payment confirmation)
-  @order_states    ~w(confirmed partially_fullfilled fullfilled)
+  @order_states    ~w(confirmed partially_fullfilled fullfilled cancelled)
 
 
 
@@ -68,6 +68,11 @@ defmodule Nectar.Order do
 
   def cart_empty?(%Order{line_items: []}), do: true
   def cart_empty?(%Order{line_items: [_|_]}), do: false
+
+  def cancellation_changeset(model) do
+    model
+    |> cast(%{order_state: "cancelled"}, ~w(order_state))
+  end
 
   @required_fields ~w(state)a
   @optional_fields ~w(same_as_billing)a

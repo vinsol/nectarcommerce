@@ -47,4 +47,8 @@ defmodule Nectar.Command.Order do
     repo.update!(Nectar.Order.link_to_user_changeset(order, %{user_id: user_id}))
   end
 
+  def mark_as_cancelled(repo, order) do
+    repo.update(Nectar.Order.cancellation_changeset(order))
+  end
+
 end
