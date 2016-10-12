@@ -7,7 +7,7 @@ defmodule Nectar.ShippingCalculator.Runner do
 
   defmodule State, do: defstruct order: nil, result: [], timer: nil, caller: nil, pending: [], shipping_methods: []
 
-  def start(caller, [], order), do: {:no_shipping_methods}
+  def start(_caller, [], _order), do: {:no_shipping_methods}
   def start(caller, shipping_methods, order) do
     state = %State{caller: caller, shipping_methods: shipping_methods, order: order}
     GenServer.start(__MODULE__, state, [])

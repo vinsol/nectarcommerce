@@ -47,6 +47,11 @@ defmodule Nectar.Order do
   @states          ~w(cart address shipping tax payment confirmation)
   @order_states    ~w(confirmed partially_fullfilled fullfilled)
 
+
+
+  # is not used and is NO-OP
+  def changeset(model, _params), do: model
+
   def states do
     @states
   end
@@ -141,16 +146,6 @@ defmodule Nectar.Order do
     |> validate_required(@required_fields)
   end
 
-  def acquire_variant_stock(model) do
-    Enum.each(model.line_items, &Nectar.LineItem.acquire_stock_from_variant/1)
-    model
-  end
-
-  def restock_unfullfilled_line_items(model) do
-    Enum.each(model.line_items, &Nectar.LineItem.restock_variant/1)
-    model
-  end
-
   defp duplicate_params_if_same_as_billing(changeset) do
     same_as_billing = get_field(changeset, :same_as_billing)
     billing_address_changes = changeset.changes[:order_billing_address]
@@ -201,11 +196,11 @@ defmodule Nectar.Order do
     |> cast_assoc(:payment, with: &Nectar.Payment.transaction_id_changeset/2)
   end
 
-  def payment_params(order, %{"payment" => %{"payment_method_id" => ""}} = params), do: params
+  def payment_params(_order, %{"payment" => %{"payment_method_id" => ""}} = params), do: params
   def payment_params(order, %{"payment" => %{"payment_method_id" => payment_method_id}} = params) do
     %{params|"payment" => %{"payment_method_id" => payment_method_id, "amount" => order.total}}
   end
-  def payment_params(order, params), do: params
+  def payment_params(_order, params), do: params
 
   # Check availability and othe stuff here
   @required_fields ~w(confirm state)a
@@ -233,6 +228,24 @@ defmodule Nectar.Order do
     else
       add_error(model, :tax_confirm, "Please confirm to proceed")
     end
+  end
+
+  def check_line_items_for_availability(order) do
+    Enum.reduce(order.line_items, {true, [], [], []}, fn
+      (line_item, {_status, out_of_stock, discontinued, insufficient_stock} = acc) ->
+        variant = line_item.variant
+        requested_quantity = line_item.quantity
+        case Nectar.Variant.availability_status(variant, requested_quantity) do
+          :discontinued ->
+            {false, out_of_stock, [line_item|discontinued], insufficient_stock}
+          :out_of_stock ->
+            {false, [line_item|out_of_stock], discontinued, insufficient_stock}
+          {:insufficient_quantity, available} ->
+            {false, out_of_stock, discontinued, [{line_item, available}|insufficient_stock]}
+          :ok ->
+            acc
+        end
+    end)
   end
 
 end

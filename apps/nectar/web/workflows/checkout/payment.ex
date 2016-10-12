@@ -23,9 +23,6 @@ defmodule Nectar.Workflow.Checkout.Payment do
     |> Multi.run(:post, &(post_transition(repo, &1.order, &1.transaction_id)))
   end
 
-  def view_data(order),
-    do: %{applicable_payment_methods: Nectar.Invoice.generate_applicable_payment_invoices(order)}
-
   # before accepting payment confirm if everything in cart is available
   def pre_transition(repo, order_changeset) do
     Multi.new()

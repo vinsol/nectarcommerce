@@ -2,7 +2,6 @@ defmodule Nectar.Admin.UserController do
   use Nectar.Web, :admin_controller
 
   alias Nectar.User
-  alias Nectar.User.Registration
 
   plug :scrub_params, "user" when action in [:create, :update]
 
@@ -64,8 +63,8 @@ defmodule Nectar.Admin.UserController do
   end
 
   def all_pending_orders(conn, %{"user_id" => id}) do
-    user = Nectar.Query.User.get!(Repo, id)
-    orders = Repo.all Nectar.Order.all_abandoned_orders_for(user)
+    user   = Nectar.Query.User.get!(Repo, id)
+    orders = Nectar.Query.User.all_abandoned_orders(Repo, user)
     render(conn, "pending_orders.json",  orders: orders)
   end
 end

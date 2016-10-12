@@ -30,7 +30,7 @@ defmodule Nectar.Plugs.Cart do
   defp assign_cart_to_session_and_user(conn, user, %Nectar.Order{user_id: nil} = order) do
     # load previous order only if cart in current session is empty
     previous_order = if Nectar.Query.Order.cart_empty?(Nectar.Repo, order) do
-      Nectar.Query.User.current_order(user)
+      Nectar.Query.User.current_order(Nectar.Repo, user)
     else
       nil
     end

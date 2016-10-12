@@ -1,7 +1,6 @@
 defmodule Nectar.Admin.ZoneMemberController do
   use Nectar.Web, :admin_controller
 
-  alias Nectar.ZoneMember
   alias Nectar.Zone
 
   plug :scrub_params, "zone_member" when action in [:create]

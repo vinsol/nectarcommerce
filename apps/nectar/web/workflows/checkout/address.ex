@@ -23,15 +23,15 @@ defmodule Nectar.Workflow.Checkout.Address do
     |> Multi.run(:post, &(post_transition(repo, &1)))
   end
 
-  def view_data(order), do: %{}
+  def view_data(_order), do: %{}
 
   defp pre_transition(repo, order_changeset) do
     Multi.new()
-    |> Multi.run(:line_item_check, &(has_line_items(&1, repo, order_changeset)))
+    |> Multi.run(:line_item_check, &(has_line_items(&1, order_changeset)))
     |> Multi.append(Nectar.Workflow.ConfirmAvailabilityInOrderChangeset.steps(repo, order_changeset))
   end
 
-  defp has_line_items(_changes, repo, order_changeset) do
+  defp has_line_items(_changes, order_changeset) do
     if Enum.count(order_changeset.data.line_items) == 0 do
       {:error, Ecto.Changeset.add_error(order_changeset, :line_items, "Please add some item to your cart to proceed")}
     else

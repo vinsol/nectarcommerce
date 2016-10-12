@@ -24,9 +24,7 @@ defmodule Nectar.Workflow.Checkout.Shipping do
     |> Multi.run(:post, &(post_transition(repo, &1.order)))
   end
 
-  def view_data(order), do: %{}
-
-  defp pre_transition(repo, order_changeset) do
+  defp pre_transition(_repo, _order_changeset) do
     Multi.new()
   end
 

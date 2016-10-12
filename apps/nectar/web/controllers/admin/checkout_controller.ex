@@ -29,8 +29,8 @@ defmodule Nectar.Admin.CheckoutController do
   end
 
   def back(conn, _params) do
-    order = Repo.get!(Order, conn.params["order_id"])
-    case CheckoutManager.back(order) do
+    order = Nectar.Query.Order.get!(Repo, conn.params["order_id"])
+    case CheckoutManager.back(Repo, order) do
       {:ok, _updated_order} ->
         redirect(conn, to: admin_order_checkout_path(conn, :checkout, order))
     end

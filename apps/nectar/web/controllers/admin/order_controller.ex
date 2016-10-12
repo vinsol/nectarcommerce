@@ -4,7 +4,6 @@ defmodule Nectar.Admin.OrderController do
   alias Nectar.Order
   alias Nectar.User
   alias Nectar.Repo
-  alias Nectar.LineItem
   alias Nectar.Product
   alias Nectar.SearchOrder
 
@@ -79,9 +78,7 @@ defmodule Nectar.Admin.OrderController do
       |> Repo.preload([variants: [option_values: :option_type]])
 
     line_items =
-      LineItem
-      |> LineItem.in_order(order)
-      |> Repo.all
+      Nectar.Query.LineItem.in_order(Repo, order)
       |> Repo.preload([:product])
     render(conn, "new.html", order: order, products: products, line_items: line_items)
   end

@@ -22,9 +22,9 @@ defmodule Nectar.Workflow.Checkout.Tax do
     |> Multi.run(:post, &(post_transition(repo, &1.order)))
   end
 
-  def view_data(order), do: %{}
+  def view_data(_order), do: %{}
 
-  def pre_transition(repo, order_changeset) do
+  def pre_transition(_repo, _order_changeset) do
     Multi.new()
   end
 

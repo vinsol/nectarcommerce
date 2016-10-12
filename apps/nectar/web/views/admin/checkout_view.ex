@@ -3,7 +3,6 @@ defmodule Nectar.Admin.CheckoutView do
 
   alias Nectar.Repo
   alias Nectar.CheckoutManager
-
   import Ecto.Query
 
   def country_names_and_ids do
@@ -53,12 +52,6 @@ defmodule Nectar.Admin.CheckoutView do
   def next_step(%Nectar.Order{confirmation_status: false}) do
     "cancelled.html"
   end
-
-  def payment_methods_available?(%Nectar.Order{applicable_payment_methods: []}), do: false
-  def payment_methods_available?(%Nectar.Order{}), do: true
-
-  def shipping_methods_available?(%Nectar.Order{applicable_shipping_methods: []}), do: false
-  def shipping_methods_available?(%Nectar.Order{}), do: true
 
   def error_in_payment_method?(changeset, payment_method_id) do
     (!changeset.valid?) && changeset.params["payment"]["payment_method_id"] == to_string(payment_method_id)

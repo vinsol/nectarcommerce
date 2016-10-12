@@ -28,22 +28,6 @@ defmodule Nectar.Workflow.AddNewItemToCart do
     end
   end
 
-  defp ensure_variant_available(_changes, variant, quantity, changeset) do
-    cond do
-      Nectar.Variant.discontinued?(variant) ->
-        {:error, Ecto.Changeset.add_error(changeset, :variant, "has been discontinued")}
-      not Nectar.Variant.sufficient_quantity_available?(variant, String.to_i(quantity)) ->
-        available = Nectar.Variant.available_quantity(variant)
-        if available > 0 do
-          {:error, Ecto.Changeset.add_error(changeset, :quantity, "only #{ available } available")}
-        else
-          {:error, Ecto.Changeset.add_error(changeset, :variant, "out of stock")}
-        end
-      true ->
-        {:ok, true}
-    end
-  end
-
   defp line_item_insert_changeset(variant, cart, quantity) do
     variant
     |> Ecto.build_assoc(:line_items)

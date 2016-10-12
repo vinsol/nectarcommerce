@@ -1,9 +1,6 @@
 defmodule Nectar.Admin.StateController do
   use Nectar.Web, :admin_controller
 
-  alias Nectar.Country
-  alias Nectar.State
-
   plug :scrub_params, "state" when action in [:create]
   plug :load_country when action in [:create]
 

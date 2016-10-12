@@ -8,10 +8,6 @@ defmodule Nectar.Workflow.AuthorizePayment do
     |> Multi.run(:transaction_id, &(process_payment(&1, repo, order_changeset)))
   end
 
-  @doc """
-  ensure this method is part of Multi chain, which will not allow to run this
-  if payment params are missing
-  """
   defp process_payment(_changes, repo, order_changeset) do
     case order_changeset.valid? do
       true ->

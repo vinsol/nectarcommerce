@@ -9,6 +9,6 @@ defmodule Nectar.Workflow.MoveBackToTaxState do
     |> Multi.update(:update_state, Nectar.Order.state_changeset(order, %{state: "tax"}))
   end
 
-  defp delete_payments(_changes, repo, order),
-    do: Nectar.Command.Order.delete_payment(repo, order)
+  # defp delete_payments(_changes, repo, order),
+  #   do: Nectar.Command.Order.delete_payment(repo, order)
 end

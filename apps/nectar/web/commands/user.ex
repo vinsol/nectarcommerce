@@ -16,7 +16,7 @@ defmodule Nectar.Command.User do
     |> attempt_login(repo)
   end
 
-  defp attempt_login(%{valid?: false} = changeset, repo), do: {:error, changeset}
+  defp attempt_login(%{valid?: false} = changeset, _repo), do: {:error, changeset}
   defp attempt_login(%{valid?: true} = changeset, repo) do
     email = changeset.changes[:email]
     user  = Nectar.Query.User.get_by(repo, email: email)

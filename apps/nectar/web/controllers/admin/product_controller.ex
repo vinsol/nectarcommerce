@@ -3,7 +3,6 @@ defmodule Nectar.Admin.ProductController do
 
   alias Nectar.Product
   alias Nectar.OptionType
-  alias Nectar.Category
   alias Nectar.SearchProduct
 
   plug :scrub_params, "product" when action in [:create, :update]

@@ -1,11 +1,6 @@
 defmodule Nectar.LineItem do
   use Nectar.Web, :model
 
-  alias Nectar.Order
-  alias Nectar.Variant
-  alias Nectar.Product
-  alias Nectar.Repo
-
   schema "line_items" do
     belongs_to :variant, Nectar.Variant
     belongs_to :order, Nectar.Order

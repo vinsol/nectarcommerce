@@ -1,7 +1,5 @@
 defmodule Nectar.CartChannel do
   use Nectar.Web, :channel
-  alias Nectar.Order
-  alias Nectar.Repo
 
   def join("cart:" <> cart_id, _params, socket) do
     cart_id = cart_id

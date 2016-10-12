@@ -1,7 +1,6 @@
 defmodule Nectar.RegistrationController do
   use Nectar.Web, :controller
 
-  alias Nectar.User.Registration
   alias Nectar.User
 
   plug :scrub_params, "registration" when action in [:create, :update]

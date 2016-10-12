@@ -37,16 +37,16 @@ defmodule Nectar.TestSetup.Order do
 
   def move_cart_to_address_state(cart, params \\ nil) do
     address_params = params || valid_address_params
-    CheckoutManager.next(cart, address_params)
+    CheckoutManager.next(Repo, cart, address_params)
   end
 
   defp valid_address_params do
-    address = Nectar.TestSetup.Address.valid_attrs_with_country_and_state!
+    address = %{"address" => Nectar.TestSetup.Address.valid_attrs_with_country_and_state!}
     %{"order_shipping_address" => address, "order_billing_address" => address}
   end
 
   def move_cart_to_shipping_state(cart) do
-    CheckoutManager.next(cart, valid_shipping_params(cart))
+    CheckoutManager.next(Repo, cart, valid_shipping_params(cart))
   end
   defp valid_shipping_params(cart) do
     [%{id: shipping_method_id}|_] = Nectar.TestSetup.ShippingMethod.create_shipping_methods
@@ -60,15 +60,15 @@ defmodule Nectar.TestSetup.Order do
   end
 
   def move_cart_to_tax_state(cart) do
-    CheckoutManager.next(cart, %{"tax_confirm" => true})
+    CheckoutManager.next(Repo, cart, %{"tax_confirm" => true})
   end
 
   def move_cart_to_payment_state(cart) do
-    CheckoutManager.next(cart, valid_payment_params(cart))
+    CheckoutManager.next(Repo, cart, valid_payment_params(cart))
   end
 
   def move_cart_to_confirmation_state(cart) do
-    CheckoutManager.next(cart, %{"confirm" => true})
+    CheckoutManager.next(Repo, cart, %{"confirm" => true})
   end
 
   defp valid_payment_params(_cart) do

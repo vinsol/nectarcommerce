@@ -1,8 +1,6 @@
 defmodule Nectar.CheckoutManager do
 
   alias Nectar.Order
-  alias Nectar.TaxCalculator
-  alias Nectar.Shipment.Splitter
 
   # States:
   # cart -> address -> shipping -> tax -> payment -> confirmation
@@ -26,7 +24,7 @@ defmodule Nectar.CheckoutManager do
     order = next_module.order_with_preloads(repo, order)
     next_module.changeset_for_step(order, params)
   end
-  def next_changeset(_repo, order, params), do: order
+  def next_changeset(_repo, order, _params), do: order
 
   def next(repo, %Order{state: state} = order, params) when state in @nextable_state do
     next_module = Map.get(@next_changeset_module, state)
@@ -34,7 +32,7 @@ defmodule Nectar.CheckoutManager do
     next_module.run(repo, order, Map.merge(params, %{"state" => next_state}))
     |> process_result
   end
-  def next(repo, order, params), do: order
+  def next(_repo, order, _params), do: order
 
   def process_result({:ok, changes}), do: {:ok, changes.order}
   def process_result({:error, _name, message, _changes}), do: {:error, message}
@@ -110,7 +108,7 @@ defmodule Nectar.CheckoutManager do
     %{applicable_payment_methods: Nectar.Invoice.generate_applicable_payment_invoices(repo, order)}
   end
 
-  # TODO: delegate to the module.
-  def view_data(repo, order), do: %{}
+  # TODO: maybe delegate to the respective checkout module. instead
+  def view_data(_repo, _order), do: %{}
 
 end

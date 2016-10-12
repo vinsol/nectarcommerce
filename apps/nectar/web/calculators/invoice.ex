@@ -1,7 +1,6 @@
 defmodule Nectar.Invoice do
 
   alias Nectar.Order
-  alias Nectar.Repo
 
   # generate an invoice each for all possible payment methods
   def generate_applicable_payment_invoices(repo, order) do

@@ -35,7 +35,7 @@ defmodule Nectar.Query.Order do
     repo.one(from ln in Ecto.assoc(order, :line_items), select: count(ln.id)) == 0
   end
 
-  def variants_in_cart(%Nectar.Order{id: id} = order) do
+  def variants_in_cart(%Nectar.Order{} = order) do
     from v in Ecto.assoc(order, :variants)
   end
 
@@ -57,9 +57,6 @@ defmodule Nectar.Query.Order do
   def billing_address(order),
     do: from o in Ecto.assoc(order, :order_billing_address)
 
-  def billing_address(order),
-    do: from o in Nectar.OrderBillingAddress, where: o.order_id == ^order.id
-
   def shipping_address(order),
     do: from o in Ecto.assoc(order, :order_shipping_address)
 
@@ -72,7 +69,7 @@ defmodule Nectar.Query.Order do
   def shipment_units(order),
     do: from o in Ecto.assoc(order, :shipment_units)
 
-  def shipment_adjustements(order),
+  def shipment_adjustments(order),
     do: from o in Ecto.assoc(order, :adjustments), where: not(is_nil(o.shipment_id))
 
   def shipments(order),

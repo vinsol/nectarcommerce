@@ -30,7 +30,7 @@ defmodule Nectar.CheckoutController do
 
   def back(conn, _params) do
     order = conn.assigns.current_order
-    case CheckoutManager.back(order) do
+    case CheckoutManager.back(Repo, order) do
       {:ok, _updated_order} ->
         redirect(conn, to: checkout_path(conn, :checkout))
     end

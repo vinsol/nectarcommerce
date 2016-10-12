@@ -30,7 +30,7 @@ defmodule Nectar.Shipment do
     |> cast_assoc(:adjustment)
   end
 
-  defp params_with_adjustment(model, params) do
+  defp params_with_adjustment(_model, params) do
     Map.put_new(params, "adjustment", %{"amount" => params["shipping_cost"], "order_id" => params["order_id"]})
   end
 

@@ -3,9 +3,7 @@ defmodule Nectar.ShippingCalculator do
 
   alias __MODULE__
   alias Nectar.Order
-  alias Nectar.Repo
   alias Nectar.ShippingMethod
-  alias Nectar.ShipmentUnit
 
   # generate all possible shippings
   def calculate_applicable_shippings(%Order{} = order, available_shipping_methods) do
@@ -36,7 +34,7 @@ defmodule Nectar.ShippingCalculator do
   end
 
   def aggregate_into_shipping_units(results) do
-    grouped_results = Enum.group_by(results, &(&1.shipment_unit_id))
+    Enum.group_by(results, &(&1.shipment_unit_id))
   end
 
 end

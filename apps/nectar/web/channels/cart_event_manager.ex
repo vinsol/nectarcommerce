@@ -1,9 +1,9 @@
 defmodule CartEventManager do
   use GenEvent
-  alias Nectar.Order
 
   # based on: http://learningelixir.joekain.com/using-genevent-to-notify-a-channel/
   @name :cart_event_manager
+  alias Nectar.Repo
 
   def child_spec, do: Supervisor.Spec.worker(GenEvent, [[name: @name]])
 
@@ -25,14 +25,18 @@ defmodule CartEventManager do
   end
 
   def handle_event({:out_of_stock_on_checkout, order}, state) do
-    Enum.each(Order.out_of_stock_carts_sharing_variants_with(order), fn (%Order{id: id}) ->
+    Enum.each(Nectar.Query.Order.out_of_stock_carts_sharing_variants_with(Repo, order), fn (%Nectar.Order{id: id}) ->
       Nectar.CartChannel.send_out_of_stock_notification(id)
     end)
     {:ok, state}
   end
 
   def handle_event({:out_of_stock_on_joining, order_id}, state) do
-    {in_stock, _} = Order.check_if_variants_in_stock(order_id)
+    order =
+      Nectar.Query.Order.get!(Repo, order_id)
+      |> Repo.preload([line_items: [variant: :product]])
+
+    {in_stock, _, _, _} = Nectar.Order.check_line_items_for_availability(order)
     if not in_stock do
       Nectar.CartChannel.send_out_of_stock_notification(order_id)
     end

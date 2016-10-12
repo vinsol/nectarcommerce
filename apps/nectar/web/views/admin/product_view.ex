@@ -7,7 +7,6 @@ defmodule Nectar.Admin.ProductView do
   alias Nectar.ProductOptionType
   alias Nectar.OptionType
   alias Nectar.ProductCategory
-  alias Nectar.Category
 
   def link_to_product_option_types_fields do
     changeset = Product.changeset(%Product{product_option_types: [%ProductOptionType{}]})

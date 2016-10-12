@@ -62,7 +62,7 @@ defmodule Nectar.Product do
 
   defp changed_discontinue_on(changeset) do
     changed_master = get_change(changeset, :master)
-    changed_discontinue_on = if changed_master do
+    if changed_master do
       get_change(changed_master, :discontinue_on) || changed_master.data.discontinue_on
     else
       changeset.data.master.discontinue_on

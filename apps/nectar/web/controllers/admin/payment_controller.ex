@@ -4,7 +4,6 @@ defmodule Nectar.Admin.PaymentController do
   alias Nectar.Repo
   alias Nectar.Payment
   alias Nectar.Order
-  alias Nectar.LineItem
 
   def show(conn, %{"id" => _payment_id, "order_id" => order_id}) do
     {order, payment} = load_order_and_payment(order_id)

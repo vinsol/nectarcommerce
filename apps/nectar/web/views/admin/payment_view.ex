@@ -3,8 +3,8 @@ defmodule Nectar.Admin.PaymentView do
 
   alias Nectar.Payment
 
-  defdelegate authorized?(payment), to: Nectar.Payment
-  defdelegate captured?(payment), to: Nectar.Payment
-  defdelegate refunded?(payment), to: Nectar.Payment
+  defdelegate authorized?(payment), to: Payment
+  defdelegate captured?(payment), to: Payment
+  defdelegate refunded?(payment), to: Payment
 
 end

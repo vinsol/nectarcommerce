@@ -2,7 +2,6 @@ defmodule Nectar.SessionController do
   use Nectar.Web, :controller
   alias Nectar.User
   alias Nectar.Repo
-  alias Nectar.User.Session
 
   plug :scrub_params, "user" when action in [:create]
 

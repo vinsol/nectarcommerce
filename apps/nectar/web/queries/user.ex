@@ -19,4 +19,6 @@ defmodule Nectar.Query.User do
       where: o.user_id == ^id
   end
 
+  def all_abandoned_orders(repo, user), do: repo.all(all_abandoned_orders(user))
+
 end

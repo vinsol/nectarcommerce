@@ -1,7 +1,6 @@
 defmodule Nectar.CartManager do
   alias Nectar.Order
   alias Nectar.Variant
-  alias Nectar.LineItem
   alias Nectar.Repo
 
   def count_items_in_cart(%Order{} = order) do
