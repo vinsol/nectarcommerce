@@ -17,7 +17,6 @@ defmodule Nectar.LineItemController do
         |> put_flash(:success, "Added product succcesfully")
         |> redirect(to: cart_path(conn, :show))
       {:error, changeset} ->
-        IO.inspect changeset
         product = Nectar.Repo.get!(Nectar.Product, line_item_params["product_id"])
         conn
         |> put_flash(:error, extract_error_message(changeset))
