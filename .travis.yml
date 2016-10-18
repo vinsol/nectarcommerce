@@ -17,4 +17,4 @@ services:
   - postgresql
 
 before_script:
-  - psql -c 'create database ex_shop_test;' -U postgres
+  - psql -c 'create database nectar_test;' -U postgres

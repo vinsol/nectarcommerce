@@ -1,9 +1,0 @@
----
-- code: BOM
-  type: province
-- code: MOU
-  type: province
-- code: SEF
-  type: province
-- code: FES
-  type: prefecture

@@ -36,3 +36,5 @@ config :guardian, Guardian,
   verify_issuer: true,
   serializer: Nectar.GuardianSerializer,
   secret_key: to_string(Mix.env)
+
+config :worldly, :data_path, Path.join(Mix.Project.build_path, "lib/worldly/priv/data")
