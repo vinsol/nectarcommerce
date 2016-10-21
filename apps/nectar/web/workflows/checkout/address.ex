@@ -23,7 +23,7 @@ defmodule Nectar.Workflow.Checkout.Address do
     |> Multi.run(:post, &(post_transition(repo, &1)))
   end
 
-  def view_data(_order), do: %{}
+  def view_data(_, _), do: %{}
 
   defp pre_transition(repo, order_changeset) do
     Multi.new()

@@ -14,6 +14,9 @@ defmodule Nectar.Workflow.Checkout.Payment do
     Nectar.Order.payment_changeset(order, params)
   end
 
+  def view_data(repo, order),
+    do: %{applicable_payment_methods: Nectar.Invoice.generate_applicable_payment_invoices(repo, order)}
+
   def steps(repo, order, params) do
     order = order_with_preloads(repo, order)
     changeset = changeset_for_step(order, params)

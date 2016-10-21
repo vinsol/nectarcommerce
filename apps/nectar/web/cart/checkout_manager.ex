@@ -9,11 +9,12 @@ defmodule Nectar.CheckoutManager do
                      |> Enum.zip(Enum.drop(@states, 1))
                      |> Enum.reduce(%{}, fn ({frm, to}, acc) -> Map.put_new(acc, frm, to) end)
 
+  @checkout_forward_modules Application.get_env(:nectar, :checkout_forward_workflow)
   @next_changeset_module %{
-    "cart"     => Nectar.Workflow.Checkout.Address,
-    "address"  => Nectar.Workflow.Checkout.Shipping,
-    "shipping" => Nectar.Workflow.Checkout.Tax,
-    "tax"      => Nectar.Workflow.Checkout.Payment
+    "cart"     => @checkout_forward_modules[:cart_to_address]     || Nectar.Workflow.Checkout.Address,
+    "address"  => @checkout_forward_modules[:address_to_shipping] || Nectar.Workflow.Checkout.Shipping,
+    "shipping" => @checkout_forward_modules[:shipping_to_tax]     || Nectar.Workflow.Checkout.Tax,
+    "tax"      => @checkout_forward_modules[:tax_to_payment]      || Nectar.Workflow.Checkout.Payment
   }
   @nextable_state Map.keys(@next_changeset_module)
 
@@ -41,12 +42,12 @@ defmodule Nectar.CheckoutManager do
   def next_state(%Order{state: state}) when state in @nextable_states, do: Map.get(@state_transitions, state)
   def next_state(%Order{state: state}), do: state
 
-
+  @checkout_reverse_modules Application.get_env(:nectar, :checkout_reverse_workflow)
   @back_workflows %{
-    "cart"     => Nectar.Workflow.MoveBackToCartState,
-    "address"  => Nectar.Workflow.MoveBackToAddressState,
-    "shipping" => Nectar.Workflow.MoveBackToShippingState,
-    "tax"      => Nectar.Workflow.MoveBackToTaxState
+    "cart"     => @checkout_reverse_modules[:back_to_cart]     || Nectar.Workflow.MoveBackToCartState,
+    "address"  => @checkout_reverse_modules[:back_to_address]  || Nectar.Workflow.MoveBackToAddressState,
+    "shipping" => @checkout_reverse_modules[:back_to_shipping] || Nectar.Workflow.MoveBackToShippingState,
+    "tax"      => @checkout_reverse_modules[:back_to_tax]      || Nectar.Workflow.MoveBackToTaxState
   }
   defp move_back_to_state(repo, order, state) do
     module = Map.get(@back_workflows, state)
@@ -95,20 +96,7 @@ defmodule Nectar.CheckoutManager do
   def back(_repo, %Order{state: _} = order, _state),
     do: {:ok, order}
 
-  def view_data(repo, %Order{state: "address"} = order) do
-    available_shipping_methods =
-      Nectar.Query.ShippingMethod.enabled_shipping_methods(repo)
-    order =
-      order
-      |> repo.preload(:shipment_units)
-    %{proposed_shipping_methods: Nectar.ShippingCalculator.calculate_applicable_shippings(order, available_shipping_methods)}
-  end
-
-  def view_data(repo, %Order{state: "tax"} = order) do
-    %{applicable_payment_methods: Nectar.Invoice.generate_applicable_payment_invoices(repo, order)}
-  end
-
-  # TODO: maybe delegate to the respective checkout module. instead
-  def view_data(_repo, _order), do: %{}
+  def view_data(repo, %Order{state: state} = order),
+    do: Map.get(@next_changeset_module, state).view_data(repo, order)
 
 end

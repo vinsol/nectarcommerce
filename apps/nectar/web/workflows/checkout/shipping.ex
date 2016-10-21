@@ -24,6 +24,15 @@ defmodule Nectar.Workflow.Checkout.Shipping do
     |> Multi.run(:post, &(post_transition(repo, &1.order)))
   end
 
+  def view_data(repo, order) do
+    available_shipping_methods =
+      Nectar.Query.ShippingMethod.enabled_shipping_methods(repo)
+    order =
+      order
+      |> repo.preload(:shipment_units)
+    %{proposed_shipping_methods: Nectar.ShippingCalculator.calculate_applicable_shippings(order, available_shipping_methods)}
+  end
+
   defp pre_transition(_repo, _order_changeset) do
     Multi.new()
   end
