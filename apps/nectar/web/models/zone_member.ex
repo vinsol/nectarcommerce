@@ -8,19 +8,13 @@ defmodule Nectar.ZoneMember do
     extensions
   end
 
-  @required_fields ~w(zoneable_id zone_id)
-  @optional_fields ~w()
+  @required_fields ~w(zoneable_id zone_id)a
+  @optional_fields ~w()a
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
-  end
-
-  # do not need the params for now.
-  def changeset(zoneable, %Nectar.Zone{id: zone_id}, _params) do
-    zoneable
-    |> Ecto.build_assoc(:zone_members)
-    |> changeset(%{zone_id: zone_id})
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
 end

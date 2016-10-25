@@ -18,12 +18,13 @@ defmodule Nectar.Country do
     extensions
   end
 
-  @required_fields ~w(name iso3 iso has_states)
-  @optional_fields ~w(numcode iso_name)
+  @required_fields ~w(name iso3 iso has_states)a
+  @optional_fields ~w(numcode iso_name)a
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_length(:iso,  is: 2)
     |> validate_length(:iso3, is: 3)
     |> unique_constraint(:iso)
@@ -33,12 +34,13 @@ defmodule Nectar.Country do
     |> build_iso_name
   end
 
-  defp build_iso_name(model) do
-    name = get_change(model, :name)
+  defp build_iso_name(%{valid?: false} = changeset), do: changeset
+  defp build_iso_name(changeset) do
+    name = get_change(changeset, :name)
     if name do
-      put_change(model, :iso_name, String.upcase(name))
+      put_change(changeset, :iso_name, String.upcase(name))
     else
-      model
+      changeset
     end
   end
 end

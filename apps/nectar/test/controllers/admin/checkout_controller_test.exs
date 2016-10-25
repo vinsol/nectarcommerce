@@ -14,7 +14,9 @@ defmodule Nectar.Admin.CheckoutControllerTest do
   end
 
   test "checkout flow", %{conn: conn} do
-    cart = setup_cart
+    cart = setup_cart |> Repo.preload([:line_items])
+
+    refute Nectar.Query.Order.cart_empty?(Nectar.Repo, cart)
 
     address_page_conn = get(conn, admin_order_checkout_path(conn, :checkout, cart))
     assert html_response(address_page_conn, 200) =~ "Address"
@@ -30,10 +32,8 @@ defmodule Nectar.Admin.CheckoutControllerTest do
     assert html_response(payment_page_conn, 200) =~ "Select your payment method"
 
     confirmation_page_conn = put(conn, admin_order_checkout_path(conn, :next, cart), order: valid_payment_params(cart))
-    assert html_response(confirmation_page_conn, 200) =~ "Confirm"
+    assert html_response(confirmation_page_conn, 302) =~ "redirected"
 
-    order_success_page_conn = put(conn, admin_order_checkout_path(conn, :next, cart), order: %{"confirm" => true})
-    assert html_response(order_success_page_conn, 200) =~ "Order placed successfully"
   end
 
   test "checkout flow empty cart", %{conn: conn} do
@@ -67,24 +67,17 @@ defmodule Nectar.Admin.CheckoutControllerTest do
   @product_attr Map.merge(@product_data, @product_master_variant_data)
 
   defp setup_cart do
-    cart = setup_cart_without_product
-    product = create_product
-    quantity = 2
-    {_status, _line_item} = CartManager.add_to_cart(cart.id, %{"variant_id" => product.id, "quantity" => quantity})
-    cart
-  end
-
-
-  defp create_product do
-    product = Product.create_changeset(%Product{}, @product_attr)
-    |> Repo.insert!
-    product.master
+    create_shipping_methods
+    create_taxations
+    create_payment_methods
+    Nectar.TestSetup.Order.setup_cart
   end
 
   @address_parameters  %{"address_line_1" => "address line 12", "address_line_2" => "address line 22"}
 
   defp valid_address_params do
     address = Dict.merge(@address_parameters, valid_country_and_state_ids)
+    address = %{"address" => address}
     %{"order_shipping_address" => address, "order_billing_address" => address}
   end
 
@@ -123,9 +116,15 @@ defmodule Nectar.Admin.CheckoutControllerTest do
     end)
   end
 
-  defp valid_shipping_params(%Order{"id": _id}) do
+  defp valid_shipping_params(cart) do
     shipping_method_id = create_shipping_methods |> List.first |> Map.get(:id)
-    %{"shipping" => %{"shipping_method_id" => shipping_method_id}}
+    shipment_unit_id =
+      cart
+      |> Repo.preload([:shipment_units])
+      |> Map.get(:shipment_units)
+      |> List.first
+      |> Map.get(:id)
+    %{"shipment_units" => %{ "0" => %{"shipment" => %{"shipping_method_id" => shipping_method_id}, "id" => shipment_unit_id}}}
   end
 
   defp valid_payment_params(%Order{"id": _id}) do
@@ -138,8 +137,8 @@ defmodule Nectar.Admin.CheckoutControllerTest do
   end
 
   defp do_setup(_context) do
-    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
-    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, admin_user} = Nectar.TestSetup.User.create_admin
+    conn = guardian_login(admin_user)
     {:ok, %{conn: conn}}
   end
 end

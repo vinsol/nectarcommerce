@@ -7,7 +7,6 @@ defmodule Nectar.Admin.ProductView do
   alias Nectar.ProductOptionType
   alias Nectar.OptionType
   alias Nectar.ProductCategory
-  alias Nectar.Category
 
   def link_to_product_option_types_fields do
     changeset = Product.changeset(%Product{product_option_types: [%ProductOptionType{}]})
@@ -17,10 +16,10 @@ defmodule Nectar.Admin.ProductView do
     link "Add Option Type", to: "#", "data-template": fields, id: "add_product_option_type"
   end
 
-  def link_to_product_category_fields do
+  def link_to_product_category_fields(leaf_categories) do
     changeset = Product.changeset(%Product{product_categories: [%ProductCategory{}]})
     form = Phoenix.HTML.FormData.to_form(changeset, [])
-    categories = Repo.all(from c in Category.leaf_categories, select: {c.name, c.id})
+    categories = leaf_categories
     fields = render_to_string(__MODULE__, "product_categories.html", f: form, categories: categories)
     link "Add Category", to: "#", "data-template": fields, id: "add_product_category"
   end

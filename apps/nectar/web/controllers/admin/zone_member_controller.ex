@@ -1,21 +1,17 @@
 defmodule Nectar.Admin.ZoneMemberController do
   use Nectar.Web, :admin_controller
 
-  alias Nectar.ZoneMember
   alias Nectar.Zone
-
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
 
   plug :scrub_params, "zone_member" when action in [:create]
   plug :load_zone
   plug :load_zoneable when action in [:create]
 
   # Add zone member
-  def create(conn, %{"zone_member" => zone_member_params}) do
+  def create(conn, %{"zone_member" => _zone_member_params}) do
     zoneable = conn.assigns[:zoneable]
     zone = conn.assigns[:zone]
-    changeset = ZoneMember.changeset(zoneable, zone, zone_member_params)
-    case Repo.insert(changeset) do
+     case Nectar.Command.ZoneMember.insert_for_zone(Repo, zoneable, zone) do
       {:ok, zone_member} ->
         conn
         |> put_status(201)
@@ -29,10 +25,11 @@ defmodule Nectar.Admin.ZoneMemberController do
 
   # return the zoneable to add back to the menu.
   def delete(conn, %{"id" => id}) do
-    zone = conn.assigns[:zone]
-    member = Zone.member_with_id(zone, id)
-    zoneable = Zone.zoneable(zone, member.zoneable_id)
-    Repo.delete!(member)
+    zone     = conn.assigns[:zone]
+    member   = Nectar.Query.Zone.member_with_id(Repo, zone, id)
+    zoneable = Nectar.Query.Zone.zoneable!(Repo, conn.assigns[:zone], member.zoneable_id)
+    Nectar.Command.ZoneMember.delete!(Repo, member)
+
     conn
     |> put_status(200)
     |> render("zoneable.json", zoneable: zoneable)
@@ -46,7 +43,7 @@ defmodule Nectar.Admin.ZoneMemberController do
   defp load_zoneable(conn, _params) do
     zoneable_id = conn.params["zone_member"]["zoneable_id"]
     if zoneable_id do
-      zoneable = conn.assigns[:zone] |> Zone.zoneable(zoneable_id)
+      zoneable =  Nectar.Query.Zone.zoneable!(Repo, conn.assigns[:zone], zoneable_id)
       assign(conn, :zoneable, zoneable)
     else
       conn

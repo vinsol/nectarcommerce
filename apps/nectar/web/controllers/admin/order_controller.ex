@@ -1,12 +1,9 @@
 defmodule Nectar.Admin.OrderController do
   use Nectar.Web, :admin_controller
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   alias Nectar.Order
   alias Nectar.User
   alias Nectar.Repo
-  alias Nectar.LineItem
   alias Nectar.Product
   alias Nectar.SearchOrder
 
@@ -39,8 +36,8 @@ defmodule Nectar.Admin.OrderController do
     if order do
       order = order
               |> Repo.preload([line_items: [variant: [:product, [option_values: :option_type]]]])
-              |> Repo.preload([shipping: [:shipping_method, :adjustment]])
-              |> Repo.preload([adjustments: [:tax, :shipping]])
+              |> Repo.preload([shipments: [:shipping_method, :adjustment, shipment_unit: [line_items: [variant: [:product, [option_values: :option_type]]]]]])
+              |> Repo.preload([adjustments: [:tax, :shipment]])
               |> Repo.preload([payment: [:payment_method]])
       render(conn, "show.html", order: order)
     else
@@ -81,9 +78,7 @@ defmodule Nectar.Admin.OrderController do
       |> Repo.preload([variants: [option_values: :option_type]])
 
     line_items =
-      LineItem
-      |> LineItem.in_order(order)
-      |> Repo.all
+      Nectar.Query.LineItem.in_order(Repo, order)
       |> Repo.preload([:product])
     render(conn, "new.html", order: order, products: products, line_items: line_items)
   end

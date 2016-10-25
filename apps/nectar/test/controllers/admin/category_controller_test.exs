@@ -76,8 +76,8 @@ defmodule Nectar.Admin.CategoryControllerTest do
   end
 
   defp do_setup(_context) do
-    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
-    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, admin_user} = Nectar.TestSetup.User.create_admin
+    conn = guardian_login(admin_user)
     {:ok, %{conn: conn}}
   end
 

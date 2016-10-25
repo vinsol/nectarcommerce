@@ -5,7 +5,7 @@ defmodule Seed.LoadProducts do
   alias Nectar.Variant
 
   def seed! do
-    seed_products_without_variant
+    # seed_products_without_variant
     seed_products_with_variant
   end
 

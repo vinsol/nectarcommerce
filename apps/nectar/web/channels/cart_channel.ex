@@ -1,7 +1,5 @@
 defmodule Nectar.CartChannel do
   use Nectar.Web, :channel
-  alias Nectar.Order
-  alias Nectar.Repo
 
   def join("cart:" <> cart_id, _params, socket) do
     cart_id = cart_id
@@ -10,7 +8,6 @@ defmodule Nectar.CartChannel do
   end
 
   def handle_in("new_notification", params, socket) do
-    IO.inspect "Recieved new notification"
     broadcast! socket, "new_notification", %{
       msg: params["msg"]
     }

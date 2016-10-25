@@ -3,68 +3,65 @@ defmodule Nectar.Admin.CategoryController do
 
   alias Nectar.Category
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   plug :scrub_params, "category" when action in [:create, :update]
 
   def index(conn, _params) do
-    categories = Repo.all(Category)
+    categories = Nectar.Query.Category.all(Repo)
     render(conn, "index.html", categories: categories)
   end
 
   def new(conn, _params) do
     changeset = Category.changeset(%Category{})
-    categories = Repo.all(from c in Category, select: {c.name, c.id})
+    categories = Nectar.Query.Category.names_and_id(Repo)
     render(conn, "new.html", changeset: changeset, categories: categories)
   end
 
   def create(conn, %{"category" => category_params}) do
-    changeset = Category.changeset(%Category{}, category_params)
-    categories = Repo.all(from c in Category, select: {c.name, c.id})
-
-    case Repo.insert(changeset) do
+    case Nectar.Command.Category.insert(Repo, category_params) do
       {:ok, _category} ->
         conn
         |> put_flash(:info, "Category created successfully.")
         |> redirect(to: admin_category_path(conn, :index))
       {:error, changeset} ->
+        categories = Nectar.Query.Category.names_and_id(Repo)
         render(conn, "new.html", changeset: changeset, categories: categories)
     end
   end
 
   def show(conn, %{"id" => id}) do
-    category = Repo.get!(Category, id) |> Repo.preload([:parent])
+    category =
+      Nectar.Query.Category.get!(Repo, id)
+      |> Repo.preload([:parent])
+
     render(conn, "show.html", category: category)
   end
 
   def edit(conn, %{"id" => id}) do
-    category = Repo.get!(Category, id)
-    categories = Repo.all(from c in Category, select: {c.name, c.id}, where: c.id != ^id)
+    category = Nectar.Query.Category.get!(Repo, id)
+    categories = Nectar.Query.Category.names_and_id_excluding_id(Repo, id)
     changeset = Category.changeset(category)
     render(conn, "edit.html", category: category, changeset: changeset, categories: categories)
   end
 
   def update(conn, %{"id" => id, "category" => category_params}) do
-    category = Repo.get!(Category, id)
-    changeset = Category.changeset(category, category_params)
-    categories = Repo.all(from c in Category, select: {c.name, c.id}, where: c.id != ^id)
-
-    case Repo.update(changeset) do
+    category = Nectar.Query.Category.get!(Repo, id)
+    case Nectar.Command.Category.update(Repo, category, category_params) do
       {:ok, category} ->
         conn
         |> put_flash(:info, "Category updated successfully.")
         |> redirect(to: admin_category_path(conn, :show, category))
       {:error, changeset} ->
+        categories = Nectar.Query.Category.names_and_id_excluding_id(Repo, id)
         render(conn, "edit.html", category: category, changeset: changeset, categories: categories)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    category = Repo.get!(Category, id)
+    category = Nectar.Query.Category.get!(Repo, id)
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(category)
+    Nectar.Command.Category.delete!(Repo, category)
 
     conn
     |> put_flash(:info, "Category deleted successfully.")

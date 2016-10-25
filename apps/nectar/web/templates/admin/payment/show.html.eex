@@ -1,0 +1,9 @@
+<%= if authorized?(@payment) do %>
+  <%= link "Capture Payment", to: admin_order_payment_capture_path(@conn, :capture, @order, @payment), method: :put, data: [confirm: "Are you sure?"] %>
+<%= else %>
+  <%= if captured?(@payment) do %>
+    <%= link "Refund Payment", to: admin_order_payment_refund_path(@conn, :refund, @order, @payment), method: :put, data: [confirm: "Are you sure?"] %>
+  <% else %>
+    Payment Refunded
+  <% end %>
+<% end %>

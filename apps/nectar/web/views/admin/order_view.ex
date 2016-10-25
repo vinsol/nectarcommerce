@@ -26,6 +26,10 @@ defmodule Nectar.Admin.OrderView do
 
   def master_variant_id(%Nectar.Product{variants: [master_variant]}), do: master_variant.id
 
+  def shipment_items(shipment_unit) do
+    Enum.reduce(shipment_unit.line_items, "", &("#{&2}" <> line_item_display_name(&1) <> ", "))
+  end
+
   def line_item_display_name(line_item) do
     ## Assuming everything pre-loaded
     variant = line_item.variant

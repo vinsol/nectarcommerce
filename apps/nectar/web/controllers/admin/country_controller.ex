@@ -1,14 +1,12 @@
 defmodule Nectar.Admin.CountryController do
   use Nectar.Web, :admin_controller
 
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   alias Nectar.Country
 
   plug :scrub_params, "country" when action in [:create, :update]
 
   def index(conn, _params) do
-    countries = Repo.all(Country)
+    countries = Nectar.Query.Country.all(Repo)
     render(conn, "index.html", countries: countries)
   end
 
@@ -18,8 +16,7 @@ defmodule Nectar.Admin.CountryController do
   end
 
   def create(conn, %{"country" => country_params}) do
-    changeset = Country.changeset(%Country{}, country_params)
-    case Repo.insert(changeset) do
+    case Nectar.Command.Country.insert(Repo, country_params) do
       {:ok, _country} ->
         conn
         |> put_flash(:info, "Country created successfully.")
@@ -30,21 +27,19 @@ defmodule Nectar.Admin.CountryController do
   end
 
   def show(conn, %{"id" => id}) do
-    country = Repo.get!(Country, id) |> Repo.preload(:states)
+    country = Nectar.Query.Country.get!(Repo, id) |> Repo.preload(:states)
     render(conn, "show.html", country: country)
   end
 
   def edit(conn, %{"id" => id}) do
-    country = Repo.get!(Country, id)
+    country = Nectar.Query.Country.get!(Repo, id)
     changeset = Country.changeset(country)
     render(conn, "edit.html", country: country, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "country" => country_params}) do
-    country = Repo.get!(Country, id)
-    changeset = Country.changeset(country, country_params)
-
-    case Repo.update(changeset) do
+    country = Nectar.Query.Country.get!(Repo, id)
+    case Nectar.Command.Country.update(Repo, country, country_params) do
       {:ok, country} ->
         conn
         |> put_flash(:info, "Country updated successfully.")
@@ -55,11 +50,10 @@ defmodule Nectar.Admin.CountryController do
   end
 
   def delete(conn, %{"id" => id}) do
-    country = Repo.get!(Country, id)
-
+    country = Nectar.Query.Country.get!(Repo, id)
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).
-    Repo.delete!(country)
+    Nectar.Command.Country.delete!(Repo, country)
 
     conn
     |> put_flash(:info, "Country deleted successfully.")

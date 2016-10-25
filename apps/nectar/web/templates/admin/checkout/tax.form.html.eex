@@ -13,7 +13,7 @@
       </tr>
     </thead>
     <tbody>
-      <%= for adjustment <- @changeset.model.adjustments do %>
+      <%= for adjustment <- @changeset.data.adjustments do %>
         <%= adjustment_row(adjustment) %>
       <% end %>
     </tbody>

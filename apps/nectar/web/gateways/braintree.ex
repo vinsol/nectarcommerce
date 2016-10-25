@@ -32,6 +32,20 @@ defmodule Nectar.Gateway.Braintree do
     }
   end
 
+  def capture(transaction_id) do
+    case Billing.capture(:braintree, transaction_id) do
+      {:ok, _} -> {:ok}
+      {:error, _response} -> {:error, "failed to capture"}
+    end
+  end
+
+  def refund(transaction_id, amount) do
+    case Billing.refund(:braintree, String.to_float(Decimal.to_string(amount)), transaction_id) do
+      {:ok, _} -> {:ok}
+      {:error, _response} -> {:error, "failed to refund"}
+    end
+  end
+
   def get_card(card_details) do
     %CreditCard{
       number: card_details["card_number"],

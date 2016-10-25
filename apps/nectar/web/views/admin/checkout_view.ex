@@ -3,7 +3,6 @@ defmodule Nectar.Admin.CheckoutView do
 
   alias Nectar.Repo
   alias Nectar.CheckoutManager
-
   import Ecto.Query
 
   def country_names_and_ids do
@@ -14,13 +13,13 @@ defmodule Nectar.Admin.CheckoutView do
     [{"--Select State--", ""} | Repo.all(from c in Nectar.State, select: {c.name, c.id})]
   end
 
-  def adjustment_row(%Nectar.Adjustment{shipping_id: shipping_id} = adjustment) when not is_nil(shipping_id) do
+  def adjustment_row(%Nectar.Adjustment{shipment_id: shipment_id} = adjustment) when not is_nil(shipment_id) do
     content_tag :tr do
       [content_tag :td do
         to_string(adjustment.amount)
       end,
       content_tag :td do
-        "shipping: #{adjustment.shipping.shipping_method.name}"
+        "shipping: #{adjustment.shipment.shipping_method.name}"
       end]
     end
   end
@@ -54,12 +53,6 @@ defmodule Nectar.Admin.CheckoutView do
     "cancelled.html"
   end
 
-  def payment_methods_available?(%Nectar.Order{applicable_payment_methods: []}), do: false
-  def payment_methods_available?(%Nectar.Order{}), do: true
-
-  def shipping_methods_available?(%Nectar.Order{applicable_shipping_methods: []}), do: false
-  def shipping_methods_available?(%Nectar.Order{}), do: true
-
   def error_in_payment_method?(changeset, payment_method_id) do
     (!changeset.valid?) && changeset.params["payment"]["payment_method_id"] == to_string(payment_method_id)
   end
@@ -75,5 +68,27 @@ defmodule Nectar.Admin.CheckoutView do
   def back_link(conn, %Nectar.Order{} = order) do
     link "Back", to: admin_order_checkout_path(conn, :back, order), method: "put", class: "btn btn-xs"
   end
+
+  def shipment_details(%Nectar.ShipmentUnit{} = shipment_unit) do
+    Enum.reduce(shipment_unit.line_items, "", fn (line_item, acc) ->
+      acc <> line_item.variant.product.name <> ","
+    end)
+  end
+
+  def shipping_method_selection(data, id), do: shipping_method_selection(data.proposed_shipping_methods[id])
+
+  def shipping_method_selection(proposed_shipments) do
+    Enum.map(proposed_shipments, &({&1.shipping_method_name <> " (+#{&1.shipping_cost})", &1.shipping_method_id}))
+  end
+
+  def has_shipping_method?(data, shipment_unit_id) do
+    not is_nil(data.proposed_shipping_methods[shipment_unit_id] )
+  end
+
+  def payment_methods_available?(%{applicable_payment_methods: []}),
+    do: false
+
+  def payment_methods_available?(%{}),
+    do: true
 
 end

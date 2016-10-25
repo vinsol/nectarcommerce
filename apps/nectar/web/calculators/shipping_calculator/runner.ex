@@ -7,7 +7,7 @@ defmodule Nectar.ShippingCalculator.Runner do
 
   defmodule State, do: defstruct order: nil, result: [], timer: nil, caller: nil, pending: [], shipping_methods: []
 
-  def start(caller, [], order), do: {:no_shipping_methods}
+  def start(_caller, [], _order), do: {:no_shipping_methods}
   def start(caller, shipping_methods, order) do
     state = %State{caller: caller, shipping_methods: shipping_methods, order: order}
     GenServer.start(__MODULE__, state, [])
@@ -15,11 +15,14 @@ defmodule Nectar.ShippingCalculator.Runner do
 
   def handle_cast({:calculate}, state) do
     current = self()
-    proc_list = Enum.map(state.shipping_methods, fn(method) ->
-      spawn_monitor(fn ->
-        send(current, Tuple.append(ShippingCalculator.calculate_shipping_cost(method, state.order), self()))
+    proc_list =
+      Enum.flat_map(state.shipping_methods, fn(method) ->
+        Enum.map(state.order.shipment_units, fn(shipment_unit) ->
+          spawn_monitor(fn ->
+            send(current, Tuple.append(ShippingCalculator.calculate_shipping_cost(method, shipment_unit), self()))
+          end)
+        end)
       end)
-    end)
     timer = Process.send_after(current, {:timeout}, @shipping_calculation_timeout)
     {:noreply, %State{state|timer: timer, pending: proc_list}}
   end

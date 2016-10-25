@@ -1,37 +1,27 @@
 defmodule Nectar.StateTest do
   use Nectar.ModelCase
 
-  alias Nectar.Country
+  alias Nectar.TestSetup
   alias Nectar.State
 
-  # need to add country id
-  @valid_partial_state_attrs %{"name" => "State", "abbr" =>  "ST"}
-
   test "changeset with valid attributes" do
-    changeset = State.changeset(%State{}, state_attrs)
+    changeset = State.changeset(%State{}, TestSetup.State.valid_attrs)
     assert changeset.valid?
   end
 
-  test "save with valid attributes" do
-    {status, _state} = State.changeset(%State{}, state_attrs) |> Repo.insert
-    assert status == :ok
-  end
-
   test "missing country_id makes changeset invalid" do
-    {status, changeset} = State.changeset(%State{}, @valid_partial_state_attrs) |> Repo.insert
+    {status, changeset} = State.changeset(%State{}, Map.delete(TestSetup.State.valid_attrs, :country_id)) |> Repo.insert
     assert status == :error
     refute changeset.valid?
-    assert [country_id: "can't be blank"] == changeset.errors
+    assert errors_on(changeset) == [country_id: "can't be blank"]
   end
 
-  defp state_attrs do
-    Map.merge(@valid_partial_state_attrs, %{"country_id" => create_country.id})
-  end
 
-  defp create_country do
-    Country.changeset(%Country{}, %{"name" => "Country", "iso" => "Co",
-                                    "iso3" => "Con", "numcode" => "123"})
-    |> Repo.insert!
+  test "save with valid attributes but missing country in db" do
+    {status, changeset} = State.changeset(%State{}, Nectar.TestSetup.State.valid_attrs) |> Repo.insert
+    assert status == :error
+
+    assert errors_on(changeset) == [country_id: "does not exist"]
   end
 
 end

@@ -26,7 +26,7 @@ defmodule Nectar.Mixfile do
       applications: [
         :phoenix, :phoenix_html, :cowboy, :logger, :gettext,
         :phoenix_ecto, :postgrex, :worldly, :yamerl, :commerce_billing, :braintree,
-        :ex_aws, :httpoison, :yamerl, :worldly
+        :ex_aws, :httpoison, :phoenix_pubsub
       ]
     ]
   end
@@ -40,9 +40,10 @@ defmodule Nectar.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.1.4"},
+      {:phoenix, "~> 1.2.0"},
+      {:phoenix_pubsub, "~> 1.0"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_ecto, "~> 2.0", override: true},
+      {:phoenix_ecto, "~> 3.0"},
       {:phoenix_html, "~> 2.4"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.9"},
@@ -52,7 +53,7 @@ defmodule Nectar.Mixfile do
       {:ex_aws, "~> 0.4.10"},
       {:arc_ecto, "~> 0.3.2"},
       {:commerce_billing, github: "nimish-mehta/commerce_billing",  override: true},
-      {:braintree, "~> 0.3.2"},
+      {:braintree, "~> 0.5.0"},
       {:yamerl, github: "yakaz/yamerl"},
       {:worldly, "~> 0.1.2"}
     ]
@@ -66,6 +67,7 @@ defmodule Nectar.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-     "ecto.reset": ["ecto.drop", "ecto.setup"]]
+     "ecto.reset": ["ecto.drop", "ecto.setup"],
+    "test": ["ecto.create --quiet", "ecto.migrate", "test"]]
   end
 end

@@ -12,29 +12,13 @@ defmodule Nectar.ShippingMethod do
     extensions
   end
 
-  @required_fields ~w(name)
-  @optional_fields ~w(enabled)
+  @required_fields ~w(name)a
+  @optional_fields ~w(enabled)a
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
-  end
-
-  def enabled_shipping_methods do
-    from shipp in Nectar.ShippingMethod,
-    where: shipp.enabled
-  end
-
-  def enable(shipping_method_ids) do
-    from shipping in Nectar.ShippingMethod,
-    where: shipping.id in ^shipping_method_ids,
-    update: [set: [enabled: true]]
-  end
-
-  def disable_other_than(shipping_method_ids) do
-    from shipping in Nectar.ShippingMethod,
-    where: not shipping.id in ^shipping_method_ids,
-    update: [set: [enabled: false]]
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 
 end

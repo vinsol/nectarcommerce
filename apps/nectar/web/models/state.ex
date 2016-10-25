@@ -14,12 +14,13 @@ defmodule Nectar.State do
     extensions
   end
 
-  @required_fields ~w(name abbr country_id)
-  @optional_fields ~w()
+  @required_fields ~w(name abbr country_id)a
+  @optional_fields ~w()a
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> foreign_key_constraint(:country_id)
   end
 end

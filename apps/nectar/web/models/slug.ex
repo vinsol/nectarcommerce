@@ -19,6 +19,6 @@ defmodule Nectar.Slug do
   end
 
   defp get_name_change_when_slug_not_present(changeset, slug_base_field) do
-    changeset.model.slug || get_change(changeset, slug_base_field)
+    changeset.data.slug || get_change(changeset, slug_base_field)
   end
 end

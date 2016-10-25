@@ -32,8 +32,8 @@ defmodule Nectar.Variant do
     extensions
   end
 
-  @required_fields ~w(is_master discontinue_on cost_price)
-  @optional_fields ~w(sku weight height width depth cost_currency add_count)
+  @required_fields ~w(is_master discontinue_on cost_price)a
+  @optional_fields ~w(sku weight height width depth cost_currency add_count)a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -41,26 +41,35 @@ defmodule Nectar.Variant do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> Validations.Date.validate_not_past_date(:discontinue_on)
     |> validate_number(:add_count, greater_than: 0)
     |> update_total_quantity
   end
 
-  def create_master_changeset(model, params \\ :empty) do
-    cast(model, params, ~w(cost_price), ~w(add_count discontinue_on))
+  @required_fields ~w(cost_price)a
+  @optional_fields ~w(add_count discontinue_on)a
+  def create_master_changeset(model, params \\ %{}) do
+    model
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> update_total_quantity
     |> put_change(:is_master, true)
     |> validate_number(:add_count, greater_than: 0)
     |> cast_attachments(params, ~w(), ~w(image))
   end
 
-  def update_master_changeset(model, params \\ :empty) do
-    cast(model, params, ~w(cost_price discontinue_on), ~w(add_count))
+  @required_fields ~w(cost_price discontinue_on)a
+  @optional_fields ~w(add_count)a
+  def update_master_changeset(model, product, params \\ %{}) do
+    model
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> Validations.Date.validate_not_past_date(:discontinue_on)
-    |> validate_discontinue_gt_available_on
+    |> validate_discontinue_gt_available_on(product)
     |> update_total_quantity
     |> put_change(:is_master, true)
     |> validate_number(:add_count, greater_than: 0)
@@ -78,17 +87,17 @@ defmodule Nectar.Variant do
     end
   end
 
-  def create_variant_changeset(model, params \\ :empty) do
+  def create_variant_changeset(model, product, params \\ %{}) do
     changeset(model, params)
-    |> validate_discontinue_gt_available_on
+    |> validate_discontinue_gt_available_on(product)
     |> put_change(:is_master, false)
     |> cast_attachments(params, ~w(), ~w(image))
     |> cast_assoc(:variant_option_values, required: true, with: &Nectar.VariantOptionValue.from_variant_changeset/2)
   end
 
-  def update_variant_changeset(model, params \\ :empty) do
+  def update_variant_changeset(model, product, params \\ %{}) do
     changeset(model, params)
-    |> validate_discontinue_gt_available_on
+    |> validate_discontinue_gt_available_on(product)
     |> validate_not_master
     # Even if changset is invalid, cast_attachments does it work :(
     |> cast_attachments(params, ~w(), ~w(image))
@@ -96,7 +105,7 @@ defmodule Nectar.Variant do
   end
 
   defp validate_not_master(changeset) do
-    if changeset.model.is_master do
+    if changeset.data.is_master do
       add_error(changeset, :is_master, "can't be updated")
       |> add_error(:base, "Please go to Product Edit Page to update master variant")
     else
@@ -104,16 +113,22 @@ defmodule Nectar.Variant do
     end
   end
 
-  def buy_changeset(model, params \\ :empty) do
+  @required_fields ~w(buy_count)a
+  @optional_fields ~w()a
+  def buy_changeset(model, params \\ %{}) do
     model
-    |> cast(params, ~w(buy_count), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_number(:buy_count, greater_than: 0)
     |> increment_bought_quantity
   end
 
+  @required_fields ~w(restock_count)a
+  @optional_fields ~w()
   def restocking_changeset(model, params) do
     model
-    |> cast(params, ~w(restock_count), ~w())
+    |> cast(params, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
     |> validate_number(:restock_count, greater_than: 0)
     |> decrement_bought_quantity
   end
@@ -121,7 +136,7 @@ defmodule Nectar.Variant do
   defp update_total_quantity(model) do
     quantity_to_add = model.changes[:add_count]
     if quantity_to_add do
-      put_change(model, :total_quantity, model.model.total_quantity + quantity_to_add)
+      put_change(model, :total_quantity, model.data.total_quantity + quantity_to_add)
     else
       model
     end
@@ -130,7 +145,7 @@ defmodule Nectar.Variant do
   defp increment_bought_quantity(model) do
     quantity_to_add = model.changes[:buy_count]
     if quantity_to_add do
-      put_change(model, :bought_quantity, (model.model.bought_quantity || 0) + quantity_to_add)
+      put_change(model, :bought_quantity, (model.data.bought_quantity || 0) + quantity_to_add)
     else
       model
     end
@@ -139,7 +154,7 @@ defmodule Nectar.Variant do
   defp decrement_bought_quantity(model) do
     quantity_to_subtract = model.changes[:restock_count]
     if quantity_to_subtract do
-      put_change(model, :bought_quantity, (model.model.bought_quantity || 0) - quantity_to_subtract)
+      put_change(model, :bought_quantity, (model.data.bought_quantity || 0) - quantity_to_subtract)
     else
       model
     end
@@ -154,13 +169,45 @@ defmodule Nectar.Variant do
   end
 
   def display_name(variant) do
-    product = variant |> Nectar.Repo.preload([:product]) |> Map.get(:product)
+    product = variant.product
     "#{product.name}(#{variant.sku})"
   end
 
-  defp validate_discontinue_gt_available_on(changeset) do
-    product = changeset.model |> Nectar.Repo.preload([:product]) |> Map.get(:product)
+  defp validate_discontinue_gt_available_on(changeset, product) do
     changeset
-      |> Validations.Date.validate_gt_date(:discontinue_on, product.available_on)
+    |> Validations.Date.validate_gt_date(:discontinue_on, product.available_on)
   end
+
+  def sufficient_quantity_available?(variant, requested_quantity) do
+    available_quantity(variant) >= requested_quantity
+  end
+
+  def discontinued?(variant) do
+    discontinue_on = variant.discontinue_on
+    if discontinue_on do
+      case Ecto.Date.compare(discontinue_on, Ecto.Date.utc) do
+        :lt -> true
+        _   -> false
+      end
+    else
+      false
+    end
+  end
+
+  def availability_status(variant, requested_quantity \\ 0) do
+    cond do
+      discontinued?(variant) ->
+        :discontinued
+      not sufficient_quantity_available?(variant, requested_quantity) ->
+        available = available_quantity(variant)
+        if available > 0 do
+          {:insufficient_quantity, available}
+        else
+          :out_of_stock
+        end
+      true ->
+        :ok
+    end
+  end
+
 end

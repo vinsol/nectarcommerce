@@ -1,28 +1,6 @@
 defmodule Nectar.Admin.ProductControllerTest do
   use Nectar.ConnCase
 
-  alias Nectar.Repo
-  alias Nectar.Product
-  alias Nectar.User
-
-  @product_attrs %{
-    name: "Reebok Premium",
-    description: "Reebok Premium Exclusively for you",
-    available_on: Ecto.Date.utc
-  }
-  @master_variant_attrs %{
-    master: %{
-      cost_price: "20"
-    }
-  }
-  @valid_attrs Map.merge(@product_attrs, @master_variant_attrs)
-  @update_valid_attrs %{
-    name: "Reebok Exclusive"
-  }
-  @invalid_attrs %{
-    name: ""
-  }
-
   setup(context) do
     do_setup(context)
   end
@@ -44,19 +22,18 @@ defmodule Nectar.Admin.ProductControllerTest do
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
-    conn = post conn, admin_product_path(conn, :create), product: @valid_attrs
+    conn = post conn, admin_product_path(conn, :create), product: Nectar.TestSetup.Product.valid_attrs_with_option_type
     assert redirected_to(conn) == admin_product_path(conn, :index)
-    assert Repo.get_by(Product, @product_attrs)
+    refute Nectar.Query.Product.all(Repo) == []
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, admin_product_path(conn, :create), product: @invalid_attrs
+    conn = post conn, admin_product_path(conn, :create), product: Nectar.TestSetup.Product.invalid_attrs
     assert html_response(conn, 200) =~ "New product"
   end
 
   test "shows chosen resource", %{conn: conn} do
-    product_changeset = Product.create_changeset(%Product{}, @valid_attrs)
-    product = Repo.insert! product_changeset
+    product = Nectar.TestSetup.Product.create_product
     conn = get conn, admin_product_path(conn, :show, product)
     assert html_response(conn, 200) =~ "Show product"
   end
@@ -67,33 +44,36 @@ defmodule Nectar.Admin.ProductControllerTest do
     end
   end
 
+  @tag :nologin
+  test "redirects to login page if not logged in", %{conn: conn} do
+    conn = get conn, admin_product_path(conn, :show, -1)
+    assert redirected_to(conn) == session_path(conn, :new)
+  end
+
   test "renders form for editing chosen resource", %{conn: conn} do
-    product_changeset = Product.create_changeset(%Product{}, @valid_attrs)
-    product = Repo.insert! product_changeset
+    product = Nectar.TestSetup.Product.create_product
     conn = get conn, admin_product_path(conn, :edit, product)
     assert html_response(conn, 200) =~ "Edit product"
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
-    product_changeset = Product.create_changeset(%Product{}, @valid_attrs)
-    product = Repo.insert! product_changeset
-    conn = put conn, admin_product_path(conn, :update, product), product: @update_valid_attrs
+    product = Nectar.TestSetup.Product.create_product
+    conn = put conn, admin_product_path(conn, :update, product), product: %{name: product.name <> "change"}
     assert redirected_to(conn) == admin_product_path(conn, :show, product)
-    assert Repo.get_by(Product, @update_valid_attrs)
+    assert Nectar.Query.Product.get!(Repo, product.id).name == product.name <> "change"
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
-    product_changeset = Product.create_changeset(%Product{}, @valid_attrs)
-    product = Repo.insert! product_changeset
-    conn = put conn, admin_product_path(conn, :update, product), product: @invalid_attrs
+    product = Nectar.TestSetup.Product.create_product
+    conn = put conn, admin_product_path(conn, :update, product), product: %{name: ""}
     assert html_response(conn, 200) =~ "Edit product"
   end
 
   test "deletes chosen resource", %{conn: conn} do
-    product = Repo.insert! %Product{}
+    product = Nectar.TestSetup.Product.create_product
     conn = delete conn, admin_product_path(conn, :delete, product)
     assert redirected_to(conn) == admin_product_path(conn, :index)
-    refute Repo.get(Product, product.id)
+    refute Nectar.Query.Product.get(Repo, product.id)
   end
 
   @tag :pending
@@ -101,12 +81,12 @@ defmodule Nectar.Admin.ProductControllerTest do
   end
 
   defp do_setup(%{nologin: _} = _context) do
-    {:ok, %{conn: conn}}
+    {:ok, %{conn: build_conn()}}
   end
 
   defp do_setup(_context) do
-    admin_user = Repo.insert!(%User{name: "Admin", email: "admin@vinsol.com", encrypted_password: Comeonin.Bcrypt.hashpwsalt("vinsol"), is_admin: true})
-    conn = guardian_login(admin_user, :token, key: :admin)
+    {:ok, admin_user} = Nectar.TestSetup.User.create_admin
+    conn = guardian_login(admin_user)
     {:ok, %{conn: conn}}
   end
 end

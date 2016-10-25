@@ -1,21 +1,22 @@
 defmodule Nectar.DateTestHelpers do
-  def get_past_date(days \\ 1) do
-    {:ok, {y,m,d}} = Ecto.Date.dump(get_current_date)
-    # Not safe as would fail on edge dates :(
-    prev_day = d - days
-    {:ok, prev_date} = Ecto.Date.load({y,m,prev_day})
-    prev_date
-  end
+  def get_past_date(days \\ 1),
+    do: days_from_current_date(-1 * days)
 
-  def get_current_date do
-    Ecto.Date.utc
-  end
+  def get_future_date(days \\ 1),
+    do: days_from_current_date(days)
 
-  def get_future_date(days \\ 1) do
-    {:ok, {y,m,d}} = Ecto.Date.dump(get_current_date)
-    # Not safe as would fail on edge dates :(
-    next_day = d + days
-    {:ok, next_date} = Ecto.Date.load({y,m,next_day})
+  def get_current_date,
+    do: Ecto.Date.utc
+
+  defp days_from_current_date(days) do
+    {:ok, date} = Ecto.Date.dump(Ecto.Date.utc)
+    {:ok, next_date} = Ecto.Date.load(days_from_date(date, days))
     next_date
+  end
+
+  # helper method, use negative days to remove days from date
+  defp days_from_date(date, days) do
+    :calendar.date_to_gregorian_days(date) + days
+    |> :calendar.gregorian_days_to_date
   end
 end

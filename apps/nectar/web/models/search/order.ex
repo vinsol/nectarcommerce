@@ -17,7 +17,7 @@ defmodule Nectar.SearchOrder do
     field :end_date, Ecto.Date, virtual: true
   end
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
       |> cast(params, ~w(), ~w(state))
   end

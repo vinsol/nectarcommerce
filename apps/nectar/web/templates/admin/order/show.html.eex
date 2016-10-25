@@ -1,7 +1,7 @@
 <%= link "All orders", to: admin_order_path(@conn, :index) %>
 <div class="panel" id="order" data-order-id="<%= @order.id %>">
   <div class="panel-body">
-    <h5>Status: The order is in <strong style="text-transform: uppercase"><%= @order.state %></strong> state with the total cost of <%= @order.total %></h5>
+    <h5>Status: The order is in <strong style="text-transform: uppercase"><%= @order.order_state %></strong> state with the total cost of <%= @order.total %></h5>
   </div>
 </div>
 
@@ -34,21 +34,24 @@
     <% end %>
   </tbody>
 </table>
-
-<%= if @order.shipping do %>
+<%= if @order.shipments do %>
   <h4>Shipping Method</h4>
   <table class="table">
     <thead>
       <tr>
         <td>Name</td>
+        <td>Items</td>
         <td>Cost</td>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td><%=  @order.shipping.shipping_method.name %></td>
-        <td><%=  @order.shipping.adjustment.amount %></td>
-      </tr>
+      <%= for shipment <- @order.shipments do %>
+        <tr>
+          <td><%=  shipment.shipping_method.name %></td>
+          <td><%=  shipment_items(shipment.shipment_unit) %></td>
+          <td><%=  shipment.adjustment.amount %></td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 <% end %>
@@ -59,11 +62,15 @@
   <thead>
     <tr>
       <td>Name</td>
+      <td>State</td>
+      <td>Details</td>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><%=  @order.payment.payment_method.name %></td>
+      <td><%= @order.payment.payment_state %></td>
+      <td><%= link "Details", to: admin_order_payment_path(@conn, :show, @order, @order.payment) %></td>
     </tr>
   </tbody>
 </table>

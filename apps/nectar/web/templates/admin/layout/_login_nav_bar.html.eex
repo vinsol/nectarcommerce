@@ -1,7 +1,7 @@
 <nav role="navigation">
   <ul class="nav nav-pills pull-right">
     <li><%= link "Home", to: admin_home_path(@conn, :index) %></li>
-    <%= if Guardian.Plug.current_resource(@conn, :admin) do %>
+    <%= if Guardian.Plug.current_resource(@conn) do %>
       <li role="presentation" class="dropdown <%= active_on_current(@conn, admin_user_path(@conn, :index)) %>">
         <%= link "Users", to: admin_user_path(@conn, :index) %>
       </li>
@@ -65,18 +65,21 @@
         </ul>
       </li>
       <li class="dropdown" role="presentation">
-      <%= link "Profile", to: "#",  class: "dropdown-toggle btn btn-danger", "aria-expanded": "false", "data-toggle": "dropdown" %>
+        <%= link "Profile", to: "#",  class: "dropdown-toggle", "aria-expanded": "false", "data-toggle": "dropdown" %>
         <ul class="dropdown-menu">
           <li role="presentation">
-            <%= link "Welcome #{Guardian.Plug.current_resource(@conn, :admin).email}", to: "#", class: "btn" %>
+            <%= link "Welcome #{Guardian.Plug.current_resource(@conn).email}", to: "#", class: "btn" %>
           </li>
           <li role="presentation">
-            <%= link "Admin Logout", to: admin_session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %>
+            <%= link "Logout", to: session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %>
           </li>
         </ul>
       </li>
+      <li role="presentation">
+        <%= link "Logout", to: session_path(@conn, :logout), method: :delete, class: "btn btn-danger" %>
+      </li>
     <% else %>
-      <li><%= link "Admin Login", to: admin_session_path(@conn, :new) %></li>
+      <li><%= link "Admin Login", to: session_path(@conn, :new) %></li>
     <% end %>
   </ul>
 </nav>

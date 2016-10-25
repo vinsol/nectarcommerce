@@ -1,21 +1,12 @@
 defmodule Nectar.Admin.StateController do
   use Nectar.Web, :admin_controller
 
-  alias Nectar.Country
-  alias Nectar.State
-
-  plug Guardian.Plug.EnsureAuthenticated, handler: Nectar.Auth.HandleAdminUnauthenticated, key: :admin
-
   plug :scrub_params, "state" when action in [:create]
   plug :load_country when action in [:create]
 
   def create(conn, %{"state" => state_params}) do
     country = conn.assigns[:country]
-    changeset =
-      country
-      |> build_assoc(:states)
-      |> State.changeset(state_params)
-    case Repo.insert(changeset) do
+    case Nectar.Command.State.insert_for_country(Repo, country, state_params) do
       {:ok, state} ->
         conn
         |> put_status(201)
@@ -28,8 +19,9 @@ defmodule Nectar.Admin.StateController do
   end
 
   def delete(conn, %{"id" => id}) do
-    state = Repo.get!(State, id)
-    Repo.delete!(state)
+    state = Nectar.Query.State.get!(Repo, id)
+    Nectar.Command.State.delete!(Repo, state)
+
     conn
     |> put_status(:no_content)
     |> json(nil)
@@ -37,7 +29,8 @@ defmodule Nectar.Admin.StateController do
 
   defp load_country(conn, _params) do
     country_id = conn.params["country_id"]
-    assign(conn, :country, Repo.get!(Country, country_id))
+    country = Nectar.Query.Country.get!(Repo, country_id)
+    assign(conn, :country, country)
   end
 
 end

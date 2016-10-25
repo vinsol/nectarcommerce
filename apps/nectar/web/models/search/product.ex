@@ -7,7 +7,7 @@ defmodule Nectar.SearchProduct do
     field :name, :string, virtual: true
   end
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, params \\ %{}) do
     model
       |> cast(params, ~w(), ~w(name))
   end
