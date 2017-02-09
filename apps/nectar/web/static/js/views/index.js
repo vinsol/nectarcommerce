@@ -8,16 +8,20 @@ import AdminZoneView     from "./admin/zones";
 import AdminCheckoutView from "./admin/checkout";
 import CheckoutView      from "./checkout";
 import AdminProductView  from "./admin/products";
+import AdminOptionTypeView  from "./admin/option_types";
 
 // add all the views here.
-const views = {ProductView,
-               AdminCountryView,
-               AdminOrderView,
-               AdminCartView,
-               AdminZoneView,
-               AdminCheckoutView,
-               CheckoutView,
-               AdminProductView};
+const views = {
+  ProductView,
+  AdminCountryView,
+  AdminOrderView,
+  AdminCartView,
+  AdminZoneView,
+  AdminCheckoutView,
+  CheckoutView,
+  AdminProductView,
+  AdminOptionTypeView
+};
 
 export default function viewToRender(view) {
   let viewLookUp   = view.split(".");
