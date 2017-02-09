@@ -31,7 +31,7 @@
         <%= error_tag af, :presentation %>
       </div>
 
-      <%= if af.model.id do %>
+      <%= if af.data.id do %>
         <div class="form-group">
             <%= label af, :delete, "Delete?", class: "control-label" %>
             <%= checkbox af, :delete %>
