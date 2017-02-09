@@ -10,11 +10,11 @@ defmodule Nectar.Payment do
     field :payment_state, :string, default: "authorized"
     field :transaction_id
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
-  @payment_states  ~w(authorized captured refunded)
+  #@payment_states  ~w(authorized captured refunded)
 
   @required_fields ~w(payment_method_id amount payment_state)a
   @optional_fields ~w(transaction_id)a

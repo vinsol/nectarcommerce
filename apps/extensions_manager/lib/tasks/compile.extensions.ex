@@ -17,7 +17,7 @@ defmodule Mix.Tasks.Compile.Extensions do
 
   @doc false
   def touch do
-    nectar_modules
+    nectar_modules()
     |> modules_for_recompilation
     |> modules_to_file_paths
     |> Stream.map(&touch_if_exists(&1))

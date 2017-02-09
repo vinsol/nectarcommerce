@@ -5,7 +5,8 @@ defmodule Nectar.Setting do
     field :name, :string
     field :slug, :string
     embeds_many :settings, Nectar.SettingPair
-    extensions
+
+    extensions()
   end
 
   @required_fields ~w(name)a

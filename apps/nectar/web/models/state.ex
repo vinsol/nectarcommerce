@@ -10,8 +10,8 @@ defmodule Nectar.State do
     has_many :zone_members, {"state_zone_members", Nectar.ZoneMember}, foreign_key: :zoneable_id
     has_many :zones, through: [:zone_members, :zone]
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(name abbr country_id)a

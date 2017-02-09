@@ -9,8 +9,8 @@ defmodule Nectar.Category do
     has_many :product_categories, Nectar.ProductCategory
     has_many :products, through: [:product_categories, :product]
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(name)a

@@ -8,8 +8,8 @@ defmodule Nectar.ShippingMethod do
     has_many :shippings, Nectar.Shipping
     field :shipping_cost, :decimal, virtual: true, default: Decimal.new("0")
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(name)a

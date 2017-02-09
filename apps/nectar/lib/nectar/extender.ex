@@ -2,7 +2,7 @@ defmodule Nectar.Extender do
   defmacro __using__(_opts) do
     case extension_module(__CALLER__) do
       {:module, module} -> use_found_module(module)
-      {:error, _reason} -> provide_no_op
+      {:error, _reason} -> provide_no_op()
     end
   end
 

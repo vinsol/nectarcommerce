@@ -17,8 +17,8 @@ defmodule Nectar.Address do
     has_many :order_shipping_addresses, Nectar.OrderShippingAddress
     has_many :shipping_order, through: [:order_shipping_addresses, :order]
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(address_line_1 address_line_2 country_id state_id)a

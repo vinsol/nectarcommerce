@@ -4,8 +4,8 @@ defmodule Nectar.Tax do
   schema "taxes" do
     field :name
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @optional_fields ~w()a

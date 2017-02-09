@@ -7,11 +7,11 @@ defmodule Nectar.Shipping do
     has_one :adjustment, Nectar.Adjustment
     field :shipping_state, :string, default: "shipment_created"
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
-  @shipping_states ~w(shipment_created pending shipped received return_initiated picked_up return_received)
+  #@shipping_states ~w(shipment_created pending shipped received return_initiated picked_up return_received)
 
   @required_fields ~w(shipping_method_id)a
   @optional_fields ~w()a

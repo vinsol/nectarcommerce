@@ -13,8 +13,8 @@ defmodule Nectar.LineItem do
     field :fullfilled, :boolean, default: true
 
     field :delete, :boolean, virtual: true
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   def changeset(model, params \\ %{}) do

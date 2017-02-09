@@ -6,5 +6,5 @@ defmodule Nectar.Query.PaymentMethod do
     where: pay.enabled
   end
 
-  def enabled_payment_methods(repo), do: repo.all(enabled_payment_methods)
+  def enabled_payment_methods(repo), do: repo.all(enabled_payment_methods())
 end

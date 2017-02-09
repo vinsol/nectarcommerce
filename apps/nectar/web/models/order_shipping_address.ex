@@ -4,8 +4,9 @@ defmodule Nectar.OrderShippingAddress do
   schema "order_shipping_addresses" do
     belongs_to :order, Nectar.Order
     belongs_to :address, Nectar.Address
-    timestamps
-    extensions
+
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w()

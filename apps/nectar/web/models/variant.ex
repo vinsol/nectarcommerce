@@ -28,8 +28,8 @@ defmodule Nectar.Variant do
 
     has_many :line_items, Nectar.LineItem
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(is_master discontinue_on cost_price)a

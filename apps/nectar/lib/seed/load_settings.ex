@@ -3,11 +3,11 @@ defmodule Seed.LoadSettings do
   alias Nectar.Repo
 
   def seed! do
-    create_general_settings
+    create_general_settings()
   end
 
   defp create_general_settings do
-    change = Setting.changeset(%Setting{}, %{name: "general", settings: get_settings})
+    change = Setting.changeset(%Setting{}, %{name: "general", settings: get_settings()})
     Repo.insert!(change)
   end
 
