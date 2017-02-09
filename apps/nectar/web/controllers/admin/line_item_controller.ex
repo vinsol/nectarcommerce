@@ -30,7 +30,7 @@ defmodule Nectar.Admin.LineItemController do
   def update_fullfillment(conn, %{"order_id" => _id, "line_item_id" => line_item_id}) do
     line_item = Repo.get!(LineItem, line_item_id) |> Repo.preload([:variant, :order])
     case Nectar.Workflow.CancelLineItemFullfillment.run(Repo, line_item) do
-      {:ok, line_item} ->
+      {:ok, _line_item} ->
         conn
         |> put_status(:no_content)
         |> json(nil)

@@ -14,8 +14,8 @@ defmodule Nectar.Country do
 
     has_many :zones, through: [:zone_members, :zone]
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(name iso3 iso has_states)a

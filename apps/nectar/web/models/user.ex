@@ -13,8 +13,8 @@ defmodule Nectar.User do
     has_many :user_addresses, Nectar.UserAddress
     has_many :addresses, through: [:user_addresses, :address]
 
-    extensions
-    timestamps
+    extensions()
+    timestamps()
   end
 
   def admin?(%__MODULE__{is_admin: is_admin}), do: is_admin

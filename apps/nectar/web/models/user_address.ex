@@ -4,8 +4,9 @@ defmodule Nectar.UserAddress do
   schema "user_addresses" do
     belongs_to :user, Nectar.User
     belongs_to :address, Nectar.Address
-    timestamps
-    extensions
+
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w()a

@@ -4,8 +4,9 @@ defmodule Nectar.ZoneMember do
   schema "abstract table:zone_members" do
     field :zoneable_id, :integer
     belongs_to :zone, Nectar.Zone
-    timestamps
-    extensions
+
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(zoneable_id zone_id)a

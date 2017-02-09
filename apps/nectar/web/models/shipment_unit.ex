@@ -13,8 +13,8 @@ defmodule Nectar.ShipmentUnit do
     # virtual fields
     field :proposed_shipments, {:array, :map}, virtual: true
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(order_id)a

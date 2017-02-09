@@ -2,8 +2,8 @@ defmodule Seed.CreateZone do
   import Ecto.Query
 
   def seed! do
-    seed_eu_zone!
-    seed_north_america!
+    seed_eu_zone!()
+    seed_north_america!()
   end
 
   @eu_zone_members ~w(PL FI PT RO DE FR SK HU SI IE AT ES IT BE SE LV BG GB LT CY LU MT DK NL EE)

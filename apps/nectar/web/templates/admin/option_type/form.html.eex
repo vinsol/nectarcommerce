@@ -42,7 +42,7 @@
     </div>
   <% end %>
 
-  <%= link_to_option_values_fields %>
+  <%= link_to_option_values_fields() %>
 
   <div class="form-group">
     <%= submit "Submit", class: "btn btn-primary" %>

@@ -88,7 +88,7 @@
     </div>
   <% end %>
 
-  <div><%= link_to_product_option_types_fields %></div>
+  <div><%= link_to_product_option_types_fields() %></div>
 
   <%= inputs_for f, :product_categories, fn po -> %>
     <div class="product_categories">

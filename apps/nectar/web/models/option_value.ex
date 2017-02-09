@@ -9,8 +9,8 @@ defmodule Nectar.OptionValue do
 
     belongs_to :option_type, Nectar.OptionType
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(name presentation)a

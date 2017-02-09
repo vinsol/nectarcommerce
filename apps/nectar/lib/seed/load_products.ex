@@ -5,8 +5,8 @@ defmodule Seed.LoadProducts do
   alias Nectar.Variant
 
   def seed! do
-    # seed_products_without_variant
-    seed_products_with_variant
+    seed_products_without_variant()
+    seed_products_with_variant()
   end
 
   @product_data %{name: "Sample Product",
@@ -30,7 +30,7 @@ defmodule Seed.LoadProducts do
   @variant_two_data %{discontinue_on: @not_discontinue_date, cost_price: 22.00, sku: "Variant 2", add_count: 11, available_on: Ecto.Date.utc}
   @variant_three_data %{discontinue_on: @discontinue_date, cost_price: 22.00, sku: "Discontinued Example", add_count: 11, available_on: Ecto.Date.utc}
   defp seed_products_with_variant do
-    option_type = seed_option_type_and_values
+    option_type = seed_option_type_and_values()
     data = Map.merge(@product_data, %{product_option_types: [%{option_type_id: option_type.id}]})
     product  = Product.create_changeset(%Product{}, data) |> Repo.insert!
     variant_1_data = Map.merge(@variant_one_data,

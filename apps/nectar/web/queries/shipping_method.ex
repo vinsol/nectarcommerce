@@ -6,6 +6,6 @@ defmodule Nectar.Query.ShippingMethod do
     where: shipp.enabled
   end
 
-  def enabled_shipping_methods(repo), do: repo.all(enabled_shipping_methods)
+  def enabled_shipping_methods(repo), do: repo.all(enabled_shipping_methods())
 
 end

@@ -8,8 +8,8 @@ defmodule Nectar.OptionType do
 
     has_many :option_values, Nectar.OptionValue
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(name presentation)a

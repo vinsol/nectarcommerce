@@ -5,7 +5,8 @@ defmodule Nectar.Shipment do
     belongs_to :shipping_method, Nectar.ShippingMethod
     belongs_to :shipment_unit, Nectar.ShipmentUnit
     has_one    :adjustment, Nectar.Adjustment
-    timestamps
+
+    timestamps()
   end
 
   @required_fields ~w(shipping_method_id)a

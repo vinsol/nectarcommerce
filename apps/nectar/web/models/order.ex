@@ -37,8 +37,8 @@ defmodule Nectar.Order do
 
     belongs_to :user, Nectar.User
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(state)a

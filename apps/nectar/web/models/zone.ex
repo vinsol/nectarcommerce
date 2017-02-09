@@ -9,8 +9,8 @@ defmodule Nectar.Zone do
     has_many :country_zone_members, {"country_zone_members", Nectar.ZoneMember}, on_replace: :delete
     has_many :state_zone_members, {"state_zone_members", Nectar.ZoneMember}
 
-    timestamps
-    extensions
+    timestamps()
+    extensions()
   end
 
   @required_fields ~w(name description type)a

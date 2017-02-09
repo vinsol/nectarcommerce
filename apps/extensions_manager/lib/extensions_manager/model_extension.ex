@@ -59,7 +59,7 @@ defmodule ExtensionsManager.ModelExtension do
 
       defmacro include_methods do
         quote do
-          unquote(Enum.map(method_blocks, fn (method_block) -> method_block end))
+          unquote(Enum.map(method_blocks(), fn (method_block) -> method_block end))
         end
       end
 

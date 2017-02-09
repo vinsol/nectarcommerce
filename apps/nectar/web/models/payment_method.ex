@@ -6,7 +6,8 @@ defmodule Nectar.PaymentMethod do
     field :name, :string
     has_many :payments, Nectar.Payment
     field :enabled, :boolean, default: false
-    extensions
+
+    extensions()
   end
 
   @required_fields ~w(name)a

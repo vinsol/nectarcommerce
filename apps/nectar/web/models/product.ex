@@ -18,8 +18,8 @@ defmodule Nectar.Product do
     has_many :product_categories, Nectar.ProductCategory, on_delete: :nilify_all
     has_many :categories, through: [:product_categories, :category]
 
-    extensions
-    timestamps
+    extensions()
+    timestamps()
   end
 
   @required_fields ~w(name description available_on)a

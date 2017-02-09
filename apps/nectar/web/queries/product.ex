@@ -37,22 +37,22 @@ defmodule Nectar.Query.Product do
     from p in Nectar.Product, preload: [master: ^Nectar.Query.Variant.master_variants]
   end
 
-  def products_with_master_variant(repo), do: repo.all(products_with_master_variant)
+  def products_with_master_variant(repo), do: repo.all(products_with_master_variant())
 
   def products_with_variants do
     from p in Nectar.Product, preload: [master: ^Nectar.Query.Variant.master_variants, variants: ^Nectar.Query.Variant.not_master_variants]
   end
 
-  def products_with_variants(repo), do: repo.all(products_with_variants)
+  def products_with_variants(repo), do: repo.all(products_with_variants())
 
   def product_with_master_variant(product_id) do
-    from p in products_with_master_variant, where: p.id == ^product_id
+    from p in products_with_master_variant(), where: p.id == ^product_id
   end
 
   def product_with_master_variant(repo, product_id), do: repo.one(product_with_master_variant(product_id))
 
   def product_with_variants(product_id) do
-    from p in products_with_variants, where: p.id == ^product_id
+    from p in products_with_variants(), where: p.id == ^product_id
   end
 
   def product_with_variants(repo, product_id), do: repo.one(product_with_variants(product_id))

@@ -14,7 +14,7 @@ defmodule Nectar.Plugs.Cart do
 
   # guest visiting for for first time
   defp assign_cart_to_session_and_user(conn, nil, nil) do
-    current_order = create_guest_order
+    current_order = create_guest_order()
     conn
     |> assign(:current_order, current_order)
     |> put_session(:current_order, current_order.id)
