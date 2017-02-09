@@ -26,9 +26,9 @@ defmodule Seed.LoadProducts do
                   available_on: Ecto.Date.utc,master: %{cost_price: 10.00, add_count: 10}}
   @not_discontinue_date  Ecto.Date.cast!("2017-03-01")
   @discontinue_date  Ecto.Date.utc
-  @variant_one_data %{discontinue_on: @not_discontinue_date, cost_price: 20.00, sku: "Variant 1"}
-  @variant_two_data %{discontinue_on: @not_discontinue_date, cost_price: 22.00, sku: "Variant 2", add_count: 11}
-  @variant_three_data %{discontinue_on: @discontinue_date, cost_price: 22.00, sku: "Discontinued Example", add_count: 11}
+  @variant_one_data %{discontinue_on: @not_discontinue_date, cost_price: 20.00, sku: "Variant 1", available_on: Ecto.Date.utc}
+  @variant_two_data %{discontinue_on: @not_discontinue_date, cost_price: 22.00, sku: "Variant 2", add_count: 11, available_on: Ecto.Date.utc}
+  @variant_three_data %{discontinue_on: @discontinue_date, cost_price: 22.00, sku: "Discontinued Example", add_count: 11, available_on: Ecto.Date.utc}
   defp seed_products_with_variant do
     option_type = seed_option_type_and_values
     data = Map.merge(@product_data, %{product_option_types: [%{option_type_id: option_type.id}]})
@@ -55,17 +55,17 @@ defmodule Seed.LoadProducts do
 
     product
     |> Ecto.build_assoc(:variants)
-    |> Variant.create_variant_changeset(variant_1_data)
+    |> Variant.create_variant_changeset(product, variant_1_data)
     |> Repo.insert!
 
     product
     |> Ecto.build_assoc(:variants)
-    |> Variant.create_variant_changeset(variant_2_data)
+    |> Variant.create_variant_changeset(product, variant_2_data)
     |> Repo.insert!
 
     product
     |> Ecto.build_assoc(:variants)
-    |> Variant.create_variant_changeset(variant_3_data)
+    |> Variant.create_variant_changeset(product, variant_3_data)
     |> Repo.insert!
   end
 
