@@ -39,7 +39,7 @@ defmodule Nectar.Product do
     |> validate_required(@required_fields)
     |> Validations.Date.validate_not_past_date(:available_on)
     |> Nectar.Slug.generate_slug()
-    |> cast_assoc(:product_option_types, required: true, with: &Nectar.ProductOptionType.from_product_changeset/2)
+    |> cast_assoc(:product_option_types, with: &Nectar.ProductOptionType.from_product_changeset/2)
     |> cast_assoc(:product_categories, with: &Nectar.ProductCategory.from_product_changeset/2)
     |> unique_constraint(:slug)
   end
