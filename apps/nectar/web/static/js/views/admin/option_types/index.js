@@ -1,4 +1,4 @@
-import BaseProductView from "./base_product_view";
+import BaseOptionTypeView from "./base_option_type_view";
 import EditView        from "./edit_view";
 
 export default function getView(actionName) {
@@ -8,6 +8,6 @@ export default function getView(actionName) {
   case "new":
     return EditView;
   default:
-    return BaseProductView;
+    return BaseOptionTypeView;
   }
 }
