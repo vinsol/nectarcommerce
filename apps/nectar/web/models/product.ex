@@ -1,6 +1,54 @@
+defmodule Nectar.ModelExtension do
+  defmacro __using__(_opts) do
+    quote do
+      Module.register_attribute(__MODULE__, :method_block, accumulate: true)
+      import Nectar.ModelExtension, only: [include_method: 1]
+      @before_compile Nectar.ModelExtension
+
+      defmacro __using__(_opts) do
+        quote do
+          import Nectar.ExtendProduct, only: [include_methods: 0]
+          @before_compile Nectar.ExtendProduct
+        end
+      end
+    end
+  end
+
+  defmacro include_method([do: block]) do
+    support_fn = Macro.escape(block)
+    quote bind_quoted: [support_fn: support_fn] do
+      Module.put_attribute(__MODULE__, :method_block, support_fn)
+    end
+  end
+
+  defmacro __before_compile__(_env) do
+    quote do
+      defmacro include_methods do
+        @method_block
+      end
+
+      ## before_compile hook as needed in ExtendProduct for Product
+      defmacro __before_compile__(_env) do
+        quote do
+          include_methods
+        end
+      end
+    end
+  end
+end
+
+defmodule Nectar.ExtendProduct do
+  use Nectar.ModelExtension
+
+  include_method do: (def fn_from_outside, do: "support function")
+  include_method do: (def get_name(product), do: product.name)
+end
+
 defmodule Nectar.Product do
   use Nectar.Web, :model
   use Arc.Ecto.Model
+
+  use Nectar.ExtendProduct
 
   schema "products" do
     field :name, :string
